@@ -1,12 +1,31 @@
 <!DOCTYPE html>
 <html>
     <head>
-           <source> https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js </source>
+            <script src="https://YOUR-SERVER/javascripts/api/tableau-2.min.js"></script>
+
     </head>
 
 
     <body>
         <h1>Hello World</h1>
         <p>I'm hosted with GitHub Pages.</p>
+
+
+        <div id="vizContainer"></div>
     </body>
 </html>
+
+
+
+
+<script>
+    function initViz() {
+        var containerDiv = document.getElementById("vizContainer"),
+        url = "https://sundance.marketware.com/#/site/MWSA0179/views/ProviderIntegritybySpecialty/ProviderIntegritybySpecialty?:iid=1";
+
+        var viz = new tableau.Viz(containerDiv, url);
+}
+
+
+initViz();
+</script>
