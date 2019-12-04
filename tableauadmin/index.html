@@ -25,7 +25,7 @@
       <a id="1" class="btn btn-info" href="file://///SERVER/directory/file.ext" role="button">Link</a>
 
      </div> 
-
+     <div id="main"></div>
 
 
 
@@ -33,5 +33,11 @@
 
   <script>
   document.getElementById("1").addEventListener("click", myFunction);
+
+
+  function myFunction() {
+    document.getElementById("main").innerHTML = "YOU CLICKED ME!";
+  }
+
   </script>
 </html>
