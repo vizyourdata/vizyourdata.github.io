@@ -1,4 +1,0 @@
-tableauserverclient
-abc@1234
-marketwareadmin
-0Ware*mktXX
