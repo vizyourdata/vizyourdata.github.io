@@ -134,9 +134,10 @@
 
 
 var myHeaders = new Headers();
+myHeaders.append("Content-Security-Policy", "upgrade-insecure-requests");
 myHeaders.append("Content-Type", "text/plain");
 
-var raw = "<tsRequest>\r\n	<credentials\r\n	  personalAccessTokenName=\"javascript\" personalAccessTokenSecret=\"gLubX96ORYGm9RDHdgq1kQ==:eBGmdRwhIbcMKgAcmNaiZ2qPS32KfGFX\" >\r\n  		<site contentUrl=\"javascript\" />\r\n	</credentials>\r\n</tsRequest>";
+var raw = "<tsRequest>\r\n	<credentials\r\n	  personalAccessTokenName=\"ubuntu\" personalAccessTokenSecret=\"FVbbdbHuRVOXiIO2VZL0Gg==:O1tOyfQNU7FxO1FqRlpbj4Fb1KH1gP1U\" >\r\n  		<site contentUrl=\"javascript\" />\r\n	</credentials>\r\n</tsRequest>";
 
 var requestOptions = {
   method: 'POST',
@@ -145,7 +146,7 @@ var requestOptions = {
   redirect: 'follow'
 };
 
-fetch("https://tableauadmin.com/api/3.9/auth/signin", requestOptions)
+fetch("http://34.223.44.14/api/3.9/auth/signin", requestOptions)
   .then(response => response.text())
   .then(result => console.log(result))
   .catch(error => console.log('error', error));
