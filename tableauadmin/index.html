@@ -149,7 +149,7 @@
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script>
-console.log(math.random())
+console.log('look')
 
 function assign_var(){
   var tableau_url = document.getElementById("tableau_url").value + "/api/3.9/auth/signin"
@@ -185,11 +185,6 @@ function post_signin(raw,tableau_url) {
     .then(result => console.log(result))
     //.then(parse => var parse = parse.json())
     .catch(error => console.log('error', error));
-  // for(var key in result.jsonData) {
-  //   for (var key1 in result.jsonData[key]) {
-  //      console.log(result.jsonData[key][key1])
-  //  }
-  // }
 } 
 
 
