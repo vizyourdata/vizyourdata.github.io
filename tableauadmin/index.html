@@ -180,7 +180,7 @@ function post_signin(raw,tableau_url) {
     .then(response => response.json())
     .then(result => console.log(result))
     .catch(error => console.log('error', error));
-  
+  return result
 } 
 console.log(result)
 
