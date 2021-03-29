@@ -132,11 +132,7 @@
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script>
 
-
-
-
-
-function post_signin() {
+//function post_signin() {
   var myHeaders = new Headers();
   myHeaders.append("Content-Security-Policy", "upgrade-insecure-requests");
   myHeaders.append("Content-Type", "text/plain");
@@ -154,7 +150,7 @@ function post_signin() {
     .then(response => response.text())
     .then(result => console.log(result))
     .catch(error => console.log('error', error));
-}
+//}
 // var myHeaders = new Headers();
 // myHeaders.append("X-Tableau-Auth", "LCDEH3aySAuwCvVLmOSkhA|Q0iK2ebFB3nigUxujiGPopkrRxREuENl");
 // myHeaders.append("Cookie", "AWSELB=3DAB357D1283FCCC77AA83D08989B29DE92E63276AE77AD4EE133E11E6F8E8568C0C008FC5E6AFD06266F24DE724486F3BC5D03FD4D166A90BCE4BD2F4228DAE20FB62D30DF64809065F8EB34318B654D2E3D02F6F; hid=10axpd-hap02");
