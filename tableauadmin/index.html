@@ -138,7 +138,7 @@
                       </div>
                     </form>
                     <div class='col-lg-4'>
-                        <button type="button" onclick="assign_var()" class="btn btn-dark btn-lg btn-block">Authenticate</button>
+                        <button type="button" onclick="assign_var()"  class="btn btn-dark btn-lg btn-block">Authenticate</button>
                     </div>
                   </div>
                 </div>
@@ -153,17 +153,19 @@ console.log('pat-lit')
 function assign_var(){
   var PAT_Name = document.getElementById("PATName").value
   var PAT = document.getElementById("PAT").value
-  var raw = "<tsRequest>\r\n	<credentials\r\n	  personalAccessTokenName=" +PAT_Name+ " personalAccessTokenSecret=" +PAT+ " >\r\n  		<site contentUrl=\"javascript\" />\r\n	</credentials>\r\n</tsRequest>";
-  console.log(raw)
+  var raw = "<tsRequest>\r\n	<credentials\r\n	  personalAccessTokenName=" +PAT_Name+ " personalAccessTokenSecret=" +PAT+ ">\r\n  		<site contentUrl=\"javascript\" />\r\n	</credentials>\r\n</tsRequest>";
+  //console.log(raw)
+  return raw
+  post_signin()
 }
 
-function post_signin() {
+function post_signin(raw) {
   var myHeaders = new Headers();
   //myHeaders.append("Content-Security-Policy", "upgrade-insecure-requests");
   myHeaders.append("Content-Type", "text/plain");
   myHeaders.append("Accept", "application/json");
 
-  var raw = "<tsRequest>\r\n	<credentials\r\n	  personalAccessTokenName=\"ubuntu\" personalAccessTokenSecret=\"6xDa2+C8Q+CZ3EKci1HgtQ==:ZSZEkHUlGXa17m3ltdhUkJZo7jb0Srdo\" >\r\n  		<site contentUrl=\"javascript\" />\r\n	</credentials>\r\n</tsRequest>";
+  //var raw = "<tsRequest>\r\n	<credentials\r\n	  personalAccessTokenName=\"ubuntu\" personalAccessTokenSecret=\"6xDa2+C8Q+CZ3EKci1HgtQ==:ZSZEkHUlGXa17m3ltdhUkJZo7jb0Srdo\" >\r\n  		<site contentUrl=\"javascript\" />\r\n	</credentials>\r\n</tsRequest>";
 
   var requestOptions = {
     method: 'POST',
