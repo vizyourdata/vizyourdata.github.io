@@ -134,7 +134,7 @@
                         <label for="PATName">Personal Access Token Name</label>
                         <input class="form-control" id="PATName" placeholder="ubuntu">
                         <label for="PAT">Personal Access Token 6xDa2+C8Q+CZ3EKci1HgtQ==:ZSZEkHUlGXa17m3ltdhUkJZo7jb0Srdo</label>
-                        <input class="form-control" id="PAT" placeholder=6xDa2+C8Q+CZ3EKci1HgtQ==:ZSZEkHUlGXa17m3ltdhUkJZo7jb0Srdo>
+                        <input class="form-control" id="PAT" placeholder="6xDa2+C8Q+CZ3EKci1HgtQ==:ZSZEkHUlGXa17m3ltdhUkJZo7jb0Srdo">
                       </div>
                     </form>
                     <div class='col-lg-4'>
@@ -156,7 +156,7 @@ function assign_var(){
   var raw = "<tsRequest>\r\n	<credentials\r\n	  personalAccessTokenName=" +PAT_Name+ " personalAccessTokenSecret=" +PAT+ ">\r\n  		<site contentUrl=\"javascript\" />\r\n	</credentials>\r\n</tsRequest>";
   //console.log(raw)
   return raw
-  post_signin()
+  post_signin(raw)
 }
 
 function post_signin(raw) {
