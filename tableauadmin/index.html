@@ -128,7 +128,7 @@
                     <form>
                       <div class="form-group">
                         <label for="login_url">Tableau Login URL</label>
-                        <input type="url" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Tableau Server URL">
+                        <input type="url" class="form-control" id="tableau_url" value = "http://52.12.179.215" placeholder="Tableau Server URL">
                       </div>
                       <div class="form-group">
                         <label for="PATName">Personal Access Token Name</label>
@@ -138,8 +138,8 @@
                       </div>
                     </form>
                     <div class='col-lg-4'>
-                        <button type="button" onclick="assign_var()" onclick="post_signin()" class="btn btn-dark btn-lg btn-block">Assign</button>
-                        <button type="button" onclick="post_signin()" class="btn btn-dark btn-lg btn-block">Authenticate</button>
+                        <button type="button" onclick="assign_var()" class="btn btn-dark btn-lg btn-block">Authentication</button>
+                        <!-- <button type="button" onclick="post_signin()" class="btn btn-dark btn-lg btn-block">Authenticate</button> -->
                     </div>
                   </div>
                 </div>
@@ -152,14 +152,15 @@
 console.log('log')
 
 function assign_var(){
+  var tableau_url = document.getElementById("tableau_url").value + "/api/3.9/auth/signin"
   var PAT_Name = document.getElementById("PATName").value
   var PAT = document.getElementById("PAT").value
   var raw = "<tsRequest>\r\n	<credentials\r\n	  personalAccessTokenName=" +PAT_Name+ " personalAccessTokenSecret=" +PAT+ ">\r\n  		<site contentUrl=\"javascript\" />\r\n	</credentials>\r\n</tsRequest>";
   console.log(raw)
-  post_signin(raw);
+  post_signin(raw,tableau_url);
 }
 
-function post_signin(raw) {
+function post_signin(raw,tableau_url) {
   var myHeaders = new Headers();
   //myHeaders.append("Content-Security-Policy", "upgrade-insecure-requests");
   myHeaders.append("Content-Type", "text/plain");
@@ -174,7 +175,8 @@ function post_signin(raw) {
     redirect: 'follow'
   };
 
-  fetch("http://52.12.179.215/api/3.9/auth/signin", requestOptions)
+  // fetch("http://52.12.179.215/api/3.9/auth/signin", requestOptions)
+  fetch(tableau_url, requestOptions)
     .then(response => response.json())
     .then(result => console.log(result))
     .catch(error => console.log('error', error));
