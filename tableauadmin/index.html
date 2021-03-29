@@ -156,7 +156,7 @@ function assign_var(){
   var PAT_Name = document.getElementById("PATName").value
   var PAT = document.getElementById("PAT").value
   var raw = "<tsRequest>\r\n	<credentials\r\n	  personalAccessTokenName=" +PAT_Name+ " personalAccessTokenSecret=" +PAT+ ">\r\n  		<site contentUrl=\"javascript\" />\r\n	</credentials>\r\n</tsRequest>";
-  console.log(raw)
+  //console.log(raw)
   post_signin(raw,tableau_url);
 }
 
@@ -167,7 +167,7 @@ function post_signin(raw,tableau_url) {
   myHeaders.append("Accept", "application/json");
 
   //var raw = "<tsRequest>\r\n	<credentials\r\n	  personalAccessTokenName=\"ubuntu\" personalAccessTokenSecret=\"6xDa2+C8Q+CZ3EKci1HgtQ==:ZSZEkHUlGXa17m3ltdhUkJZo7jb0Srdo\" >\r\n  		<site contentUrl=\"javascript\" />\r\n	</credentials>\r\n</tsRequest>";
-  console.log(raw)
+  //console.log(raw)
   var requestOptions = {
     method: 'POST',
     headers: myHeaders,
