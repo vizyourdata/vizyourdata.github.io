@@ -155,6 +155,9 @@ function post_signin() {
   fetch("http://34.223.44.14/api/3.9/auth/signin", requestOptions)
     .then(response => response.text())
     .then(result => console.log(result))
+    .then(bodyText => {
+      console.log(bodyText)
+    })
     .catch(error => console.log('error', error));
   console.log('end')
 } 
