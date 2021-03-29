@@ -149,7 +149,7 @@
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script>
-console.log('res')
+console.log(math.random())
 
 function assign_var(){
   var tableau_url = document.getElementById("tableau_url").value + "/api/3.9/auth/signin"
@@ -178,10 +178,7 @@ function post_signin(raw,tableau_url) {
   // fetch("http://52.12.179.215/api/3.9/auth/signin", requestOptions)
   fetch(tableau_url, requestOptions)
     .then(response => {response.json().then(json => {
-        for(var key in json.jsonData) {
-        for (var key1 in json.jsonData[key]) {
-        console.log(json.jsonData[key][key1])
-        }       }
+        console.log(json)
       })
     })
     .then(result => console.log(result))
