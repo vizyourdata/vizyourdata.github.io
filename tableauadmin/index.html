@@ -146,7 +146,7 @@
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script>
-
+console.log('json')
 function post_signin() {
   var myHeaders = new Headers();
   //myHeaders.append("Content-Security-Policy", "upgrade-insecure-requests");
@@ -162,10 +162,10 @@ function post_signin() {
   };
 
   fetch("http://44.233.199.125/api/3.9/auth/signin", requestOptions)
-    .then(response => response.json())
+    .then(response => response.text())
     .then(result => console.log(result))
     .catch(error => console.log('error', error));
-  console.log('json')
+  
 } 
 
 </script>
