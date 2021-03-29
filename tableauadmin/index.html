@@ -138,7 +138,7 @@
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script>
 
-
+function post_signin() {
 var myHeaders = new Headers();
 //myHeaders.append("Content-Security-Policy", "upgrade-insecure-requests");
 myHeaders.append("Content-Type", "text/plain");
@@ -156,7 +156,7 @@ fetch("http://34.223.44.14/api/3.9/auth/signin", requestOptions)
   .then(response => response.text())
   .then(result => console.log(result))
   .catch(error => console.log('error', error));
-  
+} 
 ///////REQUEST JOBS//////////////////
 // var myHeaders = new Headers();
 // myHeaders.append("X-Tableau-Auth", "uFWHH3DjQ6yQ4bxMwJNh_w|QGaNyQE9VjCV2ezN4d8S1XlmcTPR5gek");
