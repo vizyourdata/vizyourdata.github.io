@@ -164,10 +164,10 @@ function post_signin() {
 
   fetch("http://34.223.44.14/api/3.9/auth/signin", requestOptions)
     .then(function(response) {
-      response.json().then(function(users){
+      response.json().then(function(creds){
       // users is now our actual variable parsed from the json, so we can use it
-      users.forEach(function(user){
-        console.log(user.name)
+      creds.forEach(function(cred){
+        console.log(cred.token)
       });
     });
     //.then(response => response.text())
