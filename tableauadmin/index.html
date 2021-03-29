@@ -166,7 +166,7 @@ function post_signin(raw) {
   myHeaders.append("Accept", "application/json");
 
   //var raw = "<tsRequest>\r\n	<credentials\r\n	  personalAccessTokenName=\"ubuntu\" personalAccessTokenSecret=\"6xDa2+C8Q+CZ3EKci1HgtQ==:ZSZEkHUlGXa17m3ltdhUkJZo7jb0Srdo\" >\r\n  		<site contentUrl=\"javascript\" />\r\n	</credentials>\r\n</tsRequest>";
-
+  console.log(raw)
   var requestOptions = {
     method: 'POST',
     headers: myHeaders,
