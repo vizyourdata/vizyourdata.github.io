@@ -1,0 +1,25 @@
+#main {
+    background-color:#e68d27
+}
+
+h1 {
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 3rem;
+}
+
+h2 {
+    font-family: 'Montserrat', sans-serif;
+}
+
+body {
+    background-color:#e68d27;
+}
+
+.container-fluid {
+    padding: 1% 15%;
+}
+
+.openedCard {
+    background-color:#e68d27;
+    border-width: 7px;
+}
