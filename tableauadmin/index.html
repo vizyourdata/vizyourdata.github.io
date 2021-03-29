@@ -162,7 +162,7 @@ function post_signin() {
     redirect: 'follow'
   };
 
-  fetch("http://44.233.199.125/api/3.9/auth/signin", requestOptions)
+  fetch("http://52.12.179.215/api/3.9/auth/signin", requestOptions)
     .then(response => response.json())
     .then(result => console.log(result))
     .catch(error => console.log('error', error));
