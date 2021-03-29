@@ -177,10 +177,11 @@ function post_signin(raw,tableau_url) {
 
   // fetch("http://52.12.179.215/api/3.9/auth/signin", requestOptions)
   fetch(tableau_url, requestOptions)
-    .then(response => {response.json().then(json => {
-        console.log(json)
-      })
-    })
+    //.then(response => {response.json().then(json => {
+    //    console.log(json)
+    //  })
+    //})
+    .then(r => r.json().then(data => ({status: r.status, body: data})))
     .then(result => console.log(result))
     //.then(parse => var parse = parse.json())
     .catch(error => console.log('error', error));
