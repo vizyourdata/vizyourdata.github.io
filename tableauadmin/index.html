@@ -225,9 +225,7 @@ function get_jobs() {
       console.log(result)
       //console.log(result.credentials.token)
       //console.log(result.credentials.site.id)
-      var session_job_dtl = result.totalAvailalbe
-      var session_site_id = result.credentials.site.id
-      var session_user_id = result.credentials.user.id
+      session_job_dtl = result.totalAvailalbe
       document.getElementById("see_job_dtl").innerHTML = session_job_dtl
     })
     .catch(error => console.log('error', error));
