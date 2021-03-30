@@ -185,7 +185,9 @@ function post_signin(raw,tableau_url) {
     body: raw,
     redirect: 'follow'
   };
-
+  var session_token
+  var session_site_id
+  var session_user_id
   // fetch("http://52.12.179.215/api/3.9/auth/signin", requestOptions)
   fetch(tableau_url, requestOptions)
     .then(response => response.json())
@@ -193,7 +195,7 @@ function post_signin(raw,tableau_url) {
       console.log(result)
       //console.log(result.credentials.token)
       //console.log(result.credentials.site.id)
-      var session_token = result.credentials.token
+      ///////var session_token = result.credentials.token
       var session_site_id = result.credentials.site.id
       var session_user_id = result.credentials.user.id
       document.getElementById("save_token").innerHTML = session_token
