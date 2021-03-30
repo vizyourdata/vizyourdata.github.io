@@ -195,7 +195,7 @@ function post_signin(raw,tableau_url) {
       console.log(result)
       //console.log(result.credentials.token)
       //console.log(result.credentials.site.id)
-      ///////var session_token = result.credentials.token
+      var session_token = result.credentials.token
       var session_site_id = result.credentials.site.id
       var session_user_id = result.credentials.user.id
       document.getElementById("save_token").innerHTML = session_token
@@ -204,8 +204,8 @@ function post_signin(raw,tableau_url) {
     })
     .catch(error => console.log('error', error));
   }
-function get_jobs() {
-  var session_token = document.getElementById("save_token").innerHTML
+function get_jobs(session_token) {
+  //var session_token = document.getElementById("save_token").innerHTML
   var session_site_id = document.getElementById("save_site").innerHTML
 
   tableau_url = document.getElementById("tableau_url").value + "/api/3.9/sites/" + session_site_id + "/jobs"
