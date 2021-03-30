@@ -198,7 +198,7 @@ function post_signin(raw,tableau_url) {
     })
     .catch(error => console.log('error', error));
   }
-function post_signin() {
+function get_jobs() {
   tableau_url = document.getElementById("tableau_url").value + "/api/3.9/sites/" + session_site_id
   var myHeaders = new Headers();
   myHeaders.append("X-Tableau-Auth", document.getElementById("save_token").value);
