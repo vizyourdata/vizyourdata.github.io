@@ -151,6 +151,7 @@
                     <div class='col-lg-4'>
                       <button type="button" onclick="get_jobs()" class="btn btn-dark btn-lg btn-block">Get Jobs</button>
                     </div>
+                    <label class="col-lg-4" id="see_job_dtl"></label>
                   </div>
 
                   
@@ -220,7 +221,15 @@ function get_jobs() {
 
   fetch(tableau_url, requestOptions)
     .then(response => response.json())
-    .then(result => alert(result))//console.log(result))
+    .then(result => {
+      console.log(result)
+      //console.log(result.credentials.token)
+      //console.log(result.credentials.site.id)
+      var session_job_dtl = result.totalAvailalbe
+      var session_site_id = result.credentials.site.id
+      var session_user_id = result.credentials.user.id
+      document.getElementById("see_job_dtl").innerHTML = session_job_dtl
+    })
     .catch(error => console.log('error', error));
 } 
 
