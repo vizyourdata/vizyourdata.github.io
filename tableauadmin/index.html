@@ -225,13 +225,13 @@ function get_jobs() {
       console.log(result)
       //console.log(result.credentials.token)
       //console.log(result.credentials.site.id)
-      session_job_dtl = result.totalAvailalbe
+      session_job_dtl = result.pagination.totalAvailable
       document.getElementById("see_job_dtl").innerHTML = session_job_dtl
     })
     .catch(error => console.log('error', error));
 } 
 
-console.log('rem')
+console.log('rem /')
 </script>
 
 
