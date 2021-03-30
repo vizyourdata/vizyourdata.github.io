@@ -159,7 +159,7 @@
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script>
-console.log('job2]')
+console.log('sesh')
 
 function assign_var(){
   var tableau_url = document.getElementById("tableau_url").value + "/api/3.9/auth/signin"
@@ -194,14 +194,18 @@ function post_signin(raw,tableau_url) {
       var session_site_id = result.credentials.site.id
       var session_user_id = result.credentials.user.id
       document.getElementById("save_token").value = session_token
+      document.getElementById("save_site").value = session_site_id
       return session_token, session_site_id, session_user_id
     })
     .catch(error => console.log('error', error));
   }
 function get_jobs() {
-  tableau_url = document.getElementById("tableau_url").value + "/api/3.9/sites/" + session_site_id
+  var session_token = document.getElementById("save_token").value
+  var session_site_id = document.getElementById("save_site").value
+
+  tableau_url = document.getElementById("tableau_url").value + "/api/3.9/sites/" + session_site_id + "jobs"
   var myHeaders = new Headers();
-  myHeaders.append("X-Tableau-Auth", document.getElementById("save_token").value);
+  myHeaders.append("X-Tableau-Auth", session_token;
   myHeaders.append("Accept", "application/json");
   var requestOptions = {
     method: 'GET',
