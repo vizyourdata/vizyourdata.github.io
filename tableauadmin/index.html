@@ -179,7 +179,7 @@ function post_signin(raw,tableau_url) {
   fetch(tableau_url, requestOptions)
     .then(response => response.json())
     //.then(result => console.log(result))
-    .then result => console.log(result[0].credentials.token)
+    .then(result => console.log(result[0].credentials.token))
     ///.then(result => console.log(result))
     .catch(error => console.log('error', error));
 
