@@ -185,9 +185,9 @@ function post_signin(raw,tableau_url) {
       console.log(result)
       console.log(result.credentials.token)
       console.log(result.credentials.site.id)
-      var session_token = result.credentials.token
-      var session_site_id = result.credentials.site.id
-      var session_user_id = result.credentials.user.id
+      session_token = result.credentials.token
+      session_site_id = result.credentials.site.id
+      session_user_id = result.credentials.user.id
     })
     .catch(error => console.log('error', error));
 
@@ -196,7 +196,7 @@ function post_signin(raw,tableau_url) {
   // console.log(text.slice(0, 80) + '...');
 } 
 
-console.log()
+console.log(session)
 </script>
 
 
