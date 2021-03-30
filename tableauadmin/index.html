@@ -205,7 +205,7 @@ function get_jobs() {
 
   tableau_url = document.getElementById("tableau_url").value + "/api/3.9/sites/" + session_site_id + "jobs"
   var myHeaders = new Headers();
-  myHeaders.append("X-Tableau-Auth", session_token;
+  myHeaders.append("X-Tableau-Auth", session_token);
   myHeaders.append("Accept", "application/json");
   var requestOptions = {
     method: 'GET',
