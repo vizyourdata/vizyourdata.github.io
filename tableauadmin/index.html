@@ -195,7 +195,7 @@ function post_signin(raw,tableau_url) {
       var session_token = result.credentials.token
       var session_site_id = result.credentials.site.id
       var session_user_id = result.credentials.user.id
-      document.getElementById("save_token").value = session_token;
+      document.getElementById("save_token").value = session_token
       return session_token, session_site_id, session_user_id
     })
     .catch(error => console.log('error', error));
