@@ -153,10 +153,7 @@
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script>
-console.log('save ken')
-//var session_token
-//var session_site_id
-//var session_user_id
+console.log('to')
 
 function assign_var(){
   var tableau_url = document.getElementById("tableau_url").value + "/api/3.9/auth/signin"
@@ -173,8 +170,6 @@ function post_signin(raw,tableau_url) {
   myHeaders.append("Content-Type", "text/plain");
   myHeaders.append("Accept", "application/json");
 
-  //var raw = "<tsRequest>\r\n	<credentials\r\n	  personalAccessTokenName=\"ubuntu\" personalAccessTokenSecret=\"6xDa2+C8Q+CZ3EKci1HgtQ==:ZSZEkHUlGXa17m3ltdhUkJZo7jb0Srdo\" >\r\n  		<site contentUrl=\"javascript\" />\r\n	</credentials>\r\n</tsRequest>";
-  //console.log(raw)
   var requestOptions = {
     method: 'POST',
     headers: myHeaders,
@@ -192,7 +187,7 @@ function post_signin(raw,tableau_url) {
       var session_token = result.credentials.token
       var session_site_id = result.credentials.site.id
       var session_user_id = result.credentials.user.id
-      //document.getElementById("save_token").value = session_token
+      document.getElementById("save_token").value = session_token
       return session_token, session_site_id, session_user_id
     })
     .catch(error => console.log('error', error));
@@ -202,7 +197,7 @@ function post_signin(raw,tableau_url) {
   // console.log(text.slice(0, 80) + '...');
   //console.log(session_token, session_site_id, session_user_id)
 } 
-console.log(session_token, session_site_id, session_user_id)
+//console.log(session_token, session_site_id, session_user_id)
 
 </script>
 
