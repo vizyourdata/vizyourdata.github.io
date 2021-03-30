@@ -149,7 +149,7 @@
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script>
-console.log('mult')
+console.log('full')
 
 function assign_var(){
   var tableau_url = document.getElementById("tableau_url").value + "/api/3.9/auth/signin"
@@ -179,6 +179,7 @@ function post_signin(raw,tableau_url) {
   fetch(tableau_url, requestOptions)
     .then(response => response.json())
     .then(result => {
+      console.log(result)
       console.log(result.credentials.token)
       console.log(result.credentials.site.id)
     })
