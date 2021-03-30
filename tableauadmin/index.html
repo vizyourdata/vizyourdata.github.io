@@ -159,7 +159,7 @@
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script>
-console.log('sesh')
+
 
 function assign_var(){
   var tableau_url = document.getElementById("tableau_url").value + "/api/3.9/auth/signin"
@@ -203,7 +203,7 @@ function get_jobs() {
   var session_token = document.getElementById("save_token").value
   var session_site_id = document.getElementById("save_site").value
 
-  tableau_url = document.getElementById("tableau_url").value + "/api/3.9/sites/" + session_site_id + "jobs"
+  tableau_url = document.getElementById("tableau_url").value + "/api/3.9/sites/" + session_site_id + "/jobs"
   var myHeaders = new Headers();
   myHeaders.append("X-Tableau-Auth", session_token);
   myHeaders.append("Accept", "application/json");
@@ -219,7 +219,7 @@ function get_jobs() {
     .catch(error => console.log('error', error));
 } 
 
-
+console.log('remember /')
 </script>
 
 
