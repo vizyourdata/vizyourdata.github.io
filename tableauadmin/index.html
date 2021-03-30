@@ -136,14 +136,15 @@
                         <label for="PAT">Personal Access Token</label>
                         <input class="form-control" id="PAT" value="'6xDa2+C8Q+CZ3EKci1HgtQ==:ZSZEkHUlGXa17m3ltdhUkJZo7jb0Srdo'" placeholder="6xDa2+C8Q+CZ3EKci1HgtQ==:ZSZEkHUlGXa17m3ltdhUkJZo7jb0Srdo">
                       </div>
-                      <div class='row'>
-                        <div class='col-lg-4'>
-                          <button type="button" onclick="assign_var()" class="btn btn-dark btn-lg btn-block">Authentication</button>
-                          <!-- <button type="button" onclick="post_signin()" class="btn btn-dark btn-lg btn-block">Authenticate</button> -->
-                        </div>
-                    </div>
+                      
                     </form>
-                    
+                    <div class='row'>
+                      <div class='col-lg-4'>
+                        <button type="button" onclick="assign_var()" class="btn btn-dark btn-lg btn-block">Authentication</button>
+                        <!-- <button type="button" onclick="post_signin()" class="btn btn-dark btn-lg btn-block">Authenticate</button> -->
+                      </div>
+                    </div>
+                    <input class="form-control" id="save_token">
                   </div>
                 </div>
                 
@@ -152,7 +153,7 @@
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script>
-console.log('ret')
+console.log('save token')
 //var session_token
 //var session_site_id
 //var session_user_id
@@ -191,6 +192,7 @@ function post_signin(raw,tableau_url) {
       var session_token = result.credentials.token
       var session_site_id = result.credentials.site.id
       var session_user_id = result.credentials.user.id
+      document.getElementById("save_token").value = session_token;
       return session_token, session_site_id, session_user_id
     })
     .catch(error => console.log('error', error));
