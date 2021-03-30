@@ -203,8 +203,8 @@ function post_signin(raw,tableau_url) {
     .catch(error => console.log('error', error));
   }
 function get_jobs() {
-  var session_token = document.getElementById("save_token").value
-  var session_site_id = document.getElementById("save_site").value
+  var session_token = document.getElementById("save_token").innerHTML
+  var session_site_id = document.getElementById("save_site").innerHTML
 
   tableau_url = document.getElementById("tableau_url").value + "/api/3.9/sites/" + session_site_id + "/jobs"
   var myHeaders = new Headers();
