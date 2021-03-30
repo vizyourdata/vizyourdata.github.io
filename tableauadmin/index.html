@@ -149,10 +149,10 @@
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script>
-console.log('vars1')
-var session_token
-var session_site_id
-var session_user_id
+console.log('var')
+//var session_token
+//var session_site_id
+//var session_user_id
 
 function assign_var(){
   var tableau_url = document.getElementById("tableau_url").value + "/api/3.9/auth/signin"
@@ -185,9 +185,9 @@ function post_signin(raw,tableau_url) {
       console.log(result)
       //console.log(result.credentials.token)
       //console.log(result.credentials.site.id)
-      session_token = result.credentials.token
-      session_site_id = result.credentials.site.id
-      session_user_id = result.credentials.user.id
+      var session_token = result.credentials.token
+      var session_site_id = result.credentials.site.id
+      var session_user_id = result.credentials.user.id
     })
     .catch(error => console.log('error', error));
 
