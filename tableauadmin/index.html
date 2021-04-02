@@ -16,10 +16,10 @@
     <link rel="stylesheet" type="text/css" href="css/styles.css" >
     <title>Tableau Admin</title>
   </head>
-  <body>
+  <body onload="check_auth()">
     
 
-    <nav class='navbar navbar-expand-sm navbar-dark' style="background-color: #e68d27;">
+    <nav class='navbar navbar-expand-sm navbar-dark' style="background-color: #ba4b34;">
         <a class='navbar-brand' href="index.html">Tableau Admin</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -62,7 +62,7 @@
                     <a class="btn btn-dark active" data-toggle="collapse" href="#collapseUsers" role="button" aria-expanded="false" aria-controls="collapseExample"> Users </a>
                     <a class="btn btn-dark active" data-toggle="collapse" href="#collapseMonitor" role="button" aria-expanded="false" aria-controls="collapseExample"> Monitor </a>
                     <a class="btn btn-dark active" data-toggle="collapse" href="#collapseOptimize" role="button" aria-expanded="false" aria-controls="collapseExample"> Optimize </a>            
-                    <a class="btn btn-dark active" data-toggle="collapse" href="#collapseSettings" role="button" aria-expanded="false" aria-controls="collapseExample"> Settings </a> 
+                    <a class="btn btn-dark active" data-toggle="collapse" href="#collapseAuth" role="button" aria-expanded="false" aria-controls="collapseExample"> Settings </a> 
             </div>
 
       
@@ -122,7 +122,9 @@
                   Optimize
                 </div>
               </div>
-              <div class="uncollapse" id="collapseSettings">
+
+              <div class="collapse" data-toggle="collapse"  id="collapseAuth">
+                Authenticate to continue
                 <div class="card card-body openedCard">
                   <div class='row'>
                     <form>
@@ -143,9 +145,8 @@
                     <div class='col-lg-4'>
                       <button type="button" onclick="assign_var()" class="btn btn-dark btn-lg btn-block">Authentication</button>
                     </div>
-
-                    <label class="col-lg-4" id="save_token">Token</label> <label class="col-lg-4" id="save_site">Site</label>
                   </div>
+                  <label class="col-lg-4" id="save_token"></label> <label class="col-lg-4" id="save_site"></label>
                   <p></p>
                   <div class='row'>
                     <div class='col-lg-4'>
@@ -157,13 +158,44 @@
                   
 
                 </div>
-                
               </div>
     </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script>
 
+//CHECK for Authentication
+function check_auth(){
+  console.log('loading check...');
+  var tableau_url = document.getElementById("tableau_url").value + "/api/3.9/auth/signin"
+  var PAT_Name = document.getElementById("PATName").value
+  var PAT = document.getElementById("PAT").value
+  var raw = "<tsRequest>\r\n	<credentials\r\n	  personalAccessTokenName=" +PAT_Name+ " personalAccessTokenSecret=" +PAT+ ">\r\n  		<site contentUrl=\"javascript\" />\r\n	</credentials>\r\n</tsRequest>";
+
+  var myHeaders = new Headers();
+  myHeaders.append("Content-Type", "text/plain");
+  myHeaders.append("Accept", "application/json");
+
+  var requestOptions = {
+    method: 'POST',
+    headers: myHeaders,
+    body: raw,
+    redirect: 'follow'
+  };
+  fetch(tableau_url, requestOptions)
+    .then((response) => {
+      if (response.status == 200) {
+        return response.json();
+    } else {
+      console.log('error caught')
+      document.getElementById("collapseAuth").collapse('toggle')
+      
+      throw Error(response.statusText)
+      
+    }
+    })
+    .catch(error => console.log('error', error));
+}
 
 function assign_var(){
   var tableau_url = document.getElementById("tableau_url").value + "/api/3.9/auth/signin"
@@ -199,8 +231,8 @@ function post_signin(raw,tableau_url) {
       var session_token = result.credentials.token
       var session_site_id = result.credentials.site.id
       var session_user_id = result.credentials.user.id
-      document.getElementById("save_token").innerHTML = session_token
-      document.getElementById("save_site").innerHTML = session_site_id
+      document.getElementById("save_token").innerHTML = "Token: " + session_token
+      document.getElementById("save_site").innerHTML = "Site: " + session_site_id
       return session_token, session_site_id, session_user_id
     })
     .catch(error => console.log('error', error));
@@ -226,7 +258,7 @@ function get_jobs() {
       //console.log(result.credentials.token)
       //console.log(result.credentials.site.id)
       session_job_dtl = result.pagination.totalAvailable
-      document.getElementById("see_job_dtl").innerHTML = "Jobs run on Server:" + session_job_dtl
+      document.getElementById("see_job_dtl").innerHTML = "Jobs run on Server: " + session_job_dtl
     })
     .catch(error => console.log('error', error));
 } 

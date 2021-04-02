@@ -1,5 +1,6 @@
 #main {
-    background-color:#e68d27
+    /* background-color:#e68d27 */
+    background-color:#ba4b34
 }
 
 h1 {
@@ -9,10 +10,11 @@ h1 {
 
 h2 {
     font-family: 'Montserrat', sans-serif;
+    
 }
 
 body {
-    background-color:#e68d27;
+    background-color:#684345;
 }
 
 .container-fluid {
@@ -20,6 +22,6 @@ body {
 }
 
 .openedCard {
-    background-color:#e68d27;
+    background-color:#ba4b34;
     border-width: 7px;
 }
