@@ -239,6 +239,8 @@ em{ font-style:italic }
   transition:color .25s var(--ease), padding-left .25s var(--ease);
 }
 .foot-sec .links a .ar{ color:var(--muted); transition:transform .3s var(--ease), color .3s var(--ease) }
+.foot-sec .links a .ic{ flex:none; color:var(--muted); transition:color .3s var(--ease) }
+.foot-sec .links a:hover .ic{ color:var(--accent) }
 .foot-sec .links a:hover{ color:var(--accent); padding-left:.4rem }
 .foot-sec .links a:hover .ar{ transform:translateX(3px); color:var(--accent) }
 .foot-sec .colophon{
