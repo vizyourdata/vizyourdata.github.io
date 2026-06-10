@@ -1,0 +1,580 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Three Days in the Desert – Coachella's Vanishing Lineup</title>
+<meta name="description" content="A scrollytelling data story: how Coachella's lineup shrank 22% after COVID – and why it wasn't for lack of space.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="canonical" href="https://ericsummers.io/three-days-in-the-desert/">
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Three Days in the Desert: Coachella's Vanishing Lineup">
+<meta property="og:description" content="A scrollytelling data story: how Coachella's lineup shrank 22% after COVID, and why it wasn't for lack of space.">
+<meta property="og:url" content="https://ericsummers.io/three-days-in-the-desert/">
+<meta property="og:image" content="https://ericsummers.io/assets/img/og.svg">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+/* portfolio: back-to-gallery home link */
+.vyd-home{position:fixed; z-index:90; top:1.15rem; left:1.3rem; text-decoration:none;
+  font-family:"DM Mono",monospace; font-size:.72rem; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--muted); padding:.5em .85em; border:1px solid var(--line); border-radius:100px;
+  background:rgba(245,233,210,.42); backdrop-filter:blur(5px);
+  transition:color .25s, border-color .25s, background .25s, transform .25s;}
+.vyd-home:hover{color:var(--sat); border-color:var(--sat); transform:translateX(-2px)}
+@media (max-width:680px){.vyd-home{top:.7rem; left:.7rem; font-size:.64rem; padding:.45em .7em}}
+:root{
+  --bg-top:#F5E9D2; --bg-bot:#ECD9B6; --ink:#2B1C2F; --muted:#7A5A60;
+  --fri:#F0AE2A; --sat:#EE6A2E; --sun:#CE4283;
+  --line:rgba(43,28,47,.16);
+  --maxw:1280px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; color:var(--ink);
+  font-family:"Fraunces",Georgia,serif;
+  background:linear-gradient(165deg,var(--bg-top),var(--bg-bot));
+  background-attachment:fixed;
+  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+  overflow-x:hidden;
+}
+/* ---- atmosphere ---- */
+.grain{position:fixed; inset:0; z-index:60; pointer-events:none; opacity:.06; mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+.sun{position:fixed; z-index:0; left:78%; top:-12vh; width:33vmax; height:33vmax; transform:translate(-50%,0);
+  border-radius:50%; pointer-events:none; will-change:top,opacity; filter:blur(16px);
+  background:radial-gradient(circle at 50% 50%, rgba(255,240,212,.50) 0%, rgba(255,186,112,.26) 32%, rgba(255,130,82,.08) 56%, transparent 74%);}
+.progress{position:fixed; top:0; left:0; right:0; height:3px; z-index:80; background:transparent}
+.progress span{display:block; height:100%; width:0;
+  background:linear-gradient(90deg,var(--fri),var(--sat),var(--sun)); box-shadow:0 0 12px rgba(0,0,0,.18)}
+::selection{background:var(--sun); color:#fff}
+
+/* ---- shared type ---- */
+.wrap{max-width:var(--maxw); margin:0 auto; padding:0 7vw}
+.kicker{font-family:"DM Mono",monospace; font-size:.72rem; letter-spacing:.34em; text-transform:uppercase;
+  color:var(--muted); display:flex; align-items:center; gap:.9em; margin:0 0 1.1rem}
+.kicker::before{content:""; width:2.4em; height:1px; background:currentColor; opacity:.6}
+h1,h2,h3{font-weight:400; margin:0}
+em{font-style:italic}
+strong{font-weight:600}
+.serif-xl{font-family:"Fraunces",serif; font-optical-sizing:auto; line-height:1.08; letter-spacing:-.015em}
+
+/* ---- hero ---- */
+.hero{position:relative; min-height:100svh; display:flex; flex-direction:column; justify-content:center; overflow:hidden}
+.hero .wrap{position:relative; z-index:2}
+.hero .eyebrow{font-family:"DM Mono",monospace; font-size:.8rem; letter-spacing:.4em; text-transform:uppercase; color:var(--muted);
+  opacity:0; animation:rise .9s .15s both}
+.hero h1{font-family:"Anton",sans-serif; text-transform:uppercase; line-height:.86; letter-spacing:.005em;
+  font-size:clamp(3.4rem,12.5vw,12rem); margin:.18em 0 .32em; max-width:14ch}
+.hero h1 .l{display:inline-block; opacity:0; animation:rise 1s both}
+.hero h1 .l:nth-child(1){animation-delay:.22s}
+.hero h1 .l:nth-child(2){animation-delay:.34s}
+.hero h1 .l:nth-child(3){animation-delay:.46s}
+.hero h1 .l:nth-child(4){animation-delay:.58s; color:var(--sat)}
+.hero .stand{font-size:clamp(1.15rem,2.1vw,1.62rem); line-height:1.5; max-width:34ch; color:var(--ink);
+  opacity:0; animation:rise 1s .7s both}
+.hero .stand b{font-weight:600}
+.dunes{position:absolute; left:0; right:0; bottom:-1px; width:100%; height:42vh; z-index:1; opacity:.9}
+.scrollcue{position:absolute; left:50%; bottom:2.4rem; transform:translateX(-50%); z-index:3;
+  font-family:"DM Mono",monospace; font-size:.66rem; letter-spacing:.3em; text-transform:uppercase; color:var(--muted);
+  display:flex; flex-direction:column; align-items:center; gap:.7rem; opacity:0; animation:rise 1s 1.1s both}
+.scrollcue .dot{width:1px; height:42px; background:linear-gradient(var(--muted),transparent); animation:pulse 1.9s ease-in-out infinite}
+@keyframes rise{from{opacity:0; transform:translateY(26px)} to{opacity:1; transform:translateY(0)}}
+@keyframes pulse{0%,100%{transform:scaleY(.4); opacity:.3} 50%{transform:scaleY(1); opacity:1}}
+
+/* ---- scrolly (v3): chart sticky on the LEFT, text scrolls on the RIGHT ---- */
+.scrolly{position:relative; max-width:1500px; margin:0 auto; padding:0 5vw;
+  display:grid; grid-template-columns:60% 40%; gap:0; align-items:start}
+.scrolly .figure{grid-column:1; position:sticky; top:0; height:100svh;
+  display:flex; flex-direction:column; align-items:center; justify-content:center}
+.scrolly .steps{grid-column:2; padding:16vh 0 40vh 4vw}
+.step{min-height:84vh; display:flex; flex-direction:column; justify-content:center; align-items:flex-start; text-align:left}
+.step .lede{font-size:clamp(1.2rem,1.55vw,1.5rem); line-height:1.55; max-width:40ch}
+.step .lede .big{font-family:"Anton",sans-serif; font-weight:400}
+.step b{font-weight:600}
+.step .micro{font-family:"DM Mono",monospace; font-size:.74rem; letter-spacing:.06em; color:var(--muted); margin-top:1.1rem;
+  border-top:1px solid var(--line); padding-top:.8rem; display:inline-block}
+.step .micro .fri{color:var(--fri)} .step .micro .sat{color:var(--sat)} .step .micro .sun{color:var(--sun)}
+
+.figure svg{width:100%; height:auto; max-height:84vh; overflow:visible}
+.scrolly-tail{display:none}
+
+/* big per-step key stat, above the chart */
+.figkey{min-height:2.7em; display:flex; flex-direction:column; align-items:center; justify-content:flex-end;
+  text-align:center; margin-bottom:.5rem; transition:opacity .4s ease, transform .4s ease}
+.figkey .k-big{font-family:"Anton",sans-serif; font-weight:400; line-height:.9; letter-spacing:.012em;
+  font-size:clamp(2rem,3.6vw,3.1rem)}
+.figkey .k-sub{font-family:"DM Mono",monospace; font-size:.72rem; letter-spacing:.22em; text-transform:uppercase;
+  color:var(--muted); margin-top:.55rem}
+
+/* day legend for the streamgraph / lines */
+.figlegend{display:flex; gap:1.4rem; margin-bottom:1rem; font-family:"DM Mono",monospace;
+  font-size:.74rem; letter-spacing:.12em; text-transform:uppercase; color:var(--muted)}
+.figlegend .lg{display:inline-flex; align-items:center; gap:.5em}
+.figlegend .lg i{width:11px; height:11px; border-radius:3px; display:inline-block}
+.figlegend .lg-fri i{background:var(--fri)} .figlegend .lg-sat i{background:var(--sat)} .figlegend .lg-sun i{background:var(--sun)}
+.tip{position:absolute; z-index:25; pointer-events:none; opacity:0; transition:opacity .14s ease; left:0; top:0;
+  background:rgba(26,15,24,.93); color:#F4E7D0; border:1px solid rgba(255,255,255,.12); border-radius:11px; padding:.65rem .8rem;
+  font-family:"DM Mono",monospace; font-size:.72rem; line-height:1.2; min-width:140px; box-shadow:0 14px 34px rgba(0,0,0,.34); backdrop-filter:blur(5px)}
+.tip .t-yr{font-family:"Anton",sans-serif; font-weight:400; font-size:1.15rem; letter-spacing:.02em; margin-bottom:.45rem; color:#fff}
+.tip .t-row{display:flex; align-items:center; gap:.55em; padding:.13rem 0}
+.tip .t-row span{width:9px; height:9px; border-radius:2px; flex:0 0 auto}
+.tip .t-row b{margin-left:auto; font-weight:500; padding-left:1.4em}
+.tip .t-tot{border-top:1px solid rgba(255,255,255,.16); margin-top:.34rem; padding-top:.4rem; color:#D9C0B6}
+.hot{cursor:crosshair}
+
+/* chart morph + step states (CSS-driven) */
+#gStream,#gCross{transition:opacity .14s linear}
+#gCross{opacity:0}
+.band{transition:opacity .6s ease}
+.anno{opacity:0; transition:opacity .55s ease}
+.figure[data-step="0"] .anno-peak{opacity:1}
+.figure[data-step="1"] .anno-end{opacity:1}
+.figure[data-step="2"] .anno-sun{opacity:1}
+.figure[data-step="2"] .band-fri,.figure[data-step="2"] .band-sat{opacity:.18}
+.anno-covid{opacity:1; transition:opacity .55s ease}
+
+/* ---- editorial "why" sections ---- */
+.band-sec{position:relative; padding:16vh 0; z-index:2}
+.band-sec h2{font-family:"Fraunces",serif; font-size:clamp(2rem,4.6vw,3.7rem); line-height:1.02; letter-spacing:-.02em; max-width:18ch}
+.band-sec .body{font-size:clamp(1.15rem,1.65vw,1.4rem); line-height:1.62; max-width:46ch; margin-top:1.6rem; color:var(--ink)}
+.band-sec .body b{font-weight:600}
+.reveal{opacity:0; transform:translateY(34px); transition:opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1; transform:none}
+.chips{display:flex; flex-wrap:wrap; gap:.7rem; margin-top:2.2rem}
+.chip{font-family:"DM Mono",monospace; font-size:.78rem; letter-spacing:.04em; padding:.62rem 1rem;
+  border:1px solid var(--line); border-radius:100px; background:rgba(255,255,255,.06); backdrop-filter:blur(3px)}
+.chip b{font-weight:500; color:var(--sat)}
+
+.stats{display:grid; grid-template-columns:repeat(3,1fr); gap:clamp(1rem,3vw,3rem); margin-top:3rem}
+.stat .num{font-family:"Anton",sans-serif; font-size:clamp(2.6rem,6vw,5rem); line-height:.9; letter-spacing:.01em}
+.stat:nth-child(1) .num{color:var(--sun)} .stat:nth-child(2) .num{color:var(--sat)} .stat:nth-child(3) .num{color:var(--fri)}
+.stat .lab{font-family:"DM Mono",monospace; font-size:.74rem; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin-top:.8rem; line-height:1.4}
+.pricebar{margin-top:1rem; height:8px; border-radius:6px; background:rgba(255,255,255,.14); position:relative; overflow:hidden}
+.pricebar i{position:absolute; inset:0 78% 0 0; background:var(--fri); border-radius:6px}
+.pricebar i::after{content:""; position:absolute; right:-2px; top:-4px; bottom:-4px; width:2px; background:var(--ink); opacity:.5}
+
+/* ---- conclusion ---- */
+.kicker-center{justify-content:center}
+.kicker-center::before{display:none}
+.finale{min-height:96svh; display:flex; align-items:center; text-align:center; position:relative; z-index:2}
+.finale .big{font-family:"Fraunces",serif; font-size:clamp(2.3rem,6.4vw,5.4rem); line-height:1.02; letter-spacing:-.025em; max-width:17ch; margin:1.2rem auto}
+.finale .big em{color:var(--sat); font-style:italic}
+.finale .sub{font-size:clamp(1.1rem,1.7vw,1.45rem); line-height:1.55; max-width:40ch; margin:0 auto; color:var(--ink)}
+.finale .sub b{font-weight:600}
+
+/* ---- footer ---- */
+footer{position:relative; z-index:2; padding:10vh 0 7vh; border-top:1px solid var(--line); margin-top:8vh}
+footer .ft-title{font-family:"Anton",sans-serif; text-transform:uppercase; font-size:clamp(1.4rem,3vw,2.2rem); letter-spacing:.01em}
+footer .note{font-family:"DM Mono",monospace; font-size:.76rem; letter-spacing:.04em; color:var(--muted); margin-top:1.2rem; line-height:1.7; max-width:60ch}
+footer .src{margin-top:1.8rem; columns:2; column-gap:3rem; max-width:60ch}
+footer .src a{display:block; font-family:"DM Mono",monospace; font-size:.74rem; color:var(--ink); text-decoration:none;
+  padding:.45rem 0; border-bottom:1px solid var(--line); break-inside:avoid; transition:color .2s, padding-left .2s}
+footer .src a:hover{color:var(--sat); padding-left:.4rem}
+footer .sign{font-family:"DM Mono",monospace; font-size:.72rem; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); margin-top:2.6rem}
+
+/* ---- responsive ---- */
+@media (max-width:860px){
+  .scrolly{grid-template-columns:1fr; padding:0 6vw}
+  .scrolly .figure{grid-column:1; height:52svh; z-index:3; padding-top:1.2rem;
+    background:linear-gradient(180deg,var(--bg-top) 0%, var(--bg-top) 76%, transparent 100%)}
+  .scrolly .steps{grid-column:1; padding:0 0 30vh 0; position:relative; z-index:1}
+  .figure svg{max-height:38svh}
+  .step{min-height:86vh; justify-content:flex-end; align-items:center; text-align:center; padding-bottom:10vh}
+  .step .lede{font-size:clamp(1.1rem,4.6vw,1.4rem); max-width:90vw}
+  .figkey{min-height:2.1em; margin-bottom:.3rem}
+  .figkey .k-big{font-size:1.55rem} .figkey .k-sub{font-size:.62rem; margin-top:.3rem}
+  .figlegend{gap:.9rem; font-size:.64rem; margin-bottom:.5rem}
+  .stats{grid-template-columns:1fr; gap:2.4rem}
+  footer .src{columns:1}
+  .sun{left:60%}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important; transition:none!important; scroll-behavior:auto!important}
+  .reveal{opacity:1; transform:none}
+}
+</style>
+</head>
+<body>
+<a class="vyd-home" href="/" aria-label="vizyourdata, back to the gallery">← vizyourdata</a>
+<div class="grain" aria-hidden="true"></div>
+<div class="sun" id="sun" aria-hidden="true"></div>
+<div class="progress" aria-hidden="true"><span id="bar"></span></div>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow">Coachella · 2018 → 2026 · a data story</p>
+    <h1><span class="l">Three</span> <span class="l">Days</span> <span class="l">in&nbsp;the</span> <span class="l">Desert</span></h1>
+    <p class="stand">The festival came back from the pandemic <b>bigger than ever</b>. Then, year by year, the lineup began to disappear. This is where it went.</p>
+  </div>
+  <svg class="dunes" viewBox="0 0 1440 420" preserveAspectRatio="none" aria-hidden="true">
+    <defs>
+      <filter id="mirage" x="-12%" y="-40%" width="124%" height="185%" color-interpolation-filters="sRGB">
+        <feTurbulence type="fractalNoise" baseFrequency="0.010 0.021" numOctaves="2" seed="4" result="haze">
+          <animate attributeName="baseFrequency" dur="14s" repeatCount="indefinite" calcMode="spline"
+            keyTimes="0;0.5;1" keySplines="0.45 0 0.55 1;0.45 0 0.55 1"
+            values="0.010 0.021;0.008 0.036;0.010 0.021"/>
+        </feTurbulence>
+        <feDisplacementMap in="SourceGraphic" in2="haze" scale="17" xChannelSelector="R" yChannelSelector="G"/>
+      </filter>
+    </defs>
+    <g filter="url(#mirage)">
+      <path d="M0,300 C240,250 420,330 720,300 C1020,270 1200,340 1440,300 L1440,420 L0,420 Z" fill="rgba(206,66,131,.16)"/>
+      <path d="M0,340 C300,300 540,370 840,345 C1100,322 1280,372 1440,348 L1440,420 L0,420 Z" fill="rgba(238,106,46,.20)"/>
+      <path d="M0,380 C360,352 600,398 960,378 C1180,366 1320,396 1440,384 L1440,420 L0,420 Z" fill="rgba(240,174,42,.26)"/>
+    </g>
+  </svg>
+  <div class="scrollcue" aria-hidden="true"><span>Scroll</span><span class="dot"></span></div>
+</header>
+
+<!-- ============ SCROLLY: the data ============ -->
+<section class="scrolly" aria-label="The shrinking lineup, visualized">
+  <figure class="figure" id="figure" data-step="0">
+    <div class="figkey" id="figkey" aria-hidden="true"></div>
+    <div class="figlegend" aria-hidden="true">
+      <span class="lg lg-fri"><i></i>Friday</span>
+      <span class="lg lg-sat"><i></i>Saturday</span>
+      <span class="lg lg-sun"><i></i>Sunday</span>
+    </div>
+    <svg id="viz" viewBox="0 0 920 620" role="img" aria-label="Streamgraph of Coachella acts per day, 2018 to 2026, and the day-by-day crossover."></svg>
+    <div class="tip" id="tip" aria-hidden="true"></div>
+  </figure>
+
+  <div class="steps">
+    <div class="step" data-step="0">
+      <p class="kicker">The Return</p>
+      <p class="lede">When Coachella reopened in <span class="big">2022</span> after two cancelled years, it came back at full volume – <b>179 acts</b> across the weekend, the largest bill in its history.</p>
+      <span class="micro"><span class="fri">Friday 60</span> · <span class="sat">Saturday 61</span> · <span class="sun">Sunday 57</span></span>
+    </div>
+    <div class="step" data-step="1">
+      <p class="kicker">The Slide</p>
+      <p class="lede">That was the peak. Every edition since has been smaller – 167, 153, 151 – and just <b>139 in 2026</b>. A <span class="big">−22%</span> cut in four years, the leanest lineup in a decade.</p>
+      <span class="micro">2022 → 2026 &nbsp;·&nbsp; 179 → 139 acts &nbsp;·&nbsp; −40 performers</span>
+    </div>
+    <div class="step" data-step="2">
+      <p class="kicker">The Quiet Day</p>
+      <p class="lede">The loss isn't shared evenly. <b>Sunday</b> has been hollowed out – down <span class="big">−25%</span> since 2018 – fading from a co-headline night into the weekend's thinnest day.</p>
+      <span class="micro"><span class="sun">Sunday</span> &nbsp;57 → 43 acts &nbsp;·&nbsp; 2018 → 2026</span>
+    </div>
+    <div class="step" data-step="3">
+      <p class="kicker">The New Center</p>
+      <p class="lede">As <b>Saturday</b> – long the anchor – collapsed, <b>Friday</b> held firm and seized the crown, topping the bill <span class="big">two years</span> running. The weekend's center of gravity slid to opening night.</p>
+      <span class="micro"><span class="fri">Friday #1</span> in 2025 &amp; 2026 &nbsp;·&nbsp; the crossover</span>
+    </div>
+  </div>
+  <div class="scrolly-tail" aria-hidden="true"></div>
+</section>
+
+<!-- ============ WHY 1: not the space ============ -->
+<section class="band-sec wrap">
+  <div class="reveal">
+    <p class="kicker">It wasn't the space</p>
+    <h2 class="serif-xl">They didn't shrink the desert.<br>They <em>added</em> to it.</h2>
+    <p class="body">The obvious suspects – less land, fewer stages – are wrong. Coachella <b>expanded</b> after the pandemic: the <b>Quasar</b> DJ stage arrived in 2024, and <b>Do LaB grew from 45 to 60 artists</b>. The grounds got bigger. The bill got smaller.</p>
+    <div class="chips">
+      <span class="chip"><b>+1</b> new stage · Quasar, 2024</span>
+      <span class="chip">Do LaB <b>45 → 60</b> artists</span>
+      <span class="chip"><b>3</b> DJ stages now</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WHY 2: the math ============ -->
+<section class="band-sec wrap">
+  <div class="reveal">
+    <p class="kicker">It was the math</p>
+    <h2 class="serif-xl">A few stars now cost what a hundred acts used to.</h2>
+    <p class="body">Touring and production costs jumped <b>30–40% since 2020</b>. Headline fees run into the millions – <b>Justin Bieber reportedly took $10M+</b> for a single set. With a fixed budget, Coachella pours money into the top of the poster and trims the undercard. Tickets climbed too.</p>
+    <div class="stats">
+      <div class="stat"><div class="num">$10M+</div><div class="lab">reported fee for one<br>headline set</div></div>
+      <div class="stat"><div class="num">+30–40%</div><div class="lab">touring &amp; production<br>costs since 2020</div></div>
+      <div class="stat"><div class="num">$449→549</div><div class="lab">GA pass, 2022 → 2026<br><span class="pricebar"><i></i></span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WHY 3: the industry ============ -->
+<section class="band-sec wrap">
+  <div class="reveal">
+    <p class="kicker">And it wasn't just here</p>
+    <h2 class="serif-xl">The whole festival economy is contracting.</h2>
+    <p class="body">More than <b>100 festivals were cancelled in 2025</b>. Roughly <b>two-thirds of large festivals lost money in 2024</b>. And the biggest acts increasingly skip the circuit altogether, chasing better margins on their own <b>stadium tours</b>. Coachella still sold out 2026 in under a week – but it's bending to the same pressure: protect the headliners, shrink the rest.</p>
+  </div>
+</section>
+
+<!-- ============ FINALE ============ -->
+<section class="finale wrap">
+  <div class="reveal" style="margin:0 auto">
+    <p class="kicker kicker-center">The takeaway</p>
+    <h2 class="big">Coachella didn't run out of room.<br>It ran into the <em>math</em>.</h2>
+    <p class="sub">A <b>22% smaller</b> lineup is the visible cost of an industry that now pays a handful of stars far more – and everyone else far less.</p>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="wrap">
+  <div class="ft-title">Three Days in the Desert</div>
+  <p class="note">Lineup counts – Coachella via Chartmetric · MakeoverMonday 2026, Week 23. 2020–21 editions cancelled (COVID). Per-day act totals, weekend-one initial posters. Industry figures from the reporting below.</p>
+  <div class="src">
+    <a href="https://hmc.chartmetric.com/the-numbers-behind-coachellas-smallest-lineup-in-years/" target="_blank" rel="noopener">Chartmetric – The Numbers Behind Coachella's Smallest Lineup</a>
+    <a href="https://www.billboard.com/pro/music-festivals-losing-top-artists-stadium-shows-why/" target="_blank" rel="noopener">Billboard – Top Artists Ditching Festivals for Stadiums</a>
+    <a href="https://www.ticketfairy.com/blog/sticker-shock-in-2026-adapting-venue-booking-strategies-to-soaring-artist-fees" target="_blank" rel="noopener">Ticket Fairy – Sticker Shock: Soaring Artist Fees</a>
+    <a href="https://imusician.pro/en/resources/blog/decline-of-music-festivals" target="_blank" rel="noopener">iMusician – Decline of Music Festivals, 2026</a>
+    <a href="https://news.pollstar.com/2025/03/14/2025-music-festivals-special-the-present-future-in-a-changing-market/" target="_blank" rel="noopener">Pollstar – Festivals in a Changing Market</a>
+    <a href="https://consequence.net/2025/09/coachella-2026-one-day-later/" target="_blank" rel="noopener">Consequence – Coachella 2026: 5 Takeaways</a>
+  </div>
+  <div class="sign">Data viz · scrollytelling · built for the desert</div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  /* ---------------- data ---------------- */
+  const DATA=[
+    {year:2018,fri:55,sat:57,sun:57,total:169},
+    {year:2019,fri:59,sat:55,sun:52,total:166},
+    {year:2022,fri:60,sat:61,sun:57,total:179},
+    {year:2023,fri:55,sat:57,sun:54,total:167},
+    {year:2024,fri:52,sat:55,sun:45,total:153},
+    {year:2025,fri:54,sat:48,sun:48,total:151},
+    {year:2026,fri:51,sat:44,sun:43,total:139}
+  ];
+  const COL={fri:'#F0AE2A',sat:'#EE6A2E',sun:'#CE4283'};
+  const W=920,H=620,padL=60,padR=104,padT=64,padB=74;
+  const xs=y=>padL+(y-2018)/(2026-2018)*(W-padL-padR);
+
+  /* segments split at the COVID gap (>1yr) */
+  function segments(){const s=[];let cur=[DATA[0]];for(let i=1;i<DATA.length;i++){if(DATA[i].year-DATA[i-1].year>1){s.push(cur);cur=[];}cur.push(DATA[i]);}s.push(cur);return s;}
+  const SEG=segments();
+
+  /* ---------- smooth path (Catmull-Rom -> bezier) ---------- */
+  function smooth(pts){
+    if(pts.length<2) return '';
+    if(pts.length===2) return `M${pts[0].x},${pts[0].y} L${pts[1].x},${pts[1].y}`;
+    let d=`M${pts[0].x},${pts[0].y}`;
+    for(let i=0;i<pts.length-1;i++){
+      const p0=pts[i-1]||pts[i], p1=pts[i], p2=pts[i+1], p3=pts[i+2]||p2;
+      const c1x=p1.x+(p2.x-p0.x)/6, c1y=p1.y+(p2.y-p0.y)/6;
+      const c2x=p2.x-(p3.x-p1.x)/6, c2y=p2.y-(p3.y-p1.y)/6;
+      d+=` C${c1x.toFixed(1)},${c1y.toFixed(1)} ${c2x.toFixed(1)},${c2y.toFixed(1)} ${p2.x.toFixed(1)},${p2.y.toFixed(1)}`;
+    }
+    return d;
+  }
+  function area(top,bot){
+    const b=smooth(bot.slice().reverse()).replace(/^M/,'L');
+    return smooth(top)+' '+b+' Z';
+  }
+
+  /* ---------- streamgraph (centered) ---------- */
+  const CY=H/2, maxTotal=Math.max.apply(null,DATA.map(d=>d.total)), k=(H*0.68)/maxTotal;
+  function bounds(d){const half=d.total*k/2; const sunT=CY-half; const sunB=sunT+d.sun*k; const satB=sunB+d.sat*k; const friB=satB+d.fri*k; return {sunT,sunB,satB,friB};}
+  function streamMarkup(){
+    let bands={sun:'',sat:'',fri:''};
+    SEG.forEach(seg=>{
+      const top={sun:[],sat:[],fri:[]}, bot={sun:[],sat:[],fri:[]};
+      seg.forEach(d=>{const x=xs(d.year), b=bounds(d);
+        top.sun.push({x,y:b.sunT}); bot.sun.push({x,y:b.sunB});
+        top.sat.push({x,y:b.sunB}); bot.sat.push({x,y:b.satB});
+        top.fri.push({x,y:b.satB}); bot.fri.push({x,y:b.friB});});
+      bands.sun+=`<path class="band band-sun" d="${area(top.sun,bot.sun)}" fill="${COL.sun}" stroke="rgba(30,16,32,.22)" stroke-width="1"/>`;
+      bands.sat+=`<path class="band band-sat" d="${area(top.sat,bot.sat)}" fill="${COL.sat}" stroke="rgba(30,16,32,.22)" stroke-width="1"/>`;
+      bands.fri+=`<path class="band band-fri" d="${area(top.fri,bot.fri)}" fill="${COL.fri}" stroke="rgba(30,16,32,.22)" stroke-width="1"/>`;
+    });
+    // phantom continuity across the COVID gap: a ghost of the cancelled years
+    const d19=DATA.find(d=>d.year===2019), d22=DATA.find(d=>d.year===2022);
+    const b19=bounds(d19), b22=bounds(d22), gx0=xs(2019), gx1=xs(2022);
+    const gArea=(t0,b0,t1,b1)=>`M${gx0.toFixed(1)},${t0.toFixed(1)} L${gx1.toFixed(1)},${t1.toFixed(1)} L${gx1.toFixed(1)},${b1.toFixed(1)} L${gx0.toFixed(1)},${b0.toFixed(1)} Z`;
+    const gLine=(y0,y1,col)=>`<line x1="${gx0.toFixed(1)}" y1="${y0.toFixed(1)}" x2="${gx1.toFixed(1)}" y2="${y1.toFixed(1)}" stroke="${col}" stroke-width="2" stroke-dasharray="3 5" stroke-linecap="round" opacity=".55"/>`;
+    const phantom=`<g class="phantom">`+
+      `<path d="${gArea(b19.sunT,b19.sunB,b22.sunT,b22.sunB)}" fill="${COL.sun}" opacity=".13"/>`+
+      `<path d="${gArea(b19.sunB,b19.satB,b22.sunB,b22.satB)}" fill="${COL.sat}" opacity=".13"/>`+
+      `<path d="${gArea(b19.satB,b19.friB,b22.satB,b22.friB)}" fill="${COL.fri}" opacity=".13"/>`+
+      gLine(b19.sunT,b22.sunT,COL.sun)+gLine(b19.sunB,b22.sunB,COL.sat)+
+      gLine(b19.satB,b22.satB,COL.fri)+gLine(b19.friB,b22.friB,COL.fri)+
+    `</g>`;
+    return `<g id="gStream">${bands.fri}${bands.sat}${bands.sun}${phantom}</g>`;
+  }
+
+  /* ---------- crossover lines ---------- */
+  const cyDomain=[40,63];
+  const yC=v=>padT+(1-(v-cyDomain[0])/(cyDomain[1]-cyDomain[0]))*(H-padT-padB);
+  function crossMarkup(){
+    const keys=[['fri',COL.fri],['sat',COL.sat],['sun',COL.sun]];
+    let casing='',lines='',dots='',labels='';
+    keys.forEach(([key,col])=>{
+      SEG.forEach(seg=>{
+        const pts=seg.map(d=>({x:xs(d.year),y:yC(d[key])}));
+        const dd=smooth(pts);
+        casing+=`<path d="${dd}" fill="none" stroke="rgba(34,18,30,.30)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>`;
+        lines+=`<path d="${dd}" fill="none" stroke="${col}" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/>`;
+        pts.forEach((p,i)=>{dots+=`<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="${i===seg.length-1?4.6:3}" fill="${col}"/>`;});
+      });
+    });
+    const last=DATA[DATA.length-1];
+    const lab=[['Friday',last.fri,COL.fri,0],['Saturday',last.sat,COL.sat,-3],['Sunday',last.sun,COL.sun,12]];
+    lab.forEach(([name,v,col,dy])=>{labels+=`<text x="${(xs(last.year)+12).toFixed(1)}" y="${(yC(v)+4+dy).toFixed(1)}" fill="${col}" font-family="DM Mono,monospace" font-size="13" font-weight="500">${name}</text>`;});
+    // crossover highlight band (Friday overtakes Saturday between 2024 & 2025)
+    const cx0=xs(2024), cx1=xs(2025);
+    const hl=`<rect x="${cx0.toFixed(1)}" y="${padT}" width="${(cx1-cx0).toFixed(1)}" height="${H-padT-padB}" fill="rgba(74,42,58,.10)"/>
+      <line x1="${cx0.toFixed(1)}" y1="${padT}" x2="${cx0.toFixed(1)}" y2="${H-padB}" stroke="rgba(74,42,58,.45)" stroke-width="1" stroke-dasharray="3 4"/>
+      <text x="${((cx0+cx1)/2).toFixed(1)}" y="${padT-14}" text-anchor="middle" fill="#4A2A3A" font-family="DM Mono,monospace" font-size="11.5" letter-spacing="1">FRIDAY OVERTAKES SATURDAY</text>`;
+    // phantom day-lines bridging the COVID gap (2019 → 2022)
+    const d19c=DATA.find(d=>d.year===2019), d22c=DATA.find(d=>d.year===2022);
+    let pCase='',pLine='';
+    keys.forEach(([key,col])=>{
+      const x0=xs(2019).toFixed(1), y0=yC(d19c[key]).toFixed(1), x1=xs(2022).toFixed(1), y1=yC(d22c[key]).toFixed(1);
+      pCase+=`<line x1="${x0}" y1="${y0}" x2="${x1}" y2="${y1}" stroke="rgba(28,16,28,.24)" stroke-width="4.6" stroke-dasharray="6 6" stroke-linecap="round"/>`;
+      pLine+=`<line x1="${x0}" y1="${y0}" x2="${x1}" y2="${y1}" stroke="${col}" stroke-width="2.6" stroke-dasharray="6 6" stroke-linecap="round" opacity=".72"/>`;
+    });
+    return `<g id="gCross">${hl}<g class="phantom">${pCase}${pLine}</g>${casing}${lines}${dots}${labels}</g>`;
+  }
+
+  /* ---------- shared axis + annotations ---------- */
+  function axisMarkup(){
+    let ticks='';
+    DATA.forEach(d=>{ticks+=`<text x="${xs(d.year).toFixed(1)}" y="${H-padB+30}" text-anchor="middle" fill="#97726A" font-family="DM Mono,monospace" font-size="11.5">${String(d.year).slice(2)}</text>`;});
+    const gapx=(xs(2019)+xs(2022))/2;
+    const unit=(xs(2022)-xs(2019))/3;
+    const bL=xs(2019)+unit*0.55, bR=xs(2022)-unit*0.55, bW=bR-bL;
+    const yTop=padT-18, yBot=H-padB, bandH=yBot-yTop;
+    const defs=`<defs><pattern id="covidHatch" width="9" height="9" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
+        <rect width="9" height="9" fill="rgba(122,90,96,.06)"/>
+        <line x1="0" y1="0" x2="0" y2="9" stroke="rgba(122,90,96,.18)" stroke-width="1.3"/>
+      </pattern></defs>`;
+    let covidLetters='';
+    ['C','O','V','I','D'].forEach((ch,i)=>{covidLetters+=`<text x="${gapx.toFixed(1)}" y="${(CY+(i-2)*42+8).toFixed(1)}" text-anchor="middle" fill="#8A6A6E" font-family="DM Mono,monospace" font-weight="500" font-size="23" letter-spacing="1">${ch}</text>`;});
+    const covid=`<g class="anno-covid">
+      <rect x="${bL.toFixed(1)}" y="${yTop.toFixed(1)}" width="${bW.toFixed(1)}" height="${bandH.toFixed(1)}" rx="7" fill="url(#covidHatch)" stroke="rgba(122,90,96,.22)" stroke-width="1" stroke-dasharray="3 4"/>
+      ${covidLetters}
+      <text x="${gapx.toFixed(1)}" y="${(CY+3*42+4).toFixed(1)}" text-anchor="middle" fill="#97726A" font-family="DM Mono,monospace" font-size="10" letter-spacing="1.5">2020 · 2021</text>
+    </g>`;
+    return `<g id="gAxis">${defs}${covid}${ticks}</g>`;
+  }
+  function annoMarkup(){
+    const p=bounds(DATA.find(d=>d.year===2022)), e=bounds(DATA.find(d=>d.year===2026));
+    const px=xs(2022), ex=xs(2026);
+    const peak=`<g class="anno anno-peak">
+      <line x1="${px.toFixed(1)}" y1="${(p.sunT-26).toFixed(1)}" x2="${px.toFixed(1)}" y2="${(p.friB+10).toFixed(1)}" stroke="#3A2433" stroke-width="1" opacity=".4"/>
+      <text x="${px.toFixed(1)}" y="${(p.sunT-34).toFixed(1)}" text-anchor="middle" fill="#3A2433" font-family="Anton,sans-serif" font-size="30">179</text>
+      <text x="${px.toFixed(1)}" y="${(p.sunT-14).toFixed(1)}" text-anchor="middle" fill="#97726A" font-family="DM Mono,monospace" font-size="10.5" letter-spacing="1.5">THE PEAK</text>
+    </g>`;
+    const end=`<g class="anno anno-end">
+      <text x="${(ex+14).toFixed(1)}" y="${(e.sunT-6).toFixed(1)}" fill="#3A2433" font-family="Anton,sans-serif" font-size="26">139</text>
+      <text x="${(ex+15).toFixed(1)}" y="${(e.sunT+12).toFixed(1)}" fill="#EE6A2E" font-family="DM Mono,monospace" font-size="12" font-weight="500">−22%</text>
+    </g>`;
+    const sy=(bounds(DATA.find(d=>d.year===2026)).sunT+bounds(DATA.find(d=>d.year===2026)).sunB)/2;
+    const sun=`<g class="anno anno-sun">
+      <text x="${(ex+18).toFixed(1)}" y="${(sy-13).toFixed(1)}" fill="${COL.sun}" font-family="DM Mono,monospace" font-size="12" font-weight="500">SUNDAY</text>
+      <text x="${(ex+18).toFixed(1)}" y="${(sy+15).toFixed(1)}" fill="${COL.sun}" font-family="Anton,sans-serif" font-size="22">−25%</text>
+    </g>`;
+    return `<g id="gAnno">${peak}${end}${sun}</g>`;
+  }
+
+  function hoverMarkup(){
+    let rects='';
+    DATA.forEach((d,i)=>{const x=xs(d.year);
+      const xl=i===0?padL-8:(xs(DATA[i-1].year)+x)/2;
+      const xr=i===DATA.length-1?W-padR+40:(xs(DATA[i+1].year)+x)/2;
+      rects+=`<rect class="hot" data-i="${i}" x="${xl.toFixed(1)}" y="${(padT-30).toFixed(1)}" width="${(xr-xl).toFixed(1)}" height="${(H-padT-padB+46).toFixed(1)}" fill="transparent"/>`;});
+    return `<line id="guide" x1="0" y1="${padT-22}" x2="0" y2="${H-padB+4}" stroke="rgba(58,36,51,.5)" stroke-width="1" stroke-dasharray="2 4" opacity="0"/><g id="gHover">${rects}</g>`;
+  }
+  document.getElementById('viz').innerHTML = axisMarkup()+streamMarkup()+crossMarkup()+annoMarkup()+hoverMarkup();
+
+  /* ---------------- big key stat per step (above the chart) ---------------- */
+  const KEYS=[
+    {big:'179 acts',    col:'#B5503E', sub:'The peak · 2022'},
+    {big:'−22%',        col:'#B5503E', sub:'Lineup · 2022 → 2026'},
+    {big:'Sunday −25%', col:COL.sun,   sub:'Since 2018'},
+    {big:'Friday #1',   col:COL.fri,   sub:'2025 & 2026'}
+  ];
+  const figure=document.getElementById('figure'), figkey=document.getElementById('figkey');
+  function renderKey(n){const k=KEYS[n]; figkey.innerHTML=`<span class="k-big" style="color:${k.col}">${k.big}</span><span class="k-sub">${k.sub}</span>`;}
+  function setStep(n){ if(figure.dataset.step==n) return; figure.dataset.step=n;
+    figkey.style.opacity=0; figkey.style.transform='translateY(8px)';
+    setTimeout(()=>{renderKey(n); figkey.style.opacity=1; figkey.style.transform='none';},200);
+  }
+  figure.dataset.step=0; renderKey(0);
+
+  /* hover: per-year breakdown tooltip + guide line */
+  const viz=document.getElementById('viz'), tip=document.getElementById('tip');
+  function tipHTML(d){return `<div class="t-yr">${d.year}</div>`+
+    `<div class="t-row"><span style="background:${COL.fri}"></span>Friday<b>${d.fri}</b></div>`+
+    `<div class="t-row"><span style="background:${COL.sat}"></span>Saturday<b>${d.sat}</b></div>`+
+    `<div class="t-row"><span style="background:${COL.sun}"></span>Sunday<b>${d.sun}</b></div>`+
+    `<div class="t-row t-tot">Total<b>${d.total}</b></div>`;}
+  viz.addEventListener('pointermove',ev=>{
+    const t=ev.target;
+    if(t.classList&&t.classList.contains('hot')){
+      const d=DATA[+t.dataset.i], g=document.getElementById('guide');
+      g.setAttribute('x1',xs(d.year)); g.setAttribute('x2',xs(d.year)); g.setAttribute('opacity','1');
+      tip.innerHTML=tipHTML(d); tip.style.opacity='1';
+      const r=figure.getBoundingClientRect();
+      let lx=ev.clientX-r.left+16; const ly=ev.clientY-r.top+14;
+      if(lx>r.width-152) lx=ev.clientX-r.left-150;
+      tip.style.left=lx+'px'; tip.style.top=ly+'px';
+    }
+  });
+  viz.addEventListener('pointerleave',()=>{ tip.style.opacity='0'; const g=document.getElementById('guide'); if(g) g.setAttribute('opacity','0'); });
+
+  const stepObs=new IntersectionObserver((ents)=>{
+    ents.forEach(e=>{ if(e.isIntersecting) setStep(e.target.dataset.step); });
+  },{rootMargin:'-48% 0px -48% 0px',threshold:0});
+  document.querySelectorAll('.scrolly .step').forEach(s=>stepObs.observe(s));
+
+  /* reveal-on-enter for editorial blocks */
+  const revObs=new IntersectionObserver((ents)=>{
+    ents.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); revObs.unobserve(e.target);} });
+  },{threshold:.25});
+  document.querySelectorAll('.reveal').forEach(el=>revObs.observe(el));
+
+  /* ---------------- scroll journey: bg, sun, progress ---------------- */
+  const BG_TOP=[{t:0,c:'#F5E9D2'},{t:.42,c:'#F2DBAE'},{t:.58,c:'#DD8E5A'},{t:.72,c:'#834059'},{t:.86,c:'#3C2340'},{t:1,c:'#161020'}];
+  const BG_BOT=[{t:0,c:'#ECD9B6'},{t:.42,c:'#E9C68E'},{t:.58,c:'#B5503E'},{t:.72,c:'#552842'},{t:.86,c:'#281B30'},{t:1,c:'#0E0A17'}];
+  const INK   =[{t:0,c:'#2B1C2F'},{t:.56,c:'#2B1C2F'},{t:.66,c:'#F4E7D0'},{t:1,c:'#F8ECD9'}];
+  const MUTED =[{t:0,c:'#7A5A60'},{t:.56,c:'#6E4A4E'},{t:.68,c:'#D9B7AE'},{t:1,c:'#C2A6AE'}];
+  function hx(h){h=h.replace('#','');return [parseInt(h.substr(0,2),16),parseInt(h.substr(2,2),16),parseInt(h.substr(4,2),16)];}
+  function toHex(a){return '#'+a.map(v=>Math.max(0,Math.min(255,Math.round(v))).toString(16).padStart(2,'0')).join('');}
+  function ms(st,t){t=Math.max(0,Math.min(1,t));for(let i=0;i<st.length-1;i++){if(t>=st[i].t&&t<=st[i+1].t){const lt=(t-st[i].t)/(st[i+1].t-st[i].t||1);const a=hx(st[i].c),b=hx(st[i+1].c);return toHex([a[0]+(b[0]-a[0])*lt,a[1]+(b[1]-a[1])*lt,a[2]+(b[2]-a[2])*lt]);}}return st[st.length-1].c;}
+
+  const root=document.documentElement, sun=document.getElementById('sun'), bar=document.getElementById('bar');
+
+  /* scroll-driven stream→line crossfade: lines rise from beneath as the streams thin out */
+  const gStreamEl=document.getElementById('gStream'), gCrossEl=document.getElementById('gCross'),
+        step3El=document.querySelector('.scrolly .step[data-step="3"]');
+  function morph(){
+    if(!gStreamEl||!gCrossEl||!step3El) return;
+    const r=step3El.getBoundingClientRect(), vh=innerHeight||1;
+    const startY=vh*0.85, endY=vh*0.30;            // lines rise as step-3 approaches center; finish before it releases
+    let t=(startY-r.top)/(startY-endY); t=Math.max(0,Math.min(1,t));
+    // lines slide UP from below the streamgraph into place (ease-out)
+    const rise=Math.pow(1-t,3)*160;
+    gCrossEl.setAttribute('transform','translate(0,'+rise.toFixed(1)+')');
+    gCrossEl.style.opacity=Math.min(1,t*1.6).toFixed(3);
+    // streams hold while the lines arrive, then clear out behind them
+    gStreamEl.style.opacity=(t<0.5?1:Math.max(0,1-(t-0.5)/0.5)).toFixed(3);
+  }
+
+  let ticking=false;
+  function paint(){
+    morph();
+    const max=root.scrollHeight-innerHeight; const p=max>0?Math.min(1,Math.max(0,scrollY/max)):0;
+    root.style.setProperty('--bg-top',ms(BG_TOP,p));
+    root.style.setProperty('--bg-bot',ms(BG_BOT,p));
+    root.style.setProperty('--ink',ms(INK,p));
+    root.style.setProperty('--muted',ms(MUTED,p));
+    bar.style.width=(p*100).toFixed(2)+'%';
+    sun.style.top=(-18+Math.pow(p,1.7)*150)+'vh';
+    sun.style.opacity=(p<0.72?1:Math.max(0,1-(p-0.72)/0.26)).toFixed(3);
+    ticking=false;
+  }
+  addEventListener('scroll',()=>{ if(!ticking){ticking=true; requestAnimationFrame(paint);} },{passive:true});
+  addEventListener('resize',paint);
+  paint();
+})();
+</script>
+</body>
+</html>

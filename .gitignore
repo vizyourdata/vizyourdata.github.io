@@ -1,0 +1,11 @@
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+desktop.ini
+@eaDir/
+*.swp
+.vscode/
+
+# local preview / scratch
+_smoketest.js
+*.log

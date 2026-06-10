@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Viz · vizyourdata</title>
+<meta name="description" content="A Tableau Public visualization, framed for vizyourdata.">
+<link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Mono:wght@400;500&family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/site.css">
+<!-- Tableau Embedding API v3 -->
+<script type="module" src="https://embedding.tableauusercontent.com/tableau.embedding.3.latest.min.js"></script>
+<style>
+  html, body { height:100% }
+  body { display:flex; flex-direction:column; overflow:hidden }
+  .grain { z-index:1 }
+
+  .viewer-bar{
+    position:relative; z-index:3; flex:0 0 auto;
+    border-bottom:1px solid var(--line);
+    backdrop-filter:blur(6px);
+  }
+  .viewer-bar .wrap{ display:flex; align-items:center; gap:1.2rem; padding:.85rem 0; }
+  .back{
+    display:inline-flex; align-items:center; gap:.6em; text-decoration:none; color:var(--ink);
+    font-family:"DM Mono",monospace; font-size:.72rem; letter-spacing:.12em; text-transform:uppercase;
+    padding:.45em .8em; border:1px solid var(--line); border-radius:100px;
+    transition:border-color .25s var(--ease), padding-left .25s var(--ease), color .25s var(--ease);
+  }
+  .back .ar{ color:var(--accent); transition:transform .3s var(--ease) }
+  .back:hover{ border-color:rgba(33,28,22,.28) }
+  .back:hover .ar{ transform:translateX(-3px) }
+
+  .title-block{ display:flex; flex-direction:column; gap:.15rem; min-width:0 }
+  .title-block .t{ font-family:"Fraunces",serif; font-size:1.18rem; letter-spacing:-.01em; line-height:1.1;
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis }
+  .title-block .m{ font-family:"DM Mono",monospace; font-size:.66rem; letter-spacing:.16em; text-transform:uppercase; color:var(--muted);
+    display:inline-flex; align-items:center; gap:.5em }
+  .title-block .m i{ width:6px; height:6px; border-radius:50%; background:var(--accent, #C24E2C) }
+
+  .bar-right{ margin-left:auto; display:flex; align-items:center; gap:1.1rem }
+  .open-tp{
+    display:inline-flex; align-items:center; gap:.5em; text-decoration:none;
+    font-family:"DM Mono",monospace; font-size:.72rem; letter-spacing:.1em; text-transform:uppercase; color:var(--ink);
+    transition:color .25s var(--ease);
+  }
+  .open-tp:hover{ color:var(--accent) }
+  @media (max-width:620px){ .open-tp .lbl{ display:none } }
+
+  .stage{ position:relative; z-index:2; flex:1 1 auto; padding:clamp(1rem,3vw,2.2rem); min-height:0 }
+  .frame{
+    position:relative; height:100%; width:100%; border-radius:8px; overflow:hidden;
+    background:#fff; border:1px solid var(--line);
+    box-shadow:0 30px 60px -34px rgba(33,28,22,.5);
+  }
+  tableau-viz{ display:block; width:100%; height:100% }
+
+  .msg{
+    position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap:1rem; text-align:center; padding:2rem; color:var(--ink-soft);
+    background:linear-gradient(160deg,#F7F1E6,#EBE0CC);
+  }
+  .msg h3{ font-family:"Fraunces",serif; font-size:1.5rem }
+  .msg p{ max-width:42ch; font-size:1rem }
+  .msg .mono{ font-family:"DM Mono",monospace; font-size:.78rem; color:var(--muted) }
+  .msg a{ color:var(--accent) }
+  .hidden{ display:none !important }
+</style>
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+
+<header class="viewer-bar">
+  <div class="wrap">
+    <a class="back" href="/"><span class="ar">←</span> Gallery</a>
+    <div class="title-block">
+      <span class="t" id="vtitle">Loading…</span>
+      <span class="m"><i></i><span id="vmeta">Tableau Public</span></span>
+    </div>
+    <div class="bar-right">
+      <a class="open-tp" id="openTp" href="#" target="_blank" rel="noopener"><span class="lbl">Open in Tableau&nbsp;Public</span> ↗</a>
+    </div>
+  </div>
+</header>
+
+<main class="stage">
+  <div class="frame">
+    <tableau-viz id="tviz" toolbar="bottom" hide-tabs class="hidden"></tableau-viz>
+    <div class="msg" id="msg">
+      <h3>Choose a viz</h3>
+      <p>This viewer frames a published Tableau viz. Open it from the <a href="/">gallery</a>, or pass one directly.</p>
+      <p class="mono">/embed/?v=&lt;slug&gt; &nbsp;·&nbsp; /embed/?src=&lt;tableau-public-url&gt;</p>
+    </div>
+  </div>
+</main>
+
+<script src="../assets/js/vizzes.js"></script>
+<script>
+(function(){
+  "use strict";
+  var q = new URLSearchParams(location.search);
+  var slug = q.get("v"), src = q.get("src");
+  var viz = null;
+
+  if (slug) {
+    viz = (window.VIZZES || []).filter(function(v){ return v.slug === slug; })[0] || null;
+  }
+  var url   = (viz && viz.tableauUrl) || src || "";
+  var title = (viz && viz.title) || (q.get("t")) || "Tableau visualization";
+  var accent= (viz && viz.accent) || q.get("c") || "#C24E2C";
+  var sub   = (viz && (viz.type || (viz.tags||[]).join(" · "))) || "Tableau Public";
+
+  document.documentElement.style.setProperty("--accent", accent);
+  document.getElementById("vtitle").textContent = title;
+  document.getElementById("vmeta").textContent  = sub;
+  document.title = title + " · vizyourdata";
+
+  var tviz = document.getElementById("tviz");
+  var msg  = document.getElementById("msg");
+  var openTp = document.getElementById("openTp");
+
+  if (url) {
+    openTp.href = url;
+    tviz.src = url;
+    tviz.classList.remove("hidden");
+    msg.classList.add("hidden");
+    tviz.addEventListener("vizloaderror", function(e){
+      msg.classList.remove("hidden"); tviz.classList.add("hidden");
+      msg.innerHTML = '<h3>Couldn’t load that viz</h3><p>The Tableau URL may be private or mistyped.</p><p class="mono">'+ url +'</p><p><a href="/">← Back to gallery</a></p>';
+      console.warn(e);
+    });
+  } else {
+    openTp.style.display = "none";
+  }
+})();
+</script>
+</body>
+</html>

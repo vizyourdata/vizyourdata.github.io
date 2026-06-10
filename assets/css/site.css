@@ -1,0 +1,257 @@
+/* ============================================================
+   vizyourdata portfolio shell
+   "The Plate Room": a warm editorial gallery wall.
+   Fraunces (display/body) · DM Mono (labels) · Anton (numerals)
+   ============================================================ */
+
+:root{
+  /* paper & ink */
+  --paper:    #F1E9DA;
+  --paper-2:  #E8DEC9;
+  --card:     #F7F1E6;
+  --ink:      #211C16;
+  --ink-soft: #4B4339;
+  --muted:    #8B8270;
+  --line:     rgba(33,28,22,.14);
+  --line-2:   rgba(33,28,22,.08);
+
+  /* signature accent (the shell). cards override --c with their own. */
+  --accent:   #C24E2C;
+  --c:        var(--accent);
+
+  --maxw: 1240px;
+  --gutter: clamp(1.4rem, 6vw, 6rem);
+  --ease: cubic-bezier(.2,.7,.2,1);
+}
+
+*{ box-sizing:border-box }
+html{ scroll-behavior:smooth }
+body{
+  margin:0;
+  color:var(--ink);
+  background:var(--paper);
+  font-family:"Fraunces", Georgia, serif;
+  font-optical-sizing:auto;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+  overflow-x:hidden;
+  line-height:1.55;
+}
+
+/* ---- atmosphere: paper grain + a faint warm wash ---- */
+body::before{
+  content:""; position:fixed; inset:0; z-index:0; pointer-events:none;
+  background:
+    radial-gradient(120% 80% at 82% -10%, rgba(194,78,44,.07), transparent 55%),
+    radial-gradient(110% 90% at -10% 110%, rgba(33,28,22,.05), transparent 60%);
+}
+.grain{
+  position:fixed; inset:0; z-index:1; pointer-events:none; opacity:.05; mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+::selection{ background:var(--accent); color:#FBF4E7 }
+
+/* ---- type primitives ---- */
+h1,h2,h3{ font-weight:400; margin:0; letter-spacing:-.018em }
+a{ color:inherit }
+em{ font-style:italic }
+.serif{ font-family:"Fraunces", Georgia, serif }
+.mono{ font-family:"DM Mono", ui-monospace, monospace }
+
+.kicker{
+  font-family:"DM Mono", monospace; font-size:.7rem; letter-spacing:.32em; text-transform:uppercase;
+  color:var(--muted); display:inline-flex; align-items:center; gap:.85em;
+}
+.kicker::before{ content:""; width:2.2em; height:1px; background:currentColor; opacity:.55 }
+
+.wrap{ width:min(100% - 2*var(--gutter), var(--maxw)); margin-inline:auto }
+
+/* ============================================================
+   MASTHEAD
+   ============================================================ */
+.mast{
+  position:relative; z-index:2;
+  border-bottom:1px solid var(--line);
+}
+.mast .wrap{
+  display:flex; align-items:baseline; justify-content:space-between; gap:1.5rem;
+  padding:1.4rem 0 1.15rem;
+}
+.brand{
+  display:inline-flex; align-items:baseline; gap:.05em; text-decoration:none;
+  font-family:"Fraunces", serif; font-weight:600; font-size:1.32rem; letter-spacing:-.025em;
+  line-height:1;
+}
+.brand .viz{ color:var(--ink) }
+.brand .your{ color:var(--accent); font-style:italic }
+.brand .data{ color:var(--ink) }
+.brand .dot{
+  width:.34em; height:.34em; border-radius:50%; background:var(--accent);
+  align-self:center; margin-left:.28em; transform:translateY(.02em);
+}
+.mast nav{ display:flex; gap:1.7rem; align-items:baseline }
+.mast nav a{
+  font-family:"DM Mono", monospace; font-size:.72rem; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-soft); text-decoration:none; position:relative; padding-bottom:.15em;
+  transition:color .25s var(--ease);
+}
+.mast nav a::after{
+  content:""; position:absolute; left:0; right:100%; bottom:0; height:1px; background:var(--accent);
+  transition:right .3s var(--ease);
+}
+.mast nav a:hover{ color:var(--ink) }
+.mast nav a:hover::after{ right:0 }
+@media (max-width:680px){ .mast nav a.hide-sm{ display:none } }
+
+/* ============================================================
+   HERO / STATEMENT
+   ============================================================ */
+.hero{ position:relative; z-index:2; padding:clamp(3.4rem,9vw,7rem) 0 clamp(2.2rem,5vw,3.4rem) }
+.hero .edition{
+  display:flex; align-items:center; gap:1.1rem; flex-wrap:wrap;
+  font-family:"DM Mono", monospace; font-size:.72rem; letter-spacing:.18em; text-transform:uppercase;
+  color:var(--muted); margin-bottom:1.8rem;
+}
+.hero .edition .rule{ flex:1; height:1px; background:var(--line); min-width:2rem }
+.hero h1{
+  font-family:"Fraunces", serif;
+  font-size:clamp(2.7rem, 7.4vw, 6.1rem);
+  line-height:.99; letter-spacing:-.03em; max-width:16ch;
+}
+.hero h1 em{ font-style:italic; color:var(--accent) }
+.hero .lede{
+  margin-top:1.6rem; max-width:50ch;
+  font-size:clamp(1.08rem, 1.7vw, 1.4rem); line-height:1.6; color:var(--ink-soft);
+}
+.hero .lede b{ font-weight:600; color:var(--ink) }
+.hero .meta-row{
+  margin-top:2.4rem; display:flex; gap:2.4rem; flex-wrap:wrap; align-items:baseline;
+}
+.hero .stat .n{ font-family:"Anton", sans-serif; font-weight:400; font-size:1.9rem; line-height:1; letter-spacing:.01em }
+.hero .stat .l{ display:block; font-family:"DM Mono",monospace; font-size:.68rem; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--muted); margin-top:.5rem }
+
+/* ============================================================
+   GALLERY
+   ============================================================ */
+.gallery{ position:relative; z-index:2; padding-bottom:clamp(3rem,7vw,6rem) }
+.section-head{
+  display:flex; align-items:baseline; justify-content:space-between; gap:1rem;
+  padding:1.1rem 0; border-top:1px solid var(--ink); margin-bottom:2.4rem;
+}
+.section-head h2{ font-family:"Fraunces",serif; font-size:1.15rem; font-weight:600; letter-spacing:-.01em }
+.section-head .count{ font-family:"DM Mono",monospace; font-size:.72rem; letter-spacing:.16em;
+  text-transform:uppercase; color:var(--muted) }
+
+.grid{
+  display:grid; grid-template-columns:repeat(12, 1fr); gap:clamp(1.4rem, 3vw, 2.6rem);
+}
+
+/* ---- the plate (card) ---- */
+.plate{
+  --c: var(--accent);
+  grid-column:span 6; position:relative; display:flex; flex-direction:column;
+  text-decoration:none; color:inherit;
+  opacity:0; transform:translateY(26px);
+  transition:opacity .8s var(--ease), transform .8s var(--ease);
+}
+.plate.in{ opacity:1; transform:none }
+.plate.feature{ grid-column:span 12 }
+
+.plate .frame{
+  position:relative; overflow:hidden; border-radius:4px;
+  background:var(--card);
+  border:1px solid var(--line);
+  box-shadow:0 1px 0 rgba(255,255,255,.5) inset, 0 18px 40px -28px rgba(33,28,22,.5);
+  transition:transform .5s var(--ease), box-shadow .5s var(--ease), border-color .5s var(--ease);
+}
+.plate .art{ position:relative; aspect-ratio:16/10; width:100%; overflow:hidden; background:var(--paper-2) }
+.plate.feature .art{ aspect-ratio:21/8 }
+.plate .art > svg, .plate .art > img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block }
+.plate .art .wash{ position:absolute; inset:0; background:linear-gradient(180deg, transparent 55%, rgba(33,28,22,.18)); opacity:0; transition:opacity .5s var(--ease) }
+
+/* corner badge: type of viz */
+.plate .badge{
+  position:absolute; top:.9rem; left:.9rem; z-index:3;
+  font-family:"DM Mono",monospace; font-size:.6rem; letter-spacing:.16em; text-transform:uppercase;
+  color:var(--ink); background:rgba(247,241,230,.82); backdrop-filter:blur(4px);
+  padding:.4em .7em; border-radius:100px; border:1px solid var(--line);
+  display:inline-flex; align-items:center; gap:.5em;
+}
+.plate .badge i{ width:6px; height:6px; border-radius:50%; background:var(--c) }
+
+/* index numeral */
+.plate .idx{
+  position:absolute; top:.7rem; right:1rem; z-index:3;
+  font-family:"Anton",sans-serif; font-size:1.5rem; letter-spacing:.02em;
+  color:var(--c); opacity:.85; mix-blend-mode:multiply;
+}
+
+.plate .body{ padding:1.15rem .2rem .2rem; display:flex; flex-direction:column; gap:.55rem }
+.plate.feature .body{ padding:1.4rem .2rem .2rem; max-width:60ch }
+.plate .accent-rule{ height:2px; width:2.4rem; background:var(--c); border-radius:2px; transition:width .5s var(--ease) }
+.plate h3{ font-family:"Fraunces",serif; font-size:1.42rem; line-height:1.1; letter-spacing:-.018em }
+.plate.feature h3{ font-size:clamp(1.8rem, 3vw, 2.6rem) }
+.plate .sub{ color:var(--ink-soft); font-size:1rem; line-height:1.5; max-width:46ch }
+.plate.feature .sub{ font-size:1.12rem }
+.plate .foot{
+  margin-top:.35rem; display:flex; align-items:center; gap:.9rem; flex-wrap:wrap;
+  font-family:"DM Mono",monospace; font-size:.7rem; letter-spacing:.08em; color:var(--muted);
+}
+.plate .foot .tag{ text-transform:uppercase; letter-spacing:.12em }
+.plate .foot .sep{ opacity:.4 }
+.plate .cta{
+  margin-left:auto; display:inline-flex; align-items:center; gap:.5em; color:var(--ink);
+  text-transform:uppercase; letter-spacing:.14em; font-size:.66rem;
+}
+.plate .cta .arrow{ transition:transform .35s var(--ease); color:var(--c) }
+
+/* hover state */
+@media (hover:hover){
+  .plate:hover .frame{ transform:translateY(-6px); box-shadow:0 1px 0 rgba(255,255,255,.6) inset, 0 34px 60px -30px rgba(33,28,22,.55); border-color:rgba(33,28,22,.2) }
+  .plate:hover .art .wash{ opacity:1 }
+  .plate:hover .accent-rule{ width:4.2rem }
+  .plate:hover .cta .arrow{ transform:translateX(4px) }
+  .plate:hover h3{ color:var(--c) }
+}
+.plate h3{ transition:color .35s var(--ease) }
+.plate:focus-visible{ outline:none }
+.plate:focus-visible .frame{ border-color:var(--c); box-shadow:0 0 0 2px var(--c) }
+
+/* responsive grid */
+@media (max-width:880px){
+  .plate{ grid-column:span 12 }
+  .hero .meta-row{ gap:1.6rem }
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.foot-sec{ position:relative; z-index:2; border-top:1px solid var(--ink); margin-top:clamp(2rem,6vw,5rem) }
+.foot-sec .wrap{ padding:clamp(2.6rem,6vw,4.4rem) 0 3rem; display:grid; grid-template-columns:1.4fr 1fr; gap:2.4rem }
+.foot-sec .mark{ font-family:"Fraunces",serif; font-size:clamp(1.6rem,4vw,2.6rem); line-height:1.05; letter-spacing:-.02em; max-width:18ch }
+.foot-sec .mark em{ font-style:italic; color:var(--accent) }
+.foot-sec .links{ display:flex; flex-direction:column; gap:.2rem; align-self:end }
+.foot-sec .links a{
+  display:flex; align-items:center; justify-content:space-between; gap:1rem;
+  font-family:"DM Mono",monospace; font-size:.8rem; letter-spacing:.04em; color:var(--ink);
+  text-decoration:none; padding:.7rem 0; border-bottom:1px solid var(--line);
+  transition:color .25s var(--ease), padding-left .25s var(--ease);
+}
+.foot-sec .links a .ar{ color:var(--muted); transition:transform .3s var(--ease), color .3s var(--ease) }
+.foot-sec .links a:hover{ color:var(--accent); padding-left:.4rem }
+.foot-sec .links a:hover .ar{ transform:translateX(3px); color:var(--accent) }
+.foot-sec .colophon{
+  grid-column:1 / -1; margin-top:1.4rem; padding-top:1.4rem; border-top:1px solid var(--line-2);
+  display:flex; justify-content:space-between; gap:1rem; flex-wrap:wrap;
+  font-family:"DM Mono",monospace; font-size:.7rem; letter-spacing:.08em; color:var(--muted);
+}
+@media (max-width:680px){ .foot-sec .wrap{ grid-template-columns:1fr } }
+
+/* ============================================================
+   reduced motion
+   ============================================================ */
+@media (prefers-reduced-motion:reduce){
+  *{ animation:none!important; transition:none!important; scroll-behavior:auto!important }
+  .plate{ opacity:1; transform:none }
+}

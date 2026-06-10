@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#F1E9DA"/><stop offset="1" stop-color="#E8DEC9"/>
+    </linearGradient>
+    <radialGradient id="sun" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#FFF4DD" stop-opacity=".9"/>
+      <stop offset="55%" stop-color="#F2B27A" stop-opacity=".3"/>
+      <stop offset="100%" stop-color="#F2B27A" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <circle cx="1010" cy="120" r="240" fill="url(#sun)"/>
+  <!-- streamgraph motif -->
+  <g opacity=".9" stroke="rgba(40,22,30,.18)" stroke-width="1.5">
+    <path d="M120,470 C320,440 520,455 1080,500 L1080,560 C520,520 320,505 120,520 Z" fill="#F0AE2A"/>
+    <path d="M120,430 C320,408 520,420 1080,455 L1080,500 C520,455 320,440 120,470 Z" fill="#EE6A2E"/>
+    <path d="M120,398 C320,384 520,392 1080,418 L1080,455 C520,420 320,408 120,430 Z" fill="#CE4283"/>
+  </g>
+  <text x="120" y="150" font-family="Georgia, 'Times New Roman', serif" font-size="30" letter-spacing="8" fill="#8B8270">SELECTED WORKS · ERIC SUMMERS</text>
+  <text x="116" y="300" font-family="Georgia, 'Times New Roman', serif" font-weight="700" font-size="132" letter-spacing="-4" fill="#211C16">Data, told</text>
+  <text x="116" y="420" font-family="Georgia, 'Times New Roman', serif" font-weight="700" font-size="132" letter-spacing="-4" fill="#211C16">as <tspan font-style="italic" fill="#C24E2C">stories.</tspan></text>
+  <g font-family="'DM Mono', monospace, Courier" font-size="26" letter-spacing="4" fill="#211C16">
+    <text x="120" y="595">vizyourdata</text>
+    <text x="1080" y="595" text-anchor="end" fill="#8B8270">ericsummers.io</text>
+  </g>
+</svg>
