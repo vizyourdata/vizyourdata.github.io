@@ -92,6 +92,15 @@ strong{font-weight:600}
 .totem .t-price small{font-size:.85rem; font-family:"DM Mono",monospace; letter-spacing:.06em; margin-left:.2em; color:var(--muted)}
 .totem .pet .t-fuel{color:var(--pet)} .totem .pet .t-price{color:var(--pet); text-shadow:0 0 22px rgba(62,207,110,.5)}
 .totem .dsl .t-fuel{color:var(--dsl)} .totem .dsl .t-price{color:var(--dsl); text-shadow:0 0 22px rgba(255,181,46,.55); animation:flick 7s 2.2s infinite}
+/* pump base: finishes the price board off as a forecourt pump */
+.t-base{position:absolute; top:100%; left:7%; right:7%; height:38px;
+  background:linear-gradient(180deg, rgba(13,19,31,.92), rgba(8,12,20,.96));
+  border:1px solid var(--line); border-top:none; border-radius:0 0 12px 12px;
+  box-shadow:0 18px 40px rgba(0,0,0,.45)}
+.t-base::before{content:""; position:absolute; left:16%; right:16%; top:13px; height:7px;
+  border-radius:4px; background:rgba(233,237,243,.08)}
+.t-base::after{content:""; position:absolute; top:100%; left:-5%; right:-5%; height:11px;
+  background:#0A0F18; border:1px solid var(--line); border-radius:4px}
 /* odometer reels: old click-up pump counters */
 .od{display:inline-block; height:1em; line-height:1; overflow:hidden; width:.6em; text-align:center; vertical-align:baseline}
 .od-strip{display:block; will-change:transform}
@@ -345,6 +354,7 @@ footer .sign{font-family:"DM Mono",monospace; font-size:.72rem; letter-spacing:.
         <g class="coin c3"><circle r="8" fill="#FFD46B" stroke="#A87E1C" stroke-width="2"/><text y="4" text-anchor="middle" font-family="DM Mono,monospace" font-size="11" font-weight="500" fill="#6B4E0B">£</text></g>
         <g class="note"><rect x="-13" y="-8" width="26" height="16" rx="2.5" fill="#2E7D4F" stroke="#9FD9B4" stroke-width="1.5"/><text y="4" text-anchor="middle" font-family="DM Mono,monospace" font-size="10" fill="#CFF3DC">£</text></g>
       </svg>
+      <div class="t-base" aria-hidden="true"></div>
     </div>
   </div>
   <div class="road" aria-hidden="true"></div>
