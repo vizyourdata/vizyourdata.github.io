@@ -1,0 +1,591 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Diesel Premium – How Britain's Two Pumps Came Apart</title>
+<meta name="description" content="A scrollytelling data story: UK petrol and diesel moved as one for twenty years – then in spring 2026 the gap between them hit a record 34p a litre.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="canonical" href="https://ericsummers.io/the-diesel-premium/">
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="article">
+<meta property="og:title" content="The Diesel Premium: How Britain's Two Pumps Came Apart">
+<meta property="og:description" content="UK petrol and diesel moved as one for twenty years. In spring 2026 the gap hit a record 34p a litre. This is the story of the gap.">
+<meta property="og:url" content="https://ericsummers.io/the-diesel-premium/">
+<meta property="og:image" content="https://ericsummers.io/assets/img/og.svg">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+/* portfolio: back-to-gallery home link */
+.vyd-home{position:fixed; z-index:90; top:1.15rem; left:1.3rem; text-decoration:none;
+  font-family:"DM Mono",monospace; font-size:.72rem; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--muted); padding:.5em .85em; border:1px solid var(--line); border-radius:100px;
+  background:rgba(10,15,24,.5); backdrop-filter:blur(5px);
+  transition:color .25s, border-color .25s, background .25s, transform .25s;}
+.vyd-home:hover{color:var(--dsl); border-color:var(--dsl); transform:translateX(-2px)}
+@media (max-width:680px){.vyd-home{top:.7rem; left:.7rem; font-size:.64rem; padding:.45em .7em}}
+:root{
+  --bg-top:#0E1422; --bg-bot:#161E2E; --ink:#E9EDF3; --muted:#8C99AB;
+  --pet:#3ECF6E; --dsl:#FFB52E; --gap:#FF5D49;
+  --line:rgba(233,237,243,.14);
+  --maxw:1280px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; color:var(--ink);
+  font-family:"Fraunces",Georgia,serif;
+  background:linear-gradient(170deg,var(--bg-top),var(--bg-bot));
+  background-attachment:fixed;
+  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+  overflow-x:hidden;
+}
+/* ---- atmosphere: night under the canopy ---- */
+.grain{position:fixed; inset:0; z-index:60; pointer-events:none; opacity:.07; mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+.canopy{position:fixed; z-index:0; left:50%; top:-34vh; width:130vmax; height:60vh; transform:translateX(-50%);
+  pointer-events:none; will-change:opacity; filter:blur(18px);
+  background:radial-gradient(ellipse 52% 90% at 50% 0%, rgba(255,181,46,.20) 0%, rgba(255,181,46,.07) 45%, transparent 72%);}
+.dawn{position:fixed; z-index:0; left:0; right:0; bottom:0; height:34vh; pointer-events:none; opacity:0; will-change:opacity;
+  background:linear-gradient(0deg, rgba(255,150,60,.16) 0%, rgba(255,150,60,.05) 45%, transparent 100%);}
+.progress{position:fixed; top:0; left:0; right:0; height:3px; z-index:80; background:transparent}
+.progress span{display:block; height:100%; width:0;
+  background:linear-gradient(90deg,var(--pet),var(--dsl),var(--gap)); box-shadow:0 0 12px rgba(255,120,60,.45)}
+::selection{background:var(--dsl); color:#10131C}
+
+/* ---- shared type ---- */
+.wrap{max-width:var(--maxw); margin:0 auto; padding:0 7vw}
+.kicker{font-family:"DM Mono",monospace; font-size:.72rem; letter-spacing:.34em; text-transform:uppercase;
+  color:var(--muted); display:flex; align-items:center; gap:.9em; margin:0 0 1.1rem}
+.kicker::before{content:""; width:2.4em; height:1px; background:currentColor; opacity:.6}
+h1,h2,h3{font-weight:400; margin:0}
+em{font-style:italic}
+strong{font-weight:600}
+.serif-xl{font-family:"Fraunces",serif; font-optical-sizing:auto; line-height:1.08; letter-spacing:-.015em}
+
+/* ---- hero ---- */
+.hero{position:relative; min-height:100svh; display:flex; flex-direction:column; justify-content:center; overflow:hidden}
+.hero .wrap{position:relative; z-index:2; display:grid; grid-template-columns:1fr auto; gap:4vw; align-items:center}
+.hero .eyebrow{font-family:"DM Mono",monospace; font-size:.8rem; letter-spacing:.4em; text-transform:uppercase; color:var(--muted);
+  opacity:0; animation:rise .9s .15s both}
+.hero h1{font-family:"Anton",sans-serif; text-transform:uppercase; line-height:.88; letter-spacing:.005em;
+  font-size:clamp(3.2rem,10.5vw,10rem); margin:.18em 0 .32em; max-width:11ch}
+.hero h1 .l{display:inline-block; opacity:0; animation:rise 1s both}
+.hero h1 .l:nth-child(1){animation-delay:.22s}
+.hero h1 .l:nth-child(2){animation-delay:.36s}
+.hero h1 .l:nth-child(3){animation-delay:.5s; color:var(--dsl); text-shadow:0 0 34px rgba(255,181,46,.35)}
+.hero .stand{font-size:clamp(1.12rem,2vw,1.56rem); line-height:1.5; max-width:36ch; color:var(--ink);
+  opacity:0; animation:rise 1s .72s both}
+.hero .stand b{font-weight:600}
+/* the price totem */
+.totem{opacity:0; animation:rise 1.1s .9s both; align-self:center; justify-self:end;
+  border:1px solid var(--line); border-radius:14px; padding:1.3rem 1.5rem 1.1rem; min-width:15.5rem;
+  background:linear-gradient(180deg, rgba(13,19,31,.88), rgba(9,13,22,.88));
+  box-shadow:0 26px 60px rgba(0,0,0,.5), 0 0 0 6px rgba(9,13,22,.4), 0 -14px 50px rgba(255,181,46,.07) inset}
+.totem .t-head{font-family:"DM Mono",monospace; font-size:.62rem; letter-spacing:.34em; text-transform:uppercase;
+  color:var(--muted); border-bottom:1px solid var(--line); padding-bottom:.7rem; margin-bottom:.45rem; text-align:center}
+.totem .t-row{display:flex; align-items:baseline; justify-content:space-between; gap:1.6rem; padding:.55rem 0}
+.totem .t-row + .t-row{border-top:1px dashed rgba(233,237,243,.1)}
+.totem .t-fuel{font-family:"DM Mono",monospace; font-size:.7rem; letter-spacing:.2em; text-transform:uppercase}
+.totem .t-price{font-family:"Anton",sans-serif; font-size:2.5rem; line-height:1; letter-spacing:.03em; font-variant-numeric:tabular-nums}
+.totem .t-price small{font-size:.85rem; font-family:"DM Mono",monospace; letter-spacing:.06em; margin-left:.2em; color:var(--muted)}
+.totem .pet .t-fuel{color:var(--pet)} .totem .pet .t-price{color:var(--pet); text-shadow:0 0 22px rgba(62,207,110,.5)}
+.totem .dsl .t-fuel{color:var(--dsl)} .totem .dsl .t-price{color:var(--dsl); text-shadow:0 0 22px rgba(255,181,46,.55); animation:flick 7s 2.2s infinite}
+.totem .t-foot{font-family:"DM Mono",monospace; font-size:.6rem; letter-spacing:.16em; text-transform:uppercase; color:var(--muted);
+  border-top:1px solid var(--line); padding-top:.65rem; margin-top:.35rem; text-align:center}
+.totem .t-foot b{color:var(--gap); font-weight:500}
+@keyframes flick{0%,100%{opacity:1} 91%{opacity:1} 92%{opacity:.45} 93%{opacity:1} 95.5%{opacity:.7} 96%{opacity:1}}
+.road{position:absolute; left:0; right:0; bottom:0; height:13vh; z-index:1; pointer-events:none;
+  background:linear-gradient(180deg, transparent, rgba(0,0,0,.4));}
+.road::after{content:""; position:absolute; left:-10%; right:-10%; bottom:5.2vh; height:3px;
+  background:repeating-linear-gradient(90deg, rgba(233,237,243,.32) 0 56px, transparent 56px 120px);
+  transform:rotate(-.5deg)}
+.scrollcue{position:absolute; left:50%; bottom:2.4rem; transform:translateX(-50%); z-index:3;
+  font-family:"DM Mono",monospace; font-size:.66rem; letter-spacing:.3em; text-transform:uppercase; color:var(--muted);
+  display:flex; flex-direction:column; align-items:center; gap:.7rem; opacity:0; animation:rise 1s 1.25s both}
+.scrollcue .dot{width:1px; height:42px; background:linear-gradient(var(--muted),transparent); animation:pulse 1.9s ease-in-out infinite}
+@keyframes rise{from{opacity:0; transform:translateY(26px)} to{opacity:1; transform:translateY(0)}}
+@keyframes pulse{0%,100%{transform:scaleY(.4); opacity:.3} 50%{transform:scaleY(1); opacity:1}}
+
+/* ---- scrolly: chart sticky LEFT, text scrolls RIGHT ---- */
+.scrolly{position:relative; max-width:1500px; margin:0 auto; padding:0 5vw;
+  display:grid; grid-template-columns:60% 40%; gap:0; align-items:start}
+.scrolly .figure{grid-column:1; position:sticky; top:0; height:100svh;
+  display:flex; flex-direction:column; align-items:center; justify-content:center}
+.scrolly .steps{grid-column:2; padding:16vh 0 40vh 4vw}
+.step{min-height:84vh; display:flex; flex-direction:column; justify-content:center; align-items:flex-start; text-align:left}
+.step .lede{font-size:clamp(1.2rem,1.55vw,1.5rem); line-height:1.55; max-width:40ch}
+.step .lede .big{font-family:"Anton",sans-serif; font-weight:400}
+.step b{font-weight:600}
+.step .micro{font-family:"DM Mono",monospace; font-size:.74rem; letter-spacing:.06em; color:var(--muted); margin-top:1.1rem;
+  border-top:1px solid var(--line); padding-top:.8rem; display:inline-block}
+.step .micro .pet{color:var(--pet)} .step .micro .dsl{color:var(--dsl)} .step .micro .gap{color:var(--gap)}
+
+.figure svg{width:100%; height:auto; max-height:84vh; overflow:visible}
+.scrolly-tail{display:none}
+
+/* big per-step key stat, above the chart */
+.figkey{min-height:2.7em; display:flex; flex-direction:column; align-items:center; justify-content:flex-end;
+  text-align:center; margin-bottom:.5rem; transition:opacity .4s ease, transform .4s ease}
+.figkey .k-big{font-family:"Anton",sans-serif; font-weight:400; line-height:.9; letter-spacing:.012em;
+  font-size:clamp(2rem,3.6vw,3.1rem)}
+.figkey .k-sub{font-family:"DM Mono",monospace; font-size:.72rem; letter-spacing:.22em; text-transform:uppercase;
+  color:var(--muted); margin-top:.55rem}
+
+/* legend */
+.figlegend{display:flex; gap:1.4rem; margin-bottom:1rem; font-family:"DM Mono",monospace;
+  font-size:.74rem; letter-spacing:.12em; text-transform:uppercase; color:var(--muted)}
+.figlegend .lg{display:inline-flex; align-items:center; gap:.5em}
+.figlegend .lg i{width:14px; height:3px; border-radius:2px; display:inline-block}
+.figlegend .lg-pet i{background:var(--pet); box-shadow:0 0 8px rgba(62,207,110,.7)}
+.figlegend .lg-dsl i{background:var(--dsl); box-shadow:0 0 8px rgba(255,181,46,.7)}
+.figlegend .lg-gap i{background:var(--gap); height:9px; opacity:.55; box-shadow:none}
+.tip{position:absolute; z-index:25; pointer-events:none; opacity:0; transition:opacity .14s ease; left:0; top:0;
+  background:rgba(6,9,16,.94); color:#E9EDF3; border:1px solid rgba(233,237,243,.14); border-radius:11px; padding:.65rem .8rem;
+  font-family:"DM Mono",monospace; font-size:.72rem; line-height:1.2; min-width:158px; box-shadow:0 14px 34px rgba(0,0,0,.5); backdrop-filter:blur(5px)}
+.tip .t-yr{font-family:"Anton",sans-serif; font-weight:400; font-size:1.05rem; letter-spacing:.04em; margin-bottom:.45rem; color:#fff}
+.tip .t-row{display:flex; align-items:center; gap:.55em; padding:.13rem 0}
+.tip .t-row span{width:9px; height:9px; border-radius:2px; flex:0 0 auto}
+.tip .t-row b{margin-left:auto; font-weight:500; padding-left:1.4em}
+.tip .t-tot{border-top:1px solid rgba(233,237,243,.16); margin-top:.34rem; padding-top:.4rem; color:#FF8A77}
+.hot{cursor:crosshair}
+
+/* chart morph + step states (CSS-driven) */
+#gLines,#gGap{transition:opacity .14s linear}
+#gGap{opacity:0}
+.anno{opacity:0; transition:opacity .55s ease}
+.figure[data-step="0"] .anno-avg{opacity:1}
+.figure[data-step="1"] .anno-flip{opacity:1}
+.figure[data-step="2"] .anno-rec22{opacity:1}
+.figure[data-step="3"] .anno-rec26{opacity:1}
+.figure[data-step="3"] .anno-war{opacity:1}
+
+/* ---- editorial "why" sections ---- */
+.band-sec{position:relative; padding:16vh 0; z-index:2}
+.band-sec h2{font-family:"Fraunces",serif; font-size:clamp(2rem,4.6vw,3.7rem); line-height:1.02; letter-spacing:-.02em; max-width:19ch}
+.band-sec .body{font-size:clamp(1.15rem,1.65vw,1.4rem); line-height:1.62; max-width:46ch; margin-top:1.6rem; color:var(--ink)}
+.band-sec .body b{font-weight:600}
+.reveal{opacity:0; transform:translateY(34px); transition:opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1; transform:none}
+.chips{display:flex; flex-wrap:wrap; gap:.7rem; margin-top:2.2rem}
+.chip{font-family:"DM Mono",monospace; font-size:.78rem; letter-spacing:.04em; padding:.62rem 1rem;
+  border:1px solid var(--line); border-radius:100px; background:rgba(255,255,255,.04); backdrop-filter:blur(3px)}
+.chip b{font-weight:500; color:var(--dsl)}
+
+.stats{display:grid; grid-template-columns:repeat(3,1fr); gap:clamp(1rem,3vw,3rem); margin-top:3rem}
+.stat .num{font-family:"Anton",sans-serif; font-size:clamp(2.4rem,5.6vw,4.6rem); line-height:.9; letter-spacing:.01em}
+.stat:nth-child(1) .num{color:var(--gap); text-shadow:0 0 30px rgba(255,93,73,.3)}
+.stat:nth-child(2) .num{color:var(--dsl); text-shadow:0 0 30px rgba(255,181,46,.3)}
+.stat:nth-child(3) .num{color:var(--pet); text-shadow:0 0 30px rgba(62,207,110,.3)}
+.stat .lab{font-family:"DM Mono",monospace; font-size:.74rem; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin-top:.8rem; line-height:1.4}
+.gapbar{margin-top:1rem; height:8px; border-radius:6px; background:rgba(255,255,255,.1); position:relative; overflow:hidden}
+.gapbar i{position:absolute; inset:0 28% 0 0; background:linear-gradient(90deg,var(--dsl),var(--gap)); border-radius:6px}
+.gapbar i::after{content:""; position:absolute; right:-2px; top:-4px; bottom:-4px; width:2px; background:#fff; opacity:.6}
+
+/* ---- conclusion ---- */
+.kicker-center{justify-content:center}
+.kicker-center::before{display:none}
+.finale{min-height:96svh; display:flex; align-items:center; text-align:center; position:relative; z-index:2}
+.finale .big{font-family:"Fraunces",serif; font-size:clamp(2.3rem,6.2vw,5.2rem); line-height:1.04; letter-spacing:-.025em; max-width:18ch; margin:1.2rem auto}
+.finale .big em{color:var(--dsl); font-style:italic}
+.finale .sub{font-size:clamp(1.1rem,1.7vw,1.45rem); line-height:1.55; max-width:42ch; margin:0 auto; color:var(--ink)}
+.finale .sub b{font-weight:600}
+
+/* ---- footer ---- */
+footer{position:relative; z-index:2; padding:10vh 0 7vh; border-top:1px solid var(--line); margin-top:8vh}
+footer .ft-title{font-family:"Anton",sans-serif; text-transform:uppercase; font-size:clamp(1.4rem,3vw,2.2rem); letter-spacing:.01em}
+footer .note{font-family:"DM Mono",monospace; font-size:.76rem; letter-spacing:.04em; color:var(--muted); margin-top:1.2rem; line-height:1.7; max-width:62ch}
+footer .src{margin-top:1.8rem; columns:2; column-gap:3rem; max-width:62ch}
+footer .src a{display:block; font-family:"DM Mono",monospace; font-size:.74rem; color:var(--ink); text-decoration:none;
+  padding:.45rem 0; border-bottom:1px solid var(--line); break-inside:avoid; transition:color .2s, padding-left .2s}
+footer .src a:hover{color:var(--dsl); padding-left:.4rem}
+footer .sign{font-family:"DM Mono",monospace; font-size:.72rem; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); margin-top:2.6rem}
+
+/* ---- responsive ---- */
+@media (max-width:860px){
+  .hero .wrap{grid-template-columns:1fr; gap:3rem}
+  .totem{justify-self:start; min-width:0; width:min(100%, 19rem)}
+  .scrolly{grid-template-columns:1fr; padding:0 6vw}
+  .scrolly .figure{grid-column:1; height:52svh; z-index:3; padding-top:1.2rem;
+    background:linear-gradient(180deg,var(--bg-top) 0%, var(--bg-top) 76%, transparent 100%)}
+  .scrolly .steps{grid-column:1; padding:0 0 30vh 0; position:relative; z-index:1}
+  .figure svg{max-height:38svh}
+  .step{min-height:86vh; justify-content:flex-end; align-items:center; text-align:center; padding-bottom:10vh}
+  .step .lede{font-size:clamp(1.1rem,4.6vw,1.4rem); max-width:90vw}
+  .figkey{min-height:2.1em; margin-bottom:.3rem}
+  .figkey .k-big{font-size:1.55rem} .figkey .k-sub{font-size:.62rem; margin-top:.3rem}
+  .figlegend{gap:.9rem; font-size:.64rem; margin-bottom:.5rem}
+  .stats{grid-template-columns:1fr; gap:2.4rem}
+  footer .src{columns:1}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important; transition:none!important; scroll-behavior:auto!important}
+  .reveal{opacity:1; transform:none}
+}
+</style>
+</head>
+<body>
+<a class="vyd-home" href="/" aria-label="vizyourdata, back to the gallery">← vizyourdata</a>
+<div class="grain" aria-hidden="true"></div>
+<div class="canopy" id="canopy" aria-hidden="true"></div>
+<div class="dawn" id="dawn" aria-hidden="true"></div>
+<div class="progress" aria-hidden="true"><span id="bar"></span></div>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <p class="eyebrow">UK pump prices · 2003 → 2026 · a data story</p>
+      <h1><span class="l">The</span> <span class="l">Diesel</span> <span class="l">Premium</span></h1>
+      <p class="stand">For twenty years Britain's two pumps moved as one, a few pence apart. In the spring of 2026 they <b>came apart</b>. This is the story of the gap.</p>
+    </div>
+    <div class="totem" role="img" aria-label="Forecourt price board: unleaded 157.9 pence per litre, diesel 181.8 pence per litre, a gap of 23.8 pence">
+      <div class="t-head">Fuel&nbsp;Prices · 08&nbsp;·&nbsp;06&nbsp;·&nbsp;26</div>
+      <div class="t-row pet"><span class="t-fuel">Unleaded</span><span class="t-price">157.9<small>p</small></span></div>
+      <div class="t-row dsl"><span class="t-fuel">Diesel</span><span class="t-price">181.8<small>p</small></span></div>
+      <div class="t-foot">The gap · <b>+23.8p</b> a litre</div>
+    </div>
+  </div>
+  <div class="road" aria-hidden="true"></div>
+  <div class="scrollcue" aria-hidden="true"><span>Scroll</span><span class="dot"></span></div>
+</header>
+
+<!-- ============ SCROLLY: the data ============ -->
+<section class="scrolly" aria-label="UK weekly petrol and diesel prices, 2003 to 2026, visualized">
+  <figure class="figure" id="figure" data-step="0">
+    <div class="figkey" id="figkey" aria-hidden="true"></div>
+    <div class="figlegend" aria-hidden="true">
+      <span class="lg lg-pet"><i></i>Unleaded</span>
+      <span class="lg lg-dsl"><i></i>Diesel</span>
+      <span class="lg lg-gap"><i></i>The gap</span>
+    </div>
+    <svg id="viz" viewBox="0 0 920 620" role="img" aria-label="Line chart of weekly UK petrol and diesel pump prices from 2003 to 2026, with the gap between them shaded, morphing into a chart of the gap itself."></svg>
+    <div class="tip" id="tip" aria-hidden="true"></div>
+  </figure>
+
+  <div class="steps">
+    <div class="step" data-step="0">
+      <p class="kicker">Two Pumps, One Price</p>
+      <p class="lede">From 2003 through 2021 – <span class="big">969 weeks</span> – the two fuels tracked each other so closely the gap averaged just <b>4.5p a litre</b>. Diesel cost a little more. Drivers grumbled. But the two prices were really one price.</p>
+      <span class="micro">2003 → 2021 · avg gap <span class="dsl">4.49p</span> · 969 weeks</span>
+    </div>
+    <div class="step" data-step="1">
+      <p class="kicker">The Exception</p>
+      <p class="lede">It even flipped. In the cheap-oil slump of <span class="big">2015–16</span>, diesel spent <b>13 scattered weeks cheaper than petrol</b>, bottoming out 2.5p under. Proof the premium was economics, not a law of nature.</p>
+      <span class="micro"><span class="pet">Diesel below petrol</span> · Aug 2015 → Feb 2016 · min −2.53p</span>
+    </div>
+    <div class="step" data-step="2">
+      <p class="kicker">The First Shock</p>
+      <p class="lede">Russia's invasion of Ukraine sent both pumps to all-time records – petrol <b>191.5p</b>, diesel <span class="big">199.2p</span> in July 2022. The gap stretched to 24.5p that November. Then, slowly, it healed.</p>
+      <span class="micro">4 Jul 2022 records · gap <span class="gap">24.45p</span> on 14 Nov 2022</span>
+    </div>
+    <div class="step" data-step="3">
+      <p class="kicker">The Divergence</p>
+      <p class="lede">On <b>28 February 2026</b> war reached Iran – and only one pump really felt it. Petrol climbed 26p. Diesel jumped <span class="big">+50.7p in eight weeks</span>, to within 7p of its all-time record. The gap blew past every number in the book.</p>
+      <span class="micro">16 Feb → 13 Apr 2026 · <span class="pet">petrol +26.5p</span> · <span class="dsl">diesel +50.7p</span></span>
+    </div>
+    <div class="step" data-step="4">
+      <p class="kicker">The Premium, Isolated</p>
+      <p class="lede">Strip the prices away and look at the gap alone: a flat 4.5p hum for two decades, a 24p spike in 2022, then a <span class="big">34p wall</span> in 2026. The premium is no longer noise on the price of oil. It <b>is</b> the story.</p>
+      <span class="micro">Record gap <span class="gap">33.97p</span> · 13 Apr 2026 · prior record 24.45p</span>
+    </div>
+  </div>
+  <div class="scrolly-tail" aria-hidden="true"></div>
+</section>
+
+<!-- ============ WHY 1: not the crude ============ -->
+<section class="band-sec wrap">
+  <div class="reveal">
+    <p class="kicker">It isn't the crude</p>
+    <h2 class="serif-xl">Both pumps drink from the same barrel.<br>Only one of them is <em>short</em>.</h2>
+    <p class="body">Petrol and diesel start as the same oil – what differs is the refining. Britain makes <b>more petrol than it needs</b> and exports the surplus. Diesel it cannot make enough of: self-sufficient as recently as <b>2011</b>, the UK now imports <b>2.5 times</b> what it refines. Petrol's price is set by a surplus at home. Diesel's is set by what a cargo costs at sea.</p>
+    <div class="chips">
+      <span class="chip">Petrol: <b>surplus</b>, exported</span>
+      <span class="chip">Diesel: <b>2.5×</b> imported vs refined</span>
+      <span class="chip">Self-sufficient until <b>2011</b></span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WHY 2: the refineries ============ -->
+<section class="band-sec wrap">
+  <div class="reveal">
+    <p class="kicker">Then the refineries fell</p>
+    <h2 class="serif-xl">Six refineries became four.</h2>
+    <p class="body">In 2025 Britain lost two of its six remaining oil refineries: <b>Petroineos Grangemouth</b> – Scotland's only one – and <b>Prax Lindsey</b> in Lincolnshire. Every barrel they no longer crack is a barrel that now arrives by tanker. The import dependence deepened in the worst possible year to deepen it.</p>
+    <div class="chips">
+      <span class="chip"><b>6 → 4</b> UK refineries</span>
+      <span class="chip"><b>2</b> closures in 2025</span>
+      <span class="chip">Grangemouth · <b>Scotland's last</b></span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WHY 3: the strait ============ -->
+<section class="band-sec wrap">
+  <div class="reveal">
+    <p class="kicker">Then the strait</p>
+    <h2 class="serif-xl">When war reached the Gulf, only one pump flinched.</h2>
+    <p class="body">The strikes on Iran put the <b>Strait of Hormuz</b> – the channel for the Gulf diesel and jet fuel Britain now depends on – at risk. In the first three weeks of March 2026, petrol rose 12p a litre. Diesel rose <b>25p</b>. Same war, same forecourts, double the pain – because only one of the two fuels has to run the strait.</p>
+    <div class="stats">
+      <div class="stat"><div class="num">33.97p</div><div class="lab">record diesel–petrol gap<br>13 April 2026<span class="gapbar"><i></i></span></div></div>
+      <div class="stat"><div class="num">+25p</div><div class="lab">diesel rise in three weeks<br>of March 2026</div></div>
+      <div class="stat"><div class="num">£20.40</div><div class="lab">extra for a 60-litre fill,<br>versus the same fill of petrol</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FINALE ============ -->
+<section class="finale wrap">
+  <div class="reveal" style="margin:0 auto">
+    <p class="kicker kicker-center">The takeaway</p>
+    <h2 class="big">Petrol's price is made in Britain.<br>Diesel's is made <em>at sea</em>.</h2>
+    <p class="sub">A record <b>34p premium</b> wasn't set by the price of oil. It was set by what Britain can no longer refine for itself – and by every mile of water its diesel now has to cross.</p>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="wrap">
+  <div class="ft-title">The Diesel Premium</div>
+  <p class="note">Weekly average UK pump prices, 9 Jun 2003 – 8 Jun 2026 – DESNZ weekly road fuel prices (incl. duty &amp; VAT) · MakeoverMonday 2026, Week 20: UK fuel prices via RAC Fuel Watch. Industry &amp; supply figures from the reporting below.</p>
+  <div class="src">
+    <a href="https://www.data.gov.uk/dataset/21db6396-3daf-4d90-8b3f-054995256018/petrol-and-diesel-prices" target="_blank" rel="noopener">DESNZ – Weekly Road Fuel Prices (data.gov.uk)</a>
+    <a href="https://www.rac.co.uk/drive/advice/fuel-watch/" target="_blank" rel="noopener">RAC Fuel Watch – Live UK Fuel Prices</a>
+    <a href="https://commonslibrary.parliament.uk/research-briefings/sn04712/" target="_blank" rel="noopener">House of Commons Library – Petrol and Diesel Prices</a>
+    <a href="https://www.cnbc.com/2026/04/15/uk-jet-fuel-kerosene-diesel-refineries-import-supply-chain.html" target="_blank" rel="noopener">CNBC – UK Fuel Supply Risk After the Refinery Closures</a>
+    <a href="https://www.oxfordenergy.org/wpcms/wp-content/uploads/2026/04/Comment-Europes-oil-vulnerability.pdf" target="_blank" rel="noopener">Oxford Institute for Energy Studies – Europe's Oil Vulnerability</a>
+    <a href="https://makeovermonday.co.uk/" target="_blank" rel="noopener">MakeoverMonday – 2026 Week 20</a>
+  </div>
+  <div class="sign">Data viz · scrollytelling · built under the canopy</div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  /* ---------------- data: weekly p/litre ×10, day offsets from 2003-06-09 ---------------- */
+  const DAYS=[0,7,14,21,28,35,42,49,56,63,70,78,84,91,98,105,112,119,126,133,140,147,154,161,168,175,182,189,196,203,210,217,224,231,238,245,252,259,266,273,280,287,294,301,308,315,322,330,336,343,350,357,364,371,378,385,392,399,406,413,420,427,434,441,449,455,462,469,476,483,490,497,504,511,518,525,532,539,546,553,560,567,574,581,588,595,602,609,616,623,630,637,644,651,658,665,672,679,686,693,700,707,714,721,728,735,742,749,756,763,770,777,784,791,798,805,812,819,826,833,840,847,854,861,868,875,882,889,896,903,910,917,924,931,938,945,952,959,966,973,980,987,994,1001,1008,1015,1022,1029,1036,1044,1050,1057,1064,1071,1078,1085,1092,1099,1106,1113,1120,1127,1134,1141,1148,1155,1162,1169,1176,1183,1190,1197,1204,1211,1218,1225,1232,1239,1246,1253,1260,1267,1274,1281,1288,1295,1302,1309,1316,1323,1330,1337,1344,1351,1358,1365,1372,1379,1386,1393,1401,1407,1414,1421,1428,1435,1442,1449,1456,1463,1470,1477,1484,1491,1498,1505,1512,1519,1526,1533,1540,1547,1554,1561,1568,1575,1582,1589,1596,1603,1610,1617,1624,1631,1638,1645,1652,1659,1666,1673,1680,1687,1694,1701,1708,1715,1722,1729,1736,1743,1750,1757,1764,1771,1778,1785,1792,1799,1806,1813,1820,1827,1834,1841,1848,1855,1862,1869,1876,1883,1890,1897,1904,1911,1918,1925,1932,1939,1946,1953,1960,1967,1974,1981,1988,1995,2002,2009,2016,2023,2030,2037,2044,2051,2058,2065,2072,2079,2086,2093,2100,2107,2114,2121,2128,2135,2142,2149,2156,2163,2170,2177,2184,2191,2198,2205,2212,2219,2226,2233,2240,2247,2254,2261,2268,2275,2282,2289,2296,2303,2310,2317,2324,2331,2338,2345,2352,2359,2366,2373,2380,2387,2394,2401,2408,2415,2422,2429,2436,2443,2450,2457,2464,2471,2478,2485,2492,2499,2506,2513,2520,2527,2534,2541,2548,2555,2562,2569,2576,2583,2590,2597,2604,2611,2618,2625,2632,2639,2646,2653,2660,2667,2674,2681,2688,2695,2702,2709,2716,2723,2730,2737,2744,2751,2758,2765,2772,2779,2786,2793,2800,2807,2814,2821,2828,2835,2842,2849,2856,2863,2870,2877,2884,2891,2898,2905,2912,2919,2926,2933,2940,2947,2954,2961,2968,2975,2982,2989,2996,3003,3010,3017,3024,3031,3038,3045,3052,3059,3066,3073,3080,3087,3094,3101,3108,3115,3122,3129,3136,3143,3150,3157,3164,3171,3178,3185,3192,3199,3206,3213,3220,3227,3234,3241,3248,3255,3262,3269,3276,3283,3290,3297,3304,3311,3318,3325,3332,3339,3346,3353,3360,3367,3374,3381,3388,3395,3402,3409,3416,3423,3430,3437,3444,3451,3458,3465,3472,3479,3486,3493,3500,3507,3514,3521,3528,3535,3542,3549,3556,3563,3570,3577,3584,3591,3598,3605,3612,3619,3626,3633,3640,3647,3654,3661,3668,3675,3682,3689,3696,3703,3710,3717,3724,3733,3738,3745,3752,3759,3766,3773,3780,3787,3794,3801,3808,3815,3822,3829,3836,3843,3850,3857,3864,3871,3878,3885,3892,3899,3906,3913,3920,3927,3934,3941,3948,3955,3962,3969,3976,3983,3990,3997,4004,4011,4018,4025,4032,4039,4046,4053,4060,4067,4074,4081,4088,4095,4102,4109,4116,4123,4130,4137,4144,4151,4158,4165,4172,4179,4186,4193,4200,4207,4214,4221,4228,4235,4242,4249,4256,4263,4270,4277,4284,4291,4298,4305,4312,4319,4326,4333,4340,4347,4354,4361,4368,4375,4382,4389,4396,4403,4410,4417,4424,4431,4438,4445,4452,4459,4466,4473,4480,4487,4494,4501,4508,4515,4522,4529,4536,4543,4550,4557,4564,4571,4578,4585,4592,4599,4606,4613,4620,4627,4634,4641,4648,4655,4662,4669,4676,4683,4690,4697,4704,4711,4718,4725,4732,4739,4746,4753,4760,4767,4774,4781,4788,4795,4802,4809,4816,4823,4830,4837,4844,4851,4858,4865,4872,4879,4886,4893,4900,4907,4914,4921,4928,4935,4942,4949,4956,4963,4970,4977,4984,4991,4998,5005,5012,5019,5026,5033,5040,5047,5054,5061,5068,5075,5082,5089,5096,5103,5110,5117,5124,5131,5138,5145,5152,5159,5166,5173,5180,5187,5194,5201,5208,5215,5222,5229,5236,5243,5250,5257,5264,5271,5278,5285,5292,5299,5306,5313,5320,5327,5334,5341,5348,5355,5362,5369,5376,5383,5390,5397,5404,5411,5418,5425,5432,5439,5446,5453,5460,5467,5474,5481,5488,5495,5502,5509,5516,5523,5530,5537,5544,5551,5558,5565,5572,5579,5586,5593,5600,5607,5614,5621,5628,5635,5642,5649,5656,5663,5670,5677,5684,5691,5698,5705,5712,5719,5726,5733,5740,5747,5754,5761,5768,5775,5782,5789,5796,5803,5810,5817,5824,5831,5838,5845,5852,5859,5866,5873,5880,5887,5894,5901,5908,5915,5922,5929,5936,5943,5950,5957,5964,5971,5978,5985,5992,5999,6006,6013,6020,6027,6034,6041,6048,6055,6062,6069,6076,6083,6090,6097,6104,6111,6118,6125,6132,6139,6146,6153,6160,6167,6174,6181,6188,6195,6202,6209,6216,6223,6230,6237,6244,6251,6258,6265,6272,6279,6286,6293,6300,6307,6314,6321,6328,6335,6342,6349,6356,6363,6370,6377,6384,6391,6398,6405,6412,6419,6426,6433,6440,6447,6454,6461,6468,6475,6482,6489,6496,6503,6510,6517,6524,6531,6538,6545,6552,6559,6566,6573,6580,6587,6594,6601,6608,6615,6622,6629,6636,6643,6650,6657,6664,6671,6678,6685,6692,6699,6706,6713,6720,6727,6734,6741,6748,6755,6762,6769,6776,6783,6790,6797,6804,6811,6818,6825,6832,6839,6846,6853,6860,6867,6874,6881,6888,6895,6902,6909,6916,6923,6930,6937,6944,6951,6958,6965,6972,6979,6986,6993,7000,7007,7014,7021,7028,7035,7042,7049,7056,7063,7070,7077,7084,7091,7098,7105,7112,7119,7126,7133,7140,7147,7154,7161,7168,7175,7182,7189,7196,7203,7210,7217,7224,7231,7238,7245,7252,7259,7266,7273,7280,7287,7294,7301,7308,7315,7322,7329,7336,7343,7350,7357,7364,7371,7378,7385,7392,7399,7406,7413,7420,7427,7434,7441,7448,7455,7462,7469,7476,7483,7490,7497,7504,7511,7518,7525,7532,7539,7546,7553,7560,7567,7574,7581,7588,7595,7602,7609,7616,7623,7630,7637,7644,7651,7658,7665,7672,7679,7686,7693,7700,7707,7714,7721,7728,7735,7742,7749,7756,7763,7770,7777,7784,7791,7798,7805,7812,7819,7826,7833,7840,7847,7854,7861,7868,7875,7882,7889,7896,7903,7910,7917,7924,7931,7938,7945,7952,7959,7966,7973,7980,7987,7994,8001,8008,8015,8022,8029,8036,8043,8050,8057,8064,8071,8078,8085,8092,8099,8106,8113,8120,8127,8134,8141,8148,8155,8162,8169,8176,8183,8190,8197,8204,8211,8218,8225,8232,8239,8246,8253,8260,8267,8274,8281,8288,8295,8302,8309,8316,8323,8330,8337,8344,8351,8358,8365,8372,8379,8386,8393,8400];
+const PET=[746,745,744,744,743,742,751,751,751,754,758,760,761,762,762,762,761,764,759,760,760,760,759,759,760,760,760,760,759,759,759,759,764,764,765,765,764,764,763,767,774,774,776,779,779,780,784,793,803,815,821,824,824,815,810,804,799,803,808,809,809,812,812,815,815,814,813,813,816,820,831,834,839,843,843,843,815,842,841,827,815,812,812,798,789,789,795,798,800,802,804,812,816,827,834,839,856,856,855,854,854,853,848,842,840,850,855,867,875,877,886,890,892,897,906,908,914,944,951,944,933,935,942,941,935,928,925,905,886,874,874,872,876,879,880,886,890,896,899,897,896,896,895,894,896,902,912,918,928,942,954,961,965,964,961,954,952,955,954,950,953,957,969,978,978,980,978,957,944,929,915,898,882,870,866,859,857,856,855,855,854,855,855,874,877,879,878,877,871,863,857,856,861,866,871,877,885,889,893,905,912,920,929,934,944,951,957,962,965,966,966,965,964,962,962,962,962,962,960,953,950,948,946,946,949,964,971,972,978,983,994,1007,1015,1021,1026,1027,1026,1025,1027,1034,1038,1042,1042,1040,1037,1037,1046,1052,1060,1064,1069,1071,1072,1076,1086,1095,1103,1110,1130,1148,1160,1169,1177,1184,1188,1193,1194,1194,1169,1151,1139,1122,1120,1122,1126,1125,1108,1098,1094,1070,1027,986,974,959,948,928,915,902,891,880,873,854,860,862,874,882,893,901,903,903,902,902,902,914,937,941,946,951,956,966,975,989,994,1006,1020,1028,1033,1036,1028,1022,1022,1024,1030,1040,1047,1051,1068,1064,1060,1054,1049,1047,1051,1068,1074,1081,1085,1087,1088,1086,1085,1075,1074,1093,1107,1116,1119,1119,1120,1119,1116,1124,1137,1155,1166,1173,1193,1199,1206,1210,1212,1213,1213,1199,1185,1182,1179,1178,1179,1179,1174,1168,1166,1165,1164,1163,1156,1150,1146,1147,1151,1154,1160,1168,1173,1177,1182,1187,1188,1190,1192,1205,1217,1223,1234,1248,1274,1279,1284,1286,1286,1287,1289,1297,1313,1322,1331,1324,1328,1337,1351,1356,1363,1370,1364,1361,1356,1356,1359,1360,1349,1334,1342,1350,1357,1361,1365,1360,1346,1343,1346,1350,1354,1356,1350,1345,1345,1347,1347,1344,1337,1334,1332,1328,1325,1325,1324,1324,1327,1333,1337,1341,1342,1349,1352,1362,1373,1379,1390,1395,1410,1420,1422,1418,1410,1401,1383,1358,1344,1341,1337,1320,1316,1305,1311,1315,1322,1328,1334,1343,1357,1371,1380,1389,1394,1395,1384,1382,1384,1383,1370,1364,1351,1346,1344,1330,1326,1320,1320,1319,1319,1320,1322,1330,1344,1356,1369,1385,1395,1400,1376,1371,1373,1373,1371,1357,1347,1334,1331,1332,1336,1340,1343,1345,1345,1334,1338,1350,1360,1369,1370,1371,1370,1368,1371,1376,1375,1370,1334,1316,1317,1315,1314,1299,1297,1299,1300,1302,1308,1310,1300,1300,1303,1304,1294,1290,1288,1288,1292,1292,1294,1294,1288,1286,1288,1287,1289,1291,1291,1293,1295,1294,1295,1296,1297,1299,1301,1307,1311,1311,1310,1308,1296,1294,1293,1283,1280,1283,1284,1286,1286,1268,1265,1254,1251,1239,1229,1225,1223,1212,1198,1163,1137,1132,1111,1089,1068,1063,1060,1064,1073,1083,1092,1101,1110,1116,1121,1124,1125,1129,1136,1143,1151,1157,1160,1161,1163,1164,1166,1166,1163,1164,1168,1164,1161,1155,1146,1132,1112,1109,1106,1106,1095,1089,1090,1090,1080,1072,1071,1074,1073,1070,1068,1040,1023,1021,1020,1019,1018,1014,1014,1015,1014,1014,1014,1015,1017,1026,1034,1045,1054,1064,1071,1078,1082,1085,1091,1098,1104,1110,1112,1114,1116,1119,1119,1117,1110,1098,1093,1096,1104,1110,1113,1113,1114,1116,1124,1137,1152,1160,1166,1165,1147,1137,1137,1142,1150,1154,1170,1180,1186,1194,1200,1202,1202,1202,1201,1200,1198,1190,1180,1169,1170,1175,1182,1181,1171,1156,1157,1158,1158,1157,1151,1144,1137,1136,1139,1140,1142,1148,1155,1160,1164,1170,1181,1188,1189,1181,1172,1170,1170,1171,1176,1189,1197,1201,1198,1199,1200,1200,1202,1205,1210,1215,1217,1217,1216,1205,1196,1193,1191,1192,1192,1194,1200,1206,1214,1222,1233,1243,1259,1276,1284,1286,1279,1272,1265,1270,1275,1275,1275,1280,1284,1288,1292,1298,1302,1306,1306,1300,1302,1308,1310,1306,1301,1289,1274,1258,1243,1224,1210,1206,1202,1203,1195,1191,1193,1191,1190,1190,1192,1197,1201,1205,1208,1217,1227,1241,1254,1264,1275,1280,1285,1291,1294,1289,1277,1267,1265,1269,1271,1278,1280,1284,1284,1282,1282,1279,1278,1269,1268,1269,1269,1269,1264,1258,1256,1256,1256,1253,1248,1248,1243,1242,1250,1261,1272,1272,1273,1258,1247,1238,1234,1224,1222,1203,1196,1124,1102,1093,1086,1079,1076,1074,1051,1049,1052,1057,1064,1071,1083,1094,1112,1122,1127,1129,1130,1130,1132,1133,1134,1133,1133,1133,1133,1132,1132,1131,1131,1125,1124,1124,1126,1132,1138,1144,1149,1154,1161,1169,1181,1191,1197,1205,1213,1222,1229,1239,1246,1251,1252,1254,1255,1258,1261,1265,1272,1279,1282,1287,1295,1301,1307,1317,1325,1332,1335,1342,1347,1347,1347,1347,1348,1348,1349,1352,1361,1372,1395,1418,1437,1449,1459,1469,1475,1469,1462,1452,1449,1450,1448,1448,1449,1457,1463,1470,1478,1492,1530,1600,1654,1626,1619,1618,1617,1618,1625,1637,1651,1676,1704,1750,1825,1868,1909,1916,1906,1889,1866,1828,1776,1742,1711,1701,1689,1676,1655,1640,1627,1621,1628,1646,1659,1656,1644,1633,1611,1592,1560,1541,1519,1509,1500,1488,1482,1482,1483,1480,1479,1476,1471,1470,1466,1462,1457,1458,1459,1458,1457,1453,1446,1436,1429,1429,1427,1430,1434,1434,1429,1428,1430,1441,1462,1478,1494,1507,1517,1531,1541,1554,1560,1559,1551,1546,1540,1532,1524,1505,1480,1457,1438,1415,1403,1408,1397,1395,1394,1399,1406,1413,1429,1440,1447,1447,1447,1451,1462,1469,1485,1492,1495,1495,1492,1488,1476,1473,1462,1451,1444,1443,1444,1446,1447,1442,1434,1429,1420,1410,1400,1381,1365,1353,1342,1336,1339,1340,1344,1344,1346,1348,1354,1359,1362,1364,1364,1365,1366,1365,1370,1384,1387,1390,1392,1396,1396,1394,1380,1356,1349,1352,1348,1343,1338,1332,1323,1321,1320,1314,1314,1314,1323,1330,1332,1340,1341,1342,1343,1344,1343,1339,1339,1337,1338,1342,1344,1348,1348,1347,1344,1344,1346,1351,1361,1366,1367,1368,1362,1353,1349,1334,1326,1320,1316,1315,1316,1317,1321,1357,1403,1442,1488,1546,1582,1576,1570,1568,1568,1574,1588,1587,1580];
+const DSL=[768,767,766,765,765,764,769,769,768,771,774,777,776,777,776,776,775,777,774,775,775,775,775,775,777,777,776,776,776,776,775,775,781,781,781,780,780,779,779,782,788,789,790,792,793,794,798,806,817,828,835,836,836,826,821,810,805,810,817,817,818,821,823,828,829,829,829,830,835,838,850,853,860,864,865,864,852,864,864,860,852,851,851,849,839,839,842,843,843,844,846,856,861,871,877,883,898,898,896,893,895,894,890,884,882,890,895,903,910,919,927,930,933,936,945,947,953,972,979,973,963,966,970,970,968,966,966,949,932,918,918,915,918,921,923,929,932,936,939,938,938,938,937,936,938,944,950,956,964,976,985,989,989,987,985,977,976,978,978,974,976,980,987,994,994,996,994,979,967,959,953,950,935,921,917,916,912,912,911,912,912,912,915,930,933,934,934,931,916,904,897,896,901,906,910,916,922,926,929,939,943,949,954,957,961,965,967,970,972,972,971,971,969,968,968,968,968,967,967,966,964,964,963,964,969,985,991,992,999,1007,1022,1042,1053,1062,1072,1075,1076,1075,1076,1083,1088,1091,1091,1090,1089,1090,1102,1109,1122,1131,1144,1148,1155,1165,1181,1191,1204,1215,1245,1272,1288,1297,1307,1314,1320,1326,1329,1329,1307,1282,1262,1241,1237,1239,1242,1241,1226,1216,1211,1184,1143,1110,1099,1091,1087,1078,1066,1049,1012,999,992,976,983,984,994,998,1003,1009,1008,1006,1000,998,995,1000,1021,1024,1027,1028,1028,1031,1034,1036,1036,1038,1045,1049,1050,1051,1040,1030,1029,1032,1038,1044,1051,1055,1073,1071,1068,1064,1058,1057,1063,1078,1085,1094,1096,1099,1100,1099,1096,1091,1092,1111,1126,1134,1137,1138,1138,1137,1128,1134,1147,1162,1173,1182,1201,1211,1217,1223,1227,1228,1228,1219,1208,1204,1202,1204,1204,1204,1198,1192,1190,1190,1189,1188,1179,1174,1171,1172,1177,1181,1190,1198,1206,1212,1217,1222,1225,1227,1232,1246,1258,1265,1277,1291,1316,1323,1330,1332,1335,1337,1340,1351,1369,1382,1395,1390,1395,1403,1413,1421,1425,1431,1415,1408,1398,1396,1398,1400,1388,1377,1384,1394,1400,1406,1408,1404,1390,1387,1390,1394,1399,1401,1398,1395,1397,1402,1403,1404,1405,1411,1411,1410,1410,1409,1408,1408,1410,1417,1421,1424,1422,1428,1432,1439,1447,1452,1462,1466,1477,1480,1480,1480,1470,1464,1445,1418,1405,1400,1396,1377,1372,1359,1364,1368,1377,1382,1388,1395,1408,1422,1429,1437,1442,1444,1433,1430,1432,1432,1430,1428,1417,1413,1411,1409,1408,1401,1398,1398,1398,1397,1400,1408,1419,1430,1442,1456,1463,1467,1448,1443,1435,1431,1417,1406,1396,1385,1383,1384,1388,1392,1394,1395,1396,1385,1387,1398,1407,1414,1417,1418,1417,1418,1421,1427,1425,1421,1402,1388,1392,1390,1389,1375,1373,1375,1377,1379,1386,1388,1382,1380,1381,1383,1372,1369,1368,1368,1368,1370,1372,1371,1363,1360,1359,1360,1360,1361,1359,1362,1364,1362,1364,1364,1360,1355,1355,1360,1362,1362,1357,1355,1343,1338,1337,1332,1328,1331,1331,1333,1332,1314,1311,1300,1297,1286,1276,1273,1272,1261,1248,1224,1208,1204,1179,1162,1143,1138,1136,1139,1147,1157,1166,1175,1183,1187,1190,1191,1192,1191,1196,1200,1206,1210,1213,1213,1213,1213,1212,1210,1208,1188,1184,1170,1152,1142,1120,1110,1099,1098,1100,1105,1104,1106,1108,1112,1106,1101,1101,1103,1103,1100,1099,1081,1070,1064,1063,1034,1028,1015,1008,1011,1012,1011,1014,1017,1025,1036,1044,1053,1060,1070,1077,1086,1090,1093,1099,1107,1114,1120,1123,1126,1129,1131,1130,1129,1124,1114,1110,1117,1126,1131,1134,1132,1134,1137,1144,1160,1177,1184,1190,1189,1174,1166,1168,1175,1186,1190,1200,1213,1221,1228,1232,1232,1232,1232,1231,1229,1228,1218,1211,1199,1200,1204,1208,1208,1193,1176,1178,1179,1180,1178,1172,1163,1156,1153,1156,1157,1160,1166,1174,1180,1182,1188,1199,1206,1209,1204,1205,1204,1206,1206,1213,1227,1233,1238,1232,1237,1238,1234,1235,1240,1246,1251,1253,1254,1250,1242,1231,1229,1230,1228,1229,1230,1236,1243,1254,1260,1270,1283,1300,1317,1323,1326,1320,1313,1308,1315,1318,1319,1319,1324,1326,1330,1332,1337,1343,1346,1348,1349,1355,1366,1369,1370,1370,1371,1364,1354,1344,1325,1313,1309,1303,1303,1295,1289,1291,1291,1292,1292,1297,1302,1306,1308,1312,1315,1321,1330,1340,1346,1354,1354,1358,1364,1364,1354,1338,1318,1316,1317,1319,1322,1326,1326,1326,1326,1325,1323,1319,1314,1315,1318,1318,1319,1313,1306,1304,1304,1304,1301,1298,1298,1296,1298,1305,1316,1327,1327,1329,1315,1297,1282,1277,1266,1262,1244,1234,1186,1168,1162,1157,1152,1149,1148,1122,1117,1118,1120,1125,1130,1141,1150,1168,1174,1178,1180,1180,1180,1181,1182,1182,1182,1182,1181,1181,1180,1181,1181,1181,1173,1171,1171,1174,1180,1186,1192,1196,1200,1206,1215,1227,1237,1241,1250,1257,1266,1274,1282,1290,1293,1294,1294,1295,1298,1300,1304,1310,1315,1318,1324,1332,1337,1343,1341,1353,1360,1362,1369,1373,1368,1372,1371,1372,1372,1374,1380,1392,1407,1432,1459,1475,1488,1498,1507,1513,1506,1499,1489,1488,1488,1486,1487,1488,1497,1503,1511,1520,1534,1586,1695,1775,1764,1760,1762,1759,1763,1771,1784,1797,1812,1822,1849,1904,1949,1989,1992,1987,1975,1959,1930,1885,1852,1829,1832,1828,1822,1811,1805,1800,1808,1819,1873,1898,1898,1888,1876,1856,1836,1799,1776,1755,1742,1732,1716,1709,1706,1704,1697,1693,1686,1673,1670,1663,1652,1637,1627,1621,1613,1604,1581,1555,1516,1479,1464,1455,1452,1456,1455,1447,1446,1451,1460,1482,1504,1521,1535,1546,1562,1582,1606,1622,1625,1623,1622,1618,1609,1604,1584,1562,1541,1520,1504,1492,1487,1482,1479,1480,1486,1494,1503,1521,1533,1545,1543,1538,1539,1560,1563,1575,1580,1580,1576,1571,1562,1543,1533,1520,1507,1501,1501,1504,1506,1506,1502,1491,1485,1474,1462,1452,1434,1416,1400,1388,1385,1391,1393,1397,1398,1401,1405,1414,1420,1425,1427,1428,1430,1433,1433,1443,1456,1461,1463,1464,1468,1469,1466,1454,1431,1423,1425,1420,1414,1408,1401,1392,1386,1384,1381,1375,1375,1390,1403,1406,1411,1418,1420,1421,1425,1422,1419,1416,1416,1417,1420,1422,1429,1430,1428,1424,1426,1433,1440,1454,1462,1462,1461,1454,1446,1442,1426,1418,1413,1408,1407,1415,1415,1422,1490,1588,1669,1765,1868,1921,1912,1898,1888,1881,1866,1851,1841,1818];
+
+  const EPOCH=Date.UTC(2003,5,9), MS=86400000;
+  const N=DAYS.length, LASTD=DAYS[N-1];
+  const COL={pet:'#3ECF6E',dsl:'#FFB52E',gap:'#FF5D49'};
+  const W=920,H=620,padL=64,padR=96,padT=64,padB=74;
+  const xs=d=>padL+d/LASTD*(W-padL-padR);
+  const dom=[68,206];
+  const ys=v=>padT+(1-(v-dom[0])/(dom[1]-dom[0]))*(H-padT-padB);
+  const P=i=>PET[i]/10, D=i=>DSL[i]/10, G=i=>(DSL[i]-PET[i])/10;
+  function idxOf(iso){const t=(Date.UTC(+iso.slice(0,4),+iso.slice(5,7)-1,+iso.slice(8,10))-EPOCH)/MS;
+    let lo=0,hi=N-1;while(lo<hi){const m=(lo+hi)>>1;if(DAYS[m]<t)lo=m+1;else hi=m;}return lo;}
+  function poly(f){let s='M';for(let i=0;i<N;i++){s+=(i?'L':'')+xs(DAYS[i]).toFixed(1)+','+ys(f(i)).toFixed(1);}return s;}
+
+  /* ---------- price view: two lines + the gap shaded between ---------- */
+  function linesMarkup(){
+    let band='M';
+    for(let i=0;i<N;i++) band+=(i?'L':'')+xs(DAYS[i]).toFixed(1)+','+ys(D(i)).toFixed(1);
+    for(let i=N-1;i>=0;i--) band+='L'+xs(DAYS[i]).toFixed(1)+','+ys(P(i)).toFixed(1);
+    band+='Z';
+    const pp=poly(P), dd=poly(D);
+    const i26=N-1;
+    const labels=`<text x="${(xs(LASTD)+12).toFixed(1)}" y="${(ys(P(i26))+4).toFixed(1)}" fill="${COL.pet}" font-family="DM Mono,monospace" font-size="13" font-weight="500">157.9p</text>
+      <text x="${(xs(LASTD)+12).toFixed(1)}" y="${(ys(D(i26))+4).toFixed(1)}" fill="${COL.dsl}" font-family="DM Mono,monospace" font-size="13" font-weight="500">181.8p</text>`;
+    return `<g id="gLines">
+      <path d="${band}" fill="${COL.gap}" opacity=".17"/>
+      <path d="${pp}" fill="none" stroke="rgba(6,10,18,.7)" stroke-width="5" stroke-linejoin="round"/>
+      <path d="${dd}" fill="none" stroke="rgba(6,10,18,.7)" stroke-width="5" stroke-linejoin="round"/>
+      <path d="${pp}" fill="none" stroke="${COL.pet}" stroke-width="2.3" stroke-linejoin="round"/>
+      <path d="${dd}" fill="none" stroke="${COL.dsl}" stroke-width="2.3" stroke-linejoin="round"/>
+      ${labels}${annoMarkup()}
+    </g>`;
+  }
+
+  /* ---------- per-step annotations (price view) ---------- */
+  function annoMarkup(){
+    /* avg-gap era bracket */
+    const a0=xs(0), a1=xs(idxOf('2021-12-27')*0+DAYS[idxOf('2021-12-27')]), ay=ys(78);
+    const avg=`<g class="anno anno-avg">
+      <line x1="${a0}" y1="${ay}" x2="${a1.toFixed(1)}" y2="${ay}" stroke="#8C99AB" stroke-width="1" stroke-dasharray="2 5"/>
+      <line x1="${a0}" y1="${ay-7}" x2="${a0}" y2="${ay+7}" stroke="#8C99AB" stroke-width="1"/>
+      <line x1="${a1.toFixed(1)}" y1="${ay-7}" x2="${a1.toFixed(1)}" y2="${ay+7}" stroke="#8C99AB" stroke-width="1"/>
+      <text x="${((a0+a1)/2).toFixed(1)}" y="${ay+24}" text-anchor="middle" fill="#8C99AB" font-family="DM Mono,monospace" font-size="11.5" letter-spacing="1.5">AVG GAP 4.5P · 969 WEEKS</text>
+    </g>`;
+    /* 2015 flip */
+    const f=idxOf('2015-08-17'), fx=xs(DAYS[f]), fy=ys((P(f)+D(f))/2);
+    const flip=`<g class="anno anno-flip">
+      <circle cx="${fx.toFixed(1)}" cy="${fy.toFixed(1)}" r="17" fill="none" stroke="${COL.pet}" stroke-width="1.6" stroke-dasharray="3 4"/>
+      <line x1="${fx.toFixed(1)}" y1="${(fy-17).toFixed(1)}" x2="${fx.toFixed(1)}" y2="${(fy-46).toFixed(1)}" stroke="${COL.pet}" stroke-width="1" opacity=".7"/>
+      <text x="${fx.toFixed(1)}" y="${(fy-56).toFixed(1)}" text-anchor="middle" fill="${COL.pet}" font-family="DM Mono,monospace" font-size="11.5" letter-spacing="1">THE FLIP · −2.5P</text>
+    </g>`;
+    /* 2022 record */
+    const r=idxOf('2022-07-04'), rx=xs(DAYS[r]), ry=ys(D(r));
+    const rec22=`<g class="anno anno-rec22">
+      <circle cx="${rx.toFixed(1)}" cy="${ry.toFixed(1)}" r="4.6" fill="${COL.dsl}"/>
+      <text x="${rx.toFixed(1)}" y="${(ry-30).toFixed(1)}" text-anchor="middle" fill="#E9EDF3" font-family="Anton,sans-serif" font-size="26">199.2p</text>
+      <text x="${rx.toFixed(1)}" y="${(ry-12).toFixed(1)}" text-anchor="middle" fill="#8C99AB" font-family="DM Mono,monospace" font-size="10" letter-spacing="1.5">ALL-TIME RECORD · JUL 22</text>
+    </g>`;
+    /* 2026 divergence band + marker */
+    const w0=xs(DAYS[idxOf('2026-02-23')]), g=idxOf('2026-04-13'), gx=xs(DAYS[g]);
+    const war=`<g class="anno anno-war">
+      <rect x="${w0.toFixed(1)}" y="${padT-6}" width="${(gx-w0+8).toFixed(1)}" height="${H-padT-padB+6}" fill="rgba(255,93,73,.08)"/>
+      <line x1="${w0.toFixed(1)}" y1="${padT-6}" x2="${w0.toFixed(1)}" y2="${H-padB}" stroke="rgba(255,93,73,.5)" stroke-width="1" stroke-dasharray="3 4"/>
+      <text x="${(w0-8).toFixed(1)}" y="${padT+12}" text-anchor="end" fill="#FF8A77" font-family="DM Mono,monospace" font-size="10.5" letter-spacing="1.5">28 FEB 26 · WAR</text>
+    </g>`;
+    const rec26=`<g class="anno anno-rec26">
+      <circle cx="${gx.toFixed(1)}" cy="${ys(D(g)).toFixed(1)}" r="4.6" fill="${COL.gap}"/>
+      <line x1="${gx.toFixed(1)}" y1="${ys(D(g)).toFixed(1)}" x2="${gx.toFixed(1)}" y2="${ys(P(g)).toFixed(1)}" stroke="${COL.gap}" stroke-width="2"/>
+      <text x="${(gx+12).toFixed(1)}" y="${(ys(D(g))-10).toFixed(1)}" fill="${COL.gap}" font-family="Anton,sans-serif" font-size="24">gap 34.0p</text>
+    </g>`;
+    return avg+flip+rec22+war+rec26;
+  }
+
+  /* ---------- gap view: the premium isolated ---------- */
+  const gdom=[-6,38];
+  const yg=v=>padT+(1-(v-gdom[0])/(gdom[1]-gdom[0]))*(H-padT-padB);
+  function gapMarkup(){
+    let area='M'+xs(DAYS[0]).toFixed(1)+','+yg(0).toFixed(1);
+    for(let i=0;i<N;i++) area+='L'+xs(DAYS[i]).toFixed(1)+','+yg(G(i)).toFixed(1);
+    area+='L'+xs(LASTD).toFixed(1)+','+yg(0).toFixed(1)+'Z';
+    let line='M';
+    for(let i=0;i<N;i++) line+=(i?'L':'')+xs(DAYS[i]).toFixed(1)+','+yg(G(i)).toFixed(1);
+    const i22=idxOf('2022-11-14'), i26=idxOf('2026-04-13'), i15=idxOf('2015-08-17');
+    const x22=xs(DAYS[i22]), x26=xs(DAYS[i26]), x15=xs(DAYS[i15]);
+    return `<g id="gGap">
+      <defs><linearGradient id="gapFill" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="${COL.gap}" stop-opacity=".55"/>
+        <stop offset="1" stop-color="${COL.dsl}" stop-opacity=".06"/>
+      </linearGradient></defs>
+      <line x1="${padL}" y1="${yg(0).toFixed(1)}" x2="${W-padR}" y2="${yg(0).toFixed(1)}" stroke="rgba(233,237,243,.35)" stroke-width="1"/>
+      <text x="${padL-8}" y="${(yg(0)+4).toFixed(1)}" text-anchor="end" fill="#8C99AB" font-family="DM Mono,monospace" font-size="11">0p</text>
+      <line x1="${padL}" y1="${yg(4.49).toFixed(1)}" x2="${W-padR}" y2="${yg(4.49).toFixed(1)}" stroke="#8C99AB" stroke-width="1" stroke-dasharray="2 5"/>
+      <text x="${W-padR+8}" y="${(yg(4.49)+4).toFixed(1)}" fill="#8C99AB" font-family="DM Mono,monospace" font-size="11">avg 4.5p</text>
+      <path d="${area}" fill="url(#gapFill)"/>
+      <path d="${line}" fill="none" stroke="${COL.gap}" stroke-width="2" stroke-linejoin="round"/>
+      <circle cx="${x22.toFixed(1)}" cy="${yg(G(i22)).toFixed(1)}" r="4" fill="${COL.gap}"/>
+      <text x="${x22.toFixed(1)}" y="${(yg(G(i22))-28).toFixed(1)}" text-anchor="middle" fill="#E9EDF3" font-family="Anton,sans-serif" font-size="21">24.5p</text>
+      <text x="${x22.toFixed(1)}" y="${(yg(G(i22))-12).toFixed(1)}" text-anchor="middle" fill="#8C99AB" font-family="DM Mono,monospace" font-size="10" letter-spacing="1.2">NOV 2022</text>
+      <circle cx="${x26.toFixed(1)}" cy="${yg(G(i26)).toFixed(1)}" r="4.6" fill="${COL.gap}"/>
+      <text x="${(x26-10).toFixed(1)}" y="${(yg(G(i26))-26).toFixed(1)}" text-anchor="end" fill="${COL.gap}" font-family="Anton,sans-serif" font-size="27">33.97p</text>
+      <text x="${(x26-10).toFixed(1)}" y="${(yg(G(i26))-9).toFixed(1)}" text-anchor="end" fill="#FF8A77" font-family="DM Mono,monospace" font-size="10" letter-spacing="1.2">RECORD · 13 APR 2026</text>
+      <circle cx="${x15.toFixed(1)}" cy="${yg(G(i15)).toFixed(1)}" r="3.4" fill="${COL.pet}"/>
+      <text x="${x15.toFixed(1)}" y="${(yg(G(i15))+22).toFixed(1)}" text-anchor="middle" fill="${COL.pet}" font-family="DM Mono,monospace" font-size="10.5" letter-spacing="1">−2.5P · 2015</text>
+    </g>`;
+  }
+
+  /* ---------- axis ---------- */
+  function axisMarkup(){
+    let t='';
+    for(let y=2005;y<=2025;y+=5){
+      const d=(Date.UTC(y,0,1)-EPOCH)/MS, x=xs(d);
+      t+=`<line x1="${x.toFixed(1)}" y1="${H-padB}" x2="${x.toFixed(1)}" y2="${H-padB+7}" stroke="rgba(140,153,171,.55)" stroke-width="1"/>
+          <text x="${x.toFixed(1)}" y="${H-padB+30}" text-anchor="middle" fill="#8C99AB" font-family="DM Mono,monospace" font-size="11.5">${y}</text>`;
+    }
+    let gl='';
+    [100,150,200].forEach(v=>{gl+=`<line x1="${padL}" y1="${ys(v).toFixed(1)}" x2="${W-padR}" y2="${ys(v).toFixed(1)}" stroke="rgba(233,237,243,.07)" stroke-width="1"/>
+      <text x="${padL-8}" y="${(ys(v)+4).toFixed(1)}" text-anchor="end" fill="#8C99AB" font-family="DM Mono,monospace" font-size="11">${v}p</text>`;});
+    return `<g id="gAxis"><g id="gGrid">${gl}</g>${t}</g>`;
+  }
+
+  function hoverMarkup(){
+    return `<line id="guide" x1="0" y1="${padT-22}" x2="0" y2="${H-padB+4}" stroke="rgba(233,237,243,.4)" stroke-width="1" stroke-dasharray="2 4" opacity="0"/>
+      <rect class="hot" id="hotzone" x="${padL}" y="${padT-30}" width="${W-padL-padR}" height="${H-padT-padB+46}" fill="transparent"/>`;
+  }
+  document.getElementById('viz').innerHTML = axisMarkup()+gapMarkup()+linesMarkup()+hoverMarkup();
+
+  /* ---------------- big key stat per step ---------------- */
+  const KEYS=[
+    {big:'4.5p',          col:'#E9EDF3', sub:'The premium · 2003 → 2021'},
+    {big:'−2.5p',         col:COL.pet,   sub:'Diesel under petrol · Aug 2015'},
+    {big:'199.2p',        col:COL.dsl,   sub:'Diesel record · 4 Jul 2022'},
+    {big:'+50.7p',        col:COL.dsl,   sub:'Diesel in 8 weeks · spring 2026'},
+    {big:'33.97p',        col:COL.gap,   sub:'The gap · 13 Apr 2026 · record'}
+  ];
+  const figure=document.getElementById('figure'), figkey=document.getElementById('figkey');
+  function renderKey(n){const k=KEYS[n]; figkey.innerHTML=`<span class="k-big" style="color:${k.col}">${k.big}</span><span class="k-sub">${k.sub}</span>`;}
+  function setStep(n){ if(figure.dataset.step==n) return; figure.dataset.step=n;
+    figkey.style.opacity=0; figkey.style.transform='translateY(8px)';
+    setTimeout(()=>{renderKey(n); figkey.style.opacity=1; figkey.style.transform='none';},200);
+  }
+  figure.dataset.step=0; renderKey(0);
+
+  /* hover: nearest-week tooltip + guide line */
+  const viz=document.getElementById('viz'), tip=document.getElementById('tip');
+  const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  function nearest(day){let lo=0,hi=N-1;while(lo<hi){const m=(lo+hi)>>1;if(DAYS[m]<day)lo=m+1;else hi=m;}
+    if(lo>0&&Math.abs(DAYS[lo-1]-day)<Math.abs(DAYS[lo]-day))lo--;return lo;}
+  viz.addEventListener('pointermove',ev=>{
+    const r=viz.getBoundingClientRect();
+    const mx=(ev.clientX-r.left)/r.width*W;
+    if(mx<padL||mx>W-padR){tip.style.opacity='0';document.getElementById('guide').setAttribute('opacity','0');return;}
+    const i=nearest((mx-padL)/(W-padL-padR)*LASTD);
+    const dt=new Date(EPOCH+DAYS[i]*MS);
+    const g=document.getElementById('guide'), x=xs(DAYS[i]);
+    g.setAttribute('x1',x); g.setAttribute('x2',x); g.setAttribute('opacity','1');
+    tip.innerHTML=`<div class="t-yr">${dt.getUTCDate()} ${MON[dt.getUTCMonth()]} ${dt.getUTCFullYear()}</div>`+
+      `<div class="t-row"><span style="background:${COL.pet}"></span>Unleaded<b>${P(i).toFixed(1)}p</b></div>`+
+      `<div class="t-row"><span style="background:${COL.dsl}"></span>Diesel<b>${D(i).toFixed(1)}p</b></div>`+
+      `<div class="t-row t-tot">The gap<b>${G(i)>=0?'+':''}${G(i).toFixed(1)}p</b></div>`;
+    tip.style.opacity='1';
+    const fr=figure.getBoundingClientRect();
+    let lx=ev.clientX-fr.left+16; const ly=ev.clientY-fr.top+14;
+    if(lx>fr.width-172) lx=ev.clientX-fr.left-170;
+    tip.style.left=lx+'px'; tip.style.top=ly+'px';
+  });
+  viz.addEventListener('pointerleave',()=>{ tip.style.opacity='0'; const g=document.getElementById('guide'); if(g) g.setAttribute('opacity','0'); });
+
+  const stepObs=new IntersectionObserver((ents)=>{
+    ents.forEach(e=>{ if(e.isIntersecting) setStep(e.target.dataset.step); });
+  },{rootMargin:'-48% 0px -48% 0px',threshold:0});
+  document.querySelectorAll('.scrolly .step').forEach(s=>stepObs.observe(s));
+
+  /* reveal-on-enter for editorial blocks */
+  const revObs=new IntersectionObserver((ents)=>{
+    ents.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); revObs.unobserve(e.target);} });
+  },{threshold:.25});
+  document.querySelectorAll('.reveal').forEach(el=>revObs.observe(el));
+
+  /* ---------------- scroll journey: night deepens, then a cold dawn ---------------- */
+  const BG_TOP=[{t:0,c:'#0E1422'},{t:.45,c:'#0A0F1B'},{t:.72,c:'#07090F'},{t:.88,c:'#0D1119'},{t:1,c:'#1B2233'}];
+  const BG_BOT=[{t:0,c:'#161E2E'},{t:.45,c:'#0E1320'},{t:.72,c:'#0A0C12'},{t:.88,c:'#141823'},{t:1,c:'#2E2A20'}];
+  function hx(h){h=h.replace('#','');return [parseInt(h.substr(0,2),16),parseInt(h.substr(2,2),16),parseInt(h.substr(4,2),16)];}
+  function toHex(a){return '#'+a.map(v=>Math.max(0,Math.min(255,Math.round(v))).toString(16).padStart(2,'0')).join('');}
+  function ms(st,t){t=Math.max(0,Math.min(1,t));for(let i=0;i<st.length-1;i++){if(t>=st[i].t&&t<=st[i+1].t){const lt=(t-st[i].t)/(st[i+1].t-st[i].t||1);const a=hx(st[i].c),b=hx(st[i+1].c);return toHex([a[0]+(b[0]-a[0])*lt,a[1]+(b[1]-a[1])*lt,a[2]+(b[2]-a[2])*lt]);}}return st[st.length-1].c;}
+
+  const root=document.documentElement, canopy=document.getElementById('canopy'),
+        dawn=document.getElementById('dawn'), bar=document.getElementById('bar');
+
+  /* scroll-driven price→gap crossfade: the gap chart rises as step 4 approaches */
+  const gLinesEl=document.getElementById('gLines'), gGapEl=document.getElementById('gGap'),
+        gGridEl=document.getElementById('gGrid'),
+        step4El=document.querySelector('.scrolly .step[data-step="4"]');
+  function morph(){
+    if(!gLinesEl||!gGapEl||!step4El) return;
+    const r=step4El.getBoundingClientRect(), vh=innerHeight||1;
+    const startY=vh*0.85, endY=vh*0.30;
+    let t=(startY-r.top)/(startY-endY); t=Math.max(0,Math.min(1,t));
+    const rise=Math.pow(1-t,3)*150;
+    gGapEl.setAttribute('transform','translate(0,'+rise.toFixed(1)+')');
+    gGapEl.style.opacity=Math.min(1,t*1.6).toFixed(3);
+    const lo=(t<0.5?1:Math.max(0,1-(t-0.5)/0.5)).toFixed(3);
+    gLinesEl.style.opacity=lo;
+    if(gGridEl) gGridEl.style.opacity=lo;
+  }
+
+  let ticking=false;
+  function paint(){
+    morph();
+    const max=root.scrollHeight-innerHeight; const p=max>0?Math.min(1,Math.max(0,scrollY/max)):0;
+    root.style.setProperty('--bg-top',ms(BG_TOP,p));
+    root.style.setProperty('--bg-bot',ms(BG_BOT,p));
+    bar.style.width=(p*100).toFixed(2)+'%';
+    canopy.style.opacity=(p<0.6?1-p*0.9:Math.max(.12,1-p*1.1)).toFixed(3);
+    dawn.style.opacity=(p>0.82?((p-0.82)/0.18):0).toFixed(3);
+    ticking=false;
+  }
+  addEventListener('scroll',()=>{ if(!ticking){ticking=true; requestAnimationFrame(paint);} },{passive:true});
+  addEventListener('resize',paint);
+  paint();
+})();
+</script>
+</body>
+</html>
