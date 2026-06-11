@@ -109,8 +109,8 @@ strong{font-weight:600}
 @keyframes pulse{0%,100%{transform:scaleY(.4); opacity:.3} 50%{transform:scaleY(1); opacity:1}}
 
 /* ---- scrolly: chart sticky LEFT, text scrolls RIGHT ---- */
-.scrolly{position:relative; max-width:1500px; margin:0 auto; padding:0 5vw;
-  display:grid; grid-template-columns:60% 40%; gap:0; align-items:start}
+.scrolly{position:relative; max-width:1760px; margin:0 auto; padding:0 2.5vw;
+  display:grid; grid-template-columns:70% 30%; gap:0; align-items:start}
 .scrolly .figure{grid-column:1; position:sticky; top:0; height:100svh;
   display:flex; flex-direction:column; align-items:center; justify-content:center}
 .scrolly .steps{grid-column:2; padding:16vh 0 40vh 4vw}
@@ -122,20 +122,20 @@ strong{font-weight:600}
   border-top:1px solid var(--line); padding-top:.8rem; display:inline-block}
 .step .micro .pet{color:var(--pet)} .step .micro .dsl{color:var(--dsl)} .step .micro .gap{color:var(--gap)}
 
-.figure svg{width:100%; height:auto; max-height:84vh; overflow:visible}
+.figure svg{width:100%; height:auto; max-height:92vh; overflow:visible}
 .scrolly-tail{display:none}
 
 /* big per-step key stat, above the chart */
 .figkey{min-height:2.7em; display:flex; flex-direction:column; align-items:center; justify-content:flex-end;
   text-align:center; margin-bottom:.5rem; transition:opacity .4s ease, transform .4s ease}
 .figkey .k-big{font-family:"Anton",sans-serif; font-weight:400; line-height:.9; letter-spacing:.012em;
-  font-size:clamp(2rem,3.6vw,3.1rem)}
+  font-size:clamp(2.4rem,4.4vw,3.9rem)}
 .figkey .k-sub{font-family:"DM Mono",monospace; font-size:.72rem; letter-spacing:.22em; text-transform:uppercase;
   color:var(--muted); margin-top:.55rem}
 
 /* legend */
-.figlegend{display:flex; gap:1.4rem; margin-bottom:1rem; font-family:"DM Mono",monospace;
-  font-size:.74rem; letter-spacing:.12em; text-transform:uppercase; color:var(--muted)}
+.figlegend{display:flex; gap:1.6rem; margin-bottom:1rem; font-family:"DM Mono",monospace;
+  font-size:.84rem; letter-spacing:.12em; text-transform:uppercase; color:var(--muted)}
 .figlegend .lg{display:inline-flex; align-items:center; gap:.5em}
 .figlegend .lg i{width:14px; height:3px; border-radius:2px; display:inline-block}
 .figlegend .lg-pet i{background:var(--pet); box-shadow:0 0 8px rgba(62,207,110,.7)}
@@ -173,6 +173,32 @@ strong{font-weight:600}
   border:1px solid var(--line); border-radius:100px; background:rgba(255,255,255,.04); backdrop-filter:blur(3px)}
 .chip b{font-weight:500; color:var(--dsl)}
 
+/* ---- animated flow diagram: exports out, imports in, refineries down ---- */
+.duo{display:grid; grid-template-columns:minmax(0,1.02fr) minmax(0,.98fr); gap:4.5vw; align-items:center}
+.flowfig svg{width:100%; height:auto; overflow:visible}
+.flowfig .lane-dsl{stroke-dasharray:16 22}
+.flowfig .lane-pet{stroke-dasharray:10 18}
+.in .flowfig .lane-dsl{animation:laneD 1.05s linear infinite}
+.in .flowfig .lane-pet{animation:laneP 1.35s linear infinite}
+@keyframes laneD{to{stroke-dashoffset:-76}}
+@keyframes laneP{to{stroke-dashoffset:-56}}
+.in .flowfig .ref-off{animation:refoff 5.5s ease both}
+@keyframes refoff{0%,42%{opacity:1} 58%,100%{opacity:.15}}
+.flowfig .cross{opacity:0}
+.in .flowfig .cross{animation:fadein 5.5s ease both}
+@keyframes fadein{0%,52%{opacity:0} 66%,100%{opacity:1}}
+.flowfig .cap{transform-box:fill-box; transform-origin:left center}
+.in .flowfig .cap{animation:capdrop 5.5s cubic-bezier(.2,.7,.2,1) both}
+@keyframes capdrop{0%,52%{transform:scaleX(1)} 78%,100%{transform:scaleX(.667)}}
+.flowfig .late{opacity:0}
+.in .flowfig .late{animation:latein 5.5s ease both}
+@keyframes latein{0%,70%{opacity:0} 86%,100%{opacity:1}}
+@media (max-width:980px){.duo{grid-template-columns:1fr; gap:3.2rem}}
+@media (prefers-reduced-motion:reduce){
+  .flowfig .ref-off{opacity:.15} .flowfig .cross,.flowfig .late{opacity:1}
+  .flowfig .cap{transform:scaleX(.667)}
+}
+
 .stats{display:grid; grid-template-columns:repeat(3,1fr); gap:clamp(1rem,3vw,3rem); margin-top:3rem}
 .stat .num{font-family:"Anton",sans-serif; font-size:clamp(2.4rem,5.6vw,4.6rem); line-height:.9; letter-spacing:.01em}
 .stat:nth-child(1) .num{color:var(--gap); text-shadow:0 0 30px rgba(255,93,73,.3)}
@@ -207,10 +233,10 @@ footer .sign{font-family:"DM Mono",monospace; font-size:.72rem; letter-spacing:.
   .hero .wrap{grid-template-columns:1fr; gap:3rem}
   .totem{justify-self:start; min-width:0; width:min(100%, 19rem)}
   .scrolly{grid-template-columns:1fr; padding:0 6vw}
-  .scrolly .figure{grid-column:1; height:52svh; z-index:3; padding-top:1.2rem;
+  .scrolly .figure{grid-column:1; height:56svh; z-index:3; padding-top:1.2rem;
     background:linear-gradient(180deg,var(--bg-top) 0%, var(--bg-top) 76%, transparent 100%)}
   .scrolly .steps{grid-column:1; padding:0 0 30vh 0; position:relative; z-index:1}
-  .figure svg{max-height:38svh}
+  .figure svg{max-height:43svh}
   .step{min-height:86vh; justify-content:flex-end; align-items:center; text-align:center; padding-bottom:10vh}
   .step .lede{font-size:clamp(1.1rem,4.6vw,1.4rem); max-width:90vw}
   .figkey{min-height:2.1em; margin-bottom:.3rem}
@@ -296,14 +322,63 @@ footer .sign{font-family:"DM Mono",monospace; font-size:.72rem; letter-spacing:.
 
 <!-- ============ WHY 1: not the crude ============ -->
 <section class="band-sec wrap">
-  <div class="reveal">
-    <p class="kicker">It isn't the crude</p>
-    <h2 class="serif-xl">Both pumps drink from the same barrel.<br>Only one of them is <em>short</em>.</h2>
-    <p class="body">Petrol and diesel start as the same oil – what differs is the refining. Britain makes <b>more petrol than it needs</b> and exports the surplus. Diesel it cannot make enough of: self-sufficient as recently as <b>2011</b>, the UK now imports <b>2.5 times</b> what it refines. Petrol's price is set by a surplus at home. Diesel's is set by what a cargo costs at sea.</p>
-    <div class="chips">
-      <span class="chip">Petrol: <b>surplus</b>, exported</span>
-      <span class="chip">Diesel: <b>2.5×</b> imported vs refined</span>
-      <span class="chip">Self-sufficient until <b>2011</b></span>
+  <div class="reveal duo">
+    <div>
+      <p class="kicker">It isn't the crude</p>
+      <h2 class="serif-xl">Both pumps drink from the same barrel.<br>Only one of them is <em>short</em>.</h2>
+      <p class="body">Petrol and diesel start as the same oil – what differs is the refining. Britain makes <b>more petrol than it needs</b> and exports the surplus. Diesel it cannot make enough of: self-sufficient as recently as <b>2011</b>, the UK now imports <b>2.5 times</b> what it refines. Petrol's price is set by a surplus at home. Diesel's is set by what a cargo costs at sea.</p>
+      <div class="chips">
+        <span class="chip">Petrol: <b>surplus</b>, exported</span>
+        <span class="chip">Diesel: <b>2.5×</b> imported vs refined</span>
+        <span class="chip">Self-sufficient until <b>2011</b></span>
+      </div>
+    </div>
+    <div class="flowfig" aria-hidden="true">
+      <svg viewBox="0 0 560 580" font-family="DM Mono,monospace">
+        <!-- refinery row -->
+        <text x="60" y="22" fill="#8C99AB" font-size="13" letter-spacing="3">BRITAIN&#8217;S REFINERIES</text>
+        <text class="late" x="500" y="26" text-anchor="end" fill="#FFB52E" font-family="Anton,sans-serif" font-size="26">6 &#8594; 4</text>
+        <g stroke="#AAB6C6" stroke-width="2" fill="none">
+          <g class="ref" transform="translate(76,52)"><rect x="-9" y="18" width="18" height="46" rx="2"/><rect x="-23" y="36" width="10" height="28" rx="2"/><line x1="5" y1="18" x2="5" y2="4"/><circle cx="5" cy="0" r="2.6" fill="#FFB52E" stroke="none"/><line x1="-27" y1="64" x2="15" y2="64"/></g>
+          <g class="ref" transform="translate(152,52)"><rect x="-9" y="18" width="18" height="46" rx="2"/><rect x="-23" y="36" width="10" height="28" rx="2"/><line x1="5" y1="18" x2="5" y2="4"/><circle cx="5" cy="0" r="2.6" fill="#FFB52E" stroke="none"/><line x1="-27" y1="64" x2="15" y2="64"/></g>
+          <g class="ref ref-off" transform="translate(228,52)"><rect x="-9" y="18" width="18" height="46" rx="2"/><rect x="-23" y="36" width="10" height="28" rx="2"/><line x1="5" y1="18" x2="5" y2="4"/><circle cx="5" cy="0" r="2.6" fill="#FFB52E" stroke="none"/><line x1="-27" y1="64" x2="15" y2="64"/></g>
+          <g class="ref" transform="translate(304,52)"><rect x="-9" y="18" width="18" height="46" rx="2"/><rect x="-23" y="36" width="10" height="28" rx="2"/><line x1="5" y1="18" x2="5" y2="4"/><circle cx="5" cy="0" r="2.6" fill="#FFB52E" stroke="none"/><line x1="-27" y1="64" x2="15" y2="64"/></g>
+          <g class="ref ref-off" transform="translate(380,52)"><rect x="-9" y="18" width="18" height="46" rx="2"/><rect x="-23" y="36" width="10" height="28" rx="2"/><line x1="5" y1="18" x2="5" y2="4"/><circle cx="5" cy="0" r="2.6" fill="#FFB52E" stroke="none"/><line x1="-27" y1="64" x2="15" y2="64"/></g>
+          <g class="ref" transform="translate(456,52)"><rect x="-9" y="18" width="18" height="46" rx="2"/><rect x="-23" y="36" width="10" height="28" rx="2"/><line x1="5" y1="18" x2="5" y2="4"/><circle cx="5" cy="0" r="2.6" fill="#FFB52E" stroke="none"/><line x1="-27" y1="64" x2="15" y2="64"/></g>
+        </g>
+        <g class="cross" stroke="#FF5D49" stroke-width="3.5" stroke-linecap="round">
+          <line x1="208" y1="80" x2="236" y2="108"/><line x1="236" y1="80" x2="208" y2="108"/>
+          <line x1="360" y1="80" x2="388" y2="108"/><line x1="388" y1="80" x2="360" y2="108"/>
+        </g>
+        <text class="cross" x="222" y="136" text-anchor="middle" fill="#FF5D49" font-size="11" letter-spacing="1" stroke="none">2025</text>
+        <text class="cross" x="374" y="136" text-anchor="middle" fill="#FF5D49" font-size="11" letter-spacing="1" stroke="none">2025</text>
+        <!-- capacity bar -->
+        <rect x="60" y="158" width="440" height="10" rx="5" fill="rgba(255,255,255,.08)"/>
+        <rect class="cap" x="60" y="158" width="440" height="10" rx="5" fill="#FFB52E" opacity=".85"/>
+        <text x="60" y="192" fill="#8C99AB" font-size="12" letter-spacing="2">REFINING CAPACITY</text>
+        <text class="late" x="500" y="192" text-anchor="end" fill="#FFB52E" font-size="14" font-weight="500">NOW &#8532;</text>
+        <!-- sea -->
+        <g stroke="#5B7BA6" stroke-width="2.4" fill="none" stroke-linecap="round" opacity=".8">
+          <path d="M30,366 q14,-12 28,0 q14,12 28,0 q12,-10 24,-2"/>
+          <path d="M36,432 q14,-12 28,0 q14,12 28,0 q12,-10 22,-2"/>
+          <path d="M30,498 q14,-12 28,0 q14,12 28,0 q12,-10 24,-2"/>
+        </g>
+        <text x="82" y="548" text-anchor="middle" fill="#8C99AB" font-size="13" letter-spacing="3">THE SEA</text>
+        <!-- britain node -->
+        <rect x="432" y="330" width="84" height="170" rx="14" fill="rgba(255,255,255,.04)" stroke="rgba(233,237,243,.18)" stroke-width="1.5"/>
+        <text x="474" y="425" text-anchor="middle" fill="#E9EDF3" font-family="Anton,sans-serif" font-size="30">UK</text>
+        <text x="474" y="548" text-anchor="middle" fill="#8C99AB" font-size="13" letter-spacing="3">BRITAIN</text>
+        <!-- diesel lane: in, 2.5x -->
+        <text x="270" y="346" text-anchor="middle" fill="#FFB52E" font-size="16" letter-spacing="2" font-weight="500">DIESEL &#183; IN</text>
+        <path class="lane-dsl" d="M126,380 H402" stroke="#FFB52E" stroke-width="22" fill="none" opacity=".92" style="filter:drop-shadow(0 0 9px rgba(255,181,46,.45))"/>
+        <polygon points="402,364 430,380 402,396" fill="#FFB52E"/>
+        <text x="270" y="420" text-anchor="middle" fill="#C9A86A" font-size="12.5" letter-spacing="1.5">2.5&#215; WHAT BRITAIN REFINES</text>
+        <!-- petrol lane: out, the surplus -->
+        <text x="276" y="452" text-anchor="middle" fill="#3ECF6E" font-size="16" letter-spacing="2" font-weight="500">PETROL &#183; OUT</text>
+        <path class="lane-pet" d="M430,478 H152" stroke="#3ECF6E" stroke-width="9" fill="none" opacity=".95" style="filter:drop-shadow(0 0 8px rgba(62,207,110,.45))"/>
+        <polygon points="152,468 126,478 152,488" fill="#3ECF6E"/>
+        <text x="276" y="512" text-anchor="middle" fill="#6FA786" font-size="12.5" letter-spacing="1.5">THE SURPLUS, EXPORTED</text>
+      </svg>
     </div>
   </div>
 </section>
@@ -388,14 +463,14 @@ const DSL=[768,767,766,765,765,764,769,769,768,771,774,777,776,777,776,776,775,7
     band+='Z';
     const pp=poly(P), dd=poly(D);
     const i26=N-1;
-    const labels=`<text x="${(xs(LASTD)+12).toFixed(1)}" y="${(ys(P(i26))+4).toFixed(1)}" fill="${COL.pet}" font-family="DM Mono,monospace" font-size="13" font-weight="500">157.9p</text>
-      <text x="${(xs(LASTD)+12).toFixed(1)}" y="${(ys(D(i26))+4).toFixed(1)}" fill="${COL.dsl}" font-family="DM Mono,monospace" font-size="13" font-weight="500">181.8p</text>`;
+    const labels=`<text x="${(xs(LASTD)+12).toFixed(1)}" y="${(ys(P(i26))+5).toFixed(1)}" fill="${COL.pet}" font-family="DM Mono,monospace" font-size="17" font-weight="500">157.9p</text>
+      <text x="${(xs(LASTD)+12).toFixed(1)}" y="${(ys(D(i26))+5).toFixed(1)}" fill="${COL.dsl}" font-family="DM Mono,monospace" font-size="17" font-weight="500">181.8p</text>`;
     return `<g id="gLines">
       <path d="${band}" fill="${COL.gap}" opacity=".17"/>
-      <path d="${pp}" fill="none" stroke="rgba(6,10,18,.7)" stroke-width="5" stroke-linejoin="round"/>
-      <path d="${dd}" fill="none" stroke="rgba(6,10,18,.7)" stroke-width="5" stroke-linejoin="round"/>
-      <path d="${pp}" fill="none" stroke="${COL.pet}" stroke-width="2.3" stroke-linejoin="round"/>
-      <path d="${dd}" fill="none" stroke="${COL.dsl}" stroke-width="2.3" stroke-linejoin="round"/>
+      <path d="${pp}" fill="none" stroke="rgba(6,10,18,.7)" stroke-width="6.5" stroke-linejoin="round"/>
+      <path d="${dd}" fill="none" stroke="rgba(6,10,18,.7)" stroke-width="6.5" stroke-linejoin="round"/>
+      <path d="${pp}" fill="none" stroke="${COL.pet}" stroke-width="3.1" stroke-linejoin="round"/>
+      <path d="${dd}" fill="none" stroke="${COL.dsl}" stroke-width="3.1" stroke-linejoin="round"/>
       ${labels}${annoMarkup()}
     </g>`;
   }
@@ -408,33 +483,34 @@ const DSL=[768,767,766,765,765,764,769,769,768,771,774,777,776,777,776,776,775,7
       <line x1="${a0}" y1="${ay}" x2="${a1.toFixed(1)}" y2="${ay}" stroke="#8C99AB" stroke-width="1" stroke-dasharray="2 5"/>
       <line x1="${a0}" y1="${ay-7}" x2="${a0}" y2="${ay+7}" stroke="#8C99AB" stroke-width="1"/>
       <line x1="${a1.toFixed(1)}" y1="${ay-7}" x2="${a1.toFixed(1)}" y2="${ay+7}" stroke="#8C99AB" stroke-width="1"/>
-      <text x="${((a0+a1)/2).toFixed(1)}" y="${ay+24}" text-anchor="middle" fill="#8C99AB" font-family="DM Mono,monospace" font-size="11.5" letter-spacing="1.5">AVG GAP 4.5P · 969 WEEKS</text>
+      <text x="${((a0+a1)/2).toFixed(1)}" y="${ay+26}" text-anchor="middle" fill="#AAB6C6" font-family="DM Mono,monospace" font-size="15" letter-spacing="1.5">AVG GAP 4.5P · 969 WEEKS</text>
     </g>`;
     /* 2015 flip */
     const f=idxOf('2015-08-17'), fx=xs(DAYS[f]), fy=ys((P(f)+D(f))/2);
     const flip=`<g class="anno anno-flip">
-      <circle cx="${fx.toFixed(1)}" cy="${fy.toFixed(1)}" r="17" fill="none" stroke="${COL.pet}" stroke-width="1.6" stroke-dasharray="3 4"/>
-      <line x1="${fx.toFixed(1)}" y1="${(fy-17).toFixed(1)}" x2="${fx.toFixed(1)}" y2="${(fy-46).toFixed(1)}" stroke="${COL.pet}" stroke-width="1" opacity=".7"/>
-      <text x="${fx.toFixed(1)}" y="${(fy-56).toFixed(1)}" text-anchor="middle" fill="${COL.pet}" font-family="DM Mono,monospace" font-size="11.5" letter-spacing="1">THE FLIP · −2.5P</text>
+      <circle cx="${fx.toFixed(1)}" cy="${fy.toFixed(1)}" r="24" fill="none" stroke="${COL.pet}" stroke-width="2.2" stroke-dasharray="4 5"/>
+      <line x1="${fx.toFixed(1)}" y1="${(fy-24).toFixed(1)}" x2="${fx.toFixed(1)}" y2="${(fy-108).toFixed(1)}" stroke="${COL.pet}" stroke-width="1.4" opacity=".7"/>
+      <text x="${fx.toFixed(1)}" y="${(fy-122).toFixed(1)}" text-anchor="middle" fill="${COL.pet}" font-family="Anton,sans-serif" font-size="30">−2.5p</text>
+      <text x="${fx.toFixed(1)}" y="${(fy-152).toFixed(1)}" text-anchor="middle" fill="${COL.pet}" font-family="DM Mono,monospace" font-size="14" letter-spacing="1.5">THE FLIP · AUG 2015</text>
     </g>`;
     /* 2022 record */
     const r=idxOf('2022-07-04'), rx=xs(DAYS[r]), ry=ys(D(r));
     const rec22=`<g class="anno anno-rec22">
-      <circle cx="${rx.toFixed(1)}" cy="${ry.toFixed(1)}" r="4.6" fill="${COL.dsl}"/>
-      <text x="${rx.toFixed(1)}" y="${(ry-30).toFixed(1)}" text-anchor="middle" fill="#E9EDF3" font-family="Anton,sans-serif" font-size="26">199.2p</text>
-      <text x="${rx.toFixed(1)}" y="${(ry-12).toFixed(1)}" text-anchor="middle" fill="#8C99AB" font-family="DM Mono,monospace" font-size="10" letter-spacing="1.5">ALL-TIME RECORD · JUL 22</text>
+      <circle cx="${rx.toFixed(1)}" cy="${ry.toFixed(1)}" r="7" fill="${COL.dsl}" stroke="rgba(6,10,18,.8)" stroke-width="2"/>
+      <text x="${rx.toFixed(1)}" y="${(ry-38).toFixed(1)}" text-anchor="middle" fill="#E9EDF3" font-family="Anton,sans-serif" font-size="36">199.2p</text>
+      <text x="${rx.toFixed(1)}" y="${(ry-16).toFixed(1)}" text-anchor="middle" fill="#AAB6C6" font-family="DM Mono,monospace" font-size="13" letter-spacing="1.5">ALL-TIME RECORD · JUL 22</text>
     </g>`;
     /* 2026 divergence band + marker */
     const w0=xs(DAYS[idxOf('2026-02-23')]), g=idxOf('2026-04-13'), gx=xs(DAYS[g]);
     const war=`<g class="anno anno-war">
       <rect x="${w0.toFixed(1)}" y="${padT-6}" width="${(gx-w0+8).toFixed(1)}" height="${H-padT-padB+6}" fill="rgba(255,93,73,.08)"/>
       <line x1="${w0.toFixed(1)}" y1="${padT-6}" x2="${w0.toFixed(1)}" y2="${H-padB}" stroke="rgba(255,93,73,.5)" stroke-width="1" stroke-dasharray="3 4"/>
-      <text x="${(w0-8).toFixed(1)}" y="${padT+12}" text-anchor="end" fill="#FF8A77" font-family="DM Mono,monospace" font-size="10.5" letter-spacing="1.5">28 FEB 26 · WAR</text>
+      <text x="${(w0-10).toFixed(1)}" y="${padT+14}" text-anchor="end" fill="#FF8A77" font-family="DM Mono,monospace" font-size="14" letter-spacing="1.5">28 FEB 26 · WAR</text>
     </g>`;
     const rec26=`<g class="anno anno-rec26">
-      <circle cx="${gx.toFixed(1)}" cy="${ys(D(g)).toFixed(1)}" r="4.6" fill="${COL.gap}"/>
-      <line x1="${gx.toFixed(1)}" y1="${ys(D(g)).toFixed(1)}" x2="${gx.toFixed(1)}" y2="${ys(P(g)).toFixed(1)}" stroke="${COL.gap}" stroke-width="2"/>
-      <text x="${(gx+12).toFixed(1)}" y="${(ys(D(g))-10).toFixed(1)}" fill="${COL.gap}" font-family="Anton,sans-serif" font-size="24">gap 34.0p</text>
+      <circle cx="${gx.toFixed(1)}" cy="${ys(D(g)).toFixed(1)}" r="7" fill="${COL.gap}" stroke="rgba(6,10,18,.8)" stroke-width="2"/>
+      <line x1="${gx.toFixed(1)}" y1="${ys(D(g)).toFixed(1)}" x2="${gx.toFixed(1)}" y2="${ys(P(g)).toFixed(1)}" stroke="${COL.gap}" stroke-width="3"/>
+      <text x="${(gx+14).toFixed(1)}" y="${(ys(D(g))-8).toFixed(1)}" fill="${COL.gap}" font-family="Anton,sans-serif" font-size="34">gap 34.0p</text>
     </g>`;
     return avg+flip+rec22+war+rec26;
   }
@@ -456,19 +532,19 @@ const DSL=[768,767,766,765,765,764,769,769,768,771,774,777,776,777,776,776,775,7
         <stop offset="1" stop-color="${COL.dsl}" stop-opacity=".06"/>
       </linearGradient></defs>
       <line x1="${padL}" y1="${yg(0).toFixed(1)}" x2="${W-padR}" y2="${yg(0).toFixed(1)}" stroke="rgba(233,237,243,.35)" stroke-width="1"/>
-      <text x="${padL-8}" y="${(yg(0)+4).toFixed(1)}" text-anchor="end" fill="#8C99AB" font-family="DM Mono,monospace" font-size="11">0p</text>
+      <text x="${padL-8}" y="${(yg(0)+5).toFixed(1)}" text-anchor="end" fill="#8C99AB" font-family="DM Mono,monospace" font-size="13">0p</text>
       <line x1="${padL}" y1="${yg(4.49).toFixed(1)}" x2="${W-padR}" y2="${yg(4.49).toFixed(1)}" stroke="#8C99AB" stroke-width="1" stroke-dasharray="2 5"/>
-      <text x="${W-padR+8}" y="${(yg(4.49)+4).toFixed(1)}" fill="#8C99AB" font-family="DM Mono,monospace" font-size="11">avg 4.5p</text>
+      <text x="${W-padR+8}" y="${(yg(4.49)+5).toFixed(1)}" fill="#AAB6C6" font-family="DM Mono,monospace" font-size="14">avg 4.5p</text>
       <path d="${area}" fill="url(#gapFill)"/>
-      <path d="${line}" fill="none" stroke="${COL.gap}" stroke-width="2" stroke-linejoin="round"/>
-      <circle cx="${x22.toFixed(1)}" cy="${yg(G(i22)).toFixed(1)}" r="4" fill="${COL.gap}"/>
-      <text x="${x22.toFixed(1)}" y="${(yg(G(i22))-28).toFixed(1)}" text-anchor="middle" fill="#E9EDF3" font-family="Anton,sans-serif" font-size="21">24.5p</text>
-      <text x="${x22.toFixed(1)}" y="${(yg(G(i22))-12).toFixed(1)}" text-anchor="middle" fill="#8C99AB" font-family="DM Mono,monospace" font-size="10" letter-spacing="1.2">NOV 2022</text>
-      <circle cx="${x26.toFixed(1)}" cy="${yg(G(i26)).toFixed(1)}" r="4.6" fill="${COL.gap}"/>
-      <text x="${(x26-10).toFixed(1)}" y="${(yg(G(i26))-26).toFixed(1)}" text-anchor="end" fill="${COL.gap}" font-family="Anton,sans-serif" font-size="27">33.97p</text>
-      <text x="${(x26-10).toFixed(1)}" y="${(yg(G(i26))-9).toFixed(1)}" text-anchor="end" fill="#FF8A77" font-family="DM Mono,monospace" font-size="10" letter-spacing="1.2">RECORD · 13 APR 2026</text>
-      <circle cx="${x15.toFixed(1)}" cy="${yg(G(i15)).toFixed(1)}" r="3.4" fill="${COL.pet}"/>
-      <text x="${x15.toFixed(1)}" y="${(yg(G(i15))+22).toFixed(1)}" text-anchor="middle" fill="${COL.pet}" font-family="DM Mono,monospace" font-size="10.5" letter-spacing="1">−2.5P · 2015</text>
+      <path d="${line}" fill="none" stroke="${COL.gap}" stroke-width="3" stroke-linejoin="round"/>
+      <circle cx="${x22.toFixed(1)}" cy="${yg(G(i22)).toFixed(1)}" r="6.5" fill="${COL.gap}" stroke="rgba(6,10,18,.8)" stroke-width="2"/>
+      <text x="${x22.toFixed(1)}" y="${(yg(G(i22))-34).toFixed(1)}" text-anchor="middle" fill="#E9EDF3" font-family="Anton,sans-serif" font-size="28">24.5p</text>
+      <text x="${x22.toFixed(1)}" y="${(yg(G(i22))-14).toFixed(1)}" text-anchor="middle" fill="#AAB6C6" font-family="DM Mono,monospace" font-size="13" letter-spacing="1.2">NOV 2022</text>
+      <circle cx="${x26.toFixed(1)}" cy="${yg(G(i26)).toFixed(1)}" r="7" fill="${COL.gap}" stroke="rgba(6,10,18,.8)" stroke-width="2"/>
+      <text x="${(x26-12).toFixed(1)}" y="${(yg(G(i26))-30).toFixed(1)}" text-anchor="end" fill="${COL.gap}" font-family="Anton,sans-serif" font-size="38">33.97p</text>
+      <text x="${(x26-12).toFixed(1)}" y="${(yg(G(i26))-11).toFixed(1)}" text-anchor="end" fill="#FF8A77" font-family="DM Mono,monospace" font-size="13" letter-spacing="1.2">RECORD · 13 APR 2026</text>
+      <circle cx="${x15.toFixed(1)}" cy="${yg(G(i15)).toFixed(1)}" r="5.5" fill="${COL.pet}" stroke="rgba(6,10,18,.8)" stroke-width="2"/>
+      <text x="${x15.toFixed(1)}" y="${(yg(G(i15))+28).toFixed(1)}" text-anchor="middle" fill="${COL.pet}" font-family="DM Mono,monospace" font-size="14" letter-spacing="1">−2.5P · 2015</text>
     </g>`;
   }
 
@@ -478,11 +554,11 @@ const DSL=[768,767,766,765,765,764,769,769,768,771,774,777,776,777,776,776,775,7
     for(let y=2005;y<=2025;y+=5){
       const d=(Date.UTC(y,0,1)-EPOCH)/MS, x=xs(d);
       t+=`<line x1="${x.toFixed(1)}" y1="${H-padB}" x2="${x.toFixed(1)}" y2="${H-padB+7}" stroke="rgba(140,153,171,.55)" stroke-width="1"/>
-          <text x="${x.toFixed(1)}" y="${H-padB+30}" text-anchor="middle" fill="#8C99AB" font-family="DM Mono,monospace" font-size="11.5">${y}</text>`;
+          <text x="${x.toFixed(1)}" y="${H-padB+32}" text-anchor="middle" fill="#8C99AB" font-family="DM Mono,monospace" font-size="13.5">${y}</text>`;
     }
     let gl='';
     [100,150,200].forEach(v=>{gl+=`<line x1="${padL}" y1="${ys(v).toFixed(1)}" x2="${W-padR}" y2="${ys(v).toFixed(1)}" stroke="rgba(233,237,243,.07)" stroke-width="1"/>
-      <text x="${padL-8}" y="${(ys(v)+4).toFixed(1)}" text-anchor="end" fill="#8C99AB" font-family="DM Mono,monospace" font-size="11">${v}p</text>`;});
+      <text x="${padL-8}" y="${(ys(v)+5).toFixed(1)}" text-anchor="end" fill="#8C99AB" font-family="DM Mono,monospace" font-size="13">${v}p</text>`;});
     return `<g id="gAxis"><g id="gGrid">${gl}</g>${t}</g>`;
   }
 
