@@ -96,6 +96,28 @@ strong{font-weight:600}
   border-top:1px solid var(--line); padding-top:.65rem; margin-top:.35rem; text-align:center}
 .totem .t-foot b{color:var(--gap); font-weight:500}
 @keyframes flick{0%,100%{opacity:1} 91%{opacity:1} 92%{opacity:.45} 93%{opacity:1} 95.5%{opacity:.7} 96%{opacity:1}}
+/* fuel nozzle hanging off the price board, dripping money */
+.totem{position:relative}
+.nozzle{position:absolute; top:100%; left:55%; transform:translateX(-50%); margin-top:-4px;
+  width:10.5rem; height:auto; overflow:visible; pointer-events:none;
+  opacity:0; animation:rise 1s 1.15s both}
+.nozzle .coin,.nozzle .note{opacity:0}
+.nozzle .c1{animation:coinA 2.6s 1.9s linear infinite}
+.nozzle .c2{animation:coinB 2.6s 2.8s linear infinite}
+.nozzle .c3{animation:coinA 2.6s 3.6s linear infinite}
+.nozzle .note{animation:noteF 4.2s 2.3s linear infinite}
+@keyframes coinA{0%{transform:translate(88px,150px) scale(.35); opacity:0}
+  10%{transform:translate(87px,161px) scale(1); opacity:1}
+  85%{opacity:.9} 100%{transform:translate(72px,232px) rotate(-50deg); opacity:0}}
+@keyframes coinB{0%{transform:translate(88px,150px) scale(.35); opacity:0}
+  10%{transform:translate(90px,161px) scale(1); opacity:1}
+  85%{opacity:.9} 100%{transform:translate(103px,230px) rotate(42deg); opacity:0}}
+@keyframes noteF{0%{transform:translate(88px,152px) rotate(0deg) scale(.4); opacity:0}
+  8%{transform:translate(85px,166px) rotate(-12deg) scale(1); opacity:1}
+  50%{transform:translate(96px,197px) rotate(14deg)}
+  90%{opacity:.85}
+  100%{transform:translate(79px,238px) rotate(-24deg); opacity:0}}
+@media (max-width:680px){.nozzle{width:8.2rem} .scrollcue{display:none}}
 .road{position:absolute; left:0; right:0; bottom:0; height:13vh; z-index:1; pointer-events:none;
   background:linear-gradient(180deg, transparent, rgba(0,0,0,.4));}
 .road::after{content:""; position:absolute; left:-10%; right:-10%; bottom:5.2vh; height:3px;
@@ -289,11 +311,25 @@ footer .sign{font-family:"DM Mono",monospace; font-size:.72rem; letter-spacing:.
       <h1><span class="l">The</span> <span class="l">Diesel</span> <span class="l">Premium</span></h1>
       <p class="stand">For twenty years Britain's two pumps moved as one, a few pence apart. In the spring of 2026 they <b>came apart</b>. This is the story of the gap.</p>
     </div>
-    <div class="totem" role="img" aria-label="Forecourt price board: unleaded 157.9 pence per litre, diesel 181.8 pence per litre, a gap of 23.8 pence">
+    <div class="totem" role="img" aria-label="Forecourt price board: unleaded 157.9 pence per litre, diesel 181.8 pence per litre, a gap of 23.8 pence. A fuel nozzle hangs from the board, dripping pound coins.">
       <div class="t-head">Fuel&nbsp;Prices · 08&nbsp;·&nbsp;06&nbsp;·&nbsp;26</div>
       <div class="t-row pet"><span class="t-fuel">Unleaded</span><span class="t-price">157.9<small>p</small></span></div>
       <div class="t-row dsl"><span class="t-fuel">Diesel</span><span class="t-price">181.8<small>p</small></span></div>
       <div class="t-foot">The gap · <b>+23.8p</b> a litre</div>
+      <svg class="nozzle" viewBox="0 0 200 240" aria-hidden="true">
+        <path d="M100,-2 C100,36 146,28 120,60" fill="none" stroke="#222B3A" stroke-width="8" stroke-linecap="round"/>
+        <path d="M100,-2 C100,36 146,28 120,60" fill="none" stroke="#3A4760" stroke-width="2.5" stroke-linecap="round" opacity=".8"/>
+        <g transform="translate(118,68) rotate(18)">
+          <path d="M-13,16 C-31,22 -31,44 -13,48" fill="none" stroke="#44516A" stroke-width="5" stroke-linecap="round"/>
+          <rect x="-15" y="-6" width="30" height="58" rx="8" fill="#1B232F" stroke="#44516A" stroke-width="2.5"/>
+          <rect x="-15" y="6" width="30" height="10" fill="#FFB52E" opacity=".92"/>
+          <path d="M-7,52 L7,52 L4,88 L-4,88 Z" fill="#1B232F" stroke="#44516A" stroke-width="2.5" stroke-linejoin="round"/>
+        </g>
+        <g class="coin c1"><circle r="9" fill="#F6C44A" stroke="#A87E1C" stroke-width="2"/><text y="4.5" text-anchor="middle" font-family="DM Mono,monospace" font-size="12" font-weight="500" fill="#6B4E0B">£</text></g>
+        <g class="coin c2"><circle r="7.5" fill="#F6C44A" stroke="#A87E1C" stroke-width="2"/><text y="4" text-anchor="middle" font-family="DM Mono,monospace" font-size="10.5" font-weight="500" fill="#6B4E0B">£</text></g>
+        <g class="coin c3"><circle r="8" fill="#FFD46B" stroke="#A87E1C" stroke-width="2"/><text y="4" text-anchor="middle" font-family="DM Mono,monospace" font-size="11" font-weight="500" fill="#6B4E0B">£</text></g>
+        <g class="note"><rect x="-13" y="-8" width="26" height="16" rx="2.5" fill="#2E7D4F" stroke="#9FD9B4" stroke-width="1.5"/><text y="4" text-anchor="middle" font-family="DM Mono,monospace" font-size="10" fill="#CFF3DC">£</text></g>
+      </svg>
     </div>
   </div>
   <div class="road" aria-hidden="true"></div>
