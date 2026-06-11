@@ -98,26 +98,30 @@ strong{font-weight:600}
 @keyframes flick{0%,100%{opacity:1} 91%{opacity:1} 92%{opacity:.45} 93%{opacity:1} 95.5%{opacity:.7} 96%{opacity:1}}
 /* fuel nozzle hanging off the price board, dripping money */
 .totem{position:relative}
-.nozzle{position:absolute; top:100%; left:55%; transform:translateX(-50%); margin-top:-4px;
-  width:10.5rem; height:auto; overflow:visible; pointer-events:none;
+.nozzle{position:absolute; top:100%; left:52%; transform:translateX(-50%); margin-top:-4px;
+  width:12rem; height:auto; overflow:visible; pointer-events:none;
   opacity:0; animation:rise 1s 1.15s both}
 .nozzle .coin,.nozzle .note{opacity:0}
-.nozzle .c1{animation:coinA 2.6s 1.9s linear infinite}
-.nozzle .c2{animation:coinB 2.6s 2.8s linear infinite}
-.nozzle .c3{animation:coinA 2.6s 3.6s linear infinite}
-.nozzle .note{animation:noteF 4.2s 2.3s linear infinite}
-@keyframes coinA{0%{transform:translate(88px,150px) scale(.35); opacity:0}
-  10%{transform:translate(87px,161px) scale(1); opacity:1}
-  85%{opacity:.9} 100%{transform:translate(72px,232px) rotate(-50deg); opacity:0}}
-@keyframes coinB{0%{transform:translate(88px,150px) scale(.35); opacity:0}
-  10%{transform:translate(90px,161px) scale(1); opacity:1}
-  85%{opacity:.9} 100%{transform:translate(103px,230px) rotate(42deg); opacity:0}}
-@keyframes noteF{0%{transform:translate(88px,152px) rotate(0deg) scale(.4); opacity:0}
-  8%{transform:translate(85px,166px) rotate(-12deg) scale(1); opacity:1}
-  50%{transform:translate(96px,197px) rotate(14deg)}
+.nozzle .c1{animation:coinA 3s 1.9s linear infinite}
+.nozzle .c2{animation:coinB 3s 3s linear infinite}
+.nozzle .c3{animation:coinA 3s 4.1s linear infinite}
+.nozzle .note{animation:noteF 4.6s 2.4s linear infinite}
+@keyframes coinA{0%{transform:translate(63px,345px) scale(.35); opacity:0}
+  12%{transform:translate(52px,342px) scale(1); opacity:1}
+  55%{transform:translate(34px,360px) rotate(-40deg)}
+  82%{transform:translate(24px,371px) rotate(-72deg); opacity:.95}
+  100%{transform:translate(17px,373px) rotate(-90deg); opacity:0}}
+@keyframes coinB{0%{transform:translate(63px,345px) scale(.35); opacity:0}
+  12%{transform:translate(54px,338px) scale(1); opacity:1}
+  55%{transform:translate(42px,360px) rotate(38deg)}
+  82%{transform:translate(38px,372px) rotate(64deg); opacity:.95}
+  100%{transform:translate(35px,374px) rotate(80deg); opacity:0}}
+@keyframes noteF{0%{transform:translate(63px,345px) rotate(0deg) scale(.4); opacity:0}
+  10%{transform:translate(50px,336px) rotate(-14deg) scale(1); opacity:1}
+  55%{transform:translate(28px,356px) rotate(10deg)}
   90%{opacity:.85}
-  100%{transform:translate(79px,238px) rotate(-24deg); opacity:0}}
-@media (max-width:680px){.nozzle{width:8.2rem} .scrollcue{display:none}}
+  100%{transform:translate(12px,376px) rotate(-20deg); opacity:0}}
+@media (max-width:680px){.nozzle{width:8.6rem} .scrollcue{display:none}}
 .road{position:absolute; left:0; right:0; bottom:0; height:13vh; z-index:1; pointer-events:none;
   background:linear-gradient(180deg, transparent, rgba(0,0,0,.4));}
 .road::after{content:""; position:absolute; left:-10%; right:-10%; bottom:5.2vh; height:3px;
@@ -200,21 +204,22 @@ strong{font-weight:600}
 .flowfig svg{width:100%; height:auto; overflow:visible}
 .flowfig .lane-dsl{stroke-dasharray:16 22}
 .flowfig .lane-pet{stroke-dasharray:10 18}
-.in .flowfig .lane-dsl{animation:laneD 1.05s linear infinite}
-.in .flowfig .lane-pet{animation:laneP 1.35s linear infinite}
+.in .flowfig .lane-dsl{animation:laneD 2.4s linear infinite}
+.in .flowfig .lane-pet{animation:laneP 3s linear infinite}
 @keyframes laneD{to{stroke-dashoffset:-76}}
 @keyframes laneP{to{stroke-dashoffset:-56}}
-.in .flowfig .ref-off{animation:refoff 5.5s ease both}
-@keyframes refoff{0%,42%{opacity:1} 58%,100%{opacity:.15}}
+.in .flowfig .ref-off{animation:refoff 3.2s ease both}
+@keyframes refoff{0%,22%{opacity:1} 38%,100%{opacity:.15}}
 .flowfig .cross{opacity:0}
-.in .flowfig .cross{animation:fadein 5.5s ease both}
-@keyframes fadein{0%,52%{opacity:0} 66%,100%{opacity:1}}
+.in .flowfig .cross{animation:fadein 3.2s ease both}
+@keyframes fadein{0%,30%{opacity:0} 46%,100%{opacity:1}}
 .flowfig .cap{transform-box:fill-box; transform-origin:left center}
-.in .flowfig .cap{animation:capdrop 5.5s cubic-bezier(.2,.7,.2,1) both}
-@keyframes capdrop{0%,52%{transform:scaleX(1)} 78%,100%{transform:scaleX(.667)}}
+.in .flowfig .cap{animation:capdrop 3.2s cubic-bezier(.2,.7,.2,1) both}
+@keyframes capdrop{0%,34%{transform:scaleX(1)} 62%,100%{transform:scaleX(.667)}}
 .flowfig .late{opacity:0}
-.in .flowfig .late{animation:latein 5.5s ease both}
-@keyframes latein{0%,70%{opacity:0} 86%,100%{opacity:1}}
+.in .flowfig .late{animation:latein 3.2s ease both}
+@keyframes latein{0%,48%{opacity:0} 68%,100%{opacity:1}}
+.flow-inline{max-width:720px; margin-top:3.4rem}
 @media (max-width:980px){.duo{grid-template-columns:1fr; gap:3.2rem}}
 @media (prefers-reduced-motion:reduce){
   .flowfig .ref-off{opacity:.15} .flowfig .cross,.flowfig .late{opacity:1}
@@ -316,14 +321,20 @@ footer .sign{font-family:"DM Mono",monospace; font-size:.72rem; letter-spacing:.
       <div class="t-row pet"><span class="t-fuel">Unleaded</span><span class="t-price">157.9<small>p</small></span></div>
       <div class="t-row dsl"><span class="t-fuel">Diesel</span><span class="t-price">181.8<small>p</small></span></div>
       <div class="t-foot">The gap · <b>+23.8p</b> a litre</div>
-      <svg class="nozzle" viewBox="0 0 200 240" aria-hidden="true">
-        <path d="M100,-2 C100,36 146,28 120,60" fill="none" stroke="#222B3A" stroke-width="8" stroke-linecap="round"/>
-        <path d="M100,-2 C100,36 146,28 120,60" fill="none" stroke="#3A4760" stroke-width="2.5" stroke-linecap="round" opacity=".8"/>
-        <g transform="translate(118,68) rotate(18)">
+      <svg class="nozzle" viewBox="0 0 220 400" aria-hidden="true">
+        <ellipse cx="105" cy="372" rx="100" ry="11" fill="rgba(0,0,0,.38)"/>
+        <path d="M100,-2 C94,85 182,130 174,225 C168,288 163,316 157,328" fill="none" stroke="#222B3A" stroke-width="8" stroke-linecap="round"/>
+        <path d="M100,-2 C94,85 182,130 174,225 C168,288 163,316 157,328" fill="none" stroke="#3A4760" stroke-width="2.5" stroke-linecap="round" opacity=".8"/>
+        <g transform="translate(150,330) rotate(80)">
           <path d="M-13,16 C-31,22 -31,44 -13,48" fill="none" stroke="#44516A" stroke-width="5" stroke-linecap="round"/>
           <rect x="-15" y="-6" width="30" height="58" rx="8" fill="#1B232F" stroke="#44516A" stroke-width="2.5"/>
           <rect x="-15" y="6" width="30" height="10" fill="#FFB52E" opacity=".92"/>
           <path d="M-7,52 L7,52 L4,88 L-4,88 Z" fill="#1B232F" stroke="#44516A" stroke-width="2.5" stroke-linejoin="round"/>
+        </g>
+        <g class="pool" opacity=".92">
+          <circle cx="40" cy="373" r="8" fill="#F6C44A" stroke="#A87E1C" stroke-width="2"/>
+          <circle cx="58" cy="377" r="7" fill="#FFD46B" stroke="#A87E1C" stroke-width="2"/>
+          <text x="40" y="377" text-anchor="middle" font-family="DM Mono,monospace" font-size="10.5" font-weight="500" fill="#6B4E0B">£</text>
         </g>
         <g class="coin c1"><circle r="9" fill="#F6C44A" stroke="#A87E1C" stroke-width="2"/><text y="4.5" text-anchor="middle" font-family="DM Mono,monospace" font-size="12" font-weight="500" fill="#6B4E0B">£</text></g>
         <g class="coin c2"><circle r="7.5" fill="#F6C44A" stroke="#A87E1C" stroke-width="2"/><text y="4" text-anchor="middle" font-family="DM Mono,monospace" font-size="10.5" font-weight="500" fill="#6B4E0B">£</text></g>
@@ -381,41 +392,14 @@ footer .sign{font-family:"DM Mono",monospace; font-size:.72rem; letter-spacing:.
 
 <!-- ============ WHY 1: not the crude ============ -->
 <section class="band-sec wrap">
-  <div class="reveal duo">
-    <div>
-      <p class="kicker">It isn't the crude</p>
-      <h2 class="serif-xl">Both pumps drink from the same barrel.<br>Only one of them is <em>short</em>.</h2>
-      <p class="body">Petrol and diesel start as the same oil – what differs is the refining. Britain makes <b>more petrol than it needs</b> and exports the surplus. Diesel it cannot make enough of: self-sufficient as recently as <b>2011</b>, the UK now imports <b>2.5 times</b> what it refines. Petrol's price is set by a surplus at home. Diesel's is set by what a cargo costs at sea.</p>
-      <div class="chips">
-        <span class="chip">Petrol: <b>surplus</b>, exported</span>
-        <span class="chip">Diesel: <b>2.5×</b> imported vs refined</span>
-        <span class="chip">Self-sufficient until <b>2011</b></span>
-      </div>
-    </div>
-    <div class="flowfig" aria-hidden="true">
-      <svg viewBox="0 318 560 248" font-family="DM Mono,monospace">
-        <!-- sea -->
-        <g stroke="#5B7BA6" stroke-width="2.4" fill="none" stroke-linecap="round" opacity=".8">
-          <path d="M30,366 q14,-12 28,0 q14,12 28,0 q12,-10 24,-2"/>
-          <path d="M36,432 q14,-12 28,0 q14,12 28,0 q12,-10 22,-2"/>
-          <path d="M30,498 q14,-12 28,0 q14,12 28,0 q12,-10 24,-2"/>
-        </g>
-        <text x="82" y="548" text-anchor="middle" fill="#8C99AB" font-size="13" letter-spacing="3">THE SEA</text>
-        <!-- britain node -->
-        <rect x="432" y="330" width="84" height="170" rx="14" fill="rgba(255,255,255,.04)" stroke="rgba(233,237,243,.18)" stroke-width="1.5"/>
-        <text x="474" y="425" text-anchor="middle" fill="#E9EDF3" font-family="Anton,sans-serif" font-size="30">UK</text>
-        <text x="474" y="548" text-anchor="middle" fill="#8C99AB" font-size="13" letter-spacing="3">BRITAIN</text>
-        <!-- diesel lane: in, 2.5x -->
-        <text x="270" y="346" text-anchor="middle" fill="#FFB52E" font-size="16" letter-spacing="2" font-weight="500">DIESEL &#183; IN</text>
-        <path class="lane-dsl" d="M126,380 H402" stroke="#FFB52E" stroke-width="22" fill="none" opacity=".92" style="filter:drop-shadow(0 0 9px rgba(255,181,46,.45))"/>
-        <polygon points="402,364 430,380 402,396" fill="#FFB52E"/>
-        <text x="270" y="420" text-anchor="middle" fill="#C9A86A" font-size="12.5" letter-spacing="1.5">2.5&#215; WHAT BRITAIN REFINES</text>
-        <!-- petrol lane: out, the surplus -->
-        <text x="276" y="452" text-anchor="middle" fill="#3ECF6E" font-size="16" letter-spacing="2" font-weight="500">PETROL &#183; OUT</text>
-        <path class="lane-pet" d="M430,478 H152" stroke="#3ECF6E" stroke-width="9" fill="none" opacity=".95" style="filter:drop-shadow(0 0 8px rgba(62,207,110,.45))"/>
-        <polygon points="152,468 126,478 152,488" fill="#3ECF6E"/>
-        <text x="276" y="512" text-anchor="middle" fill="#6FA786" font-size="12.5" letter-spacing="1.5">THE SURPLUS, EXPORTED</text>
-      </svg>
+  <div class="reveal">
+    <p class="kicker">It isn't the crude</p>
+    <h2 class="serif-xl">Both pumps drink from the same barrel.<br>Only one of them is <em>short</em>.</h2>
+    <p class="body">Petrol and diesel start as the same oil – what differs is the refining. Britain makes <b>more petrol than it needs</b> and exports the surplus. Diesel it cannot make enough of: self-sufficient as recently as <b>2011</b>, the UK now imports <b>2.5 times</b> what it refines. Petrol's price is set by a surplus at home. Diesel's is set by what a cargo costs at sea.</p>
+    <div class="chips">
+      <span class="chip">Petrol: <b>surplus</b>, exported</span>
+      <span class="chip">Diesel: <b>2.5×</b> imported vs refined</span>
+      <span class="chip">Self-sufficient until <b>2011</b></span>
     </div>
   </div>
 </section>
@@ -478,6 +462,27 @@ footer .sign{font-family:"DM Mono",monospace; font-size:.72rem; letter-spacing:.
     <p class="kicker">Then the strait</p>
     <h2 class="serif-xl">When war reached the Gulf, only one pump flinched.</h2>
     <p class="body">The strikes on Iran put the <b>Strait of Hormuz</b> – the channel for the Gulf diesel and jet fuel Britain now depends on – at risk. In the first three weeks of March 2026, petrol rose 12p a litre. Diesel rose <b>25p</b>. Same war, same forecourts, double the pain – because only one of the two fuels has to run the strait.</p>
+    <div class="flowfig flow-inline" aria-hidden="true">
+      <svg viewBox="0 318 560 248" font-family="DM Mono,monospace">
+        <g stroke="#5B7BA6" stroke-width="2.4" fill="none" stroke-linecap="round" opacity=".8">
+          <path d="M30,366 q14,-12 28,0 q14,12 28,0 q12,-10 24,-2"/>
+          <path d="M36,432 q14,-12 28,0 q14,12 28,0 q12,-10 22,-2"/>
+          <path d="M30,498 q14,-12 28,0 q14,12 28,0 q12,-10 24,-2"/>
+        </g>
+        <text x="82" y="548" text-anchor="middle" fill="#8C99AB" font-size="13" letter-spacing="3">THE SEA</text>
+        <rect x="432" y="330" width="84" height="170" rx="14" fill="rgba(255,255,255,.04)" stroke="rgba(233,237,243,.18)" stroke-width="1.5"/>
+        <text x="474" y="425" text-anchor="middle" fill="#E9EDF3" font-family="Anton,sans-serif" font-size="30">UK</text>
+        <text x="474" y="548" text-anchor="middle" fill="#8C99AB" font-size="13" letter-spacing="3">BRITAIN</text>
+        <text x="270" y="346" text-anchor="middle" fill="#FFB52E" font-size="16" letter-spacing="2" font-weight="500">DIESEL &#183; IN</text>
+        <path class="lane-dsl" d="M126,380 H402" stroke="#FFB52E" stroke-width="22" fill="none" opacity=".92" style="filter:drop-shadow(0 0 9px rgba(255,181,46,.45))"/>
+        <polygon points="402,364 430,380 402,396" fill="#FFB52E"/>
+        <text x="270" y="420" text-anchor="middle" fill="#C9A86A" font-size="12.5" letter-spacing="1.5">2.5&#215; WHAT BRITAIN REFINES</text>
+        <text x="276" y="452" text-anchor="middle" fill="#3ECF6E" font-size="16" letter-spacing="2" font-weight="500">PETROL &#183; OUT</text>
+        <path class="lane-pet" d="M430,478 H152" stroke="#3ECF6E" stroke-width="9" fill="none" opacity=".95" style="filter:drop-shadow(0 0 8px rgba(62,207,110,.45))"/>
+        <polygon points="152,468 126,478 152,488" fill="#3ECF6E"/>
+        <text x="276" y="512" text-anchor="middle" fill="#6FA786" font-size="12.5" letter-spacing="1.5">THE SURPLUS, EXPORTED</text>
+      </svg>
+    </div>
     <div class="stats">
       <div class="stat"><div class="num">33.97p</div><div class="lab">record diesel–petrol gap<br>13 April 2026<span class="gapbar"><i></i></span></div></div>
       <div class="stat"><div class="num">+25p</div><div class="lab">diesel rise in three weeks<br>of March 2026</div></div>
