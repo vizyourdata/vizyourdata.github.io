@@ -106,21 +106,21 @@ strong{font-weight:600}
 .nozzle .c2{animation:coinB 3s 3s linear infinite}
 .nozzle .c3{animation:coinA 3s 4.1s linear infinite}
 .nozzle .note{animation:noteF 4.6s 2.4s linear infinite}
-@keyframes coinA{0%{transform:translate(63px,345px) scale(.35); opacity:0}
-  12%{transform:translate(52px,342px) scale(1); opacity:1}
-  55%{transform:translate(34px,360px) rotate(-40deg)}
-  82%{transform:translate(24px,371px) rotate(-72deg); opacity:.95}
-  100%{transform:translate(17px,373px) rotate(-90deg); opacity:0}}
-@keyframes coinB{0%{transform:translate(63px,345px) scale(.35); opacity:0}
-  12%{transform:translate(54px,338px) scale(1); opacity:1}
-  55%{transform:translate(42px,360px) rotate(38deg)}
-  82%{transform:translate(38px,372px) rotate(64deg); opacity:.95}
-  100%{transform:translate(35px,374px) rotate(80deg); opacity:0}}
-@keyframes noteF{0%{transform:translate(63px,345px) rotate(0deg) scale(.4); opacity:0}
-  10%{transform:translate(50px,336px) rotate(-14deg) scale(1); opacity:1}
-  55%{transform:translate(28px,356px) rotate(10deg)}
+@keyframes coinA{0%{transform:translate(103px,356px) scale(.35); opacity:0}
+  12%{transform:translate(92px,352px) scale(1); opacity:1}
+  55%{transform:translate(72px,366px) rotate(-40deg)}
+  82%{transform:translate(62px,372px) rotate(-72deg); opacity:.95}
+  100%{transform:translate(56px,374px) rotate(-90deg); opacity:0}}
+@keyframes coinB{0%{transform:translate(103px,356px) scale(.35); opacity:0}
+  12%{transform:translate(94px,348px) scale(1); opacity:1}
+  55%{transform:translate(82px,366px) rotate(38deg)}
+  82%{transform:translate(78px,374px) rotate(64deg); opacity:.95}
+  100%{transform:translate(75px,375px) rotate(80deg); opacity:0}}
+@keyframes noteF{0%{transform:translate(103px,356px) rotate(0deg) scale(.4); opacity:0}
+  10%{transform:translate(90px,346px) rotate(-14deg) scale(1); opacity:1}
+  55%{transform:translate(66px,362px) rotate(10deg)}
   90%{opacity:.85}
-  100%{transform:translate(12px,376px) rotate(-20deg); opacity:0}}
+  100%{transform:translate(48px,376px) rotate(-20deg); opacity:0}}
 @media (max-width:680px){.nozzle{width:8.6rem} .scrollcue{display:none}}
 .road{position:absolute; left:0; right:0; bottom:0; height:13vh; z-index:1; pointer-events:none;
   background:linear-gradient(180deg, transparent, rgba(0,0,0,.4));}
@@ -316,19 +316,29 @@ footer .sign{font-family:"DM Mono",monospace; font-size:.72rem; letter-spacing:.
       <div class="t-row dsl"><span class="t-fuel">Diesel</span><span class="t-price">181.8<small>p</small></span></div>
       <div class="t-foot">The gap · <b>+23.8p</b> a litre</div>
       <svg class="nozzle" viewBox="0 0 220 400" aria-hidden="true">
-        <ellipse cx="105" cy="372" rx="100" ry="11" fill="rgba(0,0,0,.38)"/>
-        <path d="M100,-2 C94,85 182,130 174,225 C168,288 163,316 157,328" fill="none" stroke="#222B3A" stroke-width="8" stroke-linecap="round"/>
-        <path d="M100,-2 C94,85 182,130 174,225 C168,288 163,316 157,328" fill="none" stroke="#3A4760" stroke-width="2.5" stroke-linecap="round" opacity=".8"/>
-        <g transform="translate(150,330) rotate(80)">
-          <path d="M-13,16 C-31,22 -31,44 -13,48" fill="none" stroke="#44516A" stroke-width="5" stroke-linecap="round"/>
-          <rect x="-15" y="-6" width="30" height="58" rx="8" fill="#1B232F" stroke="#44516A" stroke-width="2.5"/>
-          <rect x="-15" y="6" width="30" height="10" fill="#FFB52E" opacity=".92"/>
-          <path d="M-7,52 L7,52 L4,88 L-4,88 Z" fill="#1B232F" stroke="#44516A" stroke-width="2.5" stroke-linejoin="round"/>
+        <ellipse cx="118" cy="374" rx="102" ry="11" fill="rgba(0,0,0,.38)"/>
+        <path d="M100,-2 C88,80 200,120 212,200 C219,248 221,268 217,286" fill="none" stroke="#222B3A" stroke-width="8" stroke-linecap="round"/>
+        <path d="M100,-2 C88,80 200,120 212,200 C219,248 221,268 217,286" fill="none" stroke="#3A4760" stroke-width="2.5" stroke-linecap="round" opacity=".8"/>
+        <g transform="translate(150,330)">
+          <!-- spout: curved, tip resting on the ground -->
+          <path d="M-10,12 C-28,10 -40,14 -47,26" fill="none" stroke="#44516A" stroke-width="16" stroke-linecap="round"/>
+          <path d="M-10,12 C-28,10 -40,14 -47,26" fill="none" stroke="#1B232F" stroke-width="11" stroke-linecap="round"/>
+          <!-- grip: angled up-back, hose enters the butt -->
+          <g transform="translate(46,-4) rotate(28)">
+            <rect x="-2" y="-46" width="25" height="50" rx="8" fill="#1B232F" stroke="#44516A" stroke-width="2.5"/>
+            <rect x="-2" y="-30" width="25" height="9" fill="#FFB52E" opacity=".92"/>
+          </g>
+          <!-- body -->
+          <rect x="-12" y="-6" width="74" height="34" rx="9" fill="#1B232F" stroke="#44516A" stroke-width="2.5"/>
+          <rect x="4" y="-6" width="15" height="34" fill="#FFB52E" opacity=".92"/>
+          <!-- trigger guard -->
+          <path d="M-2,28 C2,41 24,43 32,30" fill="none" stroke="#44516A" stroke-width="4.5" stroke-linecap="round"/>
+          <line x1="14" y1="28" x2="12" y2="37" stroke="#44516A" stroke-width="4" stroke-linecap="round"/>
         </g>
         <g class="pool" opacity=".92">
-          <circle cx="40" cy="373" r="8" fill="#F6C44A" stroke="#A87E1C" stroke-width="2"/>
-          <circle cx="58" cy="377" r="7" fill="#FFD46B" stroke="#A87E1C" stroke-width="2"/>
-          <text x="40" y="377" text-anchor="middle" font-family="DM Mono,monospace" font-size="10.5" font-weight="500" fill="#6B4E0B">£</text>
+          <circle cx="78" cy="373" r="8" fill="#F6C44A" stroke="#A87E1C" stroke-width="2"/>
+          <circle cx="95" cy="377" r="7" fill="#FFD46B" stroke="#A87E1C" stroke-width="2"/>
+          <text x="78" y="377" text-anchor="middle" font-family="DM Mono,monospace" font-size="10.5" font-weight="500" fill="#6B4E0B">£</text>
         </g>
         <g class="coin c1"><circle r="9" fill="#F6C44A" stroke="#A87E1C" stroke-width="2"/><text y="4.5" text-anchor="middle" font-family="DM Mono,monospace" font-size="12" font-weight="500" fill="#6B4E0B">£</text></g>
         <g class="coin c2"><circle r="7.5" fill="#F6C44A" stroke="#A87E1C" stroke-width="2"/><text y="4" text-anchor="middle" font-family="DM Mono,monospace" font-size="10.5" font-weight="500" fill="#6B4E0B">£</text></g>
