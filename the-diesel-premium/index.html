@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>The Diesel Premium – How Britain's Two Pumps Came Apart</title>
-<meta name="description" content="A scrollytelling data story: UK petrol and diesel moved as one for twenty years – then in spring 2026 the gap between them hit a record 34p a litre.">
+<title>The Diesel Premium · How Britain's Two Pumps Came Apart</title>
+<meta name="description" content="A scrollytelling data story: UK petrol and diesel moved as one for twenty years. Then, in spring 2026, the gap between them hit a record 34p a litre.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -213,6 +213,20 @@ strong{font-weight:600}
   border:1px solid var(--line); border-radius:100px; background:rgba(255,255,255,.04); backdrop-filter:blur(3px)}
 .chip b{font-weight:500; color:var(--dsl)}
 
+/* ---- chapter system: the explanation, numbered ---- */
+.band-sec{border-top:1px solid var(--line)}
+.chap{display:flex; align-items:center; gap:.85em; margin:0 0 1.5rem}
+.chap-no{font-family:"Anton",sans-serif; font-size:1.7rem; line-height:1; color:var(--dsl);
+  letter-spacing:.02em; text-shadow:0 0 22px rgba(255,181,46,.35)}
+.chap-label{font-family:"DM Mono",monospace; font-size:.72rem; letter-spacing:.34em; text-transform:uppercase; color:var(--muted)}
+.chap-rule{flex:1 1 auto; height:1px; background:linear-gradient(90deg,var(--line),transparent); max-width:9rem}
+.ghost-no{position:absolute; right:5vw; top:50%; transform:translateY(-50%);
+  font-family:"Anton",sans-serif; font-size:clamp(13rem,27vw,30rem); line-height:.74;
+  color:transparent; -webkit-text-stroke:2px rgba(255,181,46,.13); text-stroke:2px rgba(255,181,46,.13);
+  pointer-events:none; user-select:none; z-index:0}
+.band-sec .reveal{position:relative; z-index:1}
+@media (max-width:860px){.ghost-no{font-size:38vw; right:2vw; opacity:.7}}
+
 /* ---- animated flow diagram: exports out, imports in, refineries down ---- */
 .duo{display:grid; grid-template-columns:minmax(0,1.02fr) minmax(0,.98fr); gap:4.5vw; align-items:center}
 .flowfig svg{width:100%; height:auto; overflow:visible}
@@ -377,22 +391,22 @@ footer .sign{font-family:"DM Mono",monospace; font-size:.72rem; letter-spacing:.
   <div class="steps">
     <div class="step" data-step="0">
       <p class="kicker">Two Pumps, One Price</p>
-      <p class="lede">From 2003 through 2021 – <span class="big">969 weeks</span> – the two fuels tracked each other so closely the gap averaged just <b>4.5p a litre</b>. Diesel cost a little more. Drivers grumbled. But the two prices were really one price.</p>
+      <p class="lede">From 2003 through 2021, <span class="big">969 weeks</span>, the two fuels tracked each other so closely the gap averaged just <b>4.5p a litre</b>. Diesel cost a little more. Drivers grumbled. But the two prices were really one price.</p>
       <span class="micro">2003 → 2021 · avg gap <span class="dsl">4.49p</span> · 969 weeks</span>
     </div>
     <div class="step" data-step="1">
       <p class="kicker">The Exception</p>
-      <p class="lede">It even flipped. In the cheap-oil slump of <span class="big">2015–16</span>, diesel spent <b>13 scattered weeks cheaper than petrol</b>, bottoming out 2.5p under. Proof the premium was economics, not a law of nature.</p>
+      <p class="lede">It even flipped. In the cheap-oil slump of <span class="big">2015-16</span>, diesel spent <b>13 scattered weeks cheaper than petrol</b>, bottoming out 2.5p under. Proof the premium was economics, not a law of nature.</p>
       <span class="micro"><span class="pet">Diesel below petrol</span> · Aug 2015 → Feb 2016 · min −2.53p</span>
     </div>
     <div class="step" data-step="2">
       <p class="kicker">The First Shock</p>
-      <p class="lede">Russia's invasion of Ukraine sent both pumps to all-time records – petrol <b>191.5p</b>, diesel <span class="big">199.2p</span> in July 2022. The gap stretched to 24.5p that November. Then, slowly, it healed.</p>
+      <p class="lede">Russia's invasion of Ukraine sent both pumps to all-time records: petrol <b>191.5p</b>, diesel <span class="big">199.2p</span> in July 2022. The gap stretched to 24.5p that November. Then, slowly, it healed.</p>
       <span class="micro">4 Jul 2022 records · gap <span class="gap">24.45p</span> on 14 Nov 2022</span>
     </div>
     <div class="step" data-step="3">
       <p class="kicker">The Divergence</p>
-      <p class="lede">On <b>28 February 2026</b> war reached Iran – and only one pump really felt it. Petrol climbed 26p. Diesel jumped <span class="big">+50.7p in eight weeks</span>, to within 7p of its all-time record. The gap blew past every number in the book.</p>
+      <p class="lede">On <b>28 February 2026</b> war reached Iran, and only one pump really felt it. Petrol climbed 26p. Diesel jumped <span class="big">+50.7p in eight weeks</span>, to within 7p of its all-time record. The gap blew past every number in the book.</p>
       <span class="micro">16 Feb → 13 Apr 2026 · <span class="pet">petrol +26.5p</span> · <span class="dsl">diesel +50.7p</span></span>
     </div>
     <div class="step" data-step="4">
@@ -406,10 +420,11 @@ footer .sign{font-family:"DM Mono",monospace; font-size:.72rem; letter-spacing:.
 
 <!-- ============ WHY 1: not the crude ============ -->
 <section class="band-sec wrap">
+  <div class="ghost-no" aria-hidden="true">01</div>
   <div class="reveal">
-    <p class="kicker">It isn't the crude</p>
+    <div class="chap"><span class="chap-no">01</span><span class="chap-label">It isn't the crude</span><span class="chap-rule"></span></div>
     <h2 class="serif-xl">Both pumps drink from the same barrel.<br>Only one of them is <em>short</em>.</h2>
-    <p class="body">Petrol and diesel start as the same oil – what differs is the refining. Britain makes <b>more petrol than it needs</b> and exports the surplus. Diesel it cannot make enough of: self-sufficient as recently as <b>2011</b>, the UK now imports <b>2.5 times</b> what it refines. Petrol's price is set by a surplus at home. Diesel's is set by what a cargo costs at sea.</p>
+    <p class="body">Petrol and diesel start as the same oil: what differs is the refining. Britain makes <b>more petrol than it needs</b> and exports the surplus. Diesel it cannot make enough of: self-sufficient as recently as <b>2011</b>, the UK now imports <b>2.5 times</b> what it refines. Petrol's price is set by a surplus at home. Diesel's is set by what a cargo costs at sea.</p>
     <div class="chips">
       <span class="chip">Petrol: <b>surplus</b>, exported</span>
       <span class="chip">Diesel: <b>2.5×</b> imported vs refined</span>
@@ -422,9 +437,9 @@ footer .sign{font-family:"DM Mono",monospace; font-size:.72rem; letter-spacing:.
 <section class="band-sec wrap">
   <div class="reveal duo">
     <div>
-      <p class="kicker">Then the refineries fell</p>
+      <div class="chap"><span class="chap-no">02</span><span class="chap-label">Then the refineries fell</span></div>
       <h2 class="serif-xl">Six refineries became four.</h2>
-      <p class="body">In 2025 Britain lost two of its six remaining oil refineries: <b>Petroineos Grangemouth</b> – Scotland's only one – and <b>Prax Lindsey</b> in Lincolnshire. Every barrel they no longer crack is a barrel that now arrives by tanker. The import dependence deepened in the worst possible year to deepen it.</p>
+      <p class="body">In 2025 Britain lost two of its six remaining oil refineries: <b>Petroineos Grangemouth</b>, Scotland's only one, and <b>Prax Lindsey</b> in Lincolnshire. Every barrel they no longer crack is a barrel that now arrives by tanker. The import dependence deepened in the worst possible year to deepen it.</p>
       <div class="chips">
         <span class="chip"><b>6 → 4</b> UK refineries</span>
         <span class="chip"><b>2</b> closures in 2025</span>
@@ -461,9 +476,9 @@ footer .sign{font-family:"DM Mono",monospace; font-size:.72rem; letter-spacing:.
 <!-- ============ WHY 3: the strait ============ -->
 <section class="band-sec wrap">
   <div class="reveal">
-    <p class="kicker">Then the strait</p>
+    <div class="chap"><span class="chap-no">03</span><span class="chap-label">Then the strait</span><span class="chap-rule"></span></div>
     <h2 class="serif-xl">When war reached the Gulf, only one pump flinched.</h2>
-    <p class="body">The strikes on Iran put the <b>Strait of Hormuz</b> – the channel for the Gulf diesel and jet fuel Britain now depends on – at risk. In the first three weeks of March 2026, petrol rose 12p a litre. Diesel rose <b>25p</b>. Same war, same forecourts, double the pain – because only one of the two fuels has to run the strait.</p>
+    <p class="body">The strikes on Iran put the <b>Strait of Hormuz</b>, the channel for the Gulf diesel and jet fuel Britain now depends on, at risk. In the first three weeks of March 2026, petrol rose 12p a litre. Diesel rose <b>25p</b>. Same war, same forecourts, double the pain: only one of the two fuels has to run the strait.</p>
   </div>
   <div class="mapsec mapsec-inline">
     <div class="mapwrap reveal">
@@ -472,7 +487,7 @@ footer .sign{font-family:"DM Mono",monospace; font-size:.72rem; letter-spacing:.
   </div>
   <div class="reveal">
     <div class="stats">
-      <div class="stat"><div class="num">33.97p</div><div class="lab">record diesel–petrol gap<br>13 April 2026<span class="gapbar"><i></i></span></div></div>
+      <div class="stat"><div class="num">33.97p</div><div class="lab">record diesel-to-petrol gap<br>13 April 2026<span class="gapbar"><i></i></span></div></div>
       <div class="stat"><div class="num">+25p</div><div class="lab">diesel rise in three weeks<br>of March 2026</div></div>
       <div class="stat"><div class="num">£20.40</div><div class="lab">extra for a 60-litre fill,<br>versus the same fill of petrol</div></div>
     </div>
@@ -484,21 +499,21 @@ footer .sign{font-family:"DM Mono",monospace; font-size:.72rem; letter-spacing:.
   <div class="reveal" style="margin:0 auto">
     <p class="kicker kicker-center">The takeaway</p>
     <h2 class="big">Petrol's price is made in Britain.<br>Diesel's is made <em>at sea</em>.</h2>
-    <p class="sub">A record <b>34p premium</b> wasn't set by the price of oil. It was set by what Britain can no longer refine for itself – and by every mile of water its diesel now has to cross.</p>
+    <p class="sub">A record <b>34p premium</b> wasn't set by the price of oil. It was set by what Britain can no longer refine for itself, and by every mile of water its diesel now has to cross.</p>
   </div>
 </section>
 
 <!-- ============ FOOTER ============ -->
 <footer class="wrap">
   <div class="ft-title">The Diesel Premium</div>
-  <p class="note">Weekly average UK pump prices, 9 Jun 2003 – 8 Jun 2026 – DESNZ weekly road fuel prices (incl. duty &amp; VAT) · MakeoverMonday 2026, Week 20: UK fuel prices via RAC Fuel Watch. Industry &amp; supply figures from the reporting below.</p>
+  <p class="note">Weekly average UK pump prices, 9 Jun 2003 to 8 Jun 2026 · DESNZ weekly road fuel prices (incl. duty &amp; VAT) · MakeoverMonday 2026, Week 20: UK fuel prices via RAC Fuel Watch. Industry &amp; supply figures from the reporting below.</p>
   <div class="src">
-    <a href="https://www.data.gov.uk/dataset/21db6396-3daf-4d90-8b3f-054995256018/petrol-and-diesel-prices" target="_blank" rel="noopener">DESNZ – Weekly Road Fuel Prices (data.gov.uk)</a>
-    <a href="https://www.rac.co.uk/drive/advice/fuel-watch/" target="_blank" rel="noopener">RAC Fuel Watch – Live UK Fuel Prices</a>
-    <a href="https://commonslibrary.parliament.uk/research-briefings/sn04712/" target="_blank" rel="noopener">House of Commons Library – Petrol and Diesel Prices</a>
-    <a href="https://www.cnbc.com/2026/04/15/uk-jet-fuel-kerosene-diesel-refineries-import-supply-chain.html" target="_blank" rel="noopener">CNBC – UK Fuel Supply Risk After the Refinery Closures</a>
-    <a href="https://www.oxfordenergy.org/wpcms/wp-content/uploads/2026/04/Comment-Europes-oil-vulnerability.pdf" target="_blank" rel="noopener">Oxford Institute for Energy Studies – Europe's Oil Vulnerability</a>
-    <a href="https://makeovermonday.co.uk/" target="_blank" rel="noopener">MakeoverMonday – 2026 Week 20</a>
+    <a href="https://www.data.gov.uk/dataset/21db6396-3daf-4d90-8b3f-054995256018/petrol-and-diesel-prices" target="_blank" rel="noopener">DESNZ · Weekly Road Fuel Prices (data.gov.uk)</a>
+    <a href="https://www.rac.co.uk/drive/advice/fuel-watch/" target="_blank" rel="noopener">RAC Fuel Watch · Live UK Fuel Prices</a>
+    <a href="https://commonslibrary.parliament.uk/research-briefings/sn04712/" target="_blank" rel="noopener">House of Commons Library · Petrol and Diesel Prices</a>
+    <a href="https://www.cnbc.com/2026/04/15/uk-jet-fuel-kerosene-diesel-refineries-import-supply-chain.html" target="_blank" rel="noopener">CNBC · UK Fuel Supply Risk After the Refinery Closures</a>
+    <a href="https://www.oxfordenergy.org/wpcms/wp-content/uploads/2026/04/Comment-Europes-oil-vulnerability.pdf" target="_blank" rel="noopener">Oxford Institute for Energy Studies · Europe's Oil Vulnerability</a>
+    <a href="https://makeovermonday.co.uk/" target="_blank" rel="noopener">MakeoverMonday · 2026 Week 20</a>
   </div>
   <div class="sign">Data viz · scrollytelling · built under the canopy</div>
 </footer>
