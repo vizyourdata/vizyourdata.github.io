@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Lab · vizyourdata</title>
+<meta name="description" content="A workbench that wires up any Tableau Public workbook, reads its sheets, filters, and parameters, and builds the controls for you.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Mono:wght@400;500&family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/site.css">
+<!-- Tableau Embedding API v3 -->
+<script type="module" src="https://public.tableau.com/javascripts/api/tableau.embedding.3.latest.min.js"></script>
+<style>
+  html, body { height:100% }
+  body { display:flex; flex-direction:column; overflow:hidden }
+  .grain { z-index:1 }
+
+  /* ============ PATCH BAY (header) ============ */
+  .bench-bar{
+    position:relative; z-index:4; flex:0 0 auto;
+    border-bottom:1px solid var(--line);
+    backdrop-filter:blur(6px);
+  }
+  .bench-bar .wrap{
+    width:min(100% - 2.4rem, 1640px);
+    display:flex; align-items:center; gap:1.2rem; padding:.8rem 0; flex-wrap:wrap;
+  }
+  .back{
+    display:inline-flex; align-items:center; gap:.6em; text-decoration:none; color:var(--ink);
+    font-family:"DM Mono",monospace; font-size:.7rem; letter-spacing:.12em; text-transform:uppercase;
+    padding:.45em .8em; border:1px solid var(--line); border-radius:100px;
+    transition:border-color .25s var(--ease);
+  }
+  .back .ar{ color:var(--accent); transition:transform .3s var(--ease) }
+  .back:hover{ border-color:rgba(33,28,22,.28) }
+  .back:hover .ar{ transform:translateX(-3px) }
+
+  .bench-title{ display:flex; flex-direction:column; gap:.1rem }
+  .bench-title .t{ font-family:"Fraunces",serif; font-size:1.15rem; letter-spacing:-.01em; line-height:1.1 }
+  .bench-title .t em{ color:var(--accent) }
+  .bench-title .m{ font-family:"DM Mono",monospace; font-size:.62rem; letter-spacing:.18em; text-transform:uppercase; color:var(--muted) }
+
+  .patch{
+    margin-left:auto; display:flex; align-items:center; gap:.6rem; flex:1 1 340px; max-width:640px; min-width:260px;
+  }
+  .patch input{
+    flex:1; min-width:0; appearance:none; outline:none;
+    background:rgba(247,241,230,.7); color:var(--ink);
+    border:1px solid var(--line); border-radius:100px;
+    font-family:"DM Mono",monospace; font-size:.74rem; letter-spacing:.02em;
+    padding:.62em 1.1em;
+    transition:border-color .25s var(--ease), box-shadow .25s var(--ease);
+  }
+  .patch input::placeholder{ color:var(--muted) }
+  .patch input:focus{ border-color:var(--accent); box-shadow:0 0 0 3px rgba(194,78,44,.14) }
+  .patch button{
+    appearance:none; cursor:pointer; border:1px solid var(--ink); border-radius:100px;
+    background:var(--ink); color:#F7F1E6;
+    font-family:"DM Mono",monospace; font-size:.7rem; letter-spacing:.14em; text-transform:uppercase;
+    padding:.66em 1.25em; white-space:nowrap;
+    transition:background .25s var(--ease), color .25s var(--ease);
+  }
+  .patch button:hover{ background:var(--accent); border-color:var(--accent) }
+
+  /* ============ BENCH (main split) ============ */
+  .bench{
+    position:relative; z-index:2; flex:1 1 auto; min-height:0;
+    display:grid; grid-template-columns:1fr 360px;
+    gap:0;
+  }
+
+  /* --- stage: dotted drafting mat --- */
+  .stage{
+    position:relative; min-width:0; min-height:0; padding:clamp(.9rem,2vw,1.6rem);
+    background-image:radial-gradient(rgba(33,28,22,.13) 1px, transparent 1px);
+    background-size:22px 22px;
+  }
+  .frame{
+    position:relative; height:100%; width:100%; border-radius:8px; overflow:hidden;
+    background:#fff; border:1px solid var(--line);
+    box-shadow:0 30px 60px -34px rgba(33,28,22,.5);
+  }
+  tableau-viz{ display:block; width:100%; height:100% }
+
+  .msg{
+    position:absolute; inset:0; z-index:2; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap:1.1rem; text-align:center; padding:2rem; color:var(--ink-soft);
+    background:linear-gradient(160deg,#F7F1E6,#EBE0CC);
+  }
+  .msg h3{ font-family:"Fraunces",serif; font-size:1.6rem; font-weight:400 }
+  .msg h3 em{ color:var(--accent) }
+  .msg p{ max-width:46ch; font-size:1rem; margin:0 }
+  .msg .mono{ font-family:"DM Mono",monospace; font-size:.74rem; color:var(--muted) }
+  .msg a{ color:var(--accent) }
+  .hidden{ display:none !important }
+
+  /* loading shimmer dot */
+  .reading{
+    display:inline-flex; align-items:center; gap:.6em;
+    font-family:"DM Mono",monospace; font-size:.7rem; letter-spacing:.16em; text-transform:uppercase; color:var(--muted);
+  }
+  .reading i{
+    width:8px; height:8px; border-radius:50%; background:var(--accent);
+    animation:pulse 1.1s ease-in-out infinite;
+  }
+  @keyframes pulse{ 0%,100%{ opacity:.25; transform:scale(.8) } 50%{ opacity:1; transform:scale(1) } }
+
+  /* ============ INSTRUMENT PANEL ============ */
+  .panel{
+    position:relative; min-height:0; overflow-y:auto; overscroll-behavior:contain;
+    border-left:1px solid var(--line);
+    background:linear-gradient(180deg, rgba(247,241,230,.65), rgba(241,233,218,.4));
+    backdrop-filter:blur(4px);
+    padding:1.1rem 1.25rem 2rem;
+    scrollbar-width:thin; scrollbar-color:rgba(33,28,22,.25) transparent;
+  }
+
+  .readout{
+    display:flex; gap:1.6rem; padding:.4rem 0 1rem; border-bottom:1px solid var(--ink);
+  }
+  .readout .cell{ display:flex; flex-direction:column; gap:.25rem }
+  .readout .n{ font-family:"Anton",sans-serif; font-size:1.7rem; line-height:1; letter-spacing:.01em; color:var(--ink) }
+  .readout .l{ font-family:"DM Mono",monospace; font-size:.58rem; letter-spacing:.18em; text-transform:uppercase; color:var(--muted) }
+
+  .sect{ padding:1.2rem 0 .4rem }
+  .sect-head{
+    display:flex; align-items:baseline; gap:.7rem; margin-bottom:.9rem;
+    border-bottom:1px solid var(--line); padding-bottom:.55rem;
+  }
+  .sect-head .no{ font-family:"Anton",sans-serif; font-size:.95rem; color:var(--accent); letter-spacing:.04em }
+  .sect-head h2{ font-family:"Fraunces",serif; font-size:1.02rem; font-weight:600; letter-spacing:-.01em; margin:0 }
+  .sect-head .hint{ margin-left:auto; font-family:"DM Mono",monospace; font-size:.58rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted) }
+
+  .empty-note{ font-family:"DM Mono",monospace; font-size:.68rem; color:var(--muted); letter-spacing:.04em; padding:.2rem 0 .6rem }
+
+  /* control card: one instrument */
+  .ctrl{ padding:.65rem 0 .9rem; border-bottom:1px solid var(--line-2) }
+  .ctrl:last-child{ border-bottom:none }
+  .ctrl .lab{
+    display:flex; align-items:baseline; gap:.55em; margin-bottom:.55rem;
+    font-family:"DM Mono",monospace; font-size:.66rem; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-soft);
+  }
+  .ctrl .lab i{ width:6px; height:6px; border-radius:50%; background:var(--accent); flex:none; align-self:center }
+  .ctrl .lab .ws{ margin-left:auto; color:var(--muted); font-size:.58rem; letter-spacing:.08em; text-transform:none;
+    max-width:11em; overflow:hidden; text-overflow:ellipsis; white-space:nowrap }
+
+  /* chips (sheets, small categorical, list params) */
+  .chips{ display:flex; flex-wrap:wrap; gap:.4rem }
+  .chip{
+    appearance:none; cursor:pointer;
+    font-family:"DM Mono",monospace; font-size:.66rem; letter-spacing:.06em;
+    color:var(--ink); background:transparent;
+    border:1px solid var(--line); border-radius:100px; padding:.42em .85em;
+    transition:background .2s var(--ease), color .2s var(--ease), border-color .2s var(--ease);
+    max-width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+  }
+  .chip:hover{ border-color:rgba(33,28,22,.32) }
+  .chip.on{ background:var(--ink); border-color:var(--ink); color:#F7F1E6 }
+  .chip.on.accent{ background:var(--accent); border-color:var(--accent) }
+
+  /* checkbox well for long categorical domains */
+  .well{
+    max-height:172px; overflow-y:auto; overscroll-behavior:contain;
+    border:1px solid var(--line); border-radius:6px; background:rgba(247,241,230,.55);
+    padding:.35rem .2rem; scrollbar-width:thin;
+  }
+  .well label{
+    display:flex; align-items:center; gap:.6em; cursor:pointer;
+    font-family:"DM Mono",monospace; font-size:.7rem; padding:.34em .7em; border-radius:4px;
+    color:var(--ink-soft);
+  }
+  .well label:hover{ background:rgba(33,28,22,.05); color:var(--ink) }
+  .well input{ appearance:none; width:13px; height:13px; flex:none; border:1px solid rgba(33,28,22,.4); border-radius:3px;
+    display:inline-grid; place-content:center; background:transparent; cursor:pointer; margin:0;
+    transition:background .15s var(--ease), border-color .15s var(--ease) }
+  .well input::before{ content:""; width:7px; height:7px; transform:scale(0); transition:transform .12s var(--ease);
+    background:#F7F1E6; clip-path:polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%) }
+  .well input:checked{ background:var(--accent); border-color:var(--accent) }
+  .well input:checked::before{ transform:scale(1) }
+
+  .mini-row{ display:flex; gap:.45rem; margin-top:.5rem; align-items:center; flex-wrap:wrap }
+  .mini{
+    appearance:none; cursor:pointer; background:transparent; color:var(--muted);
+    border:none; border-bottom:1px solid transparent; padding:0 0 .1em;
+    font-family:"DM Mono",monospace; font-size:.6rem; letter-spacing:.14em; text-transform:uppercase;
+    transition:color .2s var(--ease);
+  }
+  .mini:hover{ color:var(--accent); border-bottom-color:var(--accent) }
+
+  /* range pair */
+  .range-pair{ display:flex; align-items:center; gap:.55rem }
+  .range-pair .dash{ color:var(--muted); font-family:"DM Mono",monospace }
+  .range-pair input{
+    width:0; flex:1; appearance:none; outline:none;
+    background:rgba(247,241,230,.7); color:var(--ink);
+    border:1px solid var(--line); border-radius:6px;
+    font-family:"DM Mono",monospace; font-size:.72rem; padding:.5em .7em;
+    transition:border-color .2s var(--ease);
+  }
+  .range-pair input:focus{ border-color:var(--accent) }
+  .range-meta{ margin-top:.4rem; font-family:"DM Mono",monospace; font-size:.58rem; letter-spacing:.08em; color:var(--muted) }
+
+  /* select */
+  .sel{
+    width:100%; appearance:none; outline:none; cursor:pointer;
+    background:rgba(247,241,230,.7) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23211C16' fill='none' stroke-width='1.4'/%3E%3C/svg%3E") no-repeat right .9em center;
+    color:var(--ink); border:1px solid var(--line); border-radius:6px;
+    font-family:"DM Mono",monospace; font-size:.72rem; padding:.55em 2.2em .55em .8em;
+    transition:border-color .2s var(--ease);
+  }
+  .sel:focus{ border-color:var(--accent) }
+
+  /* toggle (boolean params) */
+  .toggle{ display:inline-flex; align-items:center; gap:.7em; cursor:pointer; font-family:"DM Mono",monospace; font-size:.7rem; color:var(--ink-soft) }
+  .toggle input{ appearance:none; width:36px; height:20px; margin:0; cursor:pointer; border-radius:100px;
+    border:1px solid rgba(33,28,22,.35); background:rgba(33,28,22,.08); position:relative;
+    transition:background .2s var(--ease), border-color .2s var(--ease) }
+  .toggle input::before{ content:""; position:absolute; top:2px; left:2px; width:14px; height:14px; border-radius:50%;
+    background:var(--ink); transition:transform .2s var(--ease), background .2s var(--ease) }
+  .toggle input:checked{ background:rgba(194,78,44,.18); border-color:var(--accent) }
+  .toggle input:checked::before{ transform:translateX(16px); background:var(--accent) }
+
+  /* free input (type 'all' params) */
+  .free{
+    width:100%; appearance:none; outline:none;
+    background:rgba(247,241,230,.7); color:var(--ink);
+    border:1px solid var(--line); border-radius:6px;
+    font-family:"DM Mono",monospace; font-size:.72rem; padding:.55em .8em;
+    transition:border-color .2s var(--ease);
+  }
+  .free:focus{ border-color:var(--accent) }
+
+  /* action buttons */
+  .actions{ display:grid; grid-template-columns:1fr 1fr; gap:.5rem }
+  .act{
+    appearance:none; cursor:pointer; text-align:left;
+    display:flex; align-items:center; justify-content:space-between; gap:.6em;
+    background:transparent; color:var(--ink);
+    border:1px solid var(--line); border-radius:6px; padding:.6em .8em;
+    font-family:"DM Mono",monospace; font-size:.64rem; letter-spacing:.1em; text-transform:uppercase;
+    transition:border-color .2s var(--ease), background .2s var(--ease), color .2s var(--ease);
+  }
+  .act .k{ color:var(--accent) }
+  .act:hover{ background:var(--ink); border-color:var(--ink); color:#F7F1E6 }
+  .act:disabled{ opacity:.35; cursor:default }
+  .act:disabled:hover{ background:transparent; color:var(--ink); border-color:var(--line) }
+
+  /* ============ EVENT TAPE ============ */
+  .tape{
+    position:relative; z-index:3; flex:0 0 auto;
+    border-top:1px solid var(--ink);
+    background:var(--ink); color:#D8CDB8;
+    font-family:"DM Mono",monospace; font-size:.66rem; letter-spacing:.04em;
+    height:30px; display:flex; align-items:center; overflow:hidden;
+  }
+  .tape .led{
+    flex:none; width:8px; height:8px; border-radius:50%; background:var(--accent);
+    margin:0 .9rem 0 1.1rem; animation:pulse 2.2s ease-in-out infinite;
+  }
+  .tape .feed{ flex:1; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis }
+  .tape .feed b{ color:#F7F1E6; font-weight:500 }
+  .tape .feed .evt{ color:#E89A7B }
+  .tape .count{ flex:none; padding:0 1.1rem; color:#8B8270 }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width:980px){
+    body{ overflow:auto }
+    .bench{ display:flex; flex-direction:column }
+    .stage{ height:72vh; flex:none }
+    .panel{ border-left:none; border-top:1px solid var(--line); overflow:visible; max-height:none }
+  }
+</style>
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+
+<!-- ============ PATCH BAY ============ -->
+<header class="bench-bar">
+  <div class="wrap">
+    <a class="back" href="/"><span class="ar">←</span> Gallery</a>
+    <div class="bench-title">
+      <span class="t">The <em>Lab</em></span>
+      <span class="m">Bench 01 · auto-wired controls</span>
+    </div>
+    <form class="patch" id="patch">
+      <input id="srcInput" type="url" spellcheck="false" autocomplete="off"
+             placeholder="https://public.tableau.com/views/Workbook/Sheet">
+      <button type="submit">Wire&nbsp;up</button>
+    </form>
+  </div>
+</header>
+
+<!-- ============ BENCH ============ -->
+<main class="bench">
+  <section class="stage" aria-label="Embedded visualization">
+    <div class="frame">
+      <tableau-viz id="tviz" toolbar="hidden" hide-tabs class="hidden"></tableau-viz>
+      <div class="msg" id="msg">
+        <h3>Wire up a <em>workbook</em></h3>
+        <p>Paste a Tableau Public URL above. The bench reads its sheets, filters, and parameters
+           through the Embedding API, then builds the matching controls on the right.</p>
+        <p class="mono">/lab/?src=&lt;tableau-public-url&gt; also works</p>
+      </div>
+    </div>
+  </section>
+
+  <aside class="panel" id="panel" aria-label="Auto-generated controls">
+    <div class="readout">
+      <div class="cell"><span class="n" id="nSheets">–</span><span class="l">Sheets</span></div>
+      <div class="cell"><span class="n" id="nFilters">–</span><span class="l">Filters</span></div>
+      <div class="cell"><span class="n" id="nParams">–</span><span class="l">Params</span></div>
+    </div>
+
+    <div id="panelBody">
+      <div class="sect">
+        <p class="empty-note" id="idleNote">No instruments yet — wire up a workbook.</p>
+      </div>
+    </div>
+  </aside>
+</main>
+
+<!-- ============ EVENT TAPE ============ -->
+<footer class="tape" aria-live="polite">
+  <span class="led" aria-hidden="true"></span>
+  <span class="feed" id="feed">standing by…</span>
+  <span class="count" id="feedCount"></span>
+</footer>
+
+<script src="../assets/js/lab.js"></script>
+</body>
+</html>

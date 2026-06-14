@@ -19,6 +19,37 @@
 
 window.VIZZES = [
   {
+    slug: "the-first-48",
+    kind: "story",
+    type: "Data story",
+    title: "The First 48",
+    sub: "For ninety-six years the World Cup grew one cautious step at a time. In 2026 it leaps to 48 teams across three nations — the biggest tournament football has ever staged. The shape of that leap.",
+    href: "/the-first-48/",
+    tags: ["Scrollytelling", "World Cup 2026"],
+    date: "Jun 2026",
+    accent: "#2E7D46",
+    feature: true,
+    art: {
+      type: "svg",
+      svg: '<svg viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice" role="img" aria-hidden="true"><defs><linearGradient id="f48-bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0E2A1E"/><stop offset="1" stop-color="#12352A"/></linearGradient><radialGradient id="f48-glow" cx="89%" cy="6%" r="70%"><stop offset="0" stop-color="#FF6A3D" stop-opacity=".22"/><stop offset="1" stop-color="#FF6A3D" stop-opacity="0"/></radialGradient></defs><rect width="800" height="500" fill="url(#f48-bg)"/><g fill="#3FA15C" fill-opacity=".05"><rect x="0" width="100" height="500"/><rect x="200" width="100" height="500"/><rect x="400" width="100" height="500"/><rect x="600" width="100" height="500"/></g><rect width="800" height="300" fill="url(#f48-glow)"/><g stroke="#E9F0EA" stroke-opacity=".06"><line x1="40" y1="320" x2="760" y2="320"/><line x1="40" y1="210" x2="760" y2="210"/></g><line x1="40" y1="430" x2="760" y2="430" stroke="#E9F0EA" stroke-opacity=".12"/><g><rect x="70" y="340.6" width="44" height="89.4" rx="2" fill="#3FA15C"/><rect x="134" y="320" width="44" height="110" rx="2" fill="#3FA15C"/><rect x="198" y="320" width="44" height="110" rx="2" fill="#3FA15C"/><rect x="262" y="320" width="44" height="110" rx="2" fill="#3FA15C"/><rect x="326" y="265" width="44" height="165" rx="2" fill="#E0A93B"/><rect x="390" y="265" width="44" height="165" rx="2" fill="#E0A93B"/><rect x="454" y="210" width="44" height="220" rx="2" fill="#4E8FD8"/><rect x="518" y="210" width="44" height="220" rx="2" fill="#4E8FD8"/><rect x="582" y="210" width="44" height="220" rx="2" fill="#4E8FD8"/><rect x="646" y="210" width="44" height="220" rx="2" fill="#4E8FD8"/><rect x="710" y="100" width="44" height="330" rx="2" fill="#FF6A3D" style="filter:drop-shadow(0 0 9px rgba(255,106,61,.75))"/></g><text x="754" y="80" text-anchor="end" font-family="Anton, Bricolage Grotesque, sans-serif" font-size="58" font-weight="800" fill="#FF6A3D" style="filter:drop-shadow(0 2px 6px rgba(0,0,0,.5))">48</text><text x="70" y="464" font-family="monospace" font-size="13" letter-spacing="1.5" fill="#7FA890">1930 — 2026 · TEAMS</text></svg>'
+    }
+  },
+  {
+    slug: "escape-velocity",
+    kind: "story",
+    type: "Data story",
+    title: "Escape Velocity",
+    sub: "On 12 June 2026 SpaceX went public at $1.75 trillion — and 4,400 of its own employees, from welders to cafeteria cooks, woke up millionaires. A scrollytelling anatomy of the launch.",
+    href: "/escape-velocity/",
+    tags: ["Scrollytelling", "Markets"],
+    date: "Jun 2026",
+    accent: "#FF5A1F",
+    art: {
+      type: "svg",
+      svg: '<svg viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice" role="img" aria-hidden="true"><defs><linearGradient id="ev-bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#070A12"/><stop offset="1" stop-color="#04050A"/></linearGradient><radialGradient id="ev-glow" cx="86%" cy="4%" r="82%"><stop offset="0" stop-color="#FF5A1F" stop-opacity=".30"/><stop offset="1" stop-color="#FF5A1F" stop-opacity="0"/></radialGradient><linearGradient id="ev-fill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FF5A1F" stop-opacity=".42"/><stop offset="1" stop-color="#FF5A1F" stop-opacity="0"/></linearGradient></defs><rect width="800" height="500" fill="url(#ev-bg)"/><rect width="800" height="500" fill="url(#ev-glow)"/><g fill="#cfe0ff" fill-opacity=".85"><circle cx="120" cy="84" r="1.4"/><circle cx="248" cy="150" r="1"/><circle cx="360" cy="58" r="1.2"/><circle cx="520" cy="120" r="1"/><circle cx="612" cy="208" r="1.3"/><circle cx="700" cy="300" r="1"/><circle cx="182" cy="248" r="1"/><circle cx="80" cy="350" r="1.2"/><circle cx="430" cy="178" r="1"/></g><g stroke="#EAEFFA" stroke-opacity=".05"><line x1="0" y1="380" x2="800" y2="380"/><line x1="0" y1="250" x2="800" y2="250"/><line x1="0" y1="120" x2="800" y2="120"/></g><path d="M40,470 C 280,464 472,442 592,330 S 722,150 754,78 L754,500 L40,500 Z" fill="url(#ev-fill)"/><path d="M40,470 C 280,464 472,442 592,330 S 722,150 754,78" fill="none" stroke="#FF5A1F" stroke-width="5" stroke-linecap="round" style="filter:drop-shadow(0 0 9px rgba(255,90,31,.85))"/><path d="M747,86 L754,114 L761,86 Z" fill="#FFA53C" opacity=".9"/><circle cx="754" cy="78" r="7" fill="#fff" stroke="#FF5A1F" stroke-width="2.5"/><text x="754" y="56" text-anchor="end" font-family="Fragment Mono, monospace" font-size="16" fill="#FFA53C">IPO · $1.75T</text><text x="50" y="118" font-family="Anton, sans-serif" font-size="96" fill="#EAEFFA" letter-spacing="-1" style="filter:drop-shadow(0 2px 8px rgba(0,0,0,.6))">4,400</text><text x="54" y="156" font-family="Fragment Mono, monospace" font-size="17" letter-spacing="5" fill="#FF7A3D">MILLIONAIRES · ONE LAUNCH</text></svg>'
+    }
+  },
+  {
     slug: "the-diesel-premium",
     kind: "story",
     type: "Data story",
@@ -57,6 +88,21 @@ window.VIZZES = [
         { fri: 54, sat: 48, sun: 48 },
         { fri: 51, sat: 44, sun: 43 }
       ]
+    }
+  },
+  {
+    slug: "ready-player-one",
+    kind: "story",
+    type: "Data story",
+    title: "The Egg Hunt",
+    sub: "Every cameo and Easter egg in Ready Player One, mapped two ways: who shares a scene, and how far each thing travelled to reach the screen.",
+    href: "/ready-player-one/",
+    tags: ["Network", "Explorable"],
+    date: "Jun 2026",
+    accent: "#7B5BFF",
+    art: {
+      type: "svg",
+      svg: '<svg viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice" role="img" aria-hidden="true"><defs><linearGradient id="rp-bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0A0A14"/><stop offset="1" stop-color="#11121F"/></linearGradient><radialGradient id="rp-glow" cx="30%" cy="14%" r="80%"><stop offset="0" stop-color="#7B5BFF" stop-opacity=".28"/><stop offset="1" stop-color="#7B5BFF" stop-opacity="0"/></radialGradient><radialGradient id="rp-glow2" cx="82%" cy="90%" r="70%"><stop offset="0" stop-color="#FF5BB0" stop-opacity=".18"/><stop offset="1" stop-color="#FF5BB0" stop-opacity="0"/></radialGradient></defs><rect width="800" height="500" fill="url(#rp-bg)"/><rect width="800" height="500" fill="url(#rp-glow)"/><rect width="800" height="500" fill="url(#rp-glow2)"/><g stroke="#ECEAF6" stroke-opacity=".05"><line x1="160" y1="40" x2="160" y2="460"/><line x1="320" y1="40" x2="320" y2="460"/><line x1="480" y1="40" x2="480" y2="460"/><line x1="640" y1="40" x2="640" y2="460"/></g><g stroke="#ECEAF6" stroke-opacity=".14" stroke-width="1"><line x1="250" y1="300" x2="205" y2="250"/><line x1="250" y1="300" x2="232" y2="345"/><line x1="250" y1="300" x2="292" y2="272"/><line x1="250" y1="300" x2="198" y2="312"/><line x1="250" y1="300" x2="300" y2="350"/><line x1="520" y1="205" x2="478" y2="168"/><line x1="520" y1="205" x2="566" y2="180"/><line x1="520" y1="205" x2="540" y2="250"/><line x1="520" y1="205" x2="486" y2="248"/><line x1="520" y1="205" x2="582" y2="236"/><line x1="640" y1="350" x2="612" y2="302"/><line x1="640" y1="350" x2="690" y2="360"/><line x1="640" y1="350" x2="666" y2="398"/><line x1="640" y1="350" x2="700" y2="322"/><line x1="380" y1="232" x2="250" y2="300"/><line x1="380" y1="232" x2="520" y2="205"/><line x1="410" y1="330" x2="250" y2="300"/><line x1="410" y1="330" x2="640" y2="350"/></g><g stroke="#0A0A14" stroke-width="1.5"><circle cx="205" cy="250" r="6" fill="#FF6FB5"/><circle cx="232" cy="345" r="5.5" fill="#FFB454"/><circle cx="292" cy="272" r="7" fill="#5BE5A0"/><circle cx="198" cy="312" r="5" fill="#FFD86B"/><circle cx="300" cy="350" r="5.5" fill="#46D5E8"/><circle cx="478" cy="168" r="6" fill="#FF6A5A"/><circle cx="566" cy="180" r="7" fill="#5BE5A0"/><circle cx="540" cy="250" r="6.5" fill="#FFB454"/><circle cx="486" cy="248" r="5.5" fill="#B98BFF"/><circle cx="582" cy="236" r="6" fill="#FF6FB5"/><circle cx="612" cy="302" r="6.5" fill="#5BE5A0"/><circle cx="690" cy="360" r="6" fill="#FFB454"/><circle cx="666" cy="398" r="5.5" fill="#FF6A5A"/><circle cx="700" cy="322" r="5.5" fill="#46D5E8"/><circle cx="380" cy="232" r="6" fill="#B98BFF"/><circle cx="410" cy="330" r="6.5" fill="#FFB454"/><circle cx="360" cy="180" r="5" fill="#5BE5A0"/><circle cx="448" cy="372" r="5" fill="#FFD86B"/></g><g fill="#20243a" stroke="#3a3f63" stroke-width="2"><circle cx="250" cy="300" r="22"/><circle cx="520" cy="205" r="26"/><circle cx="640" cy="350" r="19"/></g><g font-family="monospace" font-size="15" fill="#8A8DA8" text-anchor="middle"><text x="250" y="305">04</text><text x="520" y="210">09</text><text x="640" y="355">12</text></g><path d="M300,92 C300,210 520,120 520,205" fill="none" stroke="#A48BFF" stroke-opacity=".8" stroke-width="2.5" style="filter:drop-shadow(0 0 6px rgba(164,139,255,.8))"/><circle cx="300" cy="92" r="9" fill="#ECEAF6"/><circle cx="300" cy="92" r="9" fill="none" stroke="#A48BFF" stroke-width="2.5" style="filter:drop-shadow(0 0 8px rgba(164,139,255,.9))"/><text x="300" y="66" text-anchor="middle" font-family="monospace" font-size="13" letter-spacing="1" fill="#A48BFF">made 1981</text></svg>'
     }
   }
 

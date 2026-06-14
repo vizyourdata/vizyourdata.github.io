@@ -1,0 +1,911 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Pacific Plate · What a Warming Ocean Is Doing to Dinner</title>
+<meta name="description" content="An interactive data story for the Pacific Dataviz Challenge 2026: 176 years of sea temperature, rainfall, staple crops and drinking water — what climate change means for what the Pacific eats and drinks.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..600&family=Fragment+Mono:ital@0;1&display=swap" rel="stylesheet">
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="article">
+<meta property="og:title" content="The Pacific Plate: What a Warming Ocean Is Doing to Dinner">
+<meta property="og:description" content="The ten hottest sea years in 176 years of Pacific records are the last ten. This is the story of what that means for the plate, the garden and the glass.">
+<style>
+:root{
+  --paper:#F6EFE0; --paper2:#EFE5CF; --ink:#1C2B2A; --muted:#6E7468;
+  --heat:#C8401F; --heat2:#E06A3C; --sea:#0F6B68; --sea2:#3E9C94;
+  --earth:#A6651F; --taro:#6B4B8A; --ochre:#B98226;
+  --line:rgba(28,43,42,.16); --line2:rgba(28,43,42,.34);
+  --maxw:1280px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; color:var(--ink);
+  font-family:"Newsreader",Georgia,serif; font-optical-sizing:auto;
+  background:
+    repeating-linear-gradient(90deg, rgba(28,43,42,.022) 0 2px, transparent 2px 14px),
+    repeating-linear-gradient(0deg, rgba(166,101,31,.03) 0 2px, transparent 2px 18px),
+    linear-gradient(168deg, var(--paper) 0%, var(--paper2) 100%);
+  background-attachment:fixed;
+  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+  overflow-x:hidden;
+}
+.grain{position:fixed; inset:0; z-index:60; pointer-events:none; opacity:.05; mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+::selection{background:var(--heat); color:var(--paper)}
+
+/* portfolio: back-to-gallery home link */
+.vyd-home{position:fixed; z-index:90; top:1.15rem; left:1.3rem; text-decoration:none;
+  font-family:"Fragment Mono",monospace; font-size:.7rem; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--muted); padding:.5em .85em; border:1px solid var(--line2); border-radius:100px;
+  background:rgba(246,239,224,.7); backdrop-filter:blur(5px);
+  transition:color .25s, border-color .25s, transform .25s;}
+.vyd-home:hover{color:var(--heat); border-color:var(--heat); transform:translateX(-2px)}
+@media (max-width:680px){.vyd-home{top:.7rem; left:.7rem; font-size:.62rem; padding:.45em .7em}}
+
+.progress{position:fixed; top:0; left:0; right:0; height:3px; z-index:80}
+.progress span{display:block; height:100%; width:0;
+  background:linear-gradient(90deg,var(--sea),var(--ochre),var(--heat))}
+
+.wrap{max-width:var(--maxw); margin:0 auto; padding:0 7vw}
+.kicker{font-family:"Fragment Mono",monospace; font-size:.7rem; letter-spacing:.34em; text-transform:uppercase;
+  color:var(--muted); display:flex; align-items:center; gap:.9em; margin:0 0 1.2rem}
+.kicker::before{content:""; width:2.4em; height:1px; background:var(--line2)}
+h1,h2{font-family:"Bricolage Grotesque",sans-serif; font-weight:760; line-height:.98; letter-spacing:-.015em; margin:0}
+.prose{font-size:clamp(1.12rem,1.4vw,1.32rem); line-height:1.62; max-width:62ch}
+.prose em{font-style:italic}
+.prose b{font-weight:600}
+.heat{color:var(--heat)} .sea{color:var(--sea)} .earth{color:var(--earth)} .taro{color:var(--taro)} .ochre{color:var(--ochre)}
+.num{font-family:"Fragment Mono",monospace; font-size:.92em}
+
+/* tapa divider band */
+.tapa{height:26px; margin:0; border-top:1px solid var(--line); border-bottom:1px solid var(--line); opacity:.85;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='24' viewBox='0 0 48 24'%3E%3Cpath d='M0 24 12 4 24 24Z' fill='none' stroke='%231C2B2A' stroke-opacity='.5' stroke-width='1.2'/%3E%3Cpath d='M24 24 36 4 48 24Z' fill='%23B98226' fill-opacity='.45'/%3E%3Ccircle cx='36' cy='14' r='1.6' fill='%231C2B2A' fill-opacity='.5'/%3E%3C/svg%3E");
+  background-size:48px 24px; background-repeat:repeat-x; background-position:center;}
+
+/* ---------- hero ---------- */
+.hero{min-height:100svh; display:flex; flex-direction:column; justify-content:center; padding:14vh 0 8vh; position:relative}
+.hero h1{font-size:clamp(3.4rem,9.2vw,8.6rem); text-transform:uppercase}
+.hero h1 .l2{display:block; color:var(--sea)}
+.hero .dek{font-size:clamp(1.2rem,1.7vw,1.5rem); line-height:1.55; max-width:46ch; margin:2.2rem 0 0; font-weight:400}
+.hero .dek i{font-style:italic}
+.menu{margin:3.6rem 0 0; max-width:560px; border:1.5px solid var(--line2); background:rgba(246,239,224,.55);
+  padding:2rem 2.2rem 1.6rem; position:relative}
+.menu::before,.menu::after{content:""; position:absolute; left:10px; right:10px; height:5px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='5'%3E%3Cpath d='M0 5 7 0 14 5Z' fill='%231C2B2A' fill-opacity='.4'/%3E%3C/svg%3E");
+  background-size:14px 5px; background-repeat:repeat-x;}
+.menu::before{top:7px} .menu::after{bottom:7px; transform:scaleY(-1)}
+.menu h3{font-family:"Fragment Mono",monospace; font-weight:400; font-size:.72rem; letter-spacing:.4em; text-transform:uppercase;
+  text-align:center; margin:.2rem 0 1.4rem; color:var(--muted)}
+.menu a{display:flex; align-items:baseline; gap:.9em; text-decoration:none; color:var(--ink);
+  padding:.72em .2em; border-top:1px dotted var(--line2); transition:color .2s, transform .2s}
+.menu a:hover{color:var(--heat); transform:translateX(4px)}
+.menu a .no{font-family:"Fragment Mono",monospace; font-size:.72rem; color:var(--ochre); letter-spacing:.1em; min-width:2.2em}
+.menu a .ti{font-family:"Bricolage Grotesque",sans-serif; font-weight:650; font-size:1.16rem}
+.menu a .dots{flex:1; border-bottom:1px dotted var(--line2); transform:translateY(-4px)}
+.menu a .what{font-style:italic; font-size:.95rem; color:var(--muted)}
+.menu a.inter .ti{font-style:italic; font-weight:500; color:var(--ochre)}
+.scrollcue{margin-top:6vh; font-family:"Fragment Mono",monospace; font-size:.7rem; letter-spacing:.3em; text-transform:uppercase; color:var(--muted);
+  display:flex; align-items:center; gap:1em}
+.scrollcue::after{content:"↓"; animation:bob 1.8s ease-in-out infinite; font-size:1rem}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
+
+/* ---------- chapter heads ---------- */
+.chap{padding:16vh 0 6vh}
+.chap h2{font-size:clamp(2.5rem,5.6vw,4.6rem); text-transform:uppercase; margin:.4rem 0 1.6rem}
+.chap .course{font-family:"Fragment Mono",monospace; font-size:.72rem; letter-spacing:.4em; text-transform:uppercase; color:var(--ochre)}
+
+/* ---------- scrolly: full-bleed figure, narrow text rail ---------- */
+.scrolly{display:grid; grid-template-columns:minmax(0,1fr) clamp(330px,26vw,440px); gap:0; align-items:start; position:relative}
+.scrolly .fig{grid-column:1; position:sticky; top:0; height:100svh; display:flex; flex-direction:column; justify-content:center; padding:1rem .5vw 1rem 2.2vw}
+.scrolly .steps{grid-column:2; padding:14vh 3.5vw 36vh 1.2vw}
+.step{min-height:82vh; display:flex; flex-direction:column; justify-content:center}
+.step .lede{font-size:clamp(1.14rem,1.5vw,1.42rem); line-height:1.58; max-width:42ch}
+.step .lede .big{font-family:"Bricolage Grotesque",sans-serif; font-weight:740; font-size:1.5em; line-height:1.15; display:block; margin-bottom:.35em}
+.step .micro{font-family:"Fragment Mono",monospace; font-size:.72rem; letter-spacing:.05em; color:var(--muted); margin-top:1.2rem; line-height:1.8;
+  border-left:2px solid var(--line2); padding-left:1em}
+.fig svg{width:100%; height:auto; max-height:92svh; overflow:visible; display:block}
+.fig .figtitle{font-family:"Fragment Mono",monospace; font-size:.7rem; letter-spacing:.2em; text-transform:uppercase; color:var(--muted); margin:0 0 .6rem}
+
+/* country pills */
+.pills{display:flex; flex-wrap:wrap; gap:.4em; margin:.9rem 0 0}
+.pills[hidden]{display:none}
+.pills button{font-family:"Fragment Mono",monospace; font-size:.66rem; letter-spacing:.06em; cursor:pointer;
+  color:var(--muted); background:transparent; border:1px solid var(--line); border-radius:100px; padding:.42em .8em;
+  transition:all .18s}
+.pills button:hover{border-color:var(--ink); color:var(--ink)}
+.pills button.on{background:var(--ink); border-color:var(--ink); color:var(--paper)}
+.pills.heatset button.on{background:var(--heat); border-color:var(--heat)}
+.pills.seaset button.on{background:var(--sea); border-color:var(--sea)}
+
+/* annotation stage control: svg gets data-stage, annos fade */
+svg .anno{opacity:0; transition:opacity .6s ease}
+svg[data-stage="1"] .s1, svg[data-stage="2"] .s1, svg[data-stage="3"] .s1,
+svg[data-stage="2"] .s2, svg[data-stage="3"] .s2,
+svg[data-stage="3"] .s3{opacity:1}
+svg .only1,svg .only2,svg .only3,svg .only0{opacity:0; transition:opacity .6s ease}
+svg[data-stage="0"] .only0, svg[data-stage="1"] .only1, svg[data-stage="2"] .only2, svg[data-stage="3"] .only3{opacity:1}
+
+/* tooltip */
+.tip{position:fixed; z-index:95; pointer-events:none; opacity:0; transition:opacity .15s;
+  font-family:"Fragment Mono",monospace; font-size:.72rem; line-height:1.5; color:var(--paper);
+  background:var(--ink); padding:.55em .8em; border-radius:3px; max-width:240px}
+
+/* reveal */
+.reveal{opacity:0; transform:translateY(22px); transition:opacity .8s ease, transform .8s ease}
+.reveal.in{opacity:1; transform:none}
+
+/* ---------- closing / kitchen ---------- */
+.kitchen{padding:4vh 0 10vh}
+.kitchen .fig-solo{margin:4rem 0 0}
+.kitchen .fig-solo svg{width:100%; height:auto; overflow:visible}
+.statement{margin:10vh auto; max-width:760px; border:1.5px solid var(--line2); padding:3rem 3.2rem; background:rgba(246,239,224,.6)}
+.statement p{font-size:clamp(1.1rem,1.4vw,1.3rem); line-height:1.65; margin:.9em 0}
+.statement .kicker{margin-bottom:1.6rem}
+footer{padding:6vh 0 12vh; border-top:1px solid var(--line)}
+footer .cols{display:grid; grid-template-columns:1.2fr 1fr; gap:4vw; margin-top:2rem}
+footer h4{font-family:"Fragment Mono",monospace; font-size:.7rem; letter-spacing:.3em; text-transform:uppercase; color:var(--muted); font-weight:400; margin:0 0 1em}
+footer p, footer li{font-size:.95rem; line-height:1.7; color:var(--ink)}
+footer ul{margin:0; padding-left:1.1em}
+footer a{color:var(--sea)}
+footer .fin{margin-top:4rem; font-family:"Fragment Mono",monospace; font-size:.7rem; letter-spacing:.25em; text-transform:uppercase; color:var(--muted); text-align:center}
+
+@media (max-width:980px){
+  .scrolly{display:block}
+  .scrolly .fig{position:sticky; top:0; height:auto; padding:2.9rem 4vw 2vh; z-index:0;
+    background:linear-gradient(180deg, var(--paper) 78%, transparent)}
+  .fig svg{max-height:46svh}
+  .scrolly .steps{padding:6vh 7vw 26vh}
+  .step{min-height:80vh; justify-content:flex-end; padding-bottom:8vh; position:relative; z-index:1}
+  .step .lede{max-width:92vw}
+  footer .cols{grid-template-columns:1fr}
+  .statement{padding:2rem 1.6rem}
+  .menu{padding:1.5rem 1.2rem 1.2rem}
+  .menu a .what{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important; transition:none!important}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+<a class="vyd-home" href="/">← Eric Summers</a>
+<div class="grain" aria-hidden="true"></div>
+<div class="progress" aria-hidden="true"><span id="pbar"></span></div>
+<div class="tip" id="tip" role="status"></div>
+
+<!-- ================= HERO ================= -->
+<header class="hero wrap">
+  <p class="kicker">Pacific Dataviz Challenge 2026 · Climate Change</p>
+  <h1>The Pacific<span class="l2">Plate</span></h1>
+  <p class="dek">Dinner in the islands is set on the warmest sea ever measured. Across <b>176 years of records</b> — sea temperature, rainfall, the staple garden, the drinking glass — this is the story of <i>what climate change tastes like.</i></p>
+  <nav class="menu" aria-label="Story chapters">
+    <h3>Tonight's Menu</h3>
+    <a href="#table"><span class="no">I.</span><span class="ti">The Table</span><span class="dots"></span><span class="what">a warming ocean</span></a>
+    <a href="#rain"><span class="no">II.</span><span class="ti">The Rain</span><span class="dots"></span><span class="what">feast &amp; drought</span></a>
+    <a href="#garden"><span class="no">III.</span><span class="ti">The Garden</span><span class="dots"></span><span class="what">taro, banana, coconut</span></a>
+    <a href="#bill" class="inter"><span class="no">~</span><span class="ti">The Bill</span><span class="dots"></span><span class="what">what the sky charges</span></a>
+    <a href="#glass"><span class="no">IV.</span><span class="ti">The Glass</span><span class="dots"></span><span class="what">drinking water</span></a>
+    <a href="#kitchen"><span class="no">V.</span><span class="ti">The Kitchen</span><span class="dots"></span><span class="what">the response</span></a>
+  </nav>
+  <p class="scrollcue">Scroll to be seated</p>
+</header>
+
+<div class="tapa" aria-hidden="true"></div>
+
+<!-- ================= CH 1 · THE TABLE ================= -->
+<section class="chap wrap" id="table">
+  <p class="course">First · The Table</p>
+  <h2>Every meal is set<br>on the same ocean</h2>
+  <p class="prose reveal">For the 13 million people of the Pacific islands, the ocean is not scenery. It is the table itself: it feeds the reef fish, waters the clouds, steadies the gardens. Scientists have been taking its temperature around these islands since <b class="num">1850</b>.</p>
+</section>
+<section class="scrolly">
+  <div class="fig">
+    <p class="figtitle" id="ssttitle">Sea-surface temperature anomaly · Pacific island average · 1850–2025</p>
+    <svg id="sstviz" viewBox="0 0 1140 760" role="img" aria-label="Stripe chart of annual sea surface temperature anomalies around Pacific islands from 1850 to 2025, showing the last decade as the hottest in the record."></svg>
+    <div class="pills heatset" id="sstpills" hidden></div>
+  </div>
+  <div class="steps">
+    <div class="step" data-viz="sst" data-stage="0">
+      <p class="lede"><span class="big">176 candles on the table.</span> Each stripe is one year of sea-surface temperature around the islands, woven like a mat from <span class="num">1850</span> to <span class="num">2025</span>.</p>
+      <p class="micro">SOURCE · SPC PACIFIC DATA HUB · EEZ-AVERAGED SST<br>BASELINE · 1993–2012 MEAN</p>
+    </div>
+    <div class="step" data-viz="sst" data-stage="1">
+      <p class="lede"><span class="big">Now add the heat.</span> <span class="sea">Cool years</span> in lagoon blue, <span class="heat">warm years</span> in fire. For a century the weave barely shifts — a cool stripe here, a warm El Niño there.</p>
+    </div>
+    <div class="step" data-viz="sst" data-stage="2">
+      <p class="lede"><span class="big heat">The ten hottest years in this entire record are the last ten.</span> 2016 through 2025 — every single one. Nothing else in 176 years comes close.</p>
+      <p class="micro">PACIFIC-AVERAGE SST ANOMALY · TOP 10 YEARS<br>= 2016 2017 2018 2019 2020 2021 2022 2023 2024 2025</p>
+    </div>
+    <div class="step" data-viz="sst" data-stage="3">
+      <p class="lede"><span class="big">And it is everyone's table.</span> In <b class="num">20 of 21</b> territories, the hottest sea ever measured has come since 2015. Pick an island; the weave ends in fire almost everywhere.</p>
+      <p class="micro">TAP A TERRITORY ABOVE THE CHART TO RE-WEAVE IT</p>
+    </div>
+  </div>
+</section>
+
+<div class="tapa" aria-hidden="true"></div>
+
+<!-- ================= CH 2 · THE RAIN ================= -->
+<section class="chap wrap" id="rain">
+  <p class="course">Second · The Rain</p>
+  <h2>The sky sets<br>the drinks menu</h2>
+  <p class="prose reveal">On a high volcanic island, rain fills rivers. On an atoll — Tuvalu, Nauru, Tokelau — there <em>are</em> no rivers. Rain on the roof is the water supply. And a warming Pacific doesn't just bring more rain or less; it brings <b>whiplash</b>.</p>
+</section>
+<section class="scrolly">
+  <div class="fig">
+    <p class="figtitle" id="raintitle">Annual rainfall anomaly · Tuvalu · 1979–2025 · % vs 1991–2020 normal</p>
+    <svg id="rainviz" viewBox="0 0 1140 760" role="img" aria-label="Diverging bar chart of annual rainfall anomalies, brown for dry years and teal for wet years, with El Niño years marked."></svg>
+    <div class="pills seaset" id="rainpills" hidden></div>
+  </div>
+  <div class="steps">
+    <div class="step" data-viz="rain" data-stage="0" data-c="TV">
+      <p class="lede"><span class="big">Tuvalu, year by year.</span> <span class="sea">Teal bars</span> are wet years, <span class="earth">brown bars</span> are dry. The dots underneath mark <b>El Niño</b> — the ocean pattern that steals the rain.</p>
+    </div>
+    <div class="step" data-viz="rain" data-stage="1" data-c="TV">
+      <p class="lede"><span class="big earth">2011: the rain simply didn't come.</span> Tuvalu's driest year in this record — <b class="num">42%</b> below normal. The government declared a state of emergency; fresh water was shipped and flown in.</p>
+      <p class="micro">TUVALU 2011 · −42% RAINFALL · STATE OF EMERGENCY DECLARED SEPT 2011</p>
+    </div>
+    <div class="step" data-viz="rain" data-stage="2" data-c="NR">
+      <p class="lede"><span class="big">Nauru lives on a swing.</span> From <b class="num earth">54%</b> below normal in 1999 to <b class="num sea">67%</b> above in 2019. When your reservoir is the sky, this is what supply risk looks like.</p>
+    </div>
+    <div class="step" data-viz="rain" data-stage="3" data-c="NR">
+      <p class="lede"><span class="big">Drought is a meal skipped.</span> Less rain means thirsty taro pits, brackish wells, empty tanks. Explore your island's rain ledger above.</p>
+      <p class="micro">TAP A TERRITORY ABOVE THE CHART</p>
+    </div>
+  </div>
+</section>
+
+<div class="tapa" aria-hidden="true"></div>
+
+<!-- ================= CH 3 · THE GARDEN ================= -->
+<section class="chap wrap" id="garden">
+  <p class="course">Third · The Garden</p>
+  <h2>What grows when<br>the weather wobbles</h2>
+  <p class="prose reveal">Taro, banana, coconut: the holy trinity of the Pacific plate. The UN has tracked island harvests since 1961. The garden's lesson is not a smooth decline — it is <b>fragility</b>: how fast a staple can fall when a shock arrives.</p>
+</section>
+<section class="scrolly">
+  <div class="fig">
+    <p class="figtitle" id="croptitle">Taro yield · Samoa · 1961–2024 · kg per hectare</p>
+    <svg id="cropviz" viewBox="0 0 1140 760" role="img" aria-label="Line chart of Samoa taro yields collapsing after the 1993 taro leaf blight, then a slope chart of staple crop yield changes since the 1960s."></svg>
+  </div>
+  <div class="steps">
+    <div class="step" data-viz="crop" data-stage="0">
+      <p class="lede"><span class="big">Samoa's taro, the national dish.</span> For thirty years the yield line holds its ground — six, seven tonnes a hectare, season after season.</p>
+    </div>
+    <div class="step" data-viz="crop" data-stage="1">
+      <p class="lede"><span class="big taro">July 1993: taro leaf blight lands in Samoa.</span> Within a year, yields fall to <b class="num">1,500 kg/ha</b> — about a <b>quarter</b> of late-80s levels. Exports collapsed. A whole cuisine changed in eighteen months.</p>
+      <p class="micro">ONE PATHOGEN · ONE CROP · −77% · THIS IS WHAT FRAGILITY MEANS<br>WARMER, WETTER EXTREMES WIDEN THE DOOR FOR PESTS &amp; BLIGHT</p>
+    </div>
+    <div class="step" data-viz="crop" data-stage="2">
+      <p class="lede"><span class="big">Across the region, the trinity wobbles.</span> Since the 1960s: banana yields down <b class="num heat">79%</b> in French Polynesia, <b class="num heat">56%</b> in Tonga. Coconut down <b class="num heat">41%</b> in Solomon Islands. Not everywhere — Fiji's plantations tripled — but the declines cluster where gardens are smallholder and exposed.</p>
+      <p class="micro">YIELD CHANGE · 1961–70 AVG → 2015–24 AVG · FAO VIA SPC<br>SMALL-ISLAND FIGURES ARE PARTLY FAO ESTIMATES · READ AS DIRECTION, NOT DECIMALS</p>
+    </div>
+  </div>
+</section>
+
+<div class="tapa" aria-hidden="true"></div>
+
+<!-- ================= INTERLUDE · THE BILL ================= -->
+<section class="chap wrap" id="bill">
+  <p class="course">Interlude · The Bill</p>
+  <h2>When the sky<br>writes the bill</h2>
+  <p class="prose reveal">Does the weather really reach the plate? Honest answer: not every year, and not everywhere — at national scale the dice are loaded, not fixed. But when a drought lands on a rain-fed harvest, the ledger is unambiguous. Watch Fiji.</p>
+</section>
+<section class="scrolly">
+  <div class="fig">
+    <p class="figtitle" id="billtitle">Fiji · sea temperature, rainfall &amp; harvest on one page · 1979–2024</p>
+    <svg id="billviz" viewBox="0 0 1140 760" role="img" aria-label="Combined chart for Fiji: sea temperature stripe, annual rainfall anomaly bars and crop yield line, showing harvests falling in the 1987 and 1998 drought years; then a scatter plot of rainfall volatility against safe drinking water access."></svg>
+  </div>
+  <div class="steps">
+    <div class="step" data-viz="bill" data-stage="0">
+      <p class="lede"><span class="big">Three rows, one country.</span> The warming sea along the top, the rain in the middle, the harvest underneath. In <b class="num">1987</b> and <b class="num">1998</b>, El Niño took Fiji's rain — <b class="num earth">−22%</b> and <b class="num earth">−24%</b> — and the harvest followed it down, <b class="num heat">−21%</b> and <b class="num heat">−20%</b>.</p>
+      <p class="micro">FIJI'S HEADLINE CROP INDEX IS DOMINATED BY RAIN-FED SUGARCANE —<br>WHEN THE RAIN FAILS, THE CANE FAILS</p>
+    </div>
+    <div class="step" data-viz="bill" data-stage="1">
+      <p class="lede"><span class="big sea">1999: the rains return — the harvest jumps 56%.</span> One wet season buys back what two dry ones took. That is what it means to eat from a rain-fed garden: the sky sets the portion.</p>
+      <p class="micro">HONESTY NOTE · ACROSS 651 ISLAND-YEARS THE YEAR-TO-YEAR SIGNAL IS NOISY —<br>CLIMATE LOADS THE DICE, IT DOESN'T ROLL THEM EVERY SEASON</p>
+    </div>
+    <div class="step" data-viz="bill" data-stage="2">
+      <p class="lede"><span class="big">And the drinking glass?</span> Plot every country's rainfall <i>volatility</i> against its safe-water coverage. The islands with the <b class="earth">wildest skies</b> — Nauru, Kiribati, Tuvalu — are the islands with the <b class="heat">emptiest glasses</b>. The least buffer, facing the most weather.</p>
+      <p class="micro">VOLATILITY = SPREAD (σ) OF ANNUAL RAINFALL ANOMALIES 1979–2025<br>THIS IS EXPOSURE, NOT BLAME — ATOLLS HAVE NO RIVERS TO FALL BACK ON</p>
+    </div>
+  </div>
+</section>
+
+<div class="tapa" aria-hidden="true"></div>
+
+<!-- ================= CH 4 · THE GLASS ================= -->
+<section class="chap wrap" id="glass">
+  <p class="course">Fourth · The Glass</p>
+  <h2>Surrounded by water,<br>short of a drink</h2>
+  <p class="prose reveal">The cruellest line on the menu. "Safely managed" drinking water — clean, on premises, available when needed — is the UN's gold standard. In much of the Pacific, the glass is nearly empty.</p>
+</section>
+<section class="scrolly">
+  <div class="fig">
+    <p class="figtitle" id="watertitle">Population using safely managed drinking water · 2024 · WHO/UNICEF JMP</p>
+    <svg id="waterviz" viewBox="0 0 1140 760" role="img" aria-label="A row of glass shapes filled to the share of each country's population with safely managed drinking water, then trend lines and urban-rural gaps."></svg>
+  </div>
+  <div class="steps">
+    <div class="step" data-viz="water" data-stage="0">
+      <p class="lede"><span class="big">Fifteen glasses, one for each country with data.</span> The fill is the share of people with safely managed water. <b class="num heat">Tuvalu: 9%.</b> <b class="num heat">Kiribati: 15%.</b> <b class="num heat">Nauru &amp; Vanuatu: 19%.</b></p>
+      <p class="micro">SDG 6.1.1 · "SAFELY MANAGED" = IMPROVED SOURCE, ON PREMISES,<br>AVAILABLE WHEN NEEDED, FREE OF CONTAMINATION</p>
+    </div>
+    <div class="step" data-viz="water" data-stage="1">
+      <p class="lede"><span class="big">A quarter-century, barely a ripple.</span> Since 2000, Tuvalu has gone from <span class="num">8%</span> to <span class="num">9%</span>. Kiribati from <span class="num">10%</span> to <span class="num">15%</span>. The lines are flat while the droughts sharpen.</p>
+    </div>
+    <div class="step" data-viz="water" data-stage="2">
+      <p class="lede"><span class="big">And the gap runs urban to rural.</span> In Samoa, <b class="num sea">92%</b> of town dwellers have safe water — <b class="num heat">56%</b> in the villages. In Palau, <span class="num">98 vs 57</span>. The further you live from the pipe, the closer you live to the drought.</p>
+    </div>
+    <div class="step" data-viz="water" data-stage="3">
+      <p class="lede"><span class="big">Six glasses we cannot even fill in.</span> Papua New Guinea, Solomon Islands, FSM, the Marshalls, Cook Islands, Tokelau — no national estimate exists at all. The region's most populous country is a blank.</p>
+      <p class="micro">NO SDG 6.1.1 "SAFELY MANAGED" ESTIMATE · JMP 2025<br>YOU CANNOT FIX WHAT YOU CANNOT MEASURE</p>
+    </div>
+  </div>
+</section>
+
+<div class="tapa" aria-hidden="true"></div>
+
+<!-- ================= CH 5 · THE KITCHEN ================= -->
+<section class="chap wrap kitchen" id="kitchen">
+  <p class="course">Fifth · The Kitchen</p>
+  <h2>Where the work<br>gets done</h2>
+  <p class="prose reveal">The Pacific is not waiting politely for the bill. Since 1950, island governments have signed or joined over a <b class="num">thousand</b> fisheries-management instruments — treaties, agreements, access arrangements — to keep protein on the plate as the ocean shifts.</p>
+  <div class="fig-solo reveal">
+    <p class="figtitle">Fisheries-management instruments in force · all 22 Pacific territories · cumulative</p>
+    <svg id="fishviz" viewBox="0 0 1240 520" role="img" aria-label="Area chart showing cumulative fisheries management agreements across the Pacific growing from 8 in 1950 to over 1000 by 2026."></svg>
+  </div>
+  <p class="prose reveal" style="margin-top:3rem">Adaptation looks like this: rainwater tanks and desalination on the atolls, blight-resistant taro bred back into Samoa's gardens, tuna treaties that move with the fish. The data says the heat is at the table. It also says the kitchen is busy.</p>
+
+  <div class="statement reveal">
+    <p class="kicker">Why this story</p>
+    <p>Climate stories about the Pacific are usually told in metres of sea-level rise. But long before the water reaches the doorstep, it reaches the <em>dinner table</em> — as a hotter sea, a missed rainy season, a blighted garden, an empty tank.</p>
+    <p>This story puts the region's own numbers — SPC's climate indicators, FAO's harvest records, the WHO/UNICEF water ledger — on one plate, so the scale of the change can be read in the most human unit there is: a meal.</p>
+  </div>
+</section>
+
+<footer class="wrap">
+  <div class="cols">
+    <div>
+      <h4>Data</h4>
+      <ul>
+        <li>Sea-surface temperature, rainfall anomalies &amp; fisheries instruments: <a href="https://stats.pacificdata.org" target="_blank" rel="noopener">SPC Pacific Data Hub</a>, Climate Change dataflow (DF_CLIMATE_CHANGE 1.0). SST is EEZ-averaged vs a 1993–2012 baseline; rainfall vs 1991–2020.</li>
+        <li>Crop yields: PDH.stat Agricultural Production dataflow (DF_AGRICULTURAL_PRODUCTION 1.0), original source FAOSTAT. Small-island values are partly FAO estimates.</li>
+        <li>Drinking water: SDG 6.1.1 "safely managed", WHO/UNICEF Joint Monitoring Programme 2025, via PDH.stat (DF_SDG 4.3).</li>
+      </ul>
+    </div>
+    <div>
+      <h4>Method &amp; honesty</h4>
+      <ul>
+        <li>All data is annual and national — the finest resolution PDH.stat provides. No causal claims are made between single weather years and single harvests; documented events (the 2011 Tuvalu drought, the 1993 taro leaf blight) carry the narrative.</li>
+        <li>Made for the <a href="https://pacificdatavizchallenge.org" target="_blank" rel="noopener">Pacific Dataviz Challenge 2026</a>. Data accessed June 2026.</li>
+      </ul>
+    </div>
+  </div>
+  <p class="fin">· The Pacific Plate · Eric Summers · 2026 ·</p>
+</footer>
+
+<script src="data.js"></script>
+<script>
+(function(){
+'use strict';
+const $=id=>document.getElementById(id);
+const MONO='"Fragment Mono",monospace', DISP='"Bricolage Grotesque",sans-serif';
+const C={ink:'#1C2B2A',muted:'#6E7468',heat:'#C8401F',heat2:'#E06A3C',sea:'#0F6B68',sea2:'#3E9C94',
+  earth:'#A6651F',taro:'#6B4B8A',ochre:'#B98226',paper:'#F6EFE0',line:'rgba(28,43,42,.16)',line2:'rgba(28,43,42,.34)'};
+
+/* ---------- helpers ---------- */
+function lerp(a,b,t){return a+(b-a)*t}
+function hex2rgb(h){return [parseInt(h.slice(1,3),16),parseInt(h.slice(3,5),16),parseInt(h.slice(5,7),16)]}
+function mix(h1,h2,t){const a=hex2rgb(h1),b=hex2rgb(h2);return `rgb(${Math.round(lerp(a[0],b[0],t))},${Math.round(lerp(a[1],b[1],t))},${Math.round(lerp(a[2],b[2],t))})`}
+/* diverging color for SST: -1.2 .. +1.2 */
+function sstCol(v){
+  const t=Math.max(-1,Math.min(1,v/1.2));
+  return t<0 ? mix('#E7DEC6','#2E5F7E',-t) : mix('#E7DEC6','#C8401F',t);
+}
+/* vertical label de-collision: items [{y,...}] → nudged y, clamped to [top,bot] */
+function spread(items,minGap,top,bot){
+  items.sort((a,b)=>a.y-b.y);
+  if(items.length&&items[0].y<top)items[0].y=top;
+  for(let i=1;i<items.length;i++) if(items[i].y-items[i-1].y<minGap) items[i].y=items[i-1].y+minGap;
+  if(items.length&&items[items.length-1].y>bot){items[items.length-1].y=bot;
+    for(let i=items.length-2;i>=0;i--) if(items[i+1].y-items[i].y<minGap) items[i].y=items[i+1].y-minGap;}
+  return items;
+}
+const tip=$('tip');
+function showTip(ev,html){tip.innerHTML=html;tip.style.opacity='1';
+  const x=Math.min(ev.clientX+14,innerWidth-250), y=ev.clientY+16;
+  tip.style.left=x+'px'; tip.style.top=y+'px';}
+function hideTip(){tip.style.opacity='0'}
+
+/* ---------- CH1 · SST stripes ---------- */
+const SST={W:1140,H:760,padL:16,padR:16,padT:84,padB:88,sel:null}; // sel=null → Pacific mean
+function sstSeries(){ return SST.sel? PD.sst[SST.sel] : PD.sstPac }
+function buildSST(){
+  const s=sstSeries(), v=s.v, y0=s.y0, n=2025-y0+1;
+  const iw=SST.W-SST.padL-SST.padR, sw=iw/n;
+  const top=SST.padT, bh=SST.H-SST.padT-SST.padB;
+  let grey='',col='';
+  for(let i=0;i<n;i++){
+    const val=v[i]; if(val==null) continue;
+    const x=(SST.padL+i*sw).toFixed(2);
+    grey+=`<rect x="${x}" y="${top}" width="${(sw+.5).toFixed(2)}" height="${bh}" fill="${mix('#E7DEC6','#1C2B2A',.12+Math.abs(val)*.18)}"/>`;
+    col+=`<rect x="${x}" y="${top}" width="${(sw+.5).toFixed(2)}" height="${bh}" fill="${sstCol(val)}"/>`;
+  }
+  /* weave: horizontal weft lines */
+  let weft='';
+  for(let y=top+12;y<top+bh;y+=20) weft+=`<rect x="${SST.padL}" y="${y}" width="${iw}" height="2.6" fill="${C.paper}" opacity=".32"/>`;
+  /* axis years */
+  let ax='';
+  for(const yr of [1850,1900,1950,2000,2025]){
+    const x=SST.padL+(yr-y0+.5)*sw;
+    ax+=`<text x="${x.toFixed(1)}" y="${SST.H-SST.padB+32}" text-anchor="middle" fill="${C.muted}" font-family=${MONO} font-size="16">${yr}</text>`;
+  }
+  /* legend gradient */
+  const lg=`<defs><linearGradient id="sstlg" x1="0" x2="1"><stop offset="0" stop-color="${sstCol(-1.2)}"/><stop offset=".5" stop-color="#E7DEC6"/><stop offset="1" stop-color="${sstCol(1.2)}"/></linearGradient></defs>
+    <g class="anno s1"><rect x="${SST.padL}" y="${SST.H-30}" width="220" height="11" fill="url(#sstlg)"/>
+    <text x="${SST.padL}" y="${SST.H-38}" fill="${C.muted}" font-family=${MONO} font-size="13">−1.2°C</text>
+    <text x="${SST.padL+220}" y="${SST.H-38}" text-anchor="end" fill="${C.muted}" font-family=${MONO} font-size="13">+1.2°C</text></g>`;
+  /* decade bracket 2016-2025 */
+  const bx0=SST.padL+(2016-y0)*sw, bx1=SST.padL+(2026-y0)*sw, by=top-16;
+  const hot=`<g class="anno s2">
+    <path d="M${bx0.toFixed(1)} ${by} V${by-12} H${bx1.toFixed(1)} V${by}" fill="none" stroke="${C.heat}" stroke-width="2.6"/>
+    <text x="${bx1.toFixed(1)}" y="${by-28}" text-anchor="end" fill="${C.heat}" font-family=${DISP} font-weight="740" font-size="40">the last 10 = the hottest 10</text>
+    <rect x="${bx0.toFixed(1)}" y="${top}" width="${(bx1-bx0).toFixed(1)}" height="${bh}" fill="none" stroke="${C.heat}" stroke-width="3"/></g>`;
+  /* hottest year marker (stage 3 / per country) */
+  let hotyr='';
+  {let bi=-1,bv=-99;
+   for(let i=0;i<n;i++) if(v[i]!=null&&v[i]>bv){bv=v[i];bi=i;}
+   const hx=SST.padL+(bi+.5)*sw;
+   hotyr=`<g class="anno s3"><line x1="${hx.toFixed(1)}" y1="${top-8}" x2="${hx.toFixed(1)}" y2="${top-38}" stroke="${C.heat}" stroke-width="2"/>
+   <text x="${hx>SST.W-300? hx-10:hx+10}" y="${top-46}" ${hx>SST.W-300?'text-anchor="end"':''} fill="${C.heat}" font-family=${MONO} font-size="17">record: ${y0+bi} · +${bv.toFixed(1)}°C</text></g>`;}
+  const viz=$('sstviz');
+  viz.innerHTML=`${lg}
+    <g class="only0">${grey}</g>
+    <g class="anno s1">${col}</g>
+    <g>${weft}</g>${ax}${hot}${hotyr}`;
+  $('ssttitle').textContent=`Sea-surface temperature anomaly · ${SST.sel?PD.names[SST.sel]:'Pacific island average'} · ${SST.sel?'1850':'1850'}–2025`;
+  /* hover */
+  viz.onpointermove=ev=>{
+    const r=viz.getBoundingClientRect(), sx=SST.W/r.width;
+    const i=Math.floor(((ev.clientX-r.left)*sx-SST.padL)/sw);
+    if(i<0||i>=n||v[i]==null){hideTip();return}
+    showTip(ev,`<b>${y0+i}</b> · ${v[i]>0?'+':''}${v[i].toFixed(2)}°C<br>${SST.sel?PD.names[SST.sel]:'Pacific avg'}`);
+  };
+  viz.onpointerleave=hideTip;
+}
+
+/* ---------- CH2 · rainfall bars ---------- */
+const NINO=[1982,1987,1991,1997,2002,2009,2015,2023];
+const RAIN={W:1140,H:760,padL:70,padR:20,padT:64,padB:92,sel:'TV'};
+function buildRain(){
+  const s=PD.rain[RAIN.sel], v=s.v, y0=s.y0, n=v.length;
+  const iw=RAIN.W-RAIN.padL-RAIN.padR, bw=iw/ (2025-y0+1);
+  const dom=70, ih=RAIN.H-RAIN.padT-RAIN.padB;
+  const ys=val=>RAIN.padT+ (1-(val+dom)/(2*dom))*ih;
+  const y0px=ys(0);
+  let bars='';
+  for(let i=0;i<n;i++){
+    const val=v[i]; if(val==null) continue;
+    const x=RAIN.padL+i*bw, h=Math.abs(ys(val)-y0px);
+    bars+=`<rect x="${(x+1).toFixed(1)}" y="${(val>0?ys(val):y0px).toFixed(1)}" width="${(bw-2).toFixed(1)}" height="${Math.max(h,1).toFixed(1)}" rx="1.5" fill="${val>0?C.sea:C.earth}" data-i="${i}"/>`;
+  }
+  /* nino dots */
+  let nino='';
+  for(const yr of NINO){ if(yr<y0) continue;
+    const x=RAIN.padL+(yr-y0+.5)*bw;
+    nino+=`<circle cx="${x.toFixed(1)}" cy="${RAIN.H-RAIN.padB+24}" r="4.4" fill="${C.ochre}"/>`;
+  }
+  nino+=`<text x="${RAIN.padL}" y="${RAIN.H-RAIN.padB+58}" fill="${C.ochre}" font-family=${MONO} font-size="14.5">● El Niño years</text>`;
+  /* axes */
+  let ax=`<line x1="${RAIN.padL}" y1="${y0px}" x2="${RAIN.W-RAIN.padR}" y2="${y0px}" stroke="${C.ink}" stroke-width="1.6"/>`;
+  for(const g of [-60,-30,30,60]){
+    ax+=`<line x1="${RAIN.padL}" y1="${ys(g)}" x2="${RAIN.W-RAIN.padR}" y2="${ys(g)}" stroke="${C.line}" stroke-width="1"/>
+    <text x="${RAIN.padL-10}" y="${ys(g)+5}" text-anchor="end" fill="${C.muted}" font-family=${MONO} font-size="14.5">${g>0?'+':''}${g}%</text>`;
+  }
+  for(const yr of [1980,1990,2000,2010,2020]){
+    const x=RAIN.padL+(yr-y0+.5)*bw;
+    ax+=`<text x="${x.toFixed(1)}" y="${RAIN.H-RAIN.padB+28}" text-anchor="middle" fill="${C.muted}" font-family=${MONO} font-size="15">${yr}</text>`;
+  }
+  /* annotations */
+  let anno='';
+  if(RAIN.sel==='TV'){
+    const x=RAIN.padL+(2011-y0+.5)*bw, y=ys(-42);
+    anno=`<g class="anno s1"><circle cx="${x.toFixed(1)}" cy="${(y+8).toFixed(1)}" r="22" fill="none" stroke="${C.earth}" stroke-width="2.6" stroke-dasharray="4 5"/>
+      <line x1="${x.toFixed(1)}" y1="${(y+32).toFixed(1)}" x2="${x.toFixed(1)}" y2="${(y+74).toFixed(1)}" stroke="${C.earth}" stroke-width="1.8"/>
+      <text x="${x.toFixed(1)}" y="${(y+108).toFixed(1)}" text-anchor="middle" fill="${C.earth}" font-family=${DISP} font-weight="740" font-size="36">2011 · −42%</text>
+      <text x="${x.toFixed(1)}" y="${(y+134).toFixed(1)}" text-anchor="middle" fill="${C.muted}" font-family=${MONO} font-size="15">STATE OF EMERGENCY</text></g>`;
+  }
+  if(RAIN.sel==='NR'){
+    const x1=RAIN.padL+(1999-y0+.5)*bw, x2=RAIN.padL+(2019-y0+.5)*bw;
+    anno=`<g class="anno s2">
+      <text x="${x1.toFixed(1)}" y="${ys(-54)+20}" text-anchor="middle" fill="${C.earth}" font-family=${DISP} font-weight="740" font-size="34">−54%</text>
+      <text x="${x2.toFixed(1)}" y="${(ys(67)-16).toFixed(1)}" text-anchor="middle" fill="${C.sea}" font-family=${DISP} font-weight="740" font-size="34">+67%</text></g>`;
+  }
+  const viz=$('rainviz');
+  viz.innerHTML=ax+`<g id="rbars">${bars}</g>`+nino+anno;
+  $('raintitle').textContent=`Annual rainfall anomaly · ${PD.names[RAIN.sel]} · 1979–2025 · % vs 1991–2020 normal`;
+  viz.onpointermove=ev=>{
+    const r=viz.getBoundingClientRect(), sx=RAIN.W/r.width;
+    const i=Math.floor(((ev.clientX-r.left)*sx-RAIN.padL)/bw);
+    if(i<0||i>=n||v[i]==null){hideTip();return}
+    showTip(ev,`<b>${y0+i}</b> · ${v[i]>0?'+':''}${v[i].toFixed(0)}% rainfall<br>${PD.names[RAIN.sel]}${NINO.includes(y0+i)?' · El Niño':''}`);
+  };
+  viz.onpointerleave=hideTip;
+}
+
+/* ---------- CH3 · garden: taro line → slope chart ---------- */
+const CROP={W:1140,H:760,padL:84,padR:40,padT:72,padB:74,mode:0};
+function buildCrop(){
+  const viz=$('cropviz');
+  if(CROP.mode<2){ /* Samoa taro line */
+    const s=PD.crops.TARO.WS, v=s.v, y0=s.y0, n=v.length;
+    const iw=CROP.W-CROP.padL-CROP.padR, ih=CROP.H-CROP.padT-CROP.padB;
+    const xs=i=>CROP.padL+i/(n-1)*iw, ys=val=>CROP.padT+(1-val/8000)*ih;
+    let p='M';
+    for(let i=0;i<n;i++){ if(v[i]==null) continue; p+=(p==='M'?'':'L')+xs(i).toFixed(1)+','+ys(v[i]).toFixed(1); }
+    let ax='';
+    for(const g of [2000,4000,6000,8000]){
+      ax+=`<line x1="${CROP.padL}" y1="${ys(g)}" x2="${CROP.W-CROP.padR}" y2="${ys(g)}" stroke="${C.line}"/>
+      <text x="${CROP.padL-10}" y="${ys(g)+5}" text-anchor="end" fill="${C.muted}" font-family=${MONO} font-size="14.5">${g/1000}t</text>`;
+    }
+    for(const yr of [1970,1980,1990,2000,2010,2020]){
+      ax+=`<text x="${xs(yr-y0).toFixed(1)}" y="${CROP.H-CROP.padB+30}" text-anchor="middle" fill="${C.muted}" font-family=${MONO} font-size="15">${yr}</text>`;
+    }
+    /* blight annotation */
+    const bx=xs(1993-y0), tx=xs(1994-y0), ty=ys(1500);
+    const anno=`<g class="anno s1">
+      <line x1="${bx.toFixed(1)}" y1="${CROP.padT-10}" x2="${bx.toFixed(1)}" y2="${CROP.H-CROP.padB}" stroke="${C.taro}" stroke-width="1.8" stroke-dasharray="5 6"/>
+      <text x="${(bx-14).toFixed(1)}" y="${CROP.padT+12}" text-anchor="end" fill="${C.taro}" font-family=${MONO} font-size="16">JULY 1993 · TARO LEAF BLIGHT</text>
+      <circle cx="${tx.toFixed(1)}" cy="${ty.toFixed(1)}" r="8.5" fill="${C.taro}" stroke="${C.paper}" stroke-width="2.6"/>
+      <text x="${(tx+18).toFixed(1)}" y="${(ty+8).toFixed(1)}" fill="${C.taro}" font-family=${DISP} font-weight="740" font-size="44">−77%</text></g>`;
+    viz.innerHTML=ax+`<path d="${p}" fill="none" stroke="${C.ink}" stroke-width="3.4" stroke-linejoin="round"/>`+anno;
+    $('croptitle').textContent='Taro yield · Samoa · 1961–2024 · kg per hectare';
+    viz.onpointermove=ev=>{
+      const r=viz.getBoundingClientRect(), sx=CROP.W/r.width;
+      const i=Math.round(((ev.clientX-r.left)*sx-CROP.padL)/iw*(n-1));
+      if(i<0||i>=n||v[i]==null){hideTip();return}
+      showTip(ev,`<b>${y0+i}</b> · ${Math.round(v[i]).toLocaleString()} kg/ha<br>Samoa taro`);
+    };
+  } else { /* slope chart */
+    const x1=380,x2=820, top=CROP.padT, bot=CROP.H-CROP.padB;
+    const rows=PD.slopes.filter(s=>['TARO','BANAN','COCON'].includes(s.item) && Math.abs((s.l-s.e)/s.e)<=2.6);
+    const idx=s=>100*s.l/s.e;
+    const dom=[0,290], ys=v=>top+(1-(v-dom[0])/(dom[1]-dom[0]))*(bot-top);
+    const ITEM={TARO:'taro',BANAN:'banana',COCON:'coconut'};
+    const hi={'BANAN-PF':1,'BANAN-TO':1,'BANAN-SB':1,'COCON-SB':1,'COCON-WS':1,'TARO-WS':1,'BANAN-FJ':2};
+    let lines='',labels='';
+    const labelled=[];
+    for(const s of rows){
+      const k=s.item+'-'+s.c, v2=idx(s), kind=hi[k]||0;
+      const col=kind===1?C.heat:kind===2?C.sea:'rgba(28,43,42,.18)';
+      const wd=kind?3.4:1.6;
+      lines+=`<line x1="${x1}" y1="${ys(100)}" x2="${x2}" y2="${ys(v2).toFixed(1)}" stroke="${col}" stroke-width="${wd}"/>
+        <circle cx="${x2}" cy="${ys(v2).toFixed(1)}" r="${kind?5.5:3}" fill="${col}"/>`;
+      if(kind){
+        const pct=Math.round(v2-100);
+        labelled.push({y:ys(v2),dotY:ys(v2),col,txt:`${ITEM[s.item]} · ${PD.names[s.c]} ${pct>0?'+':''}${pct}%`});
+      }
+    }
+    spread(labelled,26,top,bot);
+    for(const L of labelled){
+      labels+=`<line x1="${x2+8}" y1="${L.dotY.toFixed(1)}" x2="${x2+20}" y2="${L.y.toFixed(1)}" stroke="${L.col}" stroke-width="1.2" opacity=".6"/>
+        <text x="${x2+26}" y="${(L.y+5.5).toFixed(1)}" fill="${L.col}" font-family=${MONO} font-size="16.5">${L.txt}</text>`;
+    }
+    const ax=`<line x1="${x1}" y1="${top-6}" x2="${x1}" y2="${bot}" stroke="${C.line2}"/>
+      <line x1="${x2}" y1="${top-6}" x2="${x2}" y2="${bot}" stroke="${C.line2}"/>
+      <text x="${x1}" y="${bot+36}" text-anchor="middle" fill="${C.muted}" font-family=${MONO} font-size="15">1961–70 avg = 100</text>
+      <text x="${x2}" y="${bot+36}" text-anchor="middle" fill="${C.muted}" font-family=${MONO} font-size="15">2015–24 avg</text>`;
+    viz.innerHTML=ax+lines+labels;
+    $('croptitle').textContent='Staple yield change · taro, banana, coconut · 1960s → 2015-24, indexed';
+    viz.onpointermove=null; hideTip();
+  }
+}
+
+/* ---------- CH4 · water glasses ---------- */
+const WAT={W:1140,H:760,mode:0};
+function glassPath(cx,top,h,wTop,wBot){
+  const x1=cx-wTop/2,x2=cx+wTop/2,x3=cx+wBot/2,x4=cx-wBot/2,b=top+h;
+  return `M${x1} ${top} L${x4+2} ${b-3} Q${x4+3} ${b} ${x4+6} ${b} L${x3-6} ${b} Q${x3-3} ${b} ${x3-2} ${b-3} L${x2} ${top}`;
+}
+function buildWater(){
+  const viz=$('waterviz'), m=WAT.mode;
+  const last=s=>{const v=s.v;for(let i=v.length-1;i>=0;i--)if(v[i]!=null)return v[i];return null};
+  if(m===0||m===3){
+    /* glasses row: 15 with data (+6 dashed empties in stage 3) */
+    const have=Object.keys(PD.water).map(c=>({c,p:last(PD.water[c].t)})).filter(d=>d.p!=null).sort((a,b)=>a.p-b.p);
+    const list=m===3? PD.waterMissing.map(c=>({c,p:null})).concat(have) : have;
+    const n=list.length, gw=Math.min(68,(WAT.W-100)/n), H=430, top=190;
+    let g='';
+    list.forEach((d,i)=>{
+      const cx=70+(i+.5)*( (WAT.W-110)/n );
+      const path=glassPath(cx,top,H,gw*.86,gw*.6);
+      if(d.p==null){
+        g+=`<g class="${m===3?'':'anno s3'}"><path d="${path}" fill="none" stroke="${C.heat}" stroke-width="2" stroke-dasharray="5 6"/>
+          <text x="${cx}" y="${top+H+30}" text-anchor="middle" fill="${C.heat}" font-family=${MONO} font-size="14.5">${d.c}</text>
+          <text x="${cx}" y="${top+H/2}" text-anchor="middle" fill="${C.heat}" font-family=${DISP} font-weight="700" font-size="24">?</text></g>`;
+      }else{
+        const fh=H*d.p/100, fy=top+H-fh;
+        const id=`gcl${d.c}`;
+        g+=`<clipPath id="${id}"><path d="${path} Z"/></clipPath>
+          <path d="${path}" fill="rgba(28,43,42,.05)"/>
+          <rect x="${cx-gw}" y="${fy.toFixed(1)}" width="${gw*2}" height="${fh.toFixed(1)}" fill="${d.p<50?C.heat2:C.sea2}" opacity=".85" clip-path="url(#${id})"/>
+          <path d="${path}" fill="none" stroke="${C.ink}" stroke-width="2"/>
+          <text x="${cx}" y="${top+H+30}" text-anchor="middle" fill="${C.muted}" font-family=${MONO} font-size="14.5">${d.c}</text>
+          <text x="${cx}" y="${(fy-10).toFixed(1)}" text-anchor="middle" fill="${d.p<50?C.heat:C.sea}" font-family=${MONO} font-size="16" font-weight="bold">${Math.round(d.p)}</text>`;
+      }
+    });
+    g+=`<text x="70" y="110" fill="${C.muted}" font-family=${MONO} font-size="15">% OF POPULATION WITH SAFELY MANAGED DRINKING WATER · 2024</text>`;
+    viz.innerHTML=g;
+    $('watertitle').textContent='Population using safely managed drinking water · 2024 · WHO/UNICEF JMP';
+    viz.onpointermove=null;
+  }
+  if(m===1){
+    /* flat lines for the lowest six */
+    const sel=['TV','KI','NR','VU','TO','FJ'];
+    const padL=84,padR=250,padT=84,padB=74, iw=WAT.W-padL-padR, ih=WAT.H-padT-padB;
+    const xs=i=>padL+i/24*iw, ys=v=>padT+(1-v/100)*ih;
+    let g='';
+    for(const gd of [0,25,50,75,100]) g+=`<line x1="${padL}" y1="${ys(gd)}" x2="${WAT.W-padR}" y2="${ys(gd)}" stroke="${C.line}"/>
+      <text x="${padL-10}" y="${ys(gd)+5}" text-anchor="end" fill="${C.muted}" font-family=${MONO} font-size="14.5">${gd}%</text>`;
+    for(const yr of [2000,2012,2024]) g+=`<text x="${xs(yr-2000)}" y="${WAT.H-padB+30}" text-anchor="middle" fill="${C.muted}" font-family=${MONO} font-size="15">${yr}</text>`;
+    const wlabels=[];
+    sel.forEach(c=>{
+      const v=PD.water[c].t.v; let p='M';
+      for(let i=0;i<v.length;i++){if(v[i]==null)continue;p+=(p==='M'?'':'L')+xs(i).toFixed(1)+','+ys(v[i]).toFixed(1);}
+      const lv=last(PD.water[c].t);
+      g+=`<path d="${p}" fill="none" stroke="${C.heat}" stroke-width="3" opacity=".9"/>`;
+      wlabels.push({y:ys(lv),dotY:ys(lv),txt:`${PD.names[c]} ${Math.round(lv)}%`});
+    });
+    spread(wlabels,24,padT,WAT.H-padB);
+    for(const L of wlabels){
+      g+=`<line x1="${WAT.W-padR+2}" y1="${L.dotY.toFixed(1)}" x2="${WAT.W-padR+10}" y2="${L.y.toFixed(1)}" stroke="${C.heat}" stroke-width="1.2" opacity=".5"/>
+        <text x="${WAT.W-padR+14}" y="${(L.y+5).toFixed(1)}" fill="${C.heat}" font-family=${MONO} font-size="16">${L.txt}</text>`;
+    }
+    g+=`<text x="${padL}" y="44" fill="${C.muted}" font-family=${MONO} font-size="15">THE SIX LOWEST · 2000 → 2024 · ALMOST NO MOVEMENT</text>`;
+    viz.innerHTML=g;
+    $('watertitle').textContent='Safely managed drinking water · trend 2000–2024 · six lowest countries';
+  }
+  if(m===2){
+    /* urban vs rural dumbbells */
+    const rows=Object.keys(PD.water)
+      .map(c=>({c,u:PD.water[c].u?last(PD.water[c].u):null,r:PD.water[c].r?last(PD.water[c].r):null}))
+      .filter(d=>d.u!=null&&d.r!=null).sort((a,b)=>(b.u-b.r)-(a.u-a.r));
+    const padL=250,padR=90,padT=96,padB=56, iw=WAT.W-padL-padR;
+    const xs=v=>padL+v/100*iw, rh=(WAT.H-padT-padB)/rows.length;
+    let g='';
+    for(const gd of [0,25,50,75,100]) g+=`<line x1="${xs(gd)}" y1="${padT-12}" x2="${xs(gd)}" y2="${WAT.H-padB}" stroke="${C.line}"/>
+      <text x="${xs(gd)}" y="${WAT.H-padB+28}" text-anchor="middle" fill="${C.muted}" font-family=${MONO} font-size="14.5">${gd}%</text>`;
+    rows.forEach((d,i)=>{
+      const y=padT+(i+.5)*rh, len=Math.abs(xs(d.u)-xs(d.r));
+      g+=`<text x="${padL-18}" y="${y+5}" text-anchor="end" fill="${C.ink}" font-family=${MONO} font-size="16">${PD.names[d.c]}</text>
+        <line class="db" x1="${xs(d.u)}" y1="${y}" x2="${xs(d.r)}" y2="${y}" stroke="${C.line2}" stroke-width="2.6"
+          stroke-dasharray="${len.toFixed(1)}" stroke-dashoffset="${len.toFixed(1)}"
+          style="transition:stroke-dashoffset .7s cubic-bezier(.25,.6,.3,1) ${90+i*80}ms"/>
+        <circle cx="${xs(d.r)}" cy="${y}" r="7.5" fill="${C.paper}" stroke="${C.heat}" stroke-width="2.8"/>
+        <circle cx="${xs(d.u)}" cy="${y}" r="7.5" fill="${C.sea}"/>`;
+    });
+    g+=`<g font-family=${MONO} font-size="15">
+      <circle cx="${padL}" cy="48" r="7.5" fill="${C.sea}"/><text x="${padL+15}" y="53" fill="${C.ink}">urban</text>
+      <circle cx="${padL+110}" cy="48" r="7.5" fill="${C.paper}" stroke="${C.heat}" stroke-width="2.8"/><text x="${padL+125}" y="53" fill="${C.ink}">rural</text></g>`;
+    viz.innerHTML=g;
+    /* draw the bars between the dots once they're in view */
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{
+      viz.querySelectorAll('.db').forEach(l=>l.style.strokeDashoffset='0');
+    }));
+    $('watertitle').textContent='Safely managed drinking water · urban vs rural · latest year';
+  }
+  viz.setAttribute('data-stage',m===3?'3':String(m));
+}
+
+/* ---------- INTERLUDE · the bill: climate → plate ---------- */
+const BILL={W:1140,H:760,mode:0};
+function buildBill(){
+  const viz=$('billviz');
+  if(BILL.mode<2){ /* Fiji triptych: SST strip + rain bars + crop line, shared years */
+    const Y0=1979,Y1=2024,n=Y1-Y0+1;
+    const padL=84,padR=40,iw=BILL.W-padL-padR;
+    const xs=yr=>padL+(yr-Y0)/(Y1-Y0)*iw, cw=iw/(n-1);
+    /* rows */
+    const sT=64,sB=118;          /* sst strip */
+    const rT=168,rB=396;         /* rain panel */
+    const cT=448,cB=700;         /* crop panel */
+    const sst=PD.sst.FJ, rain=PD.rain.FJ, crop=PD.cropIdx.FJ;
+    let g='';
+    /* sst strip */
+    for(let yr=Y0;yr<=Y1;yr++){
+      const v=sst.v[yr-sst.y0]; if(v==null) continue;
+      g+=`<rect x="${(xs(yr)-cw/2).toFixed(1)}" y="${sT}" width="${(cw+.5).toFixed(1)}" height="${sB-sT}" fill="${sstCol(v)}"/>`;
+    }
+    g+=`<text x="${padL}" y="${sT-12}" fill="${C.muted}" font-family=${MONO} font-size="14">THE SEA · SST ANOMALY (WARMER →)</text>`;
+    /* rain bars */
+    const rdom=30, ry=v=>rT+(1-(v+rdom)/(2*rdom))*(rB-rT), r0=ry(0);
+    g+=`<text x="${padL}" y="${rT-12}" fill="${C.muted}" font-family=${MONO} font-size="14">THE RAIN · % VS NORMAL</text>
+      <line x1="${padL}" y1="${r0}" x2="${BILL.W-padR}" y2="${r0}" stroke="${C.ink}" stroke-width="1.4"/>`;
+    for(const gd of [-20,20]) g+=`<text x="${padL-10}" y="${ry(gd)+5}" text-anchor="end" fill="${C.muted}" font-family=${MONO} font-size="13">${gd>0?'+':''}${gd}%</text>`;
+    for(let yr=Y0;yr<=Y1;yr++){
+      const v=rain.v[yr-rain.y0]; if(v==null) continue;
+      const h=Math.abs(ry(v)-r0);
+      g+=`<rect x="${(xs(yr)-cw/2+1).toFixed(1)}" y="${(v>0?ry(v):r0).toFixed(1)}" width="${(cw-2).toFixed(1)}" height="${Math.max(h,1).toFixed(1)}" rx="1.5" fill="${v>0?C.sea:C.earth}"/>`;
+    }
+    /* crop line */
+    const cdom=[18000,46000], cy=v=>cT+(1-(v-cdom[0])/(cdom[1]-cdom[0]))*(cB-cT);
+    g+=`<text x="${padL}" y="${cT-12}" fill="${C.muted}" font-family=${MONO} font-size="14">THE HARVEST · CROP YIELD INDEX, KG/HA</text>`;
+    for(const gd of [20000,30000,40000]) g+=`<line x1="${padL}" y1="${cy(gd)}" x2="${BILL.W-padR}" y2="${cy(gd)}" stroke="${C.line}"/>
+      <text x="${padL-10}" y="${cy(gd)+5}" text-anchor="end" fill="${C.muted}" font-family=${MONO} font-size="13">${gd/1000}t</text>`;
+    let p='M';
+    for(let yr=Y0;yr<=Y1;yr++){
+      const v=crop.v[yr-crop.y0]; if(v==null) continue;
+      p+=(p==='M'?'':'L')+xs(yr).toFixed(1)+','+cy(v).toFixed(1);
+    }
+    g+=`<path d="${p}" fill="none" stroke="${C.ink}" stroke-width="3.2" stroke-linejoin="round"/>`;
+    /* shared year axis */
+    for(const yr of [1980,1990,2000,2010,2020])
+      g+=`<text x="${xs(yr).toFixed(1)}" y="${cB+34}" text-anchor="middle" fill="${C.muted}" font-family=${MONO} font-size="15">${yr}</text>`;
+    /* drought bands + callouts */
+    for(const d of [{yr:1987,rain:'−22%',crop:'−21%'},{yr:1998,rain:'−24%',crop:'−20%'}]){
+      const x=xs(d.yr);
+      g+=`<rect x="${(x-cw/2-2).toFixed(1)}" y="${rT-34}" width="${(cw+4).toFixed(1)}" height="${cB-rT+34}" fill="rgba(200,64,31,.10)"/>
+        <text x="${x.toFixed(1)}" y="${rT-44}" text-anchor="middle" fill="${C.heat}" font-family=${DISP} font-weight="740" font-size="24">${d.yr}</text>
+        <text x="${(x+cw/2+8).toFixed(1)}" y="${(r0+60).toFixed(1)}" fill="${C.earth}" font-family=${MONO} font-size="14.5">rain ${d.rain}</text>
+        <text x="${(x+cw/2+8).toFixed(1)}" y="${(cy(crop.v[d.yr-crop.y0])+34).toFixed(1)}" fill="${C.heat}" font-family=${MONO} font-size="14.5">harvest ${d.crop}</text>`;
+    }
+    /* stage 1: 1999 rebound */
+    const rx=xs(1999), rcy=cy(crop.v[1999-crop.y0]);
+    g+=`<g class="anno s1">
+      <circle cx="${rx.toFixed(1)}" cy="${rcy.toFixed(1)}" r="9" fill="${C.sea}" stroke="${C.paper}" stroke-width="2.6"/>
+      <line x1="${rx.toFixed(1)}" y1="${(rcy-14).toFixed(1)}" x2="${rx.toFixed(1)}" y2="${(rcy-58).toFixed(1)}" stroke="${C.sea}" stroke-width="2"/>
+      <text x="${(rx+12).toFixed(1)}" y="${(rcy-66).toFixed(1)}" fill="${C.sea}" font-family=${DISP} font-weight="740" font-size="34">1999 · +56%</text>
+      <text x="${(rx+12).toFixed(1)}" y="${(rcy-40).toFixed(1)}" fill="${C.muted}" font-family=${MONO} font-size="14.5">ONE WET YEAR BUYS IT BACK</text></g>`;
+    viz.innerHTML=g;
+    $('billtitle').textContent='Fiji · sea temperature, rainfall & harvest on one page · 1979–2024';
+    viz.onpointermove=ev=>{
+      const r=viz.getBoundingClientRect(), sx=BILL.W/r.width;
+      const yr=Math.round(Y0+((ev.clientX-r.left)*sx-padL)/iw*(Y1-Y0));
+      if(yr<Y0||yr>Y1){hideTip();return}
+      const rv=rain.v[yr-rain.y0], cv=crop.v[yr-crop.y0], sv=sst.v[yr-sst.y0];
+      showTip(ev,`<b>${yr}</b> · Fiji<br>sea ${sv>0?'+':''}${sv==null?'–':sv.toFixed(1)}°C · rain ${rv>0?'+':''}${rv==null?'–':Math.round(rv)}%<br>harvest ${cv==null?'–':Math.round(cv).toLocaleString()} kg/ha`);
+    };
+    viz.onpointerleave=hideTip;
+  } else { /* scatter: rain volatility vs safe water */
+    const padL=120,padR=70,padT=96,padB=120;
+    const iw=BILL.W-padL-padR, ih=BILL.H-padT-padB;
+    const xdom=[4,32], xs=v=>padL+(v-xdom[0])/(xdom[1]-xdom[0])*iw;
+    const ys=v=>padT+(1-v/100)*ih;
+    const lastv=s=>{const v=s.v;for(let i=v.length-1;i>=0;i--)if(v[i]!=null)return v[i];return null};
+    const pts=[];
+    for(const c of Object.keys(PD.water)){
+      const w=PD.water[c].t?lastv(PD.water[c].t):null, rn=PD.rain[c];
+      if(w==null||!rn) continue;
+      const vals=rn.v.filter(v=>v!=null), mean=vals.reduce((a,b)=>a+b,0)/vals.length;
+      const sd=Math.sqrt(vals.reduce((a,b)=>a+(b-mean)*(b-mean),0)/vals.length);
+      pts.push({c,x:sd,y:w});
+    }
+    let g='';
+    for(const gd of [0,25,50,75,100]) g+=`<line x1="${padL}" y1="${ys(gd)}" x2="${BILL.W-padR}" y2="${ys(gd)}" stroke="${C.line}"/>
+      <text x="${padL-12}" y="${ys(gd)+5}" text-anchor="end" fill="${C.muted}" font-family=${MONO} font-size="14.5">${gd}%</text>`;
+    for(const gx of [10,20,30]) g+=`<line x1="${xs(gx)}" y1="${padT-8}" x2="${xs(gx)}" y2="${BILL.H-padB}" stroke="${C.line}"/>
+      <text x="${xs(gx)}" y="${BILL.H-padB+30}" text-anchor="middle" fill="${C.muted}" font-family=${MONO} font-size="14.5">±${gx}%</text>`;
+    g+=`<text x="${(padL+iw/2).toFixed(1)}" y="${BILL.H-padB+66}" text-anchor="middle" fill="${C.muted}" font-family=${MONO} font-size="15">RAINFALL VOLATILITY · SPREAD OF ANNUAL ANOMALIES 1979–2025</text>
+      <text x="34" y="${(padT+ih/2).toFixed(1)}" transform="rotate(-90 34 ${(padT+ih/2).toFixed(1)})" text-anchor="middle" fill="${C.muted}" font-family=${MONO} font-size="15">SAFELY MANAGED DRINKING WATER · 2024</text>`;
+    /* quadrant reads */
+    g+=`<text x="${xs(7)}" y="${ys(95)-18}" fill="${C.sea}" font-family=${DISP} font-weight="650" font-size="22" opacity=".75">steady sky · full glass</text>
+      <text x="${xs(31)}" y="${ys(6)}" text-anchor="end" fill="${C.heat}" font-family=${DISP} font-weight="740" font-size="30">wild sky · empty glass</text>`;
+    const HIL={NR:1,KI:1,TV:1};
+    for(const p of pts){
+      const col=p.y<50?C.heat:C.sea;
+      g+=`<circle cx="${xs(p.x).toFixed(1)}" cy="${ys(p.y).toFixed(1)}" r="${HIL[p.c]?12:9}" fill="${col}" opacity="${HIL[p.c]?'1':'.55'}" stroke="${C.paper}" stroke-width="2"/>
+        <text x="${(xs(p.x)+(HIL[p.c]?17:13)).toFixed(1)}" y="${(ys(p.y)+5).toFixed(1)}" fill="${col}" font-family=${MONO} font-size="${HIL[p.c]?'16':'13'}" ${HIL[p.c]?'font-weight="bold"':''}>${HIL[p.c]?PD.names[p.c]:p.c}</text>`;
+    }
+    viz.innerHTML=g;
+    $('billtitle').textContent='Every country · rainfall volatility vs safe drinking water';
+    viz._pts=pts.map(p=>({...p,px:xs(p.x),py:ys(p.y)}));
+    viz.onpointermove=ev=>{
+      const r=viz.getBoundingClientRect(), sx=BILL.W/r.width;
+      const mx=(ev.clientX-r.left)*sx, my=(ev.clientY-r.top)*(BILL.H/r.height);
+      let best=null,bd=1e9;
+      for(const p of viz._pts){const d=(p.px-mx)**2+(p.py-my)**2; if(d<bd){bd=d;best=p}}
+      if(!best||bd>40*40){hideTip();return}
+      showTip(ev,`<b>${PD.names[best.c]}</b><br>rain volatility ±${best.x.toFixed(1)}%<br>safe water ${Math.round(best.y)}%`);
+    };
+    viz.onpointerleave=hideTip;
+  }
+}
+
+/* ---------- CH5 · fisheries area ---------- */
+function buildFish(){
+  const s=PD.fishTotal, v=s.v, y0=s.y0, n=v.length;
+  const W=1240,H=520,padL=80,padR=36,padT=52,padB=64;
+  const iw=W-padL-padR, ih=H-padT-padB;
+  const xs=i=>padL+i/(n-1)*iw, ys=val=>padT+(1-val/1100)*ih;
+  let p=`M${xs(0)},${ys(v[0])}`;
+  for(let i=1;i<n;i++) p+=`L${xs(i).toFixed(1)},${ys(v[i]).toFixed(1)}`;
+  const area=p+`L${xs(n-1)},${ys(0)}L${xs(0)},${ys(0)}Z`;
+  let ax='';
+  for(const g of [250,500,750,1000]) ax+=`<line x1="${padL}" y1="${ys(g)}" x2="${W-padR}" y2="${ys(g)}" stroke="${C.line}"/>
+    <text x="${padL-10}" y="${ys(g)+5}" text-anchor="end" fill="${C.muted}" font-family=${MONO} font-size="14.5">${g.toLocaleString()}</text>`;
+  for(const yr of [1950,1975,2000,2026]) ax+=`<text x="${xs(yr-y0)}" y="${H-padB+30}" text-anchor="middle" fill="${C.muted}" font-family=${MONO} font-size="15">${yr}</text>`;
+  const lx=xs(n-1), ly=ys(v[n-1]);
+  $('fishviz').innerHTML=ax+
+    `<path d="${area}" fill="${C.sea}" opacity=".16"/>
+     <path d="${p}" fill="none" stroke="${C.sea}" stroke-width="3.6"/>
+     <circle cx="${lx}" cy="${ly}" r="7.5" fill="${C.sea}"/>
+     <text x="${lx-16}" y="${ly-18}" text-anchor="end" fill="${C.sea}" font-family=${DISP} font-weight="740" font-size="40">${v[n-1].toLocaleString()}</text>
+     <text x="${lx-16}" y="${ly+8}" text-anchor="end" fill="${C.muted}" font-family=${MONO} font-size="15">INSTRUMENTS · 2026</text>`;
+}
+
+/* ---------- country pills ---------- */
+function makePills(host,codes,sel,cb){
+  const el=$(host); el.hidden=false; el.innerHTML='';
+  codes.forEach(c=>{
+    const b=document.createElement('button');
+    b.textContent=c; b.title=PD.names[c];
+    if(c===sel)b.classList.add('on');
+    b.onclick=()=>{el.querySelectorAll('button').forEach(x=>x.classList.remove('on'));b.classList.add('on');cb(c)};
+    el.appendChild(b);
+  });
+}
+makePills('sstpills',Object.keys(PD.sst).sort(),null,c=>{SST.sel=c;buildSST();$('sstviz').setAttribute('data-stage','3')});
+makePills('rainpills',Object.keys(PD.rain).sort(),'TV',c=>{RAIN.sel=c;buildRain();});
+
+/* ---------- scroll driver ---------- */
+buildSST(); buildRain(); buildCrop(); buildWater(); buildBill(); buildFish();
+$('sstviz').setAttribute('data-stage','0');
+$('rainviz').setAttribute('data-stage','0');
+$('cropviz').setAttribute('data-stage','0');
+$('billviz').setAttribute('data-stage','0');
+
+const stepObs=new IntersectionObserver(ents=>{
+  ents.forEach(e=>{
+    if(!e.isIntersecting) return;
+    const st=e.target, viz=st.dataset.viz, stage=+st.dataset.stage;
+    if(viz==='sst'){
+      if(stage<3){SST.sel=null;buildSST();}
+      $('sstviz').setAttribute('data-stage',String(stage));
+      $('sstpills').hidden=stage<3;
+    }
+    if(viz==='rain'){
+      const want=st.dataset.c;
+      if(stage<3 && RAIN.sel!==want){RAIN.sel=want;buildRain();
+        document.querySelectorAll('#rainpills button').forEach(b=>b.classList.toggle('on',b.textContent===want));}
+      $('rainviz').setAttribute('data-stage',String(stage));
+      $('rainpills').hidden=stage<3;
+    }
+    if(viz==='crop'){
+      const m=stage<2?0:2;
+      if((CROP.mode<2)!==(m<2)){CROP.mode=m;buildCrop();}
+      $('cropviz').setAttribute('data-stage',String(stage<2?stage:0));
+      if(stage===1)$('cropviz').setAttribute('data-stage','1');
+    }
+    if(viz==='water'){ if(WAT.mode!==stage){WAT.mode=stage;buildWater();} }
+    if(viz==='bill'){
+      const m=stage<2?0:2;
+      if((BILL.mode<2)!==(m<2)){BILL.mode=m;buildBill();}
+      $('billviz').setAttribute('data-stage',String(stage));
+    }
+  });
+},{rootMargin:'-45% 0px -45% 0px'});
+document.querySelectorAll('.step').forEach(s=>stepObs.observe(s));
+
+const revObs=new IntersectionObserver(ents=>{
+  ents.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');revObs.unobserve(e.target)}});
+},{threshold:.2});
+document.querySelectorAll('.reveal').forEach(el=>revObs.observe(el));
+
+/* progress bar */
+let ticking=false;
+function paint(){
+  ticking=false;
+  const h=document.documentElement;
+  $('pbar').style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%';
+}
+addEventListener('scroll',()=>{if(!ticking){ticking=true;requestAnimationFrame(paint)}},{passive:true});
+paint();
+})();
+</script>
+</body>
+</html>

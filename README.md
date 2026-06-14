@@ -17,6 +17,8 @@ vizyourdata-portfolio/
 │  ├─ js/site.js                  renders the gallery cards
 │  └─ img/                        favicon.svg, og.svg
 ├─ embed/index.html               shared viewer for any Tableau Public single-sheet viz
+├─ lab/index.html                 ⚗ the Lab: wires up any workbook + auto-builds its controls
+│                                   (engine lives in assets/js/lab.js)
 └─ three-days-in-the-desert/      a full custom data story (its own page)
    └─ index.html
 ```
@@ -66,6 +68,27 @@ branded placeholder tile is drawn.
 ```
 
 The **first** entry with `feature: true` renders as the wide hero card.
+
+## The Lab (`/lab/`)
+
+A template zone for building **custom-UI embeds**. Open `/lab/?src=<tableau-public-url>`
+(or paste a URL into the patch-bay input). The page embeds the workbook with the Tableau
+toolbar hidden, then introspects it through the **Embedding API v3** and generates web
+controls that correspond to what it finds:
+
+- **Sheets** — published sheets become tab chips (`activateSheetAsync`)
+- **Filters** — categorical filters render as chips (≤ 8 values) or a checkbox well
+  (`getDomainAsync` → `applyFilterAsync`); quantitative/date range filters become
+  min–max inputs (`applyRangeFilterAsync`)
+- **Parameters** — list params become chips/selects, range params become sliders,
+  booleans become toggles (`changeParameterValueAsync`)
+- **Actions** — undo / redo / reset / refresh / export, rebuilt as on-brand buttons
+- the **event tape** at the bottom narrates every API event (`filterchanged`,
+  `parameterchanged`, `markselectionchanged`, …) as it happens
+
+Use it as the starting point for any piece that needs a hand-rolled UI around a
+Tableau viz: copy `lab/index.html` + `assets/js/lab.js` into a new story folder and
+replace the auto-generated panel with bespoke controls.
 
 ## Preview locally
 

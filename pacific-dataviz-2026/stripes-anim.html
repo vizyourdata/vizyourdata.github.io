@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The hottest sea · animated stripes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=Fragment+Mono&display=swap" rel="stylesheet">
+<style>
+  html,body{margin:0;background:#1C2B2A;height:100%;display:grid;place-items:center}
+  canvas{max-width:96vw;max-height:96vh;box-shadow:0 30px 80px rgba(0,0,0,.5)}
+</style>
+</head>
+<body>
+<canvas id="cv" width="1920" height="1080"></canvas>
+<script src="../the-pacific-plate/data.js"></script>
+<script>
+(function(){
+'use strict';
+const cv=document.getElementById('cv'), ctx=cv.getContext('2d');
+const W=1920,H=1080;
+const PAL={paper:'#F6EFE0',ink:'#1C2B2A',muted:'#6E7468',heat:'#C8401F',ochre:'#B98226'};
+const MONO='"Fragment Mono",monospace', DISP='"Bricolage Grotesque",sans-serif';
+
+/* ---- data ---- */
+const Y0=1850,Y1=2025,N=Y1-Y0+1;
+const V=PD.sstPac.v;
+let mx=-1e9; const REC=new Set();
+for(let y=Y0;y<=Y1;y++){const v=V[y-Y0]; if(v==null)continue; if(v>mx){mx=v;REC.add(y);}}
+
+/* ---- color scale (same as the story) ---- */
+function hex2rgb(h){return [parseInt(h.slice(1,3),16),parseInt(h.slice(3,5),16),parseInt(h.slice(5,7),16)]}
+function mix(h1,h2,t){const a=hex2rgb(h1),b=hex2rgb(h2);
+  return `rgb(${Math.round(a[0]+(b[0]-a[0])*t)},${Math.round(a[1]+(b[1]-a[1])*t)},${Math.round(a[2]+(b[2]-a[2])*t)})`}
+function sstCol(v){const t=Math.max(-1,Math.min(1,v/1.2));
+  return t<0? mix('#E7DEC6','#2E5F7E',-t) : mix('#E7DEC6','#C8401F',t)}
+
+/* ---- timeline (seconds) ---- */
+const INTRO=0.8, SWEEP=9.4, TSWEEP_END=INTRO+SWEEP;       // 10.2
+const TBRACKET=TSWEEP_END+0.15, TBRACKET_D=0.8;            // bracket draw
+const THEAD=11.15, TOTAL=14;                               // headline in, total length
+window.DURATION=TOTAL;
+const tOf=y=>INTRO+(y-Y0)/(Y1-Y0)*SWEEP;
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const easeOut=p=>1-Math.pow(1-p,3);
+
+/* ---- layout ---- */
+const X0=120,X1=1800,SW=(X1-X0)/N;
+const SY=372,SB=884,SH=SB-SY;     // stripe band
+const AXY=940;                    // year axis baseline
+
+function draw(t){
+  /* paper + weave */
+  ctx.globalAlpha=1; ctx.fillStyle=PAL.paper; ctx.fillRect(0,0,W,H);
+  ctx.fillStyle='rgba(28,43,42,.022)';
+  for(let x=0;x<W;x+=14) ctx.fillRect(x,0,2,H);
+  ctx.fillStyle='rgba(185,130,38,.03)';
+  for(let y=0;y<H;y+=18) ctx.fillRect(0,y,W,2);
+
+  /* empty band ghost */
+  ctx.fillStyle='rgba(28,43,42,.045)'; ctx.fillRect(X0,SY,X1-X0,SH);
+
+  /* kicker */
+  const kA=clamp((t-0.15)/0.5,0,1);
+  ctx.globalAlpha=kA;
+  ctx.fillStyle=PAL.muted; ctx.font='26px '+MONO; ctx.letterSpacing='9px'; ctx.textAlign='left';
+  ctx.fillText('PACIFIC OCEAN · SEA-SURFACE TEMPERATURE ANOMALY · 1850–2025',X0,138);
+  ctx.letterSpacing='0px';
+  ctx.fillStyle='rgba(28,43,42,.34)'; ctx.fillRect(X0,160,W-2*X0,2);
+  ctx.globalAlpha=1;
+
+  /* warm glow building through the last decade */
+  const glow=clamp((t-tOf(2014))/(TSWEEP_END-tOf(2014)),0,1);
+  if(glow>0){
+    const g=ctx.createRadialGradient(W*.72,SB,80,W*.72,SB,900);
+    g.addColorStop(0,'rgba(200,64,31,'+(0.10*glow)+')'); g.addColorStop(1,'rgba(200,64,31,0)');
+    ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
+  }
+
+  /* stripes */
+  for(let y=Y0;y<=Y1;y++){
+    const v=V[y-Y0]; if(v==null) continue;
+    const ts=tOf(y); if(t<ts) break;
+    const a=clamp((t-ts)/0.12,0,1);
+    const x=X0+(y-Y0)*SW;
+    ctx.globalAlpha=a; ctx.fillStyle=sstCol(v);
+    ctx.fillRect(x,SY,SW+0.6,SH);
+    /* record flash */
+    if(REC.has(y)){
+      const f=t-ts;
+      if(f>0&&f<0.5){ctx.globalAlpha=(1-f/0.5)*0.85; ctx.fillStyle='#FFFFFF'; ctx.fillRect(x,SY,SW+0.6,SH);}
+      /* persistent tick */
+      const ta=clamp((t-ts)/0.2,0,1);
+      ctx.globalAlpha=ta; ctx.fillStyle=PAL.heat;
+      ctx.beginPath();
+      ctx.moveTo(x+SW/2,SY-10); ctx.lineTo(x+SW/2-7,SY-24); ctx.lineTo(x+SW/2+7,SY-24); ctx.closePath(); ctx.fill();
+    }
+  }
+  ctx.globalAlpha=1;
+
+  /* weft lines over stripes */
+  ctx.fillStyle='rgba(246,239,224,.32)';
+  for(let y=SY+16;y<SB;y+=26) ctx.fillRect(X0,y,X1-X0,3);
+
+  /* "record" label next to first ticks */
+  const rl=clamp((t-tOf(1857))/0.5,0,1)* (t<THEAD?1:clamp(1-(t-THEAD)/0.4,0,1));
+  if(rl>0){ctx.globalAlpha=rl; ctx.fillStyle=PAL.heat; ctx.font='22px '+MONO; ctx.letterSpacing='3px';
+    ctx.textAlign='left'; ctx.fillText('▲ = HOTTEST YEAR SO FAR',X0,SY-44); ctx.letterSpacing='0px'; ctx.globalAlpha=1;}
+
+  /* year axis */
+  ctx.fillStyle=PAL.muted; ctx.font='25px '+MONO; ctx.textAlign='center';
+  for(const yr of [1850,1900,1950,2000,2025]){
+    const x=X0+(yr-Y0+.5)*SW;
+    if(t>=tOf(yr)-0.05) ctx.fillText(String(yr),x,AXY);
+  }
+
+  /* legend */
+  if(t>INTRO){
+    const lg=ctx.createLinearGradient(X0,0,X0+300,0);
+    lg.addColorStop(0,sstCol(-1.2)); lg.addColorStop(.5,'#E7DEC6'); lg.addColorStop(1,sstCol(1.2));
+    ctx.fillStyle=lg; ctx.fillRect(X0,996,300,14);
+    ctx.fillStyle=PAL.muted; ctx.font='21px '+MONO;
+    ctx.textAlign='left'; ctx.fillText('−1.2°C',X0,1040);
+    ctx.textAlign='right'; ctx.fillText('+1.2°C',X0+300,1040);
+  }
+
+  /* big year counter */
+  const yr=Math.floor(clamp(Y0+(t-INTRO)/SWEEP*(Y1-Y0+0.999),Y0,Y1));
+  const cA=clamp((t-INTRO+0.2)/0.3,0,1)*clamp(1-(t-(TSWEEP_END+0.55))/0.4,0,1);
+  if(cA>0){
+    /* flash heat-red for a beat after each record */
+    let hot=0;
+    if(REC.has(yr)){hot=clamp(1-(t-tOf(yr))/0.45,0,1)}
+    ctx.globalAlpha=cA;
+    ctx.fillStyle=hot>0? PAL.heat : PAL.ink;
+    ctx.font='760 168px '+DISP; ctx.textAlign='right';
+    ctx.fillText(String(yr),X1,318);
+    ctx.globalAlpha=1;
+  }
+
+  /* bracket + dim the rest */
+  const bp=easeOut(clamp((t-TBRACKET)/TBRACKET_D,0,1));
+  if(bp>0){
+    const bx0=X0+(2016-Y0)*SW, bx1=X0+(2026-Y0)*SW;
+    /* dim everything before 2016 */
+    ctx.globalAlpha=0.26*bp; ctx.fillStyle=PAL.paper; ctx.fillRect(X0,SY,bx0-X0,SH); ctx.globalAlpha=1;
+    ctx.strokeStyle=PAL.heat; ctx.lineWidth=5;
+    /* rect outline draws on */
+    const per=2*((bx1-bx0)+SH), drawn=per*bp;
+    ctx.save(); ctx.beginPath(); ctx.setLineDash([drawn,per]); ctx.strokeRect(bx0,SY,bx1-bx0,SH); ctx.restore();
+  }
+
+  /* headline + subline + source */
+  const hp=clamp((t-THEAD)/0.45,0,1);
+  if(hp>0){
+    ctx.globalAlpha=hp;
+    ctx.fillStyle=PAL.heat; ctx.textAlign='left';
+    ctx.font='760 '+Math.round(104*(1.04-0.04*easeOut(hp)))+'px '+DISP;
+    ctx.fillText('the last 10 = the hottest 10',X0,268);
+    ctx.globalAlpha=1;
+  }
+  const sp=clamp((t-THEAD-0.5)/0.45,0,1);
+  if(sp>0){
+    ctx.globalAlpha=sp;
+    ctx.fillStyle=PAL.ink; ctx.font='30px '+MONO; ctx.letterSpacing='4px'; ctx.textAlign='left';
+    ctx.fillText('2016–2025 · EVERY SINGLE ONE · 176 YEARS OF MEASUREMENTS',X0,326);
+    ctx.letterSpacing='0px';
+    ctx.fillStyle=PAL.muted; ctx.font='20px '+MONO; ctx.textAlign='right';
+    ctx.fillText('DATA · SPC PACIFIC DATA HUB (PDH.STAT) · EEZ-AVERAGED SST VS 1993–2012 BASELINE',X1,1040);
+    ctx.globalAlpha=1;
+  }
+}
+
+/* deterministic hook for the renderer */
+window.seek=t=>draw(clamp(t,0,TOTAL));
+
+/* fonts must be in before any frame is rendered */
+window.ready=Promise.all([
+  document.fonts.load('760 168px "Bricolage Grotesque"'),
+  document.fonts.load('26px "Fragment Mono"'),
+]).then(()=>{draw(0); return true;});
+
+/* live preview: autoplay + loop (renderer never calls this) */
+let raf=null;
+window.play=()=>{
+  const t0=performance.now();
+  cancelAnimationFrame(raf);
+  (function loop(){
+    const t=((performance.now()-t0)/1000)%(TOTAL+1.2);
+    draw(Math.min(t,TOTAL));
+    raf=requestAnimationFrame(loop);
+  })();
+};
+if(!location.search.includes('render')) window.ready.then(()=>window.play());
+})();
+</script>
+</body>
+</html>

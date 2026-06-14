@@ -1,0 +1,576 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The First 48 · The World Cup That Doubled</title>
+<meta name="description" content="A data story on the lead-up to the 2026 FIFA World Cup: how the field grew from 13 teams to 48, who got the new seats, four nations' first appearance, and the first tournament hosted by three countries across sixteen cities.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..600&family=Fragment+Mono:ital@0;1&display=swap" rel="stylesheet">
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="article">
+<meta property="og:title" content="The First 48: The World Cup That Doubled">
+<meta property="og:description" content="For ninety-six years the World Cup grew one cautious step at a time. In 2026 it leaps to 48 teams across three nations. This is the shape of that leap.">
+<style>
+:root{
+  --paper:#F2EEE2; --paper2:#E7DECB; --ink:#173A2E; --muted:#6B7468;
+  --grass:#2E7D46; --gold:#C8922B; --new:#C8401F; --blue:#2660A4;
+  --line:rgba(23,58,46,.16); --line2:rgba(23,58,46,.34);
+  --maxw:1280px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; color:var(--ink);
+  font-family:"Newsreader",Georgia,serif; font-optical-sizing:auto;
+  background:
+    repeating-linear-gradient(90deg, rgba(23,58,46,.020) 0 2px, transparent 2px 16px),
+    repeating-linear-gradient(0deg, rgba(200,146,43,.025) 0 2px, transparent 2px 18px),
+    linear-gradient(168deg, var(--paper) 0%, var(--paper2) 100%);
+  background-attachment:fixed;
+  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+  overflow-x:hidden;
+}
+.grain{position:fixed; inset:0; z-index:60; pointer-events:none; opacity:.05; mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+::selection{background:var(--grass); color:var(--paper)}
+
+.vyd-home{position:fixed; z-index:90; top:1.15rem; left:1.3rem; text-decoration:none;
+  font-family:"Fragment Mono",monospace; font-size:.7rem; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--muted); padding:.5em .85em; border:1px solid var(--line2); border-radius:100px;
+  background:rgba(242,238,226,.7); backdrop-filter:blur(5px);
+  transition:color .25s, border-color .25s, transform .25s;}
+.vyd-home:hover{color:var(--grass); border-color:var(--grass); transform:translateX(-2px)}
+@media (max-width:680px){.vyd-home{top:.7rem; left:.7rem; font-size:.62rem; padding:.45em .7em}}
+
+.progress{position:fixed; top:0; left:0; right:0; height:3px; z-index:80}
+.progress span{display:block; height:100%; width:0;
+  background:linear-gradient(90deg,var(--grass),var(--gold),var(--new))}
+
+.wrap{max-width:var(--maxw); margin:0 auto; padding:0 7vw}
+.kicker{font-family:"Fragment Mono",monospace; font-size:.7rem; letter-spacing:.34em; text-transform:uppercase;
+  color:var(--muted); display:flex; align-items:center; gap:.9em; margin:0 0 1.2rem}
+.kicker::before{content:""; width:2.4em; height:1px; background:var(--line2)}
+h1,h2{font-family:"Bricolage Grotesque",sans-serif; font-weight:760; line-height:.98; letter-spacing:-.015em; margin:0}
+.prose{font-size:clamp(1.12rem,1.4vw,1.32rem); line-height:1.62; max-width:62ch}
+.prose em{font-style:italic}
+.prose b{font-weight:600}
+.grass{color:var(--grass)} .gold{color:var(--gold)} .new{color:var(--new)} .blue{color:var(--blue)}
+.num{font-family:"Fragment Mono",monospace; font-size:.92em}
+
+/* pitch halfway-line divider: mowed stripes + centre spot */
+.pitchline{height:30px; margin:0; border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='30'%3E%3Ccircle cx='30' cy='15' r='9' fill='none' stroke='%23173A2E' stroke-opacity='.34' stroke-width='1.3'/%3E%3Ccircle cx='30' cy='15' r='1.6' fill='%23173A2E' fill-opacity='.5'/%3E%3C/svg%3E") center/60px 30px no-repeat,
+    repeating-linear-gradient(90deg, rgba(46,125,70,.10) 0 30px, rgba(46,125,70,.035) 30px 60px);}
+
+/* hero */
+.hero{min-height:100svh; display:flex; flex-direction:column; justify-content:center; padding:14vh 0 8vh; position:relative}
+.hero h1{font-size:clamp(3.2rem,9vw,8.4rem); text-transform:uppercase}
+.hero h1 .l2{display:block; color:var(--grass)}
+.hero .dek{font-size:clamp(1.2rem,1.7vw,1.5rem); line-height:1.55; max-width:48ch; margin:2.2rem 0 0; font-weight:400}
+.hero .dek i{font-style:italic}
+.menu{margin:3.6rem 0 0; max-width:560px; border:1.5px solid var(--line2); background:rgba(242,238,226,.55);
+  padding:2rem 2.2rem 1.6rem; position:relative}
+.menu::before,.menu::after{content:""; position:absolute; left:10px; right:10px; height:5px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='5'%3E%3Cpath d='M0 5 7 0 14 5Z' fill='%23173A2E' fill-opacity='.34'/%3E%3C/svg%3E");
+  background-size:14px 5px; background-repeat:repeat-x;}
+.menu::before{top:7px} .menu::after{bottom:7px; transform:scaleY(-1)}
+.menu h3{font-family:"Fragment Mono",monospace; font-weight:400; font-size:.72rem; letter-spacing:.4em; text-transform:uppercase;
+  text-align:center; margin:.2rem 0 1.4rem; color:var(--muted)}
+.menu a{display:flex; align-items:baseline; gap:.9em; text-decoration:none; color:var(--ink);
+  padding:.72em .2em; border-top:1px dotted var(--line2); transition:color .2s, transform .2s}
+.menu a:hover{color:var(--grass); transform:translateX(4px)}
+.menu a .no{font-family:"Fragment Mono",monospace; font-size:.72rem; color:var(--gold); letter-spacing:.1em; min-width:2.2em}
+.menu a .ti{font-family:"Bricolage Grotesque",sans-serif; font-weight:650; font-size:1.16rem}
+.menu a .dots{flex:1; border-bottom:1px dotted var(--line2); transform:translateY(-4px)}
+.menu a .what{font-style:italic; font-size:.95rem; color:var(--muted)}
+.scrollcue{margin-top:6vh; font-family:"Fragment Mono",monospace; font-size:.7rem; letter-spacing:.3em; text-transform:uppercase; color:var(--muted);
+  display:flex; align-items:center; gap:1em}
+.scrollcue::after{content:"↓"; animation:bob 1.8s ease-in-out infinite; font-size:1rem}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
+
+/* chapter heads */
+.chap{padding:16vh 0 6vh}
+.chap h2{font-size:clamp(2.5rem,5.6vw,4.6rem); text-transform:uppercase; margin:.4rem 0 1.6rem}
+.chap .course{font-family:"Fragment Mono",monospace; font-size:.72rem; letter-spacing:.4em; text-transform:uppercase; color:var(--gold)}
+
+/* scrolly */
+.scrolly{display:grid; grid-template-columns:minmax(0,1fr) clamp(330px,26vw,440px); gap:0; align-items:start; position:relative}
+.scrolly .fig{grid-column:1; position:sticky; top:0; height:100svh; display:flex; flex-direction:column; justify-content:center; padding:1rem .5vw 1rem 2.2vw}
+.scrolly .steps{grid-column:2; padding:14vh 3.5vw 36vh 1.2vw}
+.step{min-height:82vh; display:flex; flex-direction:column; justify-content:center}
+.step .lede{font-size:clamp(1.14rem,1.5vw,1.42rem); line-height:1.58; max-width:42ch}
+.step .lede .big{font-family:"Bricolage Grotesque",sans-serif; font-weight:740; font-size:1.5em; line-height:1.15; display:block; margin-bottom:.35em}
+.step .micro{font-family:"Fragment Mono",monospace; font-size:.72rem; letter-spacing:.05em; color:var(--muted); margin-top:1.2rem; line-height:1.8;
+  border-left:2px solid var(--line2); padding-left:1em}
+.fig svg{width:100%; height:auto; max-height:92svh; overflow:visible; display:block}
+.fig .figtitle{font-family:"Fragment Mono",monospace; font-size:.7rem; letter-spacing:.2em; text-transform:uppercase; color:var(--muted); margin:0 0 .6rem}
+
+/* annotation stage control */
+svg .anno{opacity:0; transition:opacity .6s ease}
+svg[data-stage="1"] .s1, svg[data-stage="2"] .s1, svg[data-stage="3"] .s1,
+svg[data-stage="2"] .s2, svg[data-stage="3"] .s2,
+svg[data-stage="3"] .s3{opacity:1}
+svg .only0{opacity:0; transition:opacity .6s ease}
+svg[data-stage="0"] .only0{opacity:1}
+
+/* tooltip */
+.tip{position:fixed; z-index:95; pointer-events:none; opacity:0; transition:opacity .15s;
+  font-family:"Fragment Mono",monospace; font-size:.72rem; line-height:1.5; color:var(--paper);
+  background:var(--ink); padding:.55em .8em; border-radius:3px; max-width:240px}
+
+/* reveal */
+.reveal{opacity:0; transform:translateY(22px); transition:opacity .8s ease, transform .8s ease}
+.reveal.in{opacity:1; transform:none}
+
+/* closing */
+.closer{padding:4vh 0 10vh}
+.closer .fig-solo{margin:4rem 0 0}
+.closer .fig-solo svg{width:100%; height:auto; overflow:visible}
+.newround{margin:2.4rem 0 0; font-family:"Fragment Mono",monospace; font-size:.78rem; letter-spacing:.06em; color:var(--muted);
+  border-left:2px solid var(--new); padding-left:1em; line-height:1.8}
+.statement{margin:10vh auto; max-width:760px; border:1.5px solid var(--line2); padding:3rem 3.2rem; background:rgba(242,238,226,.6)}
+.statement p{font-size:clamp(1.1rem,1.4vw,1.3rem); line-height:1.65; margin:.9em 0}
+.statement .kicker{margin-bottom:1.6rem}
+footer{padding:6vh 0 12vh; border-top:1px solid var(--line)}
+footer .cols{display:grid; grid-template-columns:1.2fr 1fr; gap:4vw; margin-top:2rem}
+footer h4{font-family:"Fragment Mono",monospace; font-size:.7rem; letter-spacing:.3em; text-transform:uppercase; color:var(--muted); font-weight:400; margin:0 0 1em}
+footer p, footer li{font-size:.95rem; line-height:1.7; color:var(--ink)}
+footer ul{margin:0; padding-left:1.1em}
+footer a{color:var(--grass)}
+footer .fin{margin-top:4rem; font-family:"Fragment Mono",monospace; font-size:.7rem; letter-spacing:.25em; text-transform:uppercase; color:var(--muted); text-align:center}
+
+@media (max-width:980px){
+  .scrolly{display:block}
+  .scrolly .fig{position:sticky; top:0; height:auto; padding:2.9rem 4vw 2vh; z-index:0;
+    background:linear-gradient(180deg, var(--paper) 78%, transparent)}
+  .fig svg{max-height:46svh}
+  .scrolly .steps{padding:6vh 7vw 26vh}
+  .step{min-height:80vh; justify-content:flex-end; padding-bottom:8vh; position:relative; z-index:1}
+  .step .lede{max-width:92vw}
+  footer .cols{grid-template-columns:1fr}
+  .statement{padding:2rem 1.6rem}
+  .menu{padding:1.5rem 1.2rem 1.2rem}
+  .menu a .what{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important; transition:none!important}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+<a class="vyd-home" href="/">← Eric Summers</a>
+<div class="grain" aria-hidden="true"></div>
+<div class="progress" aria-hidden="true"><span id="pbar"></span></div>
+<div class="tip" id="tip" role="status"></div>
+
+<!-- ================= HERO ================= -->
+<header class="hero wrap">
+  <p class="kicker">FIFA World Cup 2026 · The tournament that doubled</p>
+  <h1>The First<span class="l2">Forty-Eight</span></h1>
+  <p class="dek">For ninety-six years the World Cup grew one cautious step at a time. In 2026 it leaps to <b>48 teams</b>, spread across <b>three nations</b> and sixteen cities — the biggest tournament football has ever staged. This is <i>the shape of that leap.</i></p>
+  <nav class="menu" aria-label="Story chapters">
+    <h3>The Line-Up</h3>
+    <a href="#field"><span class="no">I.</span><span class="ti">The Field</span><span class="dots"></span><span class="what">a century of growth</span></a>
+    <a href="#seats"><span class="no">II.</span><span class="ti">The New Seats</span><span class="dots"></span><span class="what">who got the places</span></a>
+    <a href="#debut"><span class="no">III.</span><span class="ti">The Debutants</span><span class="dots"></span><span class="what">four first-timers</span></a>
+    <a href="#hosts"><span class="no">IV.</span><span class="ti">Three Hosts</span><span class="dots"></span><span class="what">sixteen cities</span></a>
+    <a href="#scale"><span class="no">V.</span><span class="ti">The Scale</span><span class="dots"></span><span class="what">bigger, longer, more</span></a>
+  </nav>
+  <p class="scrollcue">Scroll to kick off</p>
+</header>
+
+<div class="pitchline" aria-hidden="true"></div>
+
+<!-- ================= CH I · THE FIELD ================= -->
+<section class="chap wrap" id="field">
+  <p class="course">First · The Field</p>
+  <h2>The World Cup<br>kept getting bigger</h2>
+  <p class="prose reveal">When 13 teams turned up in Uruguay in <b class="num">1930</b>, the World Cup was an invitation. Ninety-six years later it is the planet's biggest sporting event — and it got there in just three deliberate jumps.</p>
+</section>
+<section class="scrolly">
+  <div class="fig">
+    <p class="figtitle" id="fieldtitle">Teams at every men's World Cup · 1930–2026</p>
+    <svg id="fieldviz" viewBox="0 0 1140 760" role="img" aria-label="Bar chart of the number of teams at each men's World Cup from 1930 to 2026, growing in steps from 13 to 48."></svg>
+  </div>
+  <div class="steps">
+    <div class="step" data-viz="field" data-stage="0">
+      <p class="lede"><span class="big">Twenty-three tournaments.</span> Each bar is one World Cup, from Uruguay 1930 to North America 2026. For its first half-century, the field barely moved — sixteen teams, give or take.</p>
+      <p class="micro">SOURCE · FIFA TOURNAMENT RECORDS<br>BARS SHOW TEAMS THAT ACTUALLY TOOK PART</p>
+    </div>
+    <div class="step" data-viz="field" data-stage="1">
+      <p class="lede"><span class="big">Then, three jumps.</span> <span class="gold">1982</span> went 16 → 24. <span class="blue">1998</span> went 24 → 32. Each time the door opened wider — and never closed again.</p>
+    </div>
+    <div class="step" data-viz="field" data-stage="2">
+      <p class="lede"><span class="big new">2026 adds sixteen teams at once.</span> Half as many again. In absolute terms it is the largest single expansion in the tournament's history — a whole 1930 World Cup's worth of teams, added in one go.</p>
+      <p class="micro">32 → 48 · +50% · +16 TEAMS<br>THE BIGGEST LEAP THE COMPETITION HAS EVER MADE</p>
+    </div>
+  </div>
+</section>
+
+<div class="pitchline" aria-hidden="true"></div>
+
+<!-- ================= CH II · THE NEW SEATS ================= -->
+<section class="chap wrap" id="seats">
+  <p class="course">Second · The New Seats</p>
+  <h2>Sixteen extra places —<br>but not shared evenly</h2>
+  <p class="prose reveal">Adding sixteen teams meant re-drawing the map of who gets in. Every continent gained, but the new seats were aimed squarely at the regions that had long been crowded out.</p>
+</section>
+<section class="scrolly">
+  <div class="fig">
+    <p class="figtitle" id="seattitle">Qualified nations by confederation · 2022 vs 2026</p>
+    <svg id="seatviz" viewBox="0 0 1140 760" role="img" aria-label="Dumbbell chart comparing the number of qualified nations from each confederation in 2022 and 2026, with Africa doubling and Oceania gaining its first guaranteed place."></svg>
+  </div>
+  <div class="steps">
+    <div class="step" data-viz="seats" data-stage="0">
+      <p class="lede"><span class="big">The old field, 2022.</span> Thirty-two places, and Europe took thirteen of them. The hollow rings are where each confederation stood last time out.</p>
+      <p class="micro">CONFEDERATIONS · UEFA EUROPE · CAF AFRICA · AFC ASIA<br>CONMEBOL S. AMERICA · CONCACAF N. &amp; C. AMERICA · OFC OCEANIA</p>
+    </div>
+    <div class="step" data-viz="seats" data-stage="1">
+      <p class="lede"><span class="big new">Africa doubled — five places to ten.</span> Asia jumped from six to nine. The continents with the most footballing nations and the fewest historic places gained the most ground.</p>
+      <p class="micro">CAF 5 → 10 · AFC 6 → 9 · UEFA 13 → 16<br>TWO 2026 PLACES WERE SETTLED AT THE MARCH PLAY-OFFS</p>
+    </div>
+    <div class="step" data-viz="seats" data-stage="2">
+      <p class="lede"><span class="big gold">And Oceania, at last, has a guaranteed seat.</span> For the first time ever, the winner of the Pacific region goes straight to the World Cup instead of into a cruel intercontinental play-off. New Zealand takes it.</p>
+      <p class="micro">OFC 0 → 1 · ALL SIX CONFEDERATIONS NOW HAVE A DIRECT PLACE</p>
+    </div>
+  </div>
+</section>
+
+<div class="pitchline" aria-hidden="true"></div>
+
+<!-- ================= CH III · THE DEBUTANTS ================= -->
+<section class="chap wrap" id="debut">
+  <p class="course">Third · The Debutants</p>
+  <h2>Four nations<br>that had never been</h2>
+  <p class="prose reveal">A bigger field means new flags. Four countries will walk out at a World Cup for the very first time — and one of them rewrites the record book on the way.</p>
+</section>
+<section class="scrolly">
+  <div class="fig">
+    <p class="figtitle" id="debuttitle">First-time qualifiers · 2026 · by national population</p>
+    <svg id="debutviz" viewBox="0 0 1140 760" role="img" aria-label="Population scale of the four 2026 World Cup debutants — Curaçao, Cape Verde, Jordan and Uzbekistan — against the previous smallest qualifier, Iceland."></svg>
+  </div>
+  <div class="steps">
+    <div class="step" data-viz="debut" data-stage="0">
+      <p class="lede"><span class="big">Meet the first-timers.</span> <span class="grass">Cape Verde</span> and <span class="grass">Curaçao</span>, two island nations. <span class="grass">Jordan</span>, after decades of near-misses. And <span class="grass">Uzbekistan</span> — the first Central Asian country ever to make it.</p>
+    </div>
+    <div class="step" data-viz="debut" data-stage="1">
+      <p class="lede"><span class="big">Curaçao is the smallest nation ever to qualify.</span> About <b class="num">156,000</b> people — fewer than a mid-sized town — eclipsing Iceland's record from 2018. A Caribbean island the size of a suburb is going to the World Cup.</p>
+      <p class="micro">PREVIOUS SMALLEST · ICELAND 2018 · ~335,000<br>POPULATIONS ARE ROUNDED ESTIMATES</p>
+    </div>
+    <div class="step" data-viz="debut" data-stage="2">
+      <p class="lede"><span class="big">From a town to a nation of 36 million.</span> Curaçao to Uzbekistan is a <b>230-fold</b> spread in population — proof that the wider field reaches places the old one never could.</p>
+    </div>
+  </div>
+</section>
+
+<div class="pitchline" aria-hidden="true"></div>
+
+<!-- ================= CH IV · THREE HOSTS ================= -->
+<section class="chap wrap" id="hosts">
+  <p class="course">Fourth · Three Hosts</p>
+  <h2>One tournament,<br>three countries</h2>
+  <p class="prose reveal">No World Cup has ever been shared like this. 2026 is the first hosted by <b>three</b> nations at once — the United States, Mexico and Canada — across sixteen cities and four time zones. Mexico becomes the first country to host three times; Canada hosts for the very first time.</p>
+</section>
+<section class="scrolly">
+  <div class="fig">
+    <p class="figtitle" id="hosttitle">The sixteen host cities · United States · Mexico · Canada</p>
+    <svg id="hostviz" viewBox="0 0 1140 760" role="img" aria-label="Map of the sixteen 2026 World Cup host cities across the United States, Mexico and Canada."></svg>
+  </div>
+  <div class="steps">
+    <div class="step" data-viz="hosts" data-stage="0">
+      <p class="lede"><span class="big">Sixteen cities.</span> From Vancouver in the north-west to Miami in the south-east, the tournament is plotted across a whole continent.</p>
+      <p class="micro">VENUES PLACED BY METRO LATITUDE &amp; LONGITUDE</p>
+    </div>
+    <div class="step" data-viz="hosts" data-stage="1">
+      <p class="lede"><span class="big">Three flags, one event.</span> <span class="blue">Eleven cities in the United States</span>, <span class="grass">three in Mexico</span>, <span class="new">two in Canada</span>. The first time a World Cup has been split three ways.</p>
+      <p class="micro">USA 11 · MEXICO 3 · CANADA 2 · FIRST EVER THREE-NATION HOST</p>
+    </div>
+    <div class="step" data-viz="hosts" data-stage="2">
+      <p class="lede"><span class="big">It is a continental sprawl.</span> Vancouver to Mexico City is roughly <b class="num">3,800 km</b>; the venues span tropical Miami to the mile-high altitude of Mexico City. Teams won't tour a country — they'll tour a continent.</p>
+      <p class="micro">MEXICO · FIRST NATION TO HOST 3× (1970 · 1986 · 2026)<br>CANADA · FIRST TIME · USA · SECOND (AFTER 1994)</p>
+    </div>
+  </div>
+</section>
+
+<div class="pitchline" aria-hidden="true"></div>
+
+<!-- ================= CH V · THE SCALE ================= -->
+<section class="chap wrap closer" id="scale">
+  <p class="course">Fifth · The Scale</p>
+  <h2>Bigger, longer,<br>more of everything</h2>
+  <p class="prose reveal">Half again as many teams ripples through the whole tournament. More groups, more matches, more days — and a brand-new knockout round that has never existed before.</p>
+  <div class="fig-solo reveal">
+    <p class="figtitle">What grew between 2022 and 2026</p>
+    <svg id="growthviz" viewBox="0 0 1180 430" role="img" aria-label="Bars comparing teams, matches, days and groups between the 2022 and 2026 World Cups."></svg>
+  </div>
+  <p class="newround reveal">NEW IN 2026 · A ROUND OF 32 — AN EXTRA KNOCKOUT STAGE BEFORE THE LAST 16.<br>104 MATCHES IS 40 MORE THAN 2022 · THE TOURNAMENT RUNS A FULL 39 DAYS.</p>
+
+  <div class="statement reveal">
+    <p class="kicker">Why this story</p>
+    <p>Every World Cup is told through its winners. But 2026 is a story you can read before a ball is kicked — in the <em>shape</em> of the thing: a field that doubled in a single century, redrawn to let Africa, Asia and the Pacific in, and stretched across three nations for the first time.</p>
+    <p>The numbers behind a tournament rarely make the back page. Put them on one timeline and the headline writes itself: this is the biggest, broadest, most widely shared World Cup there has ever been.</p>
+  </div>
+</section>
+
+<footer class="wrap">
+  <div class="cols">
+    <div>
+      <h4>Data</h4>
+      <ul>
+        <li>Field sizes, format, host cities, match &amp; day counts: <a href="https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026" target="_blank" rel="noopener">FIFA</a> and the <a href="https://en.wikipedia.org/wiki/2026_FIFA_World_Cup" target="_blank" rel="noopener">2026 FIFA World Cup</a> tournament records.</li>
+        <li>Confederation slot allocation &amp; qualified nations: FIFA Council allocation (2017) and <a href="https://en.wikipedia.org/wiki/2026_FIFA_World_Cup_qualification" target="_blank" rel="noopener">2026 qualification</a> results, including the March 2026 intercontinental play-offs.</li>
+        <li>National populations: rounded UN / national estimates, latest available.</li>
+      </ul>
+    </div>
+    <div>
+      <h4>Method &amp; honesty</h4>
+      <ul>
+        <li>Field bars show teams that actually took part (1938 played 15, 1950 played 13). 2026 confederation totals include the two intercontinental play-off winners, so Africa reads 10 and Asia 9 against direct allocations of 9 and 8.</li>
+        <li>Populations are orders of magnitude, not census figures. Built in the lead-up to the tournament, which kicks off June 2026.</li>
+      </ul>
+    </div>
+  </div>
+  <p class="fin">· The First 48 · Eric Summers · 2026 ·</p>
+</footer>
+
+<script src="data.js"></script>
+<script>
+(function(){
+'use strict';
+const $=id=>document.getElementById(id);
+const MONO='"Fragment Mono",monospace', DISP='"Bricolage Grotesque",sans-serif';
+const C={ink:'#173A2E',muted:'#6B7468',grass:'#2E7D46',gold:'#C8922B',new:'#C8401F',blue:'#2660A4',
+  paper:'#F2EEE2',line:'rgba(23,58,46,.16)',line2:'rgba(23,58,46,.34)'};
+
+/* helpers */
+function lerp(a,b,t){return a+(b-a)*t}
+function hex2rgb(h){return [parseInt(h.slice(1,3),16),parseInt(h.slice(3,5),16),parseInt(h.slice(5,7),16)]}
+function mix(h1,h2,t){const a=hex2rgb(h1),b=hex2rgb(h2);return `rgb(${Math.round(lerp(a[0],b[0],t))},${Math.round(lerp(a[1],b[1],t))},${Math.round(lerp(a[2],b[2],t))})`}
+function fmtPop(p){return p>=1e6 ? (p/1e6).toFixed(1)+'M' : Math.round(p/1000)+'k'}
+const tip=$('tip');
+function showTip(ev,html){tip.innerHTML=html;tip.style.opacity='1';
+  const x=Math.min(ev.clientX+14,innerWidth-250), y=ev.clientY+16;
+  tip.style.left=x+'px'; tip.style.top=y+'px';}
+function hideTip(){tip.style.opacity='0'}
+
+/* ---------- CH I · field growth bars ---------- */
+function buildField(){
+  const F={W:1140,H:760,padL:64,padR:40,padT:96,padB:92};
+  const d=WC.field, n=d.length;
+  const iw=F.W-F.padL-F.padR, ih=F.H-F.padT-F.padB;
+  const stepW=iw/n, bw=stepW*0.6;
+  const ymax=52, ys=v=>F.padT+(1-v/ymax)*ih, y0=ys(0);
+  const eraCol=v=> v>=48?C.new : v>=32?C.blue : v>=24?C.gold : C.grass;
+  let grey='',col='';
+  d.forEach((t,i)=>{
+    const x=F.padL+i*stepW+(stepW-bw)/2, y=ys(t.n), h=y0-y;
+    grey+=`<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${bw.toFixed(1)}" height="${h.toFixed(1)}" rx="1.5" fill="${mix('#E7DEC6','#173A2E',.16)}"/>`;
+    col +=`<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${bw.toFixed(1)}" height="${h.toFixed(1)}" rx="1.5" fill="${eraCol(t.n)}"/>`;
+  });
+  let ax='';
+  for(const g of [16,24,32,48]){
+    ax+=`<line x1="${F.padL}" y1="${ys(g)}" x2="${F.W-F.padR}" y2="${ys(g)}" stroke="${C.line}"/>
+      <text x="${F.padL-10}" y="${ys(g)+5}" text-anchor="end" fill="${C.muted}" font-family=${MONO} font-size="14.5">${g}</text>`;
+  }
+  d.forEach((t,i)=>{ if([1930,1950,1970,1990,2010,2026].includes(t.y)){
+    const x=F.padL+i*stepW+stepW/2;
+    ax+=`<text x="${x.toFixed(1)}" y="${F.H-F.padB+30}" text-anchor="middle" fill="${C.muted}" font-family=${MONO} font-size="15">${t.y}</text>`;
+  }});
+  ax+=`<line x1="${F.padL}" y1="${y0}" x2="${F.W-F.padR}" y2="${y0}" stroke="${C.line2}" stroke-width="1.4"/>`;
+  /* expansion +N labels (s1) */
+  let brk='';
+  WC.expansions.forEach(e=>{
+    const idx=d.findIndex(t=>t.y===e.y);
+    const x=F.padL+idx*stepW+stepW/2, y=ys(e.to);
+    brk+=`<g class="anno s1"><text x="${x.toFixed(1)}" y="${(y-12).toFixed(1)}" text-anchor="middle" fill="${eraCol(e.to)}" font-family=${MONO} font-size="15" font-weight="bold">+${e.add}</text></g>`;
+  });
+  /* 2026 punch (s2) */
+  const lx=F.padL+(n-1)*stepW+stepW/2, ly=ys(48);
+  const punch=`<g class="anno s2">
+    <text x="${lx.toFixed(1)}" y="${(ly-50).toFixed(1)}" text-anchor="middle" fill="${C.new}" font-family=${DISP} font-weight="760" font-size="64">48</text>
+    <text x="${lx.toFixed(1)}" y="${(ly-22).toFixed(1)}" text-anchor="middle" fill="${C.new}" font-family=${MONO} font-size="14.5">THE BIGGEST LEAP YET</text></g>`;
+  const viz=$('fieldviz');
+  viz.innerHTML=ax+`<g class="only0">${grey}</g><g class="anno s1">${col}</g>${brk}${punch}`;
+  viz.onpointermove=ev=>{
+    const r=viz.getBoundingClientRect(), sx=F.W/r.width;
+    const i=Math.floor(((ev.clientX-r.left)*sx-F.padL)/stepW);
+    if(i<0||i>=n){hideTip();return}
+    showTip(ev,`<b>${d[i].y}</b> · ${d[i].n} teams`);
+  };
+  viz.onpointerleave=hideTip;
+}
+
+/* ---------- CH II · confederation seats (dumbbell) ---------- */
+function buildSeats(){
+  const S={W:1140,H:760,padL:250,padR:130,padT:128,padB:84};
+  const rows=WC.confeds.slice().sort((a,b)=>b.c26-a.c26);
+  const iw=S.W-S.padL-S.padR, ih=S.H-S.padT-S.padB;
+  const xdom=17, xs=v=>S.padL+v/xdom*iw, rh=ih/rows.length;
+  let g='';
+  for(const gx of [0,4,8,12,16]){
+    g+=`<line x1="${xs(gx)}" y1="${S.padT-18}" x2="${xs(gx)}" y2="${S.H-S.padB}" stroke="${C.line}"/>
+      <text x="${xs(gx)}" y="${S.H-S.padB+30}" text-anchor="middle" fill="${C.muted}" font-family=${MONO} font-size="14.5">${gx}</text>`;
+  }
+  g+=`<text x="${(S.padL+iw/2).toFixed(1)}" y="${S.H-S.padB+58}" text-anchor="middle" fill="${C.muted}" font-family=${MONO} font-size="14.5">QUALIFIED NATIONS</text>`;
+  /* key */
+  g+=`<g font-family=${MONO} font-size="14.5">
+    <circle cx="${S.padL}" cy="${S.padT-52}" r="6.5" fill="none" stroke="${C.muted}" stroke-width="2.2"/><text x="${S.padL+14}" y="${S.padT-47}" fill="${C.muted}">2022 · 32 teams</text>
+    <circle cx="${S.padL+168}" cy="${S.padT-52}" r="7.5" fill="${C.ink}"/><text x="${S.padL+182}" y="${S.padT-47}" fill="${C.muted}">2026 · 48 teams</text></g>`;
+  rows.forEach((c,i)=>{
+    const y=S.padT+(i+.5)*rh, x22=xs(c.c22), x26=xs(c.c26);
+    g+=`<line x1="${S.padL}" y1="${y}" x2="${S.W-S.padR}" y2="${y}" stroke="${C.line}" stroke-dasharray="2 6"/>
+      <text x="${S.padL-22}" y="${y-1}" text-anchor="end" fill="${C.ink}" font-family=${DISP} font-weight="650" font-size="21">${c.reg}</text>
+      <text x="${S.padL-22}" y="${y+18}" text-anchor="end" fill="${C.muted}" font-family=${MONO} font-size="12.5">${c.code} · ${c.c22}</text>
+      <circle cx="${x22.toFixed(1)}" cy="${y}" r="7" fill="none" stroke="${c.col}" stroke-width="2.4"/>`;
+    g+=`<g class="anno s1">
+      <line x1="${x22.toFixed(1)}" y1="${y}" x2="${x26.toFixed(1)}" y2="${y}" stroke="${c.col}" stroke-width="3.4"/>
+      <circle cx="${x26.toFixed(1)}" cy="${y}" r="8.5" fill="${c.col}"/>
+      <text x="${(x26+16).toFixed(1)}" y="${y+5}" fill="${c.col}" font-family=${MONO} font-size="16" font-weight="bold">${c.c26}  +${c.c26-c.c22}</text></g>`;
+  });
+  /* Africa-doubled callout (s1) — CAF is row index 1 */
+  const yCAF=S.padT+1.5*rh;
+  g+=`<g class="anno s1"><text x="${xs(10).toFixed(1)}" y="${(yCAF-20).toFixed(1)}" text-anchor="middle" fill="${C.new}" font-family=${DISP} font-weight="740" font-size="24">doubled</text></g>`;
+  /* Oceania first seat (s2) — OFC is last row */
+  const yOFC=S.padT+(rows.length-.5)*rh;
+  g+=`<g class="anno s2"><text x="${(xs(1)+22).toFixed(1)}" y="${(yOFC-16).toFixed(1)}" fill="${C.gold}" font-family=${DISP} font-weight="740" font-size="22">a seat at last</text></g>`;
+  $('seatviz').innerHTML=g;
+}
+
+/* ---------- CH III · debutant populations (log lollipop) ---------- */
+function buildDebut(){
+  const D={W:1140,H:760,padL:90,padR:330,padT:150,padB:112};
+  const iw=D.W-D.padL-D.padR, ih=D.H-D.padT-D.padB;
+  const lmin=5, lmax=7.7;
+  const xs=p=>D.padL+(Math.log10(p)-lmin)/(lmax-lmin)*iw;
+  const rows=WC.debutants.slice().sort((a,b)=>a.pop-b.pop), rh=ih/rows.length;
+  const cMap={CONCACAF:C.grass,CAF:C.new,AFC:C.blue};
+  let g='';
+  for(const t of [{v:1e5,l:'100k'},{v:1e6,l:'1M'},{v:1e7,l:'10M'},{v:5e7,l:'50M'}]){
+    g+=`<line x1="${xs(t.v).toFixed(1)}" y1="${D.padT-24}" x2="${xs(t.v).toFixed(1)}" y2="${D.H-D.padB}" stroke="${C.line}"/>
+      <text x="${xs(t.v).toFixed(1)}" y="${D.H-D.padB+30}" text-anchor="middle" fill="${C.muted}" font-family=${MONO} font-size="14.5">${t.l}</text>`;
+  }
+  g+=`<text x="${(D.padL+iw/2).toFixed(1)}" y="${D.H-D.padB+58}" text-anchor="middle" fill="${C.muted}" font-family=${MONO} font-size="14.5">NATIONAL POPULATION · LOG SCALE</text>`;
+  /* Iceland reference (s1) */
+  const ix=xs(WC.prevSmall.pop);
+  g+=`<g class="anno s1"><line x1="${ix.toFixed(1)}" y1="${D.padT-24}" x2="${ix.toFixed(1)}" y2="${D.H-D.padB}" stroke="${C.muted}" stroke-width="1.6" stroke-dasharray="5 6"/>
+    <text x="${ix.toFixed(1)}" y="${(D.padT-32).toFixed(1)}" text-anchor="middle" fill="${C.muted}" font-family=${MONO} font-size="13">prev. smallest · Iceland ’18 · 335k</text></g>`;
+  rows.forEach((d,i)=>{
+    const y=D.padT+(i+.5)*rh, x=xs(d.pop), col=cMap[d.confed]||C.ink, big=d.code==='CW';
+    g+=`<line x1="${D.padL}" y1="${y}" x2="${x.toFixed(1)}" y2="${y}" stroke="${col}" stroke-width="2" opacity=".35"/>
+      <circle cx="${x.toFixed(1)}" cy="${y}" r="${big?13:9.5}" fill="${col}"/>
+      <text x="${(D.W-D.padR+26).toFixed(1)}" y="${y-3}" fill="${C.ink}" font-family=${DISP} font-weight="700" font-size="25">${d.name}</text>
+      <text x="${(D.W-D.padR+26).toFixed(1)}" y="${y+19}" fill="${col}" font-family=${MONO} font-size="13.5">${fmtPop(d.pop)} · ${d.note}</text>`;
+    if(big) g+=`<g class="anno s1"><text x="${x.toFixed(1)}" y="${(y-24).toFixed(1)}" text-anchor="middle" fill="${col}" font-family=${DISP} font-weight="740" font-size="22">smallest ever</text></g>`;
+  });
+  /* spread note (s2) */
+  g+=`<g class="anno s2"><text x="${(D.padL+iw/2).toFixed(1)}" y="${(D.padT-70).toFixed(1)}" text-anchor="middle" fill="${C.ink}" font-family=${DISP} font-weight="740" font-size="26">156k → 36M · a 230× spread</text></g>`;
+  const viz=$('debutviz'); viz.innerHTML=g;
+  viz._pts=rows.map((d,i)=>({...d, px:xs(d.pop), py:D.padT+(i+.5)*rh}));
+  viz.onpointermove=ev=>{
+    const r=viz.getBoundingClientRect(), sx=D.W/r.width, sy=D.H/r.height;
+    const mx=(ev.clientX-r.left)*sx, my=(ev.clientY-r.top)*sy;
+    let best=null,bd=1e9; for(const p of viz._pts){const dd=(p.px-mx)**2+(p.py-my)**2; if(dd<bd){bd=dd;best=p}}
+    if(!best||bd>60*60){hideTip();return}
+    showTip(ev,`<b>${best.name}</b> · ${best.confed}<br>pop. ${fmtPop(best.pop)}`);
+  };
+  viz.onpointerleave=hideTip;
+}
+
+/* ---------- CH IV · host map ---------- */
+function buildHost(){
+  const H={W:1140,H:760,padL:74,padR:74,padT:92,padB:98};
+  const iw=H.W-H.padL-H.padR, ih=H.H-H.padT-H.padB;
+  const lonMin=-125.5,lonMax=-69,latMin=17.5,latMax=50.5;
+  const px=lon=>H.padL+(lon-lonMin)/(lonMax-lonMin)*iw;
+  const py=lat=>H.padT+(latMax-lat)/(latMax-latMin)*ih;
+  let g='';
+  for(const lat of [20,30,40,50]) g+=`<line x1="${H.padL}" y1="${py(lat).toFixed(1)}" x2="${H.W-H.padR}" y2="${py(lat).toFixed(1)}" stroke="${C.line}"/>
+    <text x="${H.padL-8}" y="${(py(lat)+4).toFixed(1)}" text-anchor="end" fill="${C.muted}" font-family=${MONO} font-size="12">${lat}°N</text>`;
+  for(const lon of [-120,-110,-100,-90,-80,-70]) g+=`<line x1="${px(lon).toFixed(1)}" y1="${H.padT-12}" x2="${px(lon).toFixed(1)}" y2="${H.H-H.padB}" stroke="${C.line}" opacity=".55"/>`;
+  /* spread line (s2): Vancouver -> Mexico City -> Miami */
+  const van=WC.hosts.find(h=>h.city==='Vancouver'), mex=WC.hosts.find(h=>h.city==='Mexico City'), mia=WC.hosts.find(h=>h.city==='Miami');
+  g+=`<g class="anno s2"><path d="M${px(van.lon).toFixed(1)} ${py(van.lat).toFixed(1)} L${px(mex.lon).toFixed(1)} ${py(mex.lat).toFixed(1)} L${px(mia.lon).toFixed(1)} ${py(mia.lat).toFixed(1)}" fill="none" stroke="${C.ink}" stroke-width="1.6" stroke-dasharray="3 6" opacity=".7"/>
+    <text x="${px(mex.lon).toFixed(1)}" y="${(py(mex.lat)+44).toFixed(1)}" text-anchor="middle" fill="${C.ink}" font-family=${MONO} font-size="13.5">~3,800 km · Vancouver → Mexico City</text></g>`;
+  /* labels for a curated set */
+  const LAB={'Vancouver':'L','Seattle':'L','San Francisco':'L','Los Angeles':'L','Guadalajara':'L','Mexico City':'B','Monterrey':'R','Dallas':'B','Houston':'B','Atlanta':'R','Miami':'R','Toronto':'R','New York NJ':'R','Boston':'R'};
+  WC.hosts.forEach(h=>{
+    const x=px(h.lon), y=py(h.lat), col=WC.hostCol[h.cc];
+    g+=`<circle class="only0" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="7" fill="${mix('#E7DEC6','#173A2E',.32)}"/>`;
+    g+=`<circle class="anno s1" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="7.5" fill="${col}" stroke="${C.paper}" stroke-width="1.6"/>`;
+    const a=LAB[h.city];
+    if(a){
+      let tx=x+12, ty=y+4, anc='start';
+      if(a==='L'){tx=x-12; anc='end';}
+      if(a==='B'){tx=x; ty=y+22; anc='middle';}
+      g+=`<text class="anno s1" x="${tx.toFixed(1)}" y="${ty.toFixed(1)}" text-anchor="${anc}" fill="${C.ink}" font-family=${MONO} font-size="13.5">${h.city}</text>`;
+    }
+  });
+  /* legend (s1) */
+  const lg=[['USA',WC.hostCol.USA,11],['MEX',WC.hostCol.MEX,3],['CAN',WC.hostCol.CAN,2]];
+  let lx=H.padL+6, ly=H.H-H.padB-6;
+  g+=`<g class="anno s1" font-family=${MONO} font-size="14">`;
+  lg.forEach((e,i)=>{ const cx=lx+i*148; g+=`<circle cx="${cx}" cy="${ly}" r="7" fill="${e[1]}"/><text x="${cx+13}" y="${ly+5}" fill="${C.ink}">${WC.hostName[e[0]]} · ${e[2]}</text>`; });
+  g+=`</g>`;
+  const viz=$('hostviz'); viz.innerHTML=g;
+  viz._pts=WC.hosts.map(h=>({...h, px:px(h.lon), py:py(h.lat)}));
+  viz.onpointermove=ev=>{
+    const r=viz.getBoundingClientRect(), sx=H.W/r.width, sy=H.H/r.height;
+    const mx=(ev.clientX-r.left)*sx, my=(ev.clientY-r.top)*sy;
+    let best=null,bd=1e9; for(const p of viz._pts){const dd=(p.px-mx)**2+(p.py-my)**2; if(dd<bd){bd=dd;best=p}}
+    if(!best||bd>34*34){hideTip();return}
+    showTip(ev,`<b>${best.city}</b> · ${WC.hostName[best.cc]}`);
+  };
+  viz.onpointerleave=hideTip;
+}
+
+/* ---------- CH V · growth bars (solo) ---------- */
+function buildGrowth(){
+  const G={W:1180,H:430,padL:210,padR:150,padT:42,padB:26};
+  const rows=WC.growth, iw=G.W-G.padL-G.padR;
+  const maxv=Math.max.apply(null,rows.map(r=>r.b));
+  const xs=v=>G.padL+v/maxv*iw, rh=(G.H-G.padT-G.padB)/rows.length;
+  let g='';
+  rows.forEach((r,i)=>{
+    const y=G.padT+(i+.5)*rh, bh=26, pct=Math.round((r.b-r.a)/r.a*100);
+    g+=`<text x="${G.padL-24}" y="${(y+7).toFixed(1)}" text-anchor="end" fill="${C.ink}" font-family=${DISP} font-weight="650" font-size="22">${r.label}</text>`;
+    g+=`<rect x="${G.padL}" y="${(y-bh/2).toFixed(1)}" width="${(xs(r.b)-G.padL).toFixed(1)}" height="${bh}" rx="3" fill="${C.grass}" opacity=".9"/>`;
+    g+=`<rect x="${G.padL}" y="${(y-bh/2).toFixed(1)}" width="${(xs(r.a)-G.padL).toFixed(1)}" height="${bh}" rx="3" fill="${C.ink}" opacity=".22"/>`;
+    g+=`<text x="${(xs(r.a)-8).toFixed(1)}" y="${(y+6).toFixed(1)}" text-anchor="end" fill="${C.paper}" font-family=${MONO} font-size="14">${r.a}</text>`;
+    g+=`<text x="${(xs(r.b)+16).toFixed(1)}" y="${(y+7).toFixed(1)}" fill="${C.grass}" font-family=${MONO} font-size="17" font-weight="bold">${r.b}  +${pct}%</text>`;
+  });
+  $('growthviz').innerHTML=g;
+}
+
+/* ---------- build all ---------- */
+buildField(); buildSeats(); buildDebut(); buildHost(); buildGrowth();
+['fieldviz','seatviz','debutviz','hostviz'].forEach(id=>$(id).setAttribute('data-stage','0'));
+
+/* ---------- scroll driver ---------- */
+const VIZID={field:'fieldviz',seats:'seatviz',debut:'debutviz',hosts:'hostviz'};
+const stepObs=new IntersectionObserver(ents=>{
+  ents.forEach(e=>{ if(!e.isIntersecting) return;
+    const st=e.target, id=VIZID[st.dataset.viz];
+    if(id) $(id).setAttribute('data-stage', st.dataset.stage);
+  });
+},{rootMargin:'-45% 0px -45% 0px'});
+document.querySelectorAll('.step').forEach(s=>stepObs.observe(s));
+
+const revObs=new IntersectionObserver(ents=>{
+  ents.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');revObs.unobserve(e.target)}});
+},{threshold:.2});
+document.querySelectorAll('.reveal').forEach(el=>revObs.observe(el));
+
+/* progress bar */
+let ticking=false;
+function paint(){ ticking=false; const h=document.documentElement;
+  $('pbar').style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%'; }
+addEventListener('scroll',()=>{if(!ticking){ticking=true;requestAnimationFrame(paint)}},{passive:true});
+paint();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,692 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Egg Hunt · Every Reference in Ready Player One</title>
+<meta name="description" content="An interactive map of every pop-culture reference, cameo and Easter egg in Ready Player One (2018): a force-directed network of the film's borrowed culture, linked to a timeline of when each thing was made versus when you see it on screen.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..600&family=Fragment+Mono:ital@0;1&display=swap" rel="stylesheet">
+<link rel="canonical" href="https://ericsummers.io/ready-player-one/">
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="article">
+<meta property="og:title" content="The Egg Hunt: Every Reference in Ready Player One">
+<meta property="og:description" content="A force-directed map of every cameo and Easter egg in Ready Player One, linked to a timeline of when each thing was made versus when you see it.">
+<meta property="og:url" content="https://ericsummers.io/ready-player-one/">
+<meta property="og:image" content="https://ericsummers.io/assets/img/og.svg">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+:root{
+  --bg:#07070E; --bg2:#0C0D18; --panel:#11131F; --panel2:#171A29;
+  --ink:#ECEAF6; --muted:#8A8DA8; --muted2:#5E6180;
+  --acc:#7B5BFF; --acc2:#A48BFF; --hot:#FF5BB0;
+  --line:rgba(236,234,246,.10); --line2:rgba(236,234,246,.22);
+  --glow:rgba(123,91,255,.55);
+  --maxw:1180px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; color:var(--ink); background:var(--bg);
+  font-family:"Newsreader",Georgia,serif; font-optical-sizing:auto;
+  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; overflow-x:hidden;
+}
+/* faint grain + a slow OASIS aurora behind everything */
+.grain{position:fixed; inset:0; z-index:60; pointer-events:none; opacity:.05; mix-blend-mode:screen;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+.aura{position:fixed; inset:-20% -10% auto; height:80vh; z-index:0; pointer-events:none; opacity:.5;
+  background:
+    radial-gradient(40vw 40vw at 18% 12%, rgba(123,91,255,.22), transparent 70%),
+    radial-gradient(38vw 38vw at 82% 6%, rgba(255,91,176,.16), transparent 70%),
+    radial-gradient(45vw 30vw at 60% 40%, rgba(70,213,232,.10), transparent 70%);}
+::selection{background:var(--acc); color:#0a0a12}
+
+.vyd-home{position:fixed; z-index:120; top:1.15rem; left:1.3rem; text-decoration:none;
+  font-family:"Fragment Mono",monospace; font-size:.68rem; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--muted); padding:.5em .85em; border:1px solid var(--line2); border-radius:100px;
+  background:rgba(12,13,24,.6); backdrop-filter:blur(6px); transition:color .25s, border-color .25s, transform .25s;}
+.vyd-home:hover{color:var(--acc2); border-color:var(--acc); transform:translateX(-2px)}
+@media (max-width:680px){.vyd-home{top:.7rem; left:.7rem; font-size:.62rem; padding:.45em .7em}}
+
+/* ---------- layout primitives ---------- */
+.wrap{max-width:760px; margin:0 auto; padding:0 7vw; position:relative; z-index:2}
+.kicker{font-family:"Fragment Mono",monospace; font-size:.7rem; letter-spacing:.3em; text-transform:uppercase;
+  color:var(--muted); display:flex; align-items:center; gap:.8em; margin:0 0 1.1rem}
+.kicker .no{color:var(--acc2)}
+.kicker::before{content:""; width:2em; height:1px; background:var(--acc); opacity:.7}
+h1,h2,h3{font-family:"Bricolage Grotesque",sans-serif; font-weight:740; line-height:1.02; letter-spacing:-.02em; margin:0}
+.prose{font-size:clamp(1.08rem,1.3vw,1.24rem); line-height:1.66; color:#CFCDE0}
+.prose + .prose{margin-top:1.15rem}
+.prose b{font-weight:600; color:var(--ink)}
+.prose em{font-style:italic; color:var(--acc2)}
+.tick{font-family:"Fragment Mono",monospace; color:var(--acc2)}
+.num{font-family:"Bricolage Grotesque",sans-serif; font-weight:780; color:var(--ink)}
+
+/* ---------- hero ---------- */
+.hero{min-height:90svh; display:flex; flex-direction:column; justify-content:center; padding:12vh 0 7vh; position:relative; z-index:2}
+.hero .wrap{max-width:1000px}
+.hero h1{font-size:clamp(3rem,10.5vw,8.6rem); text-transform:uppercase; line-height:.92}
+.hero h1 .l2{display:block; color:transparent; -webkit-text-stroke:1.4px var(--acc2); text-stroke:1.4px var(--acc2)}
+.hero .dek{font-size:clamp(1.15rem,1.55vw,1.4rem); line-height:1.55; max-width:52ch; margin:2.1rem 0 0; color:#D6D4E6}
+.hero .meta{margin-top:2.6rem; display:flex; flex-wrap:wrap; gap:1.4rem 2.4rem;
+  font-family:"Fragment Mono",monospace; font-size:.72rem; letter-spacing:.08em; color:var(--muted)}
+.hero .meta b{display:block; font-weight:400; color:var(--ink); font-size:1.5rem; letter-spacing:-.01em; margin-bottom:.15em; font-family:"Bricolage Grotesque",sans-serif}
+.scrollcue{margin-top:3.4rem; font-family:"Fragment Mono",monospace; font-size:.66rem; letter-spacing:.24em; text-transform:uppercase; color:var(--muted2);
+  display:flex; align-items:center; gap:.7em}
+.scrollcue i{width:1px; height:34px; background:linear-gradient(var(--acc),transparent); display:block; animation:cue 2.4s ease-in-out infinite}
+@keyframes cue{0%,100%{opacity:.3; transform:translateY(0)} 50%{opacity:1; transform:translateY(5px)}}
+
+/* ---------- section spacing ---------- */
+.band{padding:9vh 0; position:relative; z-index:2}
+.band h2{font-size:clamp(1.9rem,3.6vw,3rem); margin-bottom:1.5rem}
+.lead{font-size:clamp(1.25rem,1.7vw,1.5rem); line-height:1.5; color:#E6E4F2; font-style:italic; font-family:"Newsreader",serif}
+
+/* ---------- THE CONSOLE ---------- */
+.console{position:relative; z-index:3; margin:4vh auto 0; max-width:1320px; padding:0 clamp(.8rem,3vw,2rem)}
+.console-frame{border:1px solid var(--line2); border-radius:18px; overflow:hidden;
+  background:linear-gradient(180deg, rgba(23,26,41,.82), rgba(12,13,24,.92));
+  box-shadow:0 40px 120px -50px rgba(0,0,0,.9), inset 0 1px 0 rgba(255,255,255,.04); backdrop-filter:blur(8px)}
+.console-head{display:flex; flex-wrap:wrap; align-items:center; gap:.9rem 1.3rem; padding:1rem 1.2rem;
+  border-bottom:1px solid var(--line); background:rgba(7,7,14,.45)}
+.console-head .title{font-family:"Fragment Mono",monospace; font-size:.7rem; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); white-space:nowrap}
+.console-head .title b{color:var(--ink); font-weight:400}
+.console-head .title .dot{color:var(--acc2)}
+.search{margin-left:auto; position:relative}
+.search input{background:var(--panel); border:1px solid var(--line2); color:var(--ink); border-radius:100px;
+  font-family:"Fragment Mono",monospace; font-size:.74rem; letter-spacing:.04em; padding:.5em 1em .5em 2.1em; width:200px; outline:none; transition:border-color .2s, width .25s}
+.search input:focus{border-color:var(--acc); width:240px}
+.search::before{content:"⌕"; position:absolute; left:.8em; top:50%; transform:translateY(-50%); color:var(--muted2); font-size:.9rem}
+@media (max-width:680px){.search{margin-left:0; width:100%} .search input{width:100%} .search input:focus{width:100%}}
+
+/* legend / medium filter */
+.legend{display:flex; flex-wrap:wrap; gap:.4rem; width:100%; padding:.2rem 1.2rem 1rem; border-bottom:1px solid var(--line); background:rgba(7,7,14,.3)}
+.lg{display:inline-flex; align-items:center; gap:.45em; cursor:pointer; user-select:none;
+  font-family:"Fragment Mono",monospace; font-size:.66rem; letter-spacing:.06em; color:var(--muted);
+  border:1px solid var(--line2); border-radius:100px; padding:.34em .7em .36em; background:var(--panel); transition:color .2s, border-color .2s, opacity .2s}
+.lg .sw{width:9px; height:9px; border-radius:50%; box-shadow:0 0 7px currentColor}
+.lg:hover{color:var(--ink); border-color:var(--line2)}
+.lg.off{opacity:.34}
+.lg .ct{color:var(--muted2)}
+
+/* the stage: network + detail */
+.stage{display:grid; grid-template-columns:1fr 312px; min-height:560px}
+@media (max-width:880px){.stage{grid-template-columns:1fr}}
+.netbox{position:relative; min-height:560px; border-right:1px solid var(--line)}
+@media (max-width:880px){.netbox{border-right:none; border-bottom:1px solid var(--line); height:62vh}}
+#net{width:100%; height:100%; display:block; cursor:grab}
+#net:active{cursor:grabbing}
+.net-hint{position:absolute; left:1rem; bottom:.9rem; font-family:"Fragment Mono",monospace; font-size:.62rem;
+  letter-spacing:.08em; color:var(--muted2); pointer-events:none; opacity:.8}
+.runaxis{position:absolute; left:0; right:0; top:0; height:26px; pointer-events:none;
+  display:flex; justify-content:space-between; padding:.5rem 1rem 0; font-family:"Fragment Mono",monospace;
+  font-size:.6rem; letter-spacing:.16em; text-transform:uppercase; color:var(--muted2)}
+.runaxis span:nth-child(2){color:var(--muted)}
+
+/* detail panel */
+.detail{padding:1.3rem 1.3rem 1.6rem; min-height:560px; display:flex; flex-direction:column; gap:1rem; background:rgba(7,7,14,.25)}
+.detail .empty{margin:auto 0; color:var(--muted)}
+.detail .empty h3{font-size:1.15rem; color:var(--ink); margin-bottom:.5rem}
+.detail .empty p{font-size:.92rem; line-height:1.55; color:var(--muted)}
+.d-kind{font-family:"Fragment Mono",monospace; font-size:.62rem; letter-spacing:.16em; text-transform:uppercase; color:var(--muted2); display:flex; align-items:center; gap:.5em}
+.d-kind .sw{width:9px; height:9px; border-radius:50%; box-shadow:0 0 8px currentColor}
+.d-name{font-family:"Bricolage Grotesque",sans-serif; font-weight:740; font-size:1.5rem; line-height:1.08; letter-spacing:-.01em; color:var(--ink)}
+.d-stats{display:flex; gap:1.4rem; flex-wrap:wrap; padding:.2rem 0 .1rem}
+.d-stat{display:flex; flex-direction:column; gap:.1em}
+.d-stat .k{font-family:"Fragment Mono",monospace; font-size:.58rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted2)}
+.d-stat .v{font-family:"Bricolage Grotesque",sans-serif; font-weight:760; font-size:1.35rem; color:var(--ink)}
+.d-note{font-size:1rem; line-height:1.6; color:#CFCDE0}
+.d-list-h{font-family:"Fragment Mono",monospace; font-size:.6rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted2); margin-bottom:-.2rem}
+.d-chips{display:flex; flex-wrap:wrap; gap:.4rem}
+.d-chip{font-family:"Fragment Mono",monospace; font-size:.66rem; letter-spacing:.03em; color:var(--ink);
+  border:1px solid var(--line2); border-radius:7px; padding:.34em .6em; background:var(--panel); cursor:pointer; transition:border-color .2s, background .2s; text-align:left}
+.d-chip:hover{border-color:var(--acc); background:var(--panel2)}
+.d-chip .o{color:var(--muted2); margin-right:.4em; font-size:.92em}
+.d-clear{margin-top:auto; align-self:flex-start; font-family:"Fragment Mono",monospace; font-size:.62rem; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--muted); background:none; border:1px solid var(--line2); border-radius:100px; padding:.45em .9em; cursor:pointer; transition:color .2s, border-color .2s}
+.d-clear:hover{color:var(--ink); border-color:var(--acc)}
+
+/* the dual timeline */
+.timeline{border-top:1px solid var(--line); background:rgba(7,7,14,.35); position:relative}
+.timeline .tl-head{display:flex; justify-content:space-between; align-items:baseline; padding:.9rem 1.3rem .2rem; flex-wrap:wrap; gap:.4rem}
+.timeline .tl-head .l{font-family:"Fragment Mono",monospace; font-size:.64rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted)}
+.timeline .tl-head .l b{color:var(--acc2); font-weight:400}
+.timeline .tl-head .r{font-family:"Fragment Mono",monospace; font-size:.6rem; letter-spacing:.08em; color:var(--muted2)}
+#timeline{width:100%; display:block}
+
+/* svg element styling */
+.link{stroke:var(--line2); stroke-opacity:.5}
+.node{cursor:pointer}
+.node circle{transition:opacity .25s, stroke .2s, stroke-width .2s}
+.scene-hub circle{fill:#20243a; stroke:var(--line2); stroke-width:1.4}
+.scene-hub text{font-family:"Fragment Mono",monospace; fill:var(--muted); letter-spacing:.04em; pointer-events:none}
+.scene-hub.sel circle, .scene-hub.hov circle{stroke:var(--acc2); stroke-width:2; fill:#2a2f4d}
+.ref-node.sel circle{stroke:var(--acc2); stroke-width:2.6}
+.ref-node.hov circle{stroke:var(--acc2); stroke-width:2}
+.dim{opacity:.12 !important}
+.tl-dot{transition:opacity .25s, r .2s}
+.tl-axis{stroke:var(--line2)}
+.tl-grid{stroke:var(--line); stroke-dasharray:2 4}
+.tl-lbl{font-family:"Fragment Mono",monospace; fill:var(--muted2); letter-spacing:.06em}
+.tl-cap{font-family:"Fragment Mono",monospace; fill:var(--muted); letter-spacing:.14em; text-transform:uppercase}
+.thread{fill:none; stroke:var(--acc2); stroke-opacity:.55; stroke-width:1.4}
+
+/* findings cards */
+.facts{display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:1px; background:var(--line); border:1px solid var(--line); border-radius:14px; overflow:hidden; margin-top:2.4rem}
+.fact{background:var(--panel); padding:1.4rem 1.3rem}
+.fact .v{font-family:"Bricolage Grotesque",sans-serif; font-weight:800; font-size:clamp(2rem,4vw,2.8rem); line-height:1; color:var(--ink); letter-spacing:-.02em}
+.fact .v .u{font-size:.5em; color:var(--acc2); font-weight:600; margin-left:.15em}
+.fact .k{margin-top:.5rem; font-size:.95rem; line-height:1.4; color:var(--muted)}
+.fact .k b{color:var(--ink); font-weight:600}
+
+footer{position:relative; z-index:2; border-top:1px solid var(--line); margin-top:10vh; padding:3.4rem 0 5rem}
+footer .wrap{max-width:1000px; display:flex; flex-wrap:wrap; gap:1.6rem 3rem; justify-content:space-between; align-items:flex-start}
+footer .sig{font-family:"Bricolage Grotesque",sans-serif; font-weight:740; font-size:1.4rem; color:var(--ink)}
+footer .meta{font-family:"Fragment Mono",monospace; font-size:.68rem; line-height:1.9; letter-spacing:.04em; color:var(--muted)}
+footer .meta a{color:var(--acc2); text-decoration:none}
+footer .meta a:hover{text-decoration:underline}
+.note{font-size:.86rem; line-height:1.6; color:var(--muted2); max-width:46ch}
+</style>
+</head>
+<body>
+<div class="aura"></div>
+<div class="grain"></div>
+<a class="vyd-home" href="/">← vizyourdata</a>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="wrap">
+    <p class="kicker"><span class="no">001</span> Ready Player One · 2018</p>
+    <h1>The Egg<span class="l2">Hunt</span></h1>
+    <p class="dek">Spielberg's OASIS isn't a world so much as a <em>warehouse</em> — three decades of borrowed pop culture stacked floor to ceiling. This is every cameo, every car, every Easter egg in the film, mapped two ways: who shares a scene, and how far each thing travelled to get on screen.</p>
+    <div class="meta">
+      <span><b id="m-refs">—</b>references mapped</span>
+      <span><b id="m-scenes">—</b>scenes / sequences</span>
+      <span><b id="m-span">—</b>year span of culture</span>
+      <span><b id="m-media">8</b>kinds of media</span>
+    </div>
+    <p class="scrollcue"><i></i> scroll to enter</p>
+  </div>
+</header>
+
+<!-- ============ INTRO ============ -->
+<section class="band">
+  <div class="wrap">
+    <p class="kicker"><span class="no">002</span> the premise</p>
+    <h2>A movie that is mostly footnotes.</h2>
+    <p class="prose">Ready Player One is a treasure hunt about a treasure hunt. To win control of the OASIS, players have to know the dead creator's taste down to the frame — which is Spielberg's licence to cram the screen with <b>everything</b>. A DeLorean with a Knight Rider grille. The Iron Giant fighting Mechagodzilla. The entire Overlook Hotel rebuilt as a level.</p>
+    <p class="prose">That makes the film a strange kind of dataset: a single text that <em>points</em> at the whole history of games, movies, music and toys. So I catalogued the pointers. Every reference below was placed against frame-by-frame breakdowns, then tagged with the year the thing was actually made. Two numbers per reference — <span class="tick">when</span> and <span class="tick">where</span> — turn out to be enough to draw the whole machine.</p>
+  </div>
+</section>
+
+<!-- ============ THE CONSOLE ============ -->
+<section class="band" style="padding-top:2vh">
+  <div class="wrap">
+    <p class="kicker"><span class="no">003</span> the map</p>
+    <h2>Pull a thread.</h2>
+    <p class="prose">Each <b>dot</b> is a reference, coloured by what kind of thing it is. The bigger <b>rings</b> are the film's scenes; a reference orbits every scene it shows up in, so things that recur — the DeLorean, the <em>Take On Me</em> video — bridge the clusters. The map runs left to right in the order the movie plays. Click anything to trace it.</p>
+  </div>
+
+  <div class="console">
+    <div class="console-frame">
+      <div class="console-head">
+        <span class="title"><b>OASIS</b> <span class="dot">·</span> reference console</span>
+        <div class="search"><input id="search" type="text" placeholder="search a reference…" autocomplete="off" spellcheck="false"></div>
+      </div>
+      <div class="legend" id="legend"></div>
+
+      <div class="stage">
+        <div class="netbox">
+          <div class="runaxis"><span>◄ opening</span><span>the film runs left → right</span><span>finale ►</span></div>
+          <svg id="net" aria-label="Force-directed network of references and scenes"></svg>
+          <div class="net-hint">drag to rearrange · click a node to trace it</div>
+        </div>
+        <aside class="detail" id="detail">
+          <div class="empty">
+            <h3>Nothing selected.</h3>
+            <p>Hover the map to skim. Click a reference to see when it was made and every scene it lands in — or click a scene ring to see which eras it borrows from.</p>
+          </div>
+        </aside>
+      </div>
+
+      <div class="timeline">
+        <div class="tl-head">
+          <span class="l">made <b>↑</b> &nbsp; vs &nbsp; seen <b>↓</b></span>
+          <span class="r" id="tl-hint">select a reference or scene to draw its threads across time</span>
+        </div>
+        <svg id="timeline" aria-label="Timeline linking the year each reference was made to the scene where it appears"></svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FINDINGS ============ -->
+<section class="band">
+  <div class="wrap">
+    <p class="kicker"><span class="no">004</span> what the map shows</p>
+    <h2>The nostalgia has a centre of gravity.</h2>
+    <p class="prose">Plot every reference by birth year and the film tips hard toward one decade. The median referenced thing was made in <span class="num" id="f-median">—</span>; the <span class="num" id="f-eightiespct">—</span> of everything Spielberg points at was made in the <b>1980s</b> alone — Halliday's, and the source novel author's, formative years rendered as set dressing.</p>
+    <p class="prose">Density tells the other half of the story. The single busiest frame in the movie is the <b id="f-densescene">—</b>, where <span class="num" id="f-densecount">—</span> distinct references pile into one battle. It is the film arguing its own thesis: that the future is just everyone's childhood, fighting at once.</p>
+
+    <div class="facts" id="facts"><!-- injected --></div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div>
+      <p class="sig">The Egg Hunt</p>
+      <p class="note">A data toy by Eric Summers. Reference placement cross-referenced against published frame-by-frame breakdowns (Den of Geek, ScreenRant); origin years are canonical debut dates, hand-corrected where the guides slipped. Not affiliated with Warner Bros. or Amblin — made for the love of the catalogue.</p>
+    </div>
+    <p class="meta">
+      vizyourdata<br>
+      <a href="/">ericsummers.io</a><br>
+      data · <span id="foot-count">—</span> references<br>
+      built with d3-force
+    </p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+<script src="./data.js"></script>
+<script>
+/* ============================================================
+   The Egg Hunt — app
+   ------------------------------------------------------------
+   reads window.RPO (see data.js) and wires up two linked views:
+     • a force-directed reference↔scene network (#net)
+     • a dual timeline: made-year (top) → seen-scene (bottom)
+   one shared selection drives both, plus a detail panel.
+   ============================================================ */
+(function () {
+  "use strict";
+  var D = window.RPO;
+  if (!window.d3 || !D) { return; }
+
+  var medColor = {}, medLabel = {};
+  D.mediums.forEach(function (m) { medColor[m.id] = m.color; medLabel[m.id] = m.label; });
+  var refById = {}; D.refs.forEach(function (r) { refById[r.id] = r; });
+  var sceneById = {}; D.scenes.forEach(function (s) { sceneById[s.id] = s; });
+
+  /* ---------- headline numbers ---------- */
+  var dense = D.scenes.map(function (s) { return { s: s, n: D.byScene[s.id].length }; })
+                      .sort(function (a, b) { return b.n - a.n; })[0];
+  var yearsSorted = D.refs.map(function (r) { return r.y; }).sort(function (a, b) { return a - b; });
+  var median = yearsSorted[Math.floor(yearsSorted.length / 2)];
+  var eighties = D.refs.filter(function (r) { return r.y >= 1980 && r.y <= 1989; }).length;
+  var eightiesPct = Math.round(eighties / D.refs.length * 100);
+  var medianMedium = (function () {
+    var c = {}; D.refs.forEach(function (r) { c[r.m] = (c[r.m] || 0) + 1; });
+    return Object.keys(c).sort(function (a, b) { return c[b] - c[a]; });
+  })();
+
+  function setText(id, v) { var e = document.getElementById(id); if (e) e.textContent = v; }
+  setText("m-refs", D.counts.refs);
+  setText("m-scenes", D.counts.scenes);
+  setText("m-span", D.yearMin + "–" + D.yearMax);
+  setText("foot-count", D.counts.refs);
+  setText("f-median", median);
+  setText("f-eightiespct", eightiesPct + "%");
+  setText("f-densescene", dense.s.name);
+  setText("f-densecount", dense.n);
+
+  /* facts grid */
+  var gamesN = D.refs.filter(function (r) { return r.m === "game"; }).length;
+  var bridges = D.refs.filter(function (r) { return r.s.length > 1; }).length;
+  var oldest = D.refs.slice().sort(function (a, b) { return a.y - b.y; })[0];
+  var newest = D.refs.slice().sort(function (a, b) { return b.y - a.y; })[0];
+  var facts = [
+    { v: D.counts.refs, u: "", k: "distinct references catalogued across the film" },
+    { v: eightiesPct, u: "%", k: "of them were made in the <b>1980s</b> alone" },
+    { v: dense.n, u: "", k: "cram into the <b>" + dense.s.name + "</b>, the densest frame" },
+    { v: (newest.y - oldest.y), u: " yrs", k: "from <b>" + oldest.name + "</b> (" + oldest.y + ") to <b>" + newest.name + "</b> (" + newest.y + ")" },
+    { v: gamesN, u: "", k: "are <b>video games</b>, the largest single medium" },
+    { v: bridges, u: "", k: "recur across more than one scene, stitching the map together" }
+  ];
+  document.getElementById("facts").innerHTML = facts.map(function (f) {
+    return '<div class="fact"><div class="v">' + f.v + (f.u ? '<span class="u">' + f.u + '</span>' : '') +
+           '</div><div class="k">' + f.k + '</div></div>';
+  }).join("");
+
+  /* ---------- shared selection state ---------- */
+  var sel = null;     // {type:'ref'|'scene', id}
+  var hov = null;
+  var activeMedia = {}; D.mediums.forEach(function (m) { activeMedia[m.id] = true; });
+  var query = "";
+
+  function focusOf(state) {
+    // returns {ids:Set, threads:[[refId,sceneId],...]} for a given selection/hover
+    if (!state) return null;
+    var ids = {}, threads = [];
+    if (state.type === "ref") {
+      var r = refById[state.id]; if (!r) return null;
+      ids[r.id] = 1;
+      r.s.forEach(function (sid) { ids[sid] = 1; threads.push([r.id, sid]); });
+    } else {
+      var sid2 = state.id; ids[sid2] = 1;
+      D.byScene[sid2].forEach(function (rid) { ids[rid] = 1; threads.push([rid, sid2]); });
+    }
+    return { ids: ids, threads: threads };
+  }
+  function refVisible(r) { return activeMedia[r.m] && (!query || r.name.toLowerCase().indexOf(query) >= 0); }
+
+  /* ============================================================
+     LEGEND  ·  medium filter
+     ============================================================ */
+  var legend = document.getElementById("legend");
+  D.mediums.forEach(function (m) {
+    var n = D.refs.filter(function (r) { return r.m === m.id; }).length;
+    var el = document.createElement("button");
+    el.className = "lg"; el.dataset.m = m.id;
+    el.innerHTML = '<span class="sw" style="background:' + m.color + ';color:' + m.color + '"></span>' +
+                   m.label + ' <span class="ct">' + n + '</span>';
+    el.addEventListener("click", function () {
+      activeMedia[m.id] = !activeMedia[m.id];
+      el.classList.toggle("off", !activeMedia[m.id]);
+      render();
+    });
+    legend.appendChild(el);
+  });
+
+  /* ============================================================
+     NETWORK
+     ============================================================ */
+  var netSvg = d3.select("#net");
+  var netBox = document.querySelector(".netbox");
+  var W = netBox.clientWidth, H = netBox.clientHeight;
+  netSvg.attr("viewBox", "0 0 " + W + " " + H);
+
+  // nodes = scenes (hubs) + refs ; links = ref → each of its scenes
+  var sceneNodes = D.scenes.map(function (s) {
+    return { id: s.id, hub: true, order: s.order, name: s.name, r: 10 + D.byScene[s.id].length * 0.5 };
+  });
+  var refNodes = D.refs.map(function (r) {
+    return { id: r.id, hub: false, m: r.m, y: r.y, name: r.name, prom: r.p, r: 3.4 + r.p * 1.7 };
+  });
+  var nodes = sceneNodes.concat(refNodes);
+  var links = [];
+  D.refs.forEach(function (r) { r.s.forEach(function (sid) { links.push({ source: r.id, target: sid }); }); });
+
+  // x-anchor scenes by runtime order so the map reads left→right
+  var xScene = d3.scaleLinear().domain([1, D.scenes.length]).range([W * 0.10, W * 0.90]);
+
+  var gLink = netSvg.append("g").attr("stroke-width", 1);
+  var gNode = netSvg.append("g");
+
+  var linkSel = gLink.selectAll("line").data(links).enter().append("line").attr("class", "link");
+
+  var nodeSel = gNode.selectAll("g").data(nodes).enter().append("g")
+    .attr("class", function (d) { return d.hub ? "node scene-hub" : "node ref-node"; });
+
+  nodeSel.append("circle")
+    .attr("r", function (d) { return d.r; })
+    .attr("fill", function (d) { return d.hub ? null : medColor[d.m]; })
+    .attr("stroke", function (d) { return d.hub ? null : "rgba(0,0,0,.45)"; })
+    .attr("stroke-width", function (d) { return d.hub ? null : 1; })
+    .style("filter", function (d) { return d.hub ? null : "drop-shadow(0 0 4px " + medColor[d.m] + "66)"; });
+
+  // scene hubs carry their order number
+  nodeSel.filter(function (d) { return d.hub; }).append("text")
+    .attr("text-anchor", "middle").attr("dy", "0.32em")
+    .attr("font-size", "10px").text(function (d) { return d.order; });
+
+  // interactions
+  nodeSel
+    .on("mouseenter", function (e, d) { hov = { type: d.hub ? "scene" : "ref", id: d.id }; render(); })
+    .on("mouseleave", function () { hov = null; render(); })
+    .on("click", function (e, d) {
+      e.stopPropagation();
+      var t = d.hub ? "scene" : "ref";
+      sel = (sel && sel.type === t && sel.id === d.id) ? null : { type: t, id: d.id };
+      render();
+    });
+  netSvg.on("click", function () { sel = null; render(); });
+
+  // drag
+  nodeSel.call(d3.drag()
+    .on("start", function (e, d) { if (!e.active) sim.alphaTarget(0.25).restart(); d.fx = d.x; d.fy = d.y; })
+    .on("drag", function (e, d) { d.fx = e.x; d.fy = e.y; })
+    .on("end", function (e, d) { if (!e.active) sim.alphaTarget(0); if (!d.hub) { d.fx = null; d.fy = null; } }));
+
+  var sim = d3.forceSimulation(nodes)
+    .force("link", d3.forceLink(links).id(function (d) { return d.id; })
+      .distance(function (l) { return l.target.hub ? 46 : 40; }).strength(0.45))
+    .force("charge", d3.forceManyBody().strength(function (d) { return d.hub ? -480 : -54; }))
+    .force("x", d3.forceX(function (d) { return d.hub ? xScene(d.order) : W / 2; })
+      .strength(function (d) { return d.hub ? 0.55 : 0.015; }))
+    .force("y", d3.forceY(H / 2).strength(0.06))
+    .force("collide", d3.forceCollide(function (d) { return d.r + 3; }))
+    .on("tick", tick);
+
+  function tick() {
+    nodes.forEach(function (d) {
+      d.x = Math.max(d.r + 4, Math.min(W - d.r - 4, d.x));
+      d.y = Math.max(d.r + 16, Math.min(H - d.r - 4, d.y));
+    });
+    linkSel.attr("x1", function (l) { return l.source.x; }).attr("y1", function (l) { return l.source.y; })
+           .attr("x2", function (l) { return l.target.x; }).attr("y2", function (l) { return l.target.y; });
+    nodeSel.attr("transform", function (d) { return "translate(" + d.x + "," + d.y + ")"; });
+  }
+
+  /* ============================================================
+     TIMELINE  ·  made (top) → seen (bottom)
+     ============================================================ */
+  var tlSvg = d3.select("#timeline");
+  var TW = 0, TH = 300, padL = 46, padR = 24, topY = 70, botY = TH - 64;
+  var decadeLo = Math.floor(D.yearMin / 10) * 10, decadeHi = Math.ceil(D.yearMax / 10) * 10;
+  var madeX = d3.scaleLinear().domain([decadeLo, decadeHi]);
+  var seenX = d3.scalePoint().domain(D.scenes.map(function (s) { return s.id; })).padding(0.5);
+
+  var gGrid = tlSvg.append("g");
+  var gThread = tlSvg.append("g");
+  var gMade = tlSvg.append("g");
+  var gSeen = tlSvg.append("g");
+  var gCap = tlSvg.append("g");
+
+  // stack made-dots that share a year so they don't overlap
+  var madeStack = {};
+  var madeData = D.refs.slice().sort(function (a, b) { return a.y - b.y || a.name.localeCompare(b.name); })
+    .map(function (r) {
+      var k = r.y; madeStack[k] = (madeStack[k] || 0) + 1;
+      return { id: r.id, y: r.y, m: r.m, level: madeStack[k] - 1, name: r.name };
+    });
+
+  var madeDots = gMade.selectAll("circle").data(madeData).enter().append("circle")
+    .attr("class", "tl-dot")
+    .attr("r", 3.3).attr("fill", function (d) { return medColor[d.m]; })
+    .style("cursor", "pointer")
+    .on("mouseenter", function (e, d) { hov = { type: "ref", id: d.id }; render(); })
+    .on("mouseleave", function () { hov = null; render(); })
+    .on("click", function (e, d) { sel = (sel && sel.type === "ref" && sel.id === d.id) ? null : { type: "ref", id: d.id }; render(); });
+
+  var seenDots = gSeen.selectAll("g").data(D.scenes).enter().append("g")
+    .style("cursor", "pointer")
+    .on("mouseenter", function (e, d) { hov = { type: "scene", id: d.id }; render(); })
+    .on("mouseleave", function () { hov = null; render(); })
+    .on("click", function (e, d) { sel = (sel && sel.type === "scene" && sel.id === d.id) ? null : { type: "scene", id: d.id }; render(); });
+  seenDots.append("circle").attr("class", "tl-dot")
+    .attr("r", function (d) { return 4 + D.byScene[d.id].length * 0.45; })
+    .attr("fill", "#2a2f4d").attr("stroke", "rgba(236,234,246,.22)").attr("stroke-width", 1.2);
+  seenDots.append("text").attr("class", "tl-lbl").attr("text-anchor", "middle").attr("dy", "0.32em")
+    .attr("font-size", "8px").text(function (d) { return d.order; });
+
+  function layoutTimeline() {
+    TW = document.getElementById("timeline").clientWidth || 900;
+    tlSvg.attr("viewBox", "0 0 " + TW + " " + TH);
+    madeX.range([padL, TW - padR]);
+    seenX.range([padL, TW - padR]);
+
+    // decade grid + labels
+    var decades = [];
+    for (var dY = decadeLo; dY <= decadeHi; dY += 10) decades.push(dY);
+    var grid = gGrid.selectAll("g.gd").data(decades);
+    var gEnter = grid.enter().append("g").attr("class", "gd");
+    gEnter.append("line").attr("class", "tl-grid");
+    gEnter.append("text").attr("class", "tl-lbl").attr("text-anchor", "middle").attr("font-size", "9px");
+    var gAll = gEnter.merge(grid);
+    gAll.select("line").attr("x1", function (d) { return madeX(d); }).attr("x2", function (d) { return madeX(d); })
+        .attr("y1", topY - 8).attr("y2", botY + 8);
+    gAll.select("text").attr("x", function (d) { return madeX(d); }).attr("y", topY - 16)
+        .text(function (d) { return "’" + String(d).slice(2); });
+
+    // axis captions
+    gCap.selectAll("text").remove();
+    gCap.append("text").attr("class", "tl-cap").attr("x", padL).attr("y", topY - 30).attr("font-size", "8.5px").text("made");
+    gCap.append("text").attr("class", "tl-cap").attr("x", padL).attr("y", botY + 34).attr("font-size", "8.5px").text("seen on screen  ◄ runtime ►");
+
+    madeDots.attr("cx", function (d) { return madeX(d.y); }).attr("cy", function (d) { return topY + d.level * 7.2; });
+    seenDots.attr("transform", function (d) { return "translate(" + seenX(d.id) + "," + botY + ")"; });
+    drawThreads();
+  }
+
+  function madePos(refId) {
+    var d = madeData.find(function (x) { return x.id === refId; });
+    return d ? { x: madeX(d.y), y: topY + d.level * 7.2 } : null;
+  }
+  function seenPos(sceneId) { return { x: seenX(sceneId), y: botY }; }
+
+  function drawThreads() {
+    var f = focusOf(sel) || focusOf(hov);
+    var th = (f && f.threads) || [];
+    var paths = gThread.selectAll("path").data(th, function (t) { return t[0] + "::" + t[1]; });
+    paths.exit().remove();
+    paths.enter().append("path").attr("class", "thread").merge(paths)
+      .attr("d", function (t) {
+        var a = madePos(t[0]), b = seenPos(t[1]); if (!a || !b) return null;
+        var my = (a.y + b.y) / 2;
+        return "M" + a.x + "," + a.y + " C" + a.x + "," + my + " " + b.x + "," + my + " " + b.x + "," + b.y;
+      });
+  }
+
+  /* ============================================================
+     RENDER  ·  apply selection/hover/filter to every view
+     ============================================================ */
+  var detail = document.getElementById("detail");
+  var tlHint = document.getElementById("tl-hint");
+
+  function render() {
+    var f = focusOf(sel) || focusOf(hov);
+    var focusIds = f ? f.ids : null;
+
+    // ---- network ----
+    nodeSel.classed("dim", function (d) {
+      if (!d.hub && !refVisible(refById[d.id])) return true;
+      if (focusIds) return !focusIds[d.id];
+      return false;
+    });
+    nodeSel.classed("sel", function (d) { return sel && sel.id === d.id; })
+           .classed("hov", function (d) { return hov && hov.id === d.id; });
+
+    linkSel.classed("dim", function (l) {
+      // links always run ref(source) → scene(target); after layout, .id is on the node object
+      var srcId = l.source.id || l.source, tgtId = l.target.id || l.target;
+      var srcRef = refById[srcId];
+      if (srcRef && !refVisible(srcRef)) return true;
+      if (focusIds) return !(focusIds[srcId] && focusIds[tgtId]);
+      return false;
+    });
+
+    // ---- timeline ----
+    madeDots.classed("dim", function (d) {
+      if (!refVisible(refById[d.id])) return true;
+      if (focusIds) return !focusIds[d.id];
+      return false;
+    }).attr("r", function (d) { return (focusIds && focusIds[d.id]) ? 5.2 : 3.3; });
+    seenDots.select("circle").classed("dim", function (d) { return focusIds ? !focusIds[d.id] : false; });
+    drawThreads();
+
+    tlHint.textContent = f
+      ? (sel ? "tracing " + (sel.type === "ref" ? refById[sel.id].name : sceneById[sel.id].name) : "previewing…")
+      : "select a reference or scene to draw its threads across time";
+
+    // ---- detail panel ----
+    renderDetail(sel);
+  }
+
+  function renderDetail(state) {
+    if (!state) {
+      detail.innerHTML = '<div class="empty"><h3>Nothing selected.</h3><p>Hover the map to skim. Click a reference to see when it was made and every scene it lands in — or click a scene ring to see which eras it borrows from.</p></div>';
+      return;
+    }
+    var html = "";
+    if (state.type === "ref") {
+      var r = refById[state.id];
+      html += '<div class="d-kind"><span class="sw" style="background:' + medColor[r.m] + ';color:' + medColor[r.m] + '"></span>' + medLabel[r.m] + '</div>';
+      html += '<div class="d-name">' + esc(r.name) + '</div>';
+      html += '<div class="d-stats">' +
+                stat("made", r.y) +
+                stat("scenes", r.s.length) +
+                stat("prominence", ["—", "cameo", "featured", "central"][r.p]) +
+              '</div>';
+      html += '<div class="d-note">' + esc(r.note) + '</div>';
+      html += '<div class="d-list-h">appears in</div><div class="d-chips">' +
+              r.s.map(function (sid) {
+                var sc = sceneById[sid];
+                return '<button class="d-chip" data-scene="' + sid + '"><span class="o">' + pad2(sc.order) + '</span>' + esc(sc.name) + '</button>';
+              }).join("") + '</div>';
+    } else {
+      var sc2 = sceneById[state.id];
+      var refsIn = D.byScene[state.id].map(function (id) { return refById[id]; }).sort(function (a, b) { return a.y - b.y; });
+      var span = refsIn.length ? (refsIn[0].y + "–" + refsIn[refsIn.length - 1].y) : "—";
+      html += '<div class="d-kind" style="color:var(--acc2)">scene ' + pad2(sc2.order) + ' / ' + D.scenes.length + ' · act ' + sc2.act + '</div>';
+      html += '<div class="d-name">' + esc(sc2.name) + '</div>';
+      html += '<div class="d-stats">' +
+                stat("references", refsIn.length) +
+                stat("eras spanned", span) +
+              '</div>';
+      html += '<div class="d-note">' + esc(sc2.blurb) + '</div>';
+      html += '<div class="d-list-h">borrows from</div><div class="d-chips">' +
+              refsIn.map(function (r2) {
+                return '<button class="d-chip" data-ref="' + r2.id + '"><span class="o">' + r2.y + '</span>' + esc(r2.name) + '</button>';
+              }).join("") + '</div>';
+    }
+    html += '<button class="d-clear" id="d-clear">✕ clear selection</button>';
+    detail.innerHTML = html;
+
+    Array.prototype.forEach.call(detail.querySelectorAll("[data-scene]"), function (b) {
+      b.addEventListener("click", function () { sel = { type: "scene", id: b.dataset.scene }; render(); });
+    });
+    Array.prototype.forEach.call(detail.querySelectorAll("[data-ref]"), function (b) {
+      b.addEventListener("click", function () { sel = { type: "ref", id: b.dataset.ref }; render(); });
+    });
+    var clr = document.getElementById("d-clear");
+    if (clr) clr.addEventListener("click", function () { sel = null; render(); });
+  }
+
+  function stat(k, v) { return '<div class="d-stat"><span class="k">' + k + '</span><span class="v">' + v + '</span></div>'; }
+  function pad2(n) { return String(n).padStart(2, "0"); }
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+
+  /* ---------- search ---------- */
+  var searchEl = document.getElementById("search");
+  searchEl.addEventListener("input", function () { query = searchEl.value.trim().toLowerCase(); render(); });
+  searchEl.addEventListener("keydown", function (e) {
+    if (e.key === "Enter" && query) {
+      var hit = D.refs.find(function (r) { return r.name.toLowerCase().indexOf(query) >= 0; });
+      if (hit) { sel = { type: "ref", id: hit.id }; render(); }
+    }
+  });
+
+  /* ---------- resize ---------- */
+  var rt;
+  window.addEventListener("resize", function () {
+    clearTimeout(rt);
+    rt = setTimeout(function () {
+      W = netBox.clientWidth; H = netBox.clientHeight;
+      netSvg.attr("viewBox", "0 0 " + W + " " + H);
+      xScene.range([W * 0.10, W * 0.90]);
+      sim.force("x", d3.forceX(function (d) { return d.hub ? xScene(d.order) : W / 2; })
+        .strength(function (d) { return d.hub ? 0.55 : 0.015; }));
+      sim.force("y", d3.forceY(H / 2).strength(0.06));
+      sim.alpha(0.4).restart();
+      layoutTimeline();
+    }, 180);
+  });
+
+  layoutTimeline();
+  render();
+})();
+</script>
+</body>
+</html>

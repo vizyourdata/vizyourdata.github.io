@@ -1,0 +1,624 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Longest Chain · Blocks Mined Over Time</title>
+<meta name="description" content="A plain-language data story about Bitcoin: what a block is, what mining is, the halving, fees, and how people actually use the chain — told along the blocks mined over time.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..600&family=Fragment+Mono:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0E0F13; --bg2:#15171D; --panel:#1A1D25; --panel2:#20242E;
+  --ink:#ECE7DA; --muted:#8A8F9C;
+  --btc:#F7931A; --btc2:#FFB454; --spark:#FFD27A;
+  --line:rgba(236,231,218,.12); --line2:rgba(236,231,218,.26);
+  --glow:rgba(247,147,26,.55);
+  --maxw:1180px;
+  --rail-x:46px; --header-h:118px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; color:var(--ink); background:var(--bg);
+  font-family:"Newsreader",Georgia,serif; font-optical-sizing:auto;
+  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; overflow-x:hidden;
+}
+.grain{position:fixed; inset:0; z-index:60; pointer-events:none; opacity:.045; mix-blend-mode:screen;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+::selection{background:var(--btc); color:#10121a}
+
+.vyd-home{position:fixed; z-index:120; top:1.15rem; right:1.3rem; text-decoration:none;
+  font-family:"Fragment Mono",monospace; font-size:.68rem; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--muted); padding:.5em .85em; border:1px solid var(--line2); border-radius:100px;
+  background:rgba(20,23,29,.7); backdrop-filter:blur(5px); transition:color .25s, border-color .25s;}
+.vyd-home:hover{color:var(--btc); border-color:var(--btc)}
+
+/* ============ TOP CHAIN NAV ============ */
+.topbar{position:sticky; top:0; z-index:100; background:linear-gradient(180deg,rgba(14,15,19,.96),rgba(14,15,19,.82));
+  backdrop-filter:blur(9px); border-bottom:1px solid var(--line);}
+.topbar .inner{max-width:var(--maxw); margin:0 auto; padding:.95rem 6vw .9rem; display:flex; align-items:center; gap:1.4rem}
+.brand{font-family:"Fragment Mono",monospace; font-size:.7rem; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); white-space:nowrap; line-height:1.5}
+.brand b{display:block; color:var(--ink); font-weight:400; letter-spacing:.22em}
+.brand .tick{color:var(--btc)}
+
+/* the chain of category-blocks */
+.chain{display:flex; align-items:center; gap:0; overflow-x:auto; scrollbar-width:none; padding:.4rem 0; flex:1}
+.chain::-webkit-scrollbar{display:none}
+.link{flex:0 0 18px; height:1px; background:var(--line2); align-self:center; position:relative}
+.link::after{content:""; position:absolute; inset:0; background:var(--btc); transform:scaleX(0); transform-origin:left; transition:transform .5s ease}
+.link.lit::after{transform:scaleX(1)}
+
+.chip{position:relative; flex:0 0 auto; cursor:pointer; border:1px solid var(--line2); background:var(--panel);
+  border-radius:7px; padding:.46em .72em .5em; display:flex; flex-direction:column; gap:.12em; min-width:74px;
+  transition:border-color .25s, background .25s, transform .25s, box-shadow .25s;}
+.chip .cn{font-family:"Fragment Mono",monospace; font-size:.6rem; letter-spacing:.14em; color:var(--btc); opacity:.7}
+.chip .cl{font-family:"Bricolage Grotesque",sans-serif; font-weight:650; font-size:.83rem; letter-spacing:-.01em; color:var(--ink); white-space:nowrap}
+.chip:hover{border-color:var(--btc); transform:translateY(-1px)}
+.chip.on{background:var(--panel2); border-color:var(--btc); box-shadow:0 0 0 1px var(--btc), 0 6px 22px -10px var(--glow)}
+.chip.on .cn{opacity:1}
+/* click: the block cracks open as the spark leaves it */
+.chip::after{content:""; position:absolute; inset:0; border-radius:7px; pointer-events:none; opacity:0;
+  background:linear-gradient(180deg, rgba(255,255,255,.92), rgba(247,147,26,.22) 55%, transparent); mix-blend-mode:screen}
+.chip.crack{animation:crack .62s cubic-bezier(.2,.8,.2,1)}
+.chip.crack::after{animation:crackFlash .62s ease}
+@keyframes crack{
+  0%{transform:none}
+  34%{transform:translateY(-3px) scale(1.15); box-shadow:0 0 0 2px var(--btc), 0 0 34px 6px var(--glow)}
+  100%{transform:none}
+}
+@keyframes crackFlash{0%{opacity:0} 22%{opacity:.85} 100%{opacity:0}}
+/* a passing tick as the spark charges across the chain */
+.chip.ping{animation:ping .42s ease}
+@keyframes ping{0%{} 45%{transform:translateY(-2px) scale(1.07); border-color:var(--btc)} 100%{}}
+
+/* ============ FIXED CHAIN SPINE (left rail) ============ */
+.rail{position:fixed; left:var(--rail-x); top:var(--header-h); bottom:7vh; width:2px; z-index:90}
+.rail-line{position:absolute; inset:0; background:var(--line2); border-radius:2px}
+.rail-fill{position:absolute; left:0; top:0; width:100%; height:0; border-radius:2px;
+  background:linear-gradient(180deg,var(--btc),var(--btc2)); box-shadow:0 0 8px var(--glow); transition:height .42s cubic-bezier(.4,0,.2,1)}
+.node{position:absolute; left:50%; transform:translate(-50%,-50%); width:13px; height:13px; padding:0;
+  border-radius:50%; border:1.5px solid var(--line2); background:var(--bg2); cursor:pointer; z-index:2;
+  transition:border-color .3s, background .3s, box-shadow .3s, transform .25s}
+.node::after{content:attr(data-n); position:absolute; left:18px; top:50%; transform:translateY(-50%);
+  font-family:"Fragment Mono",monospace; font-size:.58rem; letter-spacing:.1em; color:var(--muted); white-space:nowrap; opacity:0; transition:opacity .25s}
+.node:hover{border-color:var(--btc); transform:translate(-50%,-50%) scale(1.18)}
+.node:hover::after{opacity:1}
+.node.on{border-color:var(--btc); background:var(--btc); box-shadow:0 0 0 4px rgba(247,147,26,.16), 0 0 16px var(--glow)}
+.node.on::after{opacity:1; color:var(--ink)}
+
+/* the spark + comet tail */
+.spark{position:fixed; left:0; top:0; width:12px; height:12px; transform:translate(-100px,-100px);
+  border-radius:50%; background:radial-gradient(circle at 50% 40%, #fff, var(--spark) 35%, var(--btc) 70%);
+  box-shadow:0 0 10px 2px var(--btc), 0 0 26px 6px var(--glow); z-index:130; pointer-events:none;
+  transition:transform .42s cubic-bezier(.4,0,.2,1); opacity:0}
+.spark.show{opacity:1}
+.spark::after{content:""; position:absolute; left:50%; bottom:60%; transform:translateX(-50%); width:3px; height:0;
+  border-radius:3px; background:linear-gradient(180deg, transparent, var(--btc) 60%, var(--spark));
+  opacity:0; transition:height .3s ease, opacity .3s ease}
+.rail.moving .spark, .rail.flying .spark, .rail.flying .rail-fill{transition:none}
+.rail.moving .spark, .rail.flying .spark{box-shadow:0 0 16px 5px var(--btc), 0 0 40px 12px var(--glow)}
+.rail.flying .spark::after{height:96px; opacity:.9}
+
+/* ============ LAYOUT ============ */
+.wrap{max-width:760px; margin:0 auto; padding:0 7vw}
+.kicker{font-family:"Fragment Mono",monospace; font-size:.7rem; letter-spacing:.3em; text-transform:uppercase;
+  color:var(--muted); display:flex; align-items:center; gap:.8em; margin:0 0 1.1rem}
+.kicker .no{color:var(--btc)}
+.kicker::before{content:""; width:2em; height:1px; background:var(--btc); opacity:.6}
+h1,h2{font-family:"Bricolage Grotesque",sans-serif; font-weight:760; line-height:1; letter-spacing:-.02em; margin:0}
+.prose{font-size:clamp(1.1rem,1.35vw,1.28rem); line-height:1.62; color:#D8D3C6}
+.prose b{font-weight:600; color:var(--ink)}
+.prose em{font-style:italic; color:var(--btc2)}
+.tick{font-family:"Fragment Mono",monospace; color:var(--btc)}
+
+/* hero */
+.hero{min-height:84svh; display:flex; flex-direction:column; justify-content:center; padding:10vh 0 7vh}
+.hero h1{font-size:clamp(3rem,9vw,7.4rem); text-transform:uppercase}
+.hero h1 .l2{display:block; color:var(--btc)}
+.hero .dek{font-size:clamp(1.15rem,1.6vw,1.42rem); line-height:1.55; max-width:48ch; margin:2rem 0 0; color:#CFC9BB}
+.hero .dek i{font-style:italic; color:var(--btc2)}
+.hint{margin-top:3.4rem; font-family:"Fragment Mono",monospace; font-size:.68rem; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); max-width:42ch; line-height:1.9}
+.hint b{color:var(--btc); font-weight:400}
+
+/* chapters */
+.chapter{padding:13vh 0; border-top:1px solid var(--line); position:relative}
+.chapter h2{font-size:clamp(2.1rem,4.6vw,3.6rem); margin:.3rem 0 1.5rem}
+.chapter .prose{max-width:62ch}
+.chapter .prose p{margin:0 0 1.1em}
+.stat{font-family:"Fragment Mono",monospace; font-size:.72rem; letter-spacing:.06em; color:var(--muted);
+  margin:1.6rem 0 0; border-left:2px solid var(--btc); padding:.2em 0 .2em 1em; line-height:1.85}
+.stat b{color:var(--btc2); font-weight:400}
+
+/* chart placeholder slot */
+.figslot{margin:2.2rem 0 0; height:230px; border:1px dashed var(--line2); border-radius:8px; background:
+  repeating-linear-gradient(90deg, rgba(236,231,218,.03) 0 1px, transparent 1px 46px),
+  repeating-linear-gradient(0deg, rgba(236,231,218,.03) 0 1px, transparent 1px 38px), var(--bg2);
+  display:flex; align-items:center; justify-content:center; text-align:center;
+  font-family:"Fragment Mono",monospace; font-size:.72rem; letter-spacing:.08em; color:var(--muted)}
+.figslot span{opacity:.8}
+
+/* reveal + ignite */
+.reveal{opacity:0; transform:translateY(20px); transition:opacity .7s ease, transform .7s ease}
+.chapter.seen .reveal{opacity:1; transform:none}
+.chapter.seen .reveal:nth-child(2){transition-delay:.08s}
+.chapter.seen .reveal:nth-child(3){transition-delay:.16s}
+.chapter.seen .reveal:nth-child(4){transition-delay:.24s}
+.chapter.ignite::before{content:""; position:absolute; left:0; right:0; top:0; height:2px;
+  background:linear-gradient(90deg,var(--btc),transparent); transform-origin:left; animation:drawline .9s ease forwards}
+@keyframes drawline{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+
+footer{padding:9vh 0 12vh; border-top:1px solid var(--line)}
+footer .fin{font-family:"Fragment Mono",monospace; font-size:.68rem; letter-spacing:.22em; text-transform:uppercase; color:var(--muted); text-align:center}
+footer .note{max-width:62ch; margin:0 auto 3rem; color:var(--muted); font-size:.95rem; line-height:1.7; text-align:center}
+
+@media (max-width:900px){
+  :root{--rail-x:0px}
+  .rail{display:none}
+  .topbar .inner{padding:.8rem 5vw}
+  .brand{display:none}
+}
+/* ============ LARGE CHARTS ============ */
+.figwrap{width:min(1140px, calc(100vw - 140px)); margin:3rem auto 0}
+.chart{margin:0; position:relative}
+.chart svg{width:100%; height:auto; display:block; overflow:visible; touch-action:none}
+.chart .cap{display:flex; flex-wrap:wrap; justify-content:space-between; gap:.4rem 1.4rem; margin:.8rem .2rem 0;
+  font-family:"Fragment Mono",monospace; font-size:.66rem; letter-spacing:.07em; color:var(--muted); text-transform:uppercase}
+.chart .cap .ttl{color:var(--btc2)}
+/* svg internals */
+.chart .grid line{stroke:var(--line); stroke-width:1; shape-rendering:crispEdges}
+.chart .axis text{fill:var(--muted); font-family:"Fragment Mono",monospace; font-size:11px; letter-spacing:.03em}
+.chart .ln{fill:none; stroke-width:2.6; stroke-linejoin:round; stroke-linecap:round}
+.chart .mk{stroke:var(--btc); stroke-width:1; stroke-dasharray:3 4; opacity:.45}
+.chart .mkl{fill:var(--btc2); font-family:"Fragment Mono",monospace; font-size:10px; letter-spacing:.05em; text-anchor:middle}
+.chart .ref{stroke:var(--line2); stroke-width:1; stroke-dasharray:2 5}
+.chart .refl{fill:var(--muted); font-family:"Fragment Mono",monospace; font-size:10px; letter-spacing:.04em}
+.chart .hover{transition:opacity .12s}
+.chart .crosshair{stroke:var(--btc); stroke-width:1; stroke-dasharray:2 3; opacity:.55}
+.chart .hoverdot{fill:#fff; stroke:var(--btc); stroke-width:2.5}
+.chart .readline{fill:var(--ink); font-family:"Fragment Mono",monospace; font-size:13px; font-weight:600; text-anchor:middle}
+.chart .readyear{fill:var(--btc2); font-family:"Fragment Mono",monospace; font-size:10px; letter-spacing:.08em; text-anchor:middle}
+.chart .capture{cursor:crosshair}
+@media (max-width:900px){ .figwrap{width:calc(100vw - 40px)} }
+
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  .reveal{transition:none}
+  .spark::after{display:none}
+}
+</style>
+</head>
+<body>
+<div class="grain"></div>
+<a class="vyd-home" href="/">← Gallery</a>
+
+<!-- ===== TOP CHAIN NAV ===== -->
+<header class="topbar">
+  <div class="inner">
+    <div class="brand"><span class="tick">⛓</span> The Longest<br><b>Chain</b></div>
+    <nav class="chain" aria-label="Chapters">
+      <button class="chip" data-i="0"><span class="cn">01</span><span class="cl">The Block</span></button>
+      <span class="link"></span>
+      <button class="chip" data-i="1"><span class="cn">02</span><span class="cl">Mining</span></button>
+      <span class="link"></span>
+      <button class="chip" data-i="2"><span class="cn">03</span><span class="cl">Difficulty</span></button>
+      <span class="link"></span>
+      <button class="chip" data-i="3"><span class="cn">04</span><span class="cl">The Halving</span></button>
+      <span class="link"></span>
+      <button class="chip" data-i="4"><span class="cn">05</span><span class="cl">The Market</span></button>
+      <span class="link"></span>
+      <button class="chip" data-i="5"><span class="cn">06</span><span class="cl">Fees</span></button>
+      <span class="link"></span>
+      <button class="chip" data-i="6"><span class="cn">07</span><span class="cl">Uses</span></button>
+    </nav>
+  </div>
+</header>
+
+<!-- ===== FIXED CHAIN SPINE ===== -->
+<div class="rail" aria-hidden="true">
+  <div class="rail-line"></div>
+  <div class="rail-fill"></div>
+  <button class="node" data-i="0" data-n="01 · The Block"></button>
+  <button class="node" data-i="1" data-n="02 · Mining"></button>
+  <button class="node" data-i="2" data-n="03 · Difficulty"></button>
+  <button class="node" data-i="3" data-n="04 · The Halving"></button>
+  <button class="node" data-i="4" data-n="05 · The Market"></button>
+  <button class="node" data-i="5" data-n="06 · Fees"></button>
+  <button class="node" data-i="6" data-n="07 · Uses"></button>
+  <div class="spark"></div>
+</div>
+
+<main>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap">
+      <h1>Blocks,<span class="l2">Mined Over Time</span></h1>
+      <p class="dek">Every ten minutes, somewhere on Earth, a computer wins a lottery and writes the next page of a ledger nobody owns. Do that <i>950,000 times</i> and you get Bitcoin. Here's what's actually happening — in plain words.</p>
+      <p class="hint">Pick a block up top. <b>Watch the spark run the chain</b> down to it.</p>
+    </div>
+  </section>
+
+  <!-- 01 -->
+  <section class="chapter" id="block" data-i="0">
+    <div class="wrap">
+      <p class="kicker reveal"><span class="no">01</span> The Ledger</p>
+      <h2 class="reveal">A block is a page in a notebook everyone keeps a copy of.</h2>
+      <div class="prose reveal">
+        <p>A blockchain is a <b>public ledger</b> — a notebook that thousands of computers worldwide all hold an identical copy of. Nobody owns the master; they all agree on it.</p>
+        <p>You don't write one line at a time. Transactions get bundled into a <b>block</b> — a page — and a fresh page is added about <em>every ten minutes</em>. Each block is cryptographically linked to the one before it, so altering an old page shatters every page after it. That's what makes the history tamper-evident — and that's the <em>chain</em>.</p>
+      </div>
+      <p class="stat reveal">Block height only ever goes up · <b>~950,000</b> pages and counting · one every <b>~10 min</b></p>
+    </div>
+    <div class="figwrap reveal"><figure class="chart" data-chart="height"></figure></div>
+  </section>
+
+  <!-- 02 -->
+  <section class="chapter" id="mining" data-i="1">
+    <div class="wrap">
+      <p class="kicker reveal"><span class="no">02</span> Proof of Work</p>
+      <h2 class="reveal">Mining is a race to earn the right to write the next page.</h2>
+      <div class="prose reveal">
+        <p>Who gets to add the next block, and why trust them? Thousands of computers <b>race to solve a deliberately useless puzzle</b> — guess-and-check, trillions of times a second. First to crack it wins the right to write the block and pockets <em>newly minted bitcoin plus fees</em>.</p>
+        <p>The puzzle is brutal to solve but instant to check, so everyone can verify the winner really did the work. The wasted electricity <b>is</b> the security: to fake history you'd have to out-compute the entire honest network at once.</p>
+      </div>
+      <p class="stat reveal">Total guessing power = <b>hashrate</b> · measured in quintillions of hashes per second</p>
+    </div>
+    <div class="figwrap reveal"><figure class="chart" data-chart="hashrate"></figure></div>
+  </section>
+
+  <!-- 03 -->
+  <section class="chapter" id="difficulty" data-i="2">
+    <div class="wrap">
+      <p class="kicker reveal"><span class="no">03</span> The Heartbeat</p>
+      <h2 class="reveal">Difficulty keeps the ten-minute pulse, no matter who joins.</h2>
+      <div class="prose reveal">
+        <p>More miners would crack the puzzle faster — so every <b>two weeks</b> the network re-tunes how hard it is. Power floods in, difficulty rises; miners quit, it eases. The goal is a steady <em>ten-minute heartbeat</em> that holds whether the network is tiny or planet-scale.</p>
+        <p>It's the chain breathing at a constant rate by design — a thermostat made of math.</p>
+      </div>
+      <p class="stat reveal">Re-adjusts every <b>2,016 blocks</b> (~2 weeks) · target spacing <b>10 min</b></p>
+    </div>
+    <div class="figwrap reveal"><figure class="chart" data-chart="blocktime"></figure></div>
+  </section>
+
+  <!-- 04 -->
+  <section class="chapter" id="halving" data-i="3">
+    <div class="wrap">
+      <p class="kicker reveal"><span class="no">04</span> Hard Money</p>
+      <h2 class="reveal">The reward halves every four years — forever, until 21 million.</h2>
+      <div class="prose reveal">
+        <p>The prize for mining a block isn't fixed. Every ~four years it <b>halves</b>: 50 → 25 → 12.5 → 6.25 → <em>3.125 BTC</em>. That schedule is pure arithmetic, visible decades in advance, and it ends at a hard cap of <em>21 million coins</em>, ever.</p>
+        <p>Each "halving" is a built-in supply squeeze — the single most-watched recurring event on the whole timeline.</p>
+      </div>
+      <p class="stat reveal">Halves every <b>210,000 blocks</b> · last new coin mined around the year <b>2140</b></p>
+    </div>
+    <div class="figwrap reveal"><figure class="chart" data-chart="supply"></figure></div>
+  </section>
+
+  <!-- 05 -->
+  <section class="chapter" id="market" data-i="4">
+    <div class="wrap">
+      <p class="kicker reveal"><span class="no">05</span> The Business</p>
+      <h2 class="reveal">Mining is an industry: electricity in, coins out.</h2>
+      <div class="prose reveal">
+        <p>Behind the math is a market. Miners spend real money on rigs and power and earn coins — so they're a constant <b>sell-pressure</b> and a deeply price-sensitive business. Price climbs, more miners pile in, difficulty rises to match. A halving cuts their revenue <em>overnight</em>, and the weakest rigs go dark.</p>
+        <p>Price, hashrate and difficulty chase each other in a loop you can watch unfold over the years.</p>
+      </div>
+      <p class="stat reveal">When price &gt; mining cost, miners grow · when it flips, they capitulate</p>
+    </div>
+    <div class="figwrap reveal"><figure class="chart" data-chart="price"></figure></div>
+  </section>
+
+  <!-- 06 -->
+  <section class="chapter" id="fees" data-i="5">
+    <div class="wrap">
+      <p class="kicker reveal"><span class="no">06</span> The Waiting Room</p>
+      <h2 class="reveal">Fees are Bitcoin's surge pricing for block space.</h2>
+      <div class="prose reveal">
+        <p>A block holds only so much. When more people want in than will fit, they <b>bid up the fee</b> (priced in <em>sats per byte</em>) to jump the queue into the next block. Everyone who's waiting sits in the <b>mempool</b> — the chain's waiting room.</p>
+        <p>So fees are a live demand gauge: calm when the chain is quiet, screaming during a frenzy. This is Bitcoin's answer to what Ethereum calls "gas."</p>
+      </div>
+      <p class="stat reveal">More demand → fuller blocks → higher <b>sat/vByte</b> → longer mempool queue</p>
+    </div>
+    <div class="figwrap reveal"><figure class="chart" data-chart="fees"></figure></div>
+  </section>
+
+  <!-- 07 -->
+  <section class="chapter" id="uses" data-i="6">
+    <div class="wrap">
+      <p class="kicker reveal"><span class="no">07</span> What It's For</p>
+      <h2 class="reveal">Underneath every use, it's just transactions filling blocks.</h2>
+      <div class="prose reveal">
+        <p>People treat Bitcoin as <b>digital gold</b> — a scarce, hard-to-seize store of value — and as money: plain payments on-chain, or near-instant cheap ones over a second layer called <em>Lightning</em>. Newer experiments even stuff art and data straight into blocks.</p>
+        <p>Unlike Ethereum, Bitcoin has no rich "smart contracts" — its scripting is deliberately limited. But whatever the use, it lands the same place: more transactions, fuller blocks, back to the ten-minute heartbeat where we started.</p>
+      </div>
+      <p class="stat reveal">Everything here is one dataset, seen seven ways: <b>blocks, mined over time</b></p>
+    </div>
+    <div class="figwrap reveal"><figure class="chart" data-chart="txs"></figure></div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p class="note">Prototype — the spark navigation and chapter skeleton. Real charts drop into the slots next. Numbers are illustrative until wired to live data.</p>
+    <p class="fin">⛓ The Longest Chain · viz your data</p>
+  </div>
+</footer>
+
+<script src="data.js"></script>
+<script>
+(function(){
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const rail  = document.querySelector('.rail');
+  const fill  = document.querySelector('.rail-fill');
+  const spark = document.querySelector('.spark');
+  const nodes = [...document.querySelectorAll('.node')];
+  const chips = [...document.querySelectorAll('.chip')];
+  const links = [...document.querySelectorAll('.link')];
+  const chaps = [...document.querySelectorAll('.chapter')];
+  let active = 0, flying = false;
+
+  // ---- animation speed (ms) · tweak these to taste ----
+  const SPEED = { chain: 900, hold: 520, drop: 460, spine: 1250 };
+
+  const railVisible = () => rail.offsetParent !== null;
+  const headerH = () => document.querySelector('.topbar').offsetHeight + 26;
+  const nodeY   = i => nodes[i].offsetTop;                         // offset within the rail
+  const railX   = () => { const r = rail.getBoundingClientRect(); return r.left + rail.clientWidth/2; };
+  const railTop = () => rail.getBoundingClientRect().top;          // viewport y of rail's top (fixed)
+  const chipPt  = k => { const r = chips[k].getBoundingClientRect(); return {x:r.left+r.width/2, y:r.top+r.height/2}; };
+
+  // spark is viewport-positioned so it can launch from a chip and land on the rail
+  function placeSpark(x, y){ spark.style.transform = 'translate(' + (x-6) + 'px,' + (y-6) + 'px)'; }
+  function parkAtNode(i){ placeSpark(railX(), railTop() + nodeY(i)); fill.style.height = nodeY(i) + 'px'; }
+
+  function layout(){
+    const h = rail.clientHeight, top = h*0.06, bot = h*0.94, n = nodes.length;
+    nodes.forEach((nd,i)=> nd.style.top = (top + (bot-top)*(i/(n-1))) + 'px');
+    if(railVisible()) parkAtNode(active);
+  }
+  function paint(i){
+    active = i;
+    chips.forEach((c,k)=> c.classList.toggle('on', k===i));
+    nodes.forEach((nd,k)=> nd.classList.toggle('on', k===i));
+    links.forEach((l,k)=> l.classList.toggle('lit', k < i));
+    chaps[i].classList.add('seen');
+  }
+  const retrigger = (el, cls) => { el.classList.remove(cls); void el.offsetWidth; el.classList.add(cls); };
+  const ignite = i => retrigger(chaps[i], 'ignite');
+  const crack  = c => retrigger(c, 'crack');
+  const ping   = c => retrigger(c, 'ping');
+
+  const lerp   = (a,b,t) => a + (b-a)*t;
+  const easeIO = t => t<.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2,3)/2;
+  function tweenP(dur, ease, step){
+    return new Promise(res => {
+      if(reduce){ step(1); res(); return; }
+      let t0 = null;
+      function f(ts){ if(t0===null) t0=ts; const p=Math.min(1,(ts-t0)/dur); step(ease(p)); if(p<1) requestAnimationFrame(f); else res(); }
+      requestAnimationFrame(f);
+    });
+  }
+  const wait = ms => new Promise(r => setTimeout(r, reduce ? 0 : ms));
+
+  async function flyTo(i){
+    if(flying) return;
+    const chip = chips[i];
+    const endScroll = Math.max(0, chaps[i].offsetTop - headerH());
+
+    if(reduce || !railVisible()){
+      window.scrollTo(0, endScroll); paint(i);
+      if(railVisible()) parkAtNode(i);
+      crack(chip); ignite(i); return;
+    }
+
+    flying = true; spark.classList.add('show'); rail.classList.add('moving');
+    const rx = railX(), top = railTop();
+    const entryY = top + nodeY(0) - 14;        // drop point: top of the chain spine
+    const endY   = top + nodeY(i);
+    const a = chipPt(0), b = chipPt(i);
+    links.forEach(l => l.classList.remove('lit'));
+
+    // PHASE 1 — charge along the top chain from block 01 to the one you clicked
+    placeSpark(a.x, a.y);
+    let lit = 0;
+    if(i > 0){
+      await tweenP(SPEED.chain, easeIO, e => {
+        placeSpark(lerp(a.x, b.x, e), a.y - Math.sin(e*Math.PI)*8);   // slight arc across the chain
+        const want = Math.min(i, Math.floor(e*i + 1e-6));
+        while(lit < want){ links[lit].classList.add('lit'); if(lit+1 < i) ping(chips[lit+1]); lit++; }
+      });
+    }
+    links.forEach((l,k)=> l.classList.toggle('lit', k < i));
+
+    // PHASE 2 — the block cracks open
+    crack(chip); placeSpark(b.x, b.y);
+    await wait(SPEED.hold);
+
+    // PHASE 3 — drop down onto the chain spine
+    await tweenP(SPEED.drop, easeIO, e => placeSpark(lerp(b.x, rx, e), lerp(b.y, entryY, e)));
+
+    // PHASE 4 — run down the spine, comet tail on, page scrolls in sync
+    rail.classList.remove('moving'); rail.classList.add('flying');
+    const startScroll = window.scrollY;
+    await tweenP(SPEED.spine, easeIO, e => {
+      const y = lerp(entryY, endY, e);
+      placeSpark(rx, y);
+      fill.style.height = Math.max(0, y - top) + 'px';
+      window.scrollTo(0, startScroll + (endScroll - startScroll)*e);
+    });
+    rail.classList.remove('flying'); flying = false; paint(i); ignite(i);
+  }
+
+  // clicks (top blocks + spine nodes)
+  chips.forEach(c => c.addEventListener('click', ()=> flyTo(+c.dataset.i)));
+  nodes.forEach(n => n.addEventListener('click', ()=> flyTo(+n.dataset.i)));
+
+  // scroll-spy: follow reading with a gentle glide (no comet)
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(en => {
+      if(!en.isIntersecting) return;
+      const i = chaps.indexOf(en.target);
+      chaps[i].classList.add('seen');
+      if(flying) return;
+      paint(i);
+      if(railVisible()){ spark.classList.add('show'); parkAtNode(i); }
+    });
+  }, { rootMargin: '-45% 0px -45% 0px', threshold: 0 });
+  chaps.forEach(c => io.observe(c));
+
+  let rt; addEventListener('resize', ()=>{ clearTimeout(rt); rt = setTimeout(layout, 120); });
+  layout();
+  if(railVisible()){ spark.classList.add('show'); parkAtNode(0); }
+})();
+</script>
+
+<script>
+/* ---- large SVG charts: line / area / step, log scale, halving markers, hover, draw-in ---- */
+(function(){
+  const CHARTS = window.CHARTS || {};
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const FMT = {
+    compact: v => v>=1e6 ? (v/1e6).toFixed(v>=1e7?0:2).replace(/\.?0+$/,'')+'M'
+                  : v>=1e3 ? Math.round(v/1e3)+'k' : ''+Math.round(v),
+    btc:  v => v>=1e6 ? (v/1e6).toFixed(0)+'M' : v>=1e3 ? Math.round(v/1e3)+'k' : ''+Math.round(v),
+    usd:  v => v>=1000 ? '$'+Math.round(v/1000)+'k' : v>=1 ? '$'+Math.round(v) : '$'+v.toFixed(2),
+    usd2: v => v>=1 ? '$'+(v%1?v.toFixed(1):v.toFixed(0)) : '$'+v.toFixed(2),
+    min:  v => v.toFixed(1),
+    ehs:  v => v>=1000 ? (v/1000).toFixed(0)+' ZH' : v>=1 ? v.toFixed(0)+' EH' : v+' EH',
+  };
+  const W=1000, H=460, P={l:70,r:30,t:30,b:48}, iw=W-P.l-P.r, ih=H-P.t-P.b;
+
+  // SVG attributes can't read CSS var() — resolve --tokens to real values
+  const RC = c => { const m = /^var\((--[\w-]+)\)$/.exec((c||'').trim());
+    return m ? getComputedStyle(document.documentElement).getPropertyValue(m[1]).trim() : c; };
+
+  function build(fig){
+    const spec = CHARTS[fig.dataset.chart]; if(!spec) return;
+    const f = FMT[spec.yfmt] || FMT.compact;
+    const ally = spec.series.flatMap(s => s.points.map(p=>p[1]));
+    const log  = !!spec.log;
+    const xmin = spec.xmin, xmax = spec.xmax;
+    let ymin, ymax;
+    if(log){
+      const pos = ally.filter(v=>v>0);
+      ymin = spec.ymin ?? Math.pow(10, Math.floor(Math.log10(Math.min(...pos))));
+      ymax = spec.ymax ?? Math.pow(10, Math.ceil(Math.log10(Math.max(...ally))));
+    } else {
+      ymin = spec.ymin ?? 0;
+      ymax = spec.ymax ?? Math.max(...ally)*1.08;
+    }
+    const X  = x => P.l + (x-xmin)/(xmax-xmin)*iw;
+    const tf = log ? (v=>Math.log10(Math.max(v,ymin))) : (v=>v);
+    const ya = tf(ymin), yb = tf(ymax);
+    const Y  = v => P.t + ih - (tf(v)-ya)/(yb-ya)*ih;
+
+    let yticks;
+    if(spec.yticksv) yticks = spec.yticksv;
+    else if(log){ yticks=[]; for(let e=Math.round(Math.log10(ymin)); e<=Math.round(Math.log10(ymax)); e++) yticks.push(Math.pow(10,e)); }
+    else { yticks=[]; for(let k=0;k<=5;k++) yticks.push(ymin+(ymax-ymin)*k/5); }
+    const uid = fig.dataset.chart;
+
+    const line = (pts, step) => {
+      let d = `M ${pts[0][0].toFixed(1)} ${pts[0][1].toFixed(1)}`;
+      for(let i=1;i<pts.length;i++){
+        if(step) d += ` L ${pts[i][0].toFixed(1)} ${pts[i-1][1].toFixed(1)} L ${pts[i][0].toFixed(1)} ${pts[i][1].toFixed(1)}`;
+        else d += ` L ${pts[i][0].toFixed(1)} ${pts[i][1].toFixed(1)}`;
+      }
+      return d;
+    };
+
+    let svg = `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet" role="img" aria-label="${spec.label} — ${spec.unit}">`;
+    svg += `<defs>`;
+    spec.series.forEach((s,si)=>{ if(s.area) svg += `<linearGradient id="g-${uid}-${si}" x1="0" x2="0" y1="0" y2="1">`+
+      `<stop offset="0" stop-color="${RC(s.color)}" stop-opacity="${s.fill??.32}"/>`+
+      `<stop offset="1" stop-color="${RC(s.color)}" stop-opacity="0"/></linearGradient>`; });
+    svg += `<clipPath id="clip-${uid}"><rect class="reveal-clip" x="${P.l}" y="${P.t-22}" width="${reduce?iw:0}" height="${ih+44}"/></clipPath></defs>`;
+
+    // grid + y labels
+    svg += `<g class="grid">`;
+    yticks.forEach(v=>{ const y=Y(v); svg += `<line x1="${P.l}" x2="${W-P.r}" y1="${y.toFixed(1)}" y2="${y.toFixed(1)}"/>`; });
+    svg += `</g><g class="axis">`;
+    yticks.forEach(v=>{ const y=Y(v); svg += `<text x="${P.l-12}" y="${(y+4).toFixed(1)}" text-anchor="end">${f(v)}</text>`; });
+    spec.xticks.forEach(x=>{ svg += `<text x="${X(x).toFixed(1)}" y="${H-P.b+26}" text-anchor="middle">${Math.round(x)}</text>`; });
+    svg += `</g>`;
+
+    // reference lines (behind plot)
+    if(spec.refs) spec.refs.forEach(r=>{ const y=Y(r.y).toFixed(1);
+      svg += `<line class="ref" x1="${P.l}" x2="${W-P.r}" y1="${y}" y2="${y}"/>`+
+             `<text class="refl" x="${W-P.r}" y="${(+y-6).toFixed(1)}" text-anchor="end">${r.label}</text>`; });
+
+    // plot, clipped so it grows left→right over time
+    svg += `<g clip-path="url(#clip-${uid})">`;
+    spec.series.forEach((s,si)=>{
+      const pts = s.points.map(p=>[X(p[0]),Y(p[1])]);
+      const d = line(pts, s.step);
+      if(s.area){ const base=Y(ymin).toFixed(1);
+        svg += `<path d="${d} L ${pts[pts.length-1][0].toFixed(1)} ${base} L ${pts[0][0].toFixed(1)} ${base} Z" fill="url(#g-${uid}-${si})"/>`; }
+      svg += `<path class="ln" d="${d}" stroke="${RC(s.color)}" stroke-opacity="${s.dim?.5:1}"${s.dash?` stroke-dasharray="${s.dash}"`:''}/>`;
+    });
+    if(spec.markers) spec.markers.forEach(m=>{ const x=X(m.x).toFixed(1);
+      svg += `<line class="mk" x1="${x}" x2="${x}" y1="${P.t}" y2="${P.t+ih}"/>`+
+             `<text class="mkl" x="${x}" y="${P.t-9}">${m.label}</text>`; });
+    svg += `</g>`;
+
+    // hover layer
+    svg += `<g class="hover" style="opacity:0">`+
+      `<line class="crosshair" y1="${P.t}" y2="${P.t+ih}"/>`+
+      `<circle class="hoverdot" r="4.5"/>`+
+      `<text class="readyear" dy="0"></text><text class="readline" dy="0"></text></g>`;
+    svg += `<rect class="capture" x="${P.l}" y="${P.t}" width="${iw}" height="${ih}" fill="transparent"/>`;
+    svg += `</svg>`;
+
+    fig.innerHTML = svg + `<figcaption class="cap"><span class="ttl">${spec.label} · ${spec.unit}</span><span>${spec.note||''}</span></figcaption>`;
+    fig._ctx = { spec, f, X, Y, ymin, primary: spec.series[0] };
+    wireHover(fig);
+  }
+
+  function wireHover(fig){
+    const { spec, f, X, Y, primary } = fig._ctx;
+    const svg = fig.querySelector('svg'), g = fig.querySelector('.hover');
+    const cl = g.querySelector('.crosshair'), dot = g.querySelector('.hoverdot');
+    const ty = g.querySelector('.readyear'), tv = g.querySelector('.readline');
+    const cap = fig.querySelector('.capture');
+    const pts = primary.points;
+    const sx = clientX => { const r = svg.getBoundingClientRect(); return (clientX-r.left)/r.width*W; };
+    const move = ev => {
+      const e = ev.touches ? ev.touches[0] : ev;
+      const px = sx(e.clientX);
+      const dx = spec.xmin + (px-P.l)/iw*(spec.xmax-spec.xmin);
+      let best=pts[0], bd=1e9; for(const p of pts){ const d=Math.abs(p[0]-dx); if(d<bd){bd=d;best=p;} }
+      const X0=X(best[0]), Y0=Y(best[1]);
+      g.style.opacity=1;
+      cl.setAttribute('x1',X0); cl.setAttribute('x2',X0);
+      dot.setAttribute('cx',X0); dot.setAttribute('cy',Y0);
+      const lx = Math.max(P.l+34, Math.min(W-P.r-34, X0));
+      const ly = Math.max(P.t+30, Y0-18);
+      ty.setAttribute('x',lx); ty.setAttribute('y',ly-12); ty.textContent = Math.round(best[0]);
+      tv.setAttribute('x',lx); tv.setAttribute('y',ly+2);  tv.textContent = f(best[1]);
+    };
+    cap.addEventListener('mousemove', move);
+    cap.addEventListener('touchmove', move, {passive:true});
+    cap.addEventListener('mouseleave', ()=> g.style.opacity=0);
+    cap.addEventListener('touchend',   ()=> g.style.opacity=0);
+  }
+
+  function grow(fig){
+    const rect = fig.querySelector('.reveal-clip'); if(!rect) return;
+    if(reduce){ rect.setAttribute('width', iw); return; }
+    let t0=null;
+    function step(ts){ if(t0===null)t0=ts; const p=Math.min(1,(ts-t0)/1150); const e=1-Math.pow(1-p,3);
+      rect.setAttribute('width',(iw*e).toFixed(1)); if(p<1) requestAnimationFrame(step); }
+    requestAnimationFrame(step);
+  }
+
+  const figs = [...document.querySelectorAll('.chart')];
+  figs.forEach(build);
+  const io = new IntersectionObserver((es)=> es.forEach(e=>{ if(e.isIntersecting){ grow(e.target); io.unobserve(e.target); } }),
+    { rootMargin: '-8% 0px -8% 0px' });
+  figs.forEach(f => io.observe(f));
+})();
+</script>
+</body>
+</html>
