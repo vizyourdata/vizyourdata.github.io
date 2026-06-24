@@ -1,0 +1,598 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Long Advent – How One Christmas Calendar Became a Year-Round Catalog of Faith</title>
+<meta name="description" content="A scrollytelling data story: a Christ-centered Advent calendar that began as one product in an Etsy shop and bloomed, over nine Novembers, into a year-round catalog sold across 30+ shelves.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* portfolio: back-to-gallery home link */
+.vyd-home{position:fixed; z-index:90; top:1.15rem; left:1.3rem; text-decoration:none;
+  font-family:"DM Mono",monospace; font-size:.72rem; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--muted); padding:.5em .85em; border:1px solid var(--line); border-radius:100px;
+  background:rgba(14,27,20,.46); backdrop-filter:blur(5px);
+  transition:color .25s, border-color .25s, background .25s, transform .25s;}
+.vyd-home:hover{color:var(--amber); border-color:var(--amber); transform:translateX(-2px)}
+@media (max-width:680px){.vyd-home{top:.7rem; left:.7rem; font-size:.64rem; padding:.45em .7em}}
+:root{
+  /* opens in advent night, brightens toward candlelit morning */
+  --bg-top:#0E1B14; --bg-bot:#070F0A; --ink:#ECE2C8; --muted:#8AA08C; --emph:#F4E4BE;
+  --green:#2E6B45; --rose:#C98BA8; --teal:#3E8E8E; --bronze:#A07C3C;
+  --gold:#D9B66B; --indigo:#4C6CA8; --amber:#E0922F; --brightgold:#EBC24B;
+  --cranberry:#A8333E; --fineart:#F3DD96;
+  --line:rgba(236,226,200,.15);
+  --maxw:1280px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; color:var(--ink);
+  font-family:"Fraunces",Georgia,serif;
+  background:linear-gradient(170deg,var(--bg-top),var(--bg-bot));
+  background-attachment:fixed;
+  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+  overflow-x:hidden;
+}
+/* ---- atmosphere ---- */
+.grain{position:fixed; inset:0; z-index:60; pointer-events:none; opacity:.05; mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+/* the rising light — a candle glow that grows as Christmas approaches */
+.glow{position:fixed; z-index:0; left:50%; bottom:-34vh; width:46vmax; height:46vmax; transform:translateX(-50%);
+  border-radius:50%; pointer-events:none; will-change:bottom,opacity,transform; filter:blur(10px);
+  background:radial-gradient(circle at 50% 50%, rgba(255,233,176,.42) 0%, rgba(245,200,120,.20) 34%, rgba(224,146,47,.07) 58%, transparent 76%);}
+#embers{position:fixed; inset:0; z-index:1; pointer-events:none}
+.progress{position:fixed; top:0; left:0; right:0; height:3px; z-index:80; background:transparent}
+.progress span{display:block; height:100%; width:0;
+  background:linear-gradient(90deg,var(--green),var(--gold),var(--amber),var(--fineart)); box-shadow:0 0 12px rgba(255,210,130,.4)}
+::selection{background:var(--amber); color:#1a120a}
+
+/* ---- shared type ---- */
+.wrap{max-width:var(--maxw); margin:0 auto; padding:0 7vw}
+.kicker{font-family:"DM Mono",monospace; font-size:.72rem; letter-spacing:.34em; text-transform:uppercase;
+  color:var(--muted); display:flex; align-items:center; gap:.9em; margin:0 0 1.1rem}
+.kicker::before{content:""; width:2.4em; height:1px; background:currentColor; opacity:.6}
+h1,h2,h3{font-weight:400; margin:0}
+em{font-style:italic}
+strong{font-weight:600}
+.serif-xl{font-family:"Fraunces",serif; font-optical-sizing:auto; line-height:1.06; letter-spacing:-.012em}
+
+/* ---- hero ---- */
+.hero{position:relative; min-height:100svh; display:flex; flex-direction:column; justify-content:center; overflow:hidden}
+.hero .wrap{position:relative; z-index:2}
+.hero .eyebrow{font-family:"DM Mono",monospace; font-size:.8rem; letter-spacing:.36em; text-transform:uppercase; color:var(--muted);
+  opacity:0; animation:rise .9s .15s both}
+.hero h1{font-family:"Cinzel",serif; line-height:.98; letter-spacing:.02em; font-weight:600;
+  font-size:clamp(3rem,11vw,10.5rem); margin:.2em 0 .42em; max-width:13ch}
+.hero h1 .l{display:inline-block; opacity:0; animation:rise 1s both}
+.hero h1 .l:nth-child(1){animation-delay:.22s}
+.hero h1 .l:nth-child(2){animation-delay:.36s}
+.hero h1 .l:nth-child(3){animation-delay:.5s; color:var(--gold)}
+.hero .stand{font-size:clamp(1.12rem,2vw,1.58rem); line-height:1.55; max-width:38ch; color:var(--ink);
+  opacity:0; animation:rise 1s .72s both}
+.hero .stand b{font-weight:600; color:var(--emph)}
+/* advent doors strip under the hero */
+.doors{position:absolute; left:0; right:0; bottom:0; height:34vh; z-index:1; display:flex; align-items:flex-end; gap:.7vw; padding:0 4vw 4vh;
+  opacity:0; animation:rise 1.4s 1s both}
+.door{flex:1; border:1px solid rgba(236,226,200,.18); border-bottom:none; border-radius:6px 6px 0 0;
+  background:linear-gradient(180deg, rgba(217,182,107,.05), rgba(46,107,69,.04)); position:relative;
+  transform-origin:left center; animation:doorOpen 5s ease-in-out infinite}
+.door::after{content:attr(data-d); position:absolute; top:.5rem; left:.5rem; font-family:"Cinzel",serif; font-size:.7rem; color:rgba(236,226,200,.3)}
+@keyframes doorOpen{0%,86%,100%{transform:perspective(380px) rotateY(0)} 92%{transform:perspective(380px) rotateY(-58deg)}}
+.scrollcue{position:absolute; left:50%; bottom:1.6rem; transform:translateX(-50%); z-index:3;
+  font-family:"DM Mono",monospace; font-size:.66rem; letter-spacing:.3em; text-transform:uppercase; color:var(--muted);
+  display:flex; flex-direction:column; align-items:center; gap:.6rem; opacity:0; animation:rise 1s 1.2s both}
+.scrollcue .dot{width:1px; height:40px; background:linear-gradient(var(--muted),transparent); animation:pulse 1.9s ease-in-out infinite}
+@keyframes rise{from{opacity:0; transform:translateY(26px)} to{opacity:1; transform:translateY(0)}}
+@keyframes pulse{0%,100%{transform:scaleY(.4); opacity:.3} 50%{transform:scaleY(1); opacity:1}}
+
+/* ---- scrolly: chart sticky on the LEFT, text scrolls on the RIGHT ---- */
+.scrolly{position:relative; max-width:1500px; margin:0 auto; padding:0 5vw;
+  display:grid; grid-template-columns:60% 40%; gap:0; align-items:start}
+.scrolly .figure{grid-column:1; position:sticky; top:0; height:100svh;
+  display:flex; flex-direction:column; align-items:center; justify-content:center}
+.scrolly .steps{grid-column:2; padding:16vh 0 40vh 4vw}
+.step{min-height:86vh; display:flex; flex-direction:column; justify-content:center; align-items:flex-start; text-align:left}
+.step .lede{font-size:clamp(1.18rem,1.5vw,1.48rem); line-height:1.56; max-width:40ch}
+.step .lede .big{font-family:"Cinzel",serif; font-weight:600}
+.step b{font-weight:600; color:#F4E4BE}
+.step .micro{font-family:"DM Mono",monospace; font-size:.73rem; letter-spacing:.05em; color:var(--muted); margin-top:1.1rem;
+  border-top:1px solid var(--line); padding-top:.8rem; display:inline-block; line-height:1.7}
+
+.figure svg{width:100%; height:auto; max-height:82vh; overflow:visible}
+
+/* big per-step key stat, above the chart */
+.figkey{min-height:2.7em; display:flex; flex-direction:column; align-items:center; justify-content:flex-end;
+  text-align:center; margin-bottom:.4rem; transition:opacity .4s ease, transform .4s ease}
+.figkey .k-big{font-family:"Cinzel",serif; font-weight:600; line-height:.96; letter-spacing:.01em;
+  font-size:clamp(1.9rem,3.4vw,2.9rem)}
+.figkey .k-sub{font-family:"DM Mono",monospace; font-size:.72rem; letter-spacing:.2em; text-transform:uppercase;
+  color:var(--muted); margin-top:.5rem}
+
+.figlegend{display:flex; flex-wrap:wrap; gap:.5rem .95rem; margin-bottom:.9rem; max-width:92%; justify-content:center;
+  font-family:"DM Mono",monospace; font-size:.66rem; letter-spacing:.06em; text-transform:uppercase; color:var(--muted)}
+.figlegend .lg{display:inline-flex; align-items:center; gap:.42em; transition:opacity .3s}
+.figlegend .lg i{width:10px; height:10px; border-radius:3px; display:inline-block}
+.tip{position:absolute; z-index:25; pointer-events:none; opacity:0; transition:opacity .14s ease; left:0; top:0;
+  background:rgba(10,18,12,.94); color:#F4E7CE; border:1px solid rgba(255,255,255,.12); border-radius:11px; padding:.65rem .8rem;
+  font-family:"DM Mono",monospace; font-size:.7rem; line-height:1.2; min-width:150px; box-shadow:0 14px 34px rgba(0,0,0,.45); backdrop-filter:blur(5px)}
+.tip .t-yr{font-family:"Cinzel",serif; font-weight:600; font-size:1.05rem; letter-spacing:.02em; margin-bottom:.45rem; color:#fff}
+.tip .t-row{display:flex; align-items:center; gap:.5em; padding:.1rem 0}
+.tip .t-row span{width:9px; height:9px; border-radius:2px; flex:0 0 auto}
+.tip .t-row b{margin-left:auto; font-weight:500; padding-left:1.2em}
+.tip .t-tot{border-top:1px solid rgba(255,255,255,.16); margin-top:.34rem; padding-top:.4rem; color:#D9C7A6}
+.hot{cursor:crosshair}
+.band{transition:opacity .55s ease}
+
+/* ---- editorial sections ---- */
+.band-sec{position:relative; padding:15vh 0; z-index:2}
+.band-sec h2{font-family:"Fraunces",serif; font-size:clamp(2rem,4.5vw,3.6rem); line-height:1.04; letter-spacing:-.018em; max-width:19ch}
+.band-sec .body{font-size:clamp(1.12rem,1.6vw,1.38rem); line-height:1.62; max-width:46ch; margin-top:1.5rem; color:var(--ink)}
+.band-sec .body b{font-weight:600; color:var(--emph)}
+.reveal{opacity:0; transform:translateY(34px); transition:opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1; transform:none}
+.chips{display:flex; flex-wrap:wrap; gap:.7rem; margin-top:2.1rem}
+.chip{font-family:"DM Mono",monospace; font-size:.77rem; letter-spacing:.03em; padding:.6rem 1rem;
+  border:1px solid var(--line); border-radius:100px; background:rgba(236,226,200,.05); backdrop-filter:blur(3px)}
+.chip b{font-weight:500; color:var(--emph)}
+
+.stats{display:grid; grid-template-columns:repeat(3,1fr); gap:clamp(1rem,3vw,3rem); margin-top:3rem}
+.stat .num{font-family:"Cinzel",serif; font-weight:600; font-size:clamp(2.3rem,5.4vw,4.4rem); line-height:.92; letter-spacing:.005em}
+.stat:nth-child(1) .num{color:var(--brightgold)} .stat:nth-child(2) .num{color:var(--amber)} .stat:nth-child(3) .num{color:var(--rose)}
+.stat .lab{font-family:"DM Mono",monospace; font-size:.73rem; letter-spacing:.09em; text-transform:uppercase; color:var(--muted); margin-top:.8rem; line-height:1.45}
+
+/* November mountain */
+.mountain{margin-top:2.6rem; max-width:680px}
+.mountain svg{width:100%; height:auto; overflow:visible}
+
+/* channel timeline */
+.timeline{margin-top:2.4rem; max-width:760px}
+.timeline svg{width:100%; height:auto; overflow:visible}
+
+/* shop-to-shelf featured panel — a dark inset so the timeline + jewel-tone
+   palette stay legible against the bright "morning" background at this depth */
+.shelf-panel{
+  color:var(--ink); --ink:#ECE2C8; --muted:#93AA90; --line:rgba(236,226,200,.16);
+  position:relative; overflow:hidden; margin-top:1.2rem;
+  padding:clamp(1.8rem,4.4vw,3.6rem) clamp(1.6rem,4vw,3.4rem);
+  border-radius:24px; border:1px solid rgba(236,226,200,.13);
+  background:
+    radial-gradient(120% 90% at 80% 0%, rgba(224,146,47,.12), transparent 58%),
+    linear-gradient(168deg,#11231A 0%, #0B1611 100%);
+  box-shadow:0 34px 90px -34px rgba(0,0,0,.62), inset 0 1px 0 rgba(236,226,200,.05);
+}
+.shelf-panel .body{max-width:52ch}
+.shelf-panel .stats{margin-top:2.4rem}
+
+/* ---- conclusion ---- */
+.kicker-center{justify-content:center}
+.kicker-center::before{display:none}
+.finale{min-height:96svh; display:flex; align-items:center; text-align:center; position:relative; z-index:2}
+.finale .big{font-family:"Fraunces",serif; font-size:clamp(2.2rem,6vw,5rem); line-height:1.04; letter-spacing:-.022em; max-width:18ch; margin:1.2rem auto}
+.finale .big em{color:var(--amber); font-style:italic}
+.finale .sub{font-size:clamp(1.08rem,1.65vw,1.42rem); line-height:1.55; max-width:42ch; margin:0 auto; color:var(--ink)}
+.finale .sub b{font-weight:600; color:var(--emph)}
+
+/* ---- footer ---- */
+footer{position:relative; z-index:2; padding:10vh 0 7vh; border-top:1px solid var(--line); margin-top:8vh}
+footer .ft-title{font-family:"Cinzel",serif; font-weight:600; font-size:clamp(1.4rem,3vw,2.1rem); letter-spacing:.02em}
+footer .note{font-family:"DM Mono",monospace; font-size:.75rem; letter-spacing:.03em; color:var(--muted); margin-top:1.2rem; line-height:1.75; max-width:64ch}
+footer .sign{font-family:"DM Mono",monospace; font-size:.72rem; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); margin-top:2.4rem}
+
+/* ---- responsive ---- */
+@media (max-width:860px){
+  .scrolly{grid-template-columns:1fr; padding:0 6vw}
+  .scrolly .figure{grid-column:1; height:54svh; z-index:3; padding-top:1rem;
+    background:linear-gradient(180deg,var(--bg-top) 0%, var(--bg-top) 78%, transparent 100%)}
+  .scrolly .steps{grid-column:1; padding:0 0 30vh 0; position:relative; z-index:1}
+  .figure svg{max-height:40svh}
+  .step{min-height:88vh; justify-content:flex-end; align-items:center; text-align:center; padding-bottom:9vh}
+  .step .lede{font-size:clamp(1.08rem,4.4vw,1.36rem); max-width:90vw}
+  .figkey{min-height:2.1em} .figkey .k-big{font-size:1.5rem} .figkey .k-sub{font-size:.6rem}
+  .figlegend{font-size:.56rem; gap:.4rem .7rem}
+  .stats{grid-template-columns:1fr; gap:2.2rem}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important; transition:none!important; scroll-behavior:auto!important}
+  .reveal{opacity:1; transform:none}
+}
+</style>
+</head>
+<body>
+<a class="vyd-home" href="/" aria-label="vizyourdata, back to the gallery">← vizyourdata</a>
+<div class="grain" aria-hidden="true"></div>
+<div class="glow" id="glow" aria-hidden="true"></div>
+<canvas id="embers" aria-hidden="true"></canvas>
+<div class="progress" aria-hidden="true"><span id="bar"></span></div>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow">A faith maker · 2017 → 2025 · a data story</p>
+    <h1><span class="l">The</span> <span class="l">Long</span> <span class="l">Advent</span></h1>
+    <p class="stand">It began as a single Christmas calendar in an Etsy shop — twenty-five little doors, each hiding an <b>image of Christ</b>. Nine Novembers later, it had become a year-round catalog. This is how it grew.</p>
+  </div>
+  <div class="doors" id="doors" aria-hidden="true"></div>
+  <div class="scrollcue" aria-hidden="true"><span>Scroll</span><span class="dot"></span></div>
+</header>
+
+<!-- ============ SCROLLY: the catalog blooms ============ -->
+<section class="scrolly" aria-label="The blooming catalog, visualized">
+  <figure class="figure" id="figure" data-step="0">
+    <div class="figkey" id="figkey" aria-hidden="true"></div>
+    <div class="figlegend" id="legend" aria-hidden="true"></div>
+    <svg id="viz" viewBox="0 0 920 600" role="img" aria-label="A streamgraph of the catalog blooming from 2017 to 2025, by product family."></svg>
+    <div class="tip" id="tip" aria-hidden="true"></div>
+  </figure>
+
+  <div class="steps">
+    <div class="step" data-step="0">
+      <p class="kicker">One Door</p>
+      <p class="lede">In <span class="big">2017</span> there was one product and one shop. A Christ-centered Advent calendar — <b>four designs</b>, sold only on <b>Etsy</b>, only in November.</p>
+      <span class="micro">2017 · Etsy only · Kraft, Red &amp; Gold, Red &amp; Green, Black &amp; White</span>
+    </div>
+    <div class="step" data-step="1">
+      <p class="kicker">A Second Spring</p>
+      <p class="lede">Then the workshop opened more doors. <b>Easter calendars</b> arrived in 2018; premium <b>Simon Dewey art</b> editions and the first framed pieces followed. The bill of designs began to multiply.</p>
+      <span class="micro">2018–2019 · + Easter · + fine-art editions · + frames</span>
+    </div>
+    <div class="step" data-step="2">
+      <p class="kicker">More Doors</p>
+      <p class="lede">In 2020 a brand-new line of <b>Come Unto Christ</b> scripture cards appeared, and the Christmas palette nearly doubled — Navy, Rustic Truck, Modern Red &amp; Green, Poinsettia, Farmhouse.</p>
+      <span class="micro">2020–2021 · + scripture cards · the palette doubles</span>
+    </div>
+    <div class="step" data-step="3">
+      <p class="kicker">The Big Bloom</p>
+      <p class="lede">2022 changed everything. <b>Prints</b> of the artwork, <b>stickers</b>, and digital downloads all launched at once — and the catalog suddenly ran <span class="big">three times</span> as broad as it had been in 2019.</p>
+      <span class="micro">2022 · + prints · + stickers · + digital · 13 → 42 offerings</span>
+    </div>
+    <div class="step" data-step="4">
+      <p class="kicker">Every Day, Not Just December</p>
+      <p class="lede">By 2024 the brand had everyday goods: a <b>Nativity book</b> and <b>scripture sticker sheets</b> that sold by the hundred — items for a Tuesday in March, not just the 1st of December.</p>
+      <span class="micro">2024 · + the book · + scripture stickers · year-round</span>
+    </div>
+    <div class="step" data-step="5">
+      <p class="kicker">Images of Christ</p>
+      <p class="lede">In 2025 the through-line came full circle: a fine-art line of <span class="big">twelve paintings</span> of Christ — <em>The Watcher, Radiant Peace, Beacon of Hope</em>. The pictures that had always lived behind the little doors, now sold as art in their own right.</p>
+      <span class="micro">2025 · 12-piece fine-art line · the widest catalog yet</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WHY 1: it was never the calendar ============ -->
+<section class="band-sec wrap">
+  <div class="reveal">
+    <p class="kicker">The through-line</p>
+    <h2 class="serif-xl">It was never about the<br>calendar.</h2>
+    <p class="body">Strip away the twine, the cards, the magnets, the frames, and the same thing sits behind every product, every year: <b>an image of Christ</b>. The Advent calendar was simply the first vessel. One bestseller anchored the whole run: <b>Traditional Red &amp; Green, the twine kit</b>, the workhorse in 2017 and still the workhorse in 2025.</p>
+    <div class="chips">
+      <span class="chip">flagship · <b>Red &amp; Green Twine Kit</b></span>
+      <span class="chip">every season, <b>2017 → 2025</b></span>
+      <span class="chip">25 doors · <b>25 images</b></span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WHY 2: November carries the year ============ -->
+<section class="band-sec wrap">
+  <div class="reveal">
+    <p class="kicker">The shape of the year</p>
+    <h2 class="serif-xl">One month carries the<br>other eleven.</h2>
+    <p class="body">This is a business that lives in <b>November</b>. The calendar is a countdown to Christmas, so the orders are too — a single towering month, a shoulder in October, an echo in December, and a faint spring rise for Easter. Christmas is what funds the experiments in everything else.</p>
+    <div class="mountain"><svg id="mountain" viewBox="0 0 680 230" role="img" aria-label="Monthly share of sales — November towers over the year."></svg></div>
+  </div>
+</section>
+
+<!-- ============ WHY 3: from one shop to the shelf ============ -->
+<section class="band-sec wrap">
+  <div class="reveal">
+    <div class="shelf-panel">
+    <p class="kicker">From one shop to the shelf</p>
+    <h2 class="serif-xl">The handmade table found<br>its way onto the aisle.</h2>
+    <p class="body">For three years it was just Etsy. Then a church bazaar table, then a website, and then, in <b>2022</b>, the shelf: grocery aisles at <b>seven Macey's stores</b>, the <b>BYU Bookstore</b>, Amazon, Jane.com. Wholesale meant half the price but ten times the volume. A single ward fundraiser moved <b>110 twine kits</b> in one go; Kris Kringl took <b>96 units</b> in one order.</p>
+    <div class="timeline"><svg id="timeline" viewBox="0 0 760 224" role="img" aria-label="Selling channels appearing year by year, from one Etsy shop to thirty-plus venues."></svg></div>
+    <div class="stats">
+      <div class="stat"><div class="num">1 → 30+</div><div class="lab">selling venues<br>2017 → 2025</div></div>
+      <div class="stat"><div class="num">110</div><div class="lab">twine kits in one<br>ward fundraiser</div></div>
+      <div class="stat"><div class="num">~½</div><div class="lab">the price wholesale,<br>10× the volume</div></div>
+    </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FINALE ============ -->
+<section class="finale wrap">
+  <div class="reveal" style="margin:0 auto">
+    <p class="kicker kicker-center">The takeaway</p>
+    <h2 class="big">A kitchen-table Etsy shop became a<br>year-round ministry in <em>print</em>.</h2>
+    <p class="sub">From <b>2 product families to 10</b>, from one storefront to thirty-plus, and still, behind every door, the same <b>image of Christ</b> it started with.</p>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="wrap">
+  <div class="ft-title">The Long Advent</div>
+  <p class="note">Built from the maker's order records — channel, product, quantity, unit price, design, and category — across selling seasons 2017–2026 (2026 is a single March pre-order; the season hasn't begun). Channel and product-family first-appearance years are exact. "Catalog breadth" counts the distinct designs &amp; titles offered per family per year — a portrait of range, not revenue. The monthly curve and venue counts illustrate the pattern in the records. A data story by vizyourdata.</p>
+  <div class="sign">Data viz · scrollytelling · twenty-five doors</div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ---------------- data: catalog breadth by family by year ---------------- */
+  const YEARS=[2017,2018,2019,2020,2021,2022,2023,2024,2025];
+  // stacked bottom -> top
+  const FAM=[
+    {key:'christmas', label:'Christmas Advent', col:'#2E6B45', v:[4,5,7,9,11,12,10,9,8]},
+    {key:'easter',    label:'Easter Advent',    col:'#C98BA8', v:[0,3,4,6,9,6,1,0,0]},
+    {key:'cuc',       label:'Come Unto Christ', col:'#3E8E8E', v:[0,0,0,3,3,3,1,1,1]},
+    {key:'frames',    label:'Frames',           col:'#A07C3C', v:[0,0,2,1,1,2,1,1,1]},
+    {key:'digital',   label:'Digital Downloads',col:'#D9B66B', v:[0,0,0,0,0,8,10,7,8]},
+    {key:'prints',    label:'Scripture Prints', col:'#4C6CA8', v:[0,0,0,0,0,5,5,5,5]},
+    {key:'stickers',  label:'Stickers',         col:'#E0922F', v:[0,0,0,0,0,4,4,5,5]},
+    {key:'scripsticker',label:'Scripture Stickers',col:'#EBC24B',v:[0,0,0,0,0,0,0,1,1]},
+    {key:'book',      label:'Nativity Book',    col:'#A8333E', v:[0,0,0,0,0,0,0,1,1]},
+    {key:'fineart',   label:'Fine-Art of Christ',col:'#F3DD96',v:[0,0,0,0,0,0,2,2,12]}
+  ];
+  const totals=YEARS.map((_,i)=>FAM.reduce((s,f)=>s+f.v[i],0));
+  const maxTotal=Math.max.apply(null,totals); // 42
+
+  const W=920,H=600,padL=58,padR=120,padT=58,padB=64;
+  const xs=i=>padL+i/(YEARS.length-1)*(W-padL-padR);
+  const CY=H/2, k=(H*0.70)/maxTotal;
+
+  /* smooth path (Catmull-Rom -> bezier) */
+  function smooth(pts){
+    if(pts.length<2) return '';
+    if(pts.length===2) return `M${pts[0].x},${pts[0].y} L${pts[1].x},${pts[1].y}`;
+    let d=`M${pts[0].x},${pts[0].y}`;
+    for(let i=0;i<pts.length-1;i++){
+      const p0=pts[i-1]||pts[i], p1=pts[i], p2=pts[i+1], p3=pts[i+2]||p2;
+      const c1x=p1.x+(p2.x-p0.x)/6, c1y=p1.y+(p2.y-p0.y)/6;
+      const c2x=p2.x-(p3.x-p1.x)/6, c2y=p2.y-(p3.y-p1.y)/6;
+      d+=` C${c1x.toFixed(1)},${c1y.toFixed(1)} ${c2x.toFixed(1)},${c2y.toFixed(1)} ${p2.x.toFixed(1)},${p2.y.toFixed(1)}`;
+    }
+    return d;
+  }
+  function area(top,bot){ return smooth(top)+' '+smooth(bot.slice().reverse()).replace(/^M/,'L')+' Z'; }
+
+  /* centered streamgraph layout: per year, stack families around CY */
+  function layout(){
+    // bottom/top y for each family at each year
+    const bands=FAM.map(()=>({top:[],bot:[]}));
+    YEARS.forEach((_,i)=>{
+      let run=CY-totals[i]*k/2;
+      FAM.forEach((f,fi)=>{
+        const top=run, bottom=run+f.v[i]*k;
+        bands[fi].top.push({x:xs(i),y:top});
+        bands[fi].bot.push({x:xs(i),y:bottom});
+        run=bottom;
+      });
+    });
+    return bands;
+  }
+  const BANDS=layout();
+
+  function streamMarkup(){
+    let g='';
+    FAM.forEach((f,fi)=>{
+      g+=`<path class="band band-${f.key}" data-key="${f.key}" d="${area(BANDS[fi].top,BANDS[fi].bot)}" fill="${f.col}" stroke="rgba(8,14,10,.35)" stroke-width="1"/>`;
+    });
+    return `<g id="gStream">${g}</g>`;
+  }
+  function axisMarkup(){
+    let ticks='';
+    YEARS.forEach((y,i)=>{ticks+=`<text x="${xs(i).toFixed(1)}" y="${H-padB+30}" text-anchor="middle" fill="#7E9580" font-family="DM Mono,monospace" font-size="12">${String(y).slice(2)}</text>`;});
+    // baseline tick rail
+    ticks+=`<text x="${padL}" y="${H-padB+30}" text-anchor="middle" fill="#7E9580" font-family="DM Mono,monospace" font-size="12"></text>`;
+    return `<g id="gAxis">${ticks}</g>`;
+  }
+  function annoMarkup(){
+    // entrance markers: first year each family appears (after christmas)
+    const lab=[];
+    FAM.forEach((f,fi)=>{
+      const fy=f.v.findIndex(x=>x>0);
+      if(fy<0) return;
+      // place a label at last year for the big families on the right edge
+    });
+    // right-edge labels for 2025 families (where v>0)
+    const i=YEARS.length-1; let run=CY-totals[i]*k/2; let out='';
+    FAM.forEach((f,fi)=>{
+      const top=run, bottom=run+f.v[i]*k, mid=(top+bottom)/2; run=bottom;
+      if(f.v[i]>0 && f.v[i]>=2){
+        out+=`<text class="edgelab edge-${f.key}" x="${(xs(i)+12).toFixed(1)}" y="${(mid+4).toFixed(1)}" fill="${f.col}" font-family="DM Mono,monospace" font-size="11" font-weight="500" opacity="0">${f.label}</text>`;
+      }
+    });
+    // peak annotation
+    const pk=`<g class="anno-peak">
+      <text x="${xs(YEARS.length-1).toFixed(1)}" y="${(CY-totals[YEARS.length-1]*k/2-16).toFixed(1)}" text-anchor="middle" fill="#F3DD96" font-family="Cinzel,serif" font-weight="600" font-size="26">42</text>
+      <text x="${xs(YEARS.length-1).toFixed(1)}" y="${(CY-totals[YEARS.length-1]*k/2-1).toFixed(1)}" text-anchor="middle" fill="#8AA08C" font-family="DM Mono,monospace" font-size="10" letter-spacing="1.4">OFFERINGS</text>
+    </g>`;
+    return `<g id="gAnno">${out}${pk}</g>`;
+  }
+  function hoverMarkup(){
+    let rects='';
+    YEARS.forEach((y,i)=>{const x=xs(i);
+      const xl=i===0?padL-10:(xs(i-1)+x)/2;
+      const xr=i===YEARS.length-1?W-padR+50:(xs(i+1)+x)/2;
+      rects+=`<rect class="hot" data-i="${i}" x="${xl.toFixed(1)}" y="${(padT-30).toFixed(1)}" width="${(xr-xl).toFixed(1)}" height="${(H-padT-padB+50).toFixed(1)}" fill="transparent"/>`;});
+    return `<line id="guide" x1="0" y1="${padT-22}" x2="0" y2="${H-padB+4}" stroke="rgba(236,226,200,.45)" stroke-width="1" stroke-dasharray="2 4" opacity="0"/><g id="gHover">${rects}</g>`;
+  }
+  document.getElementById('viz').innerHTML = axisMarkup()+streamMarkup()+annoMarkup()+hoverMarkup();
+
+  /* legend */
+  document.getElementById('legend').innerHTML = FAM.map(f=>
+    `<span class="lg lg-${f.key}"><i style="background:${f.col}"></i>${f.label}</span>`).join('');
+
+  /* ---------------- per-step focus + key stat ---------------- */
+  const FOCUS=[
+    {keys:['christmas'], big:'4 designs', col:'#E8C98A', sub:'Christmas · 2017'},
+    {keys:['easter','frames'], big:'+ Easter', col:'#C98BA8', sub:'A second season · 2018'},
+    {keys:['cuc','christmas'], big:'Come Unto Christ', col:'#3E8E8E', sub:'Scripture cards · 2020'},
+    {keys:['prints','stickers','digital'], big:'×3 the catalog', col:'#E0922F', sub:'2022 · prints, stickers, digital'},
+    {keys:['book','scripsticker'], big:'The Book', col:'#EBC24B', sub:'Everyday faith · 2024'},
+    {keys:['fineart'], big:'12 paintings', col:'#F3DD96', sub:'Images of Christ · 2025'}
+  ];
+  const figure=document.getElementById('figure'), figkey=document.getElementById('figkey');
+  const bandEls=Array.from(document.querySelectorAll('.band'));
+  const legEls=Array.from(document.querySelectorAll('#legend .lg'));
+  const edgeEls=Array.from(document.querySelectorAll('.edgelab'));
+  function applyFocus(n){
+    const keys=FOCUS[n].keys, all=(n===null);
+    bandEls.forEach(b=>{ b.style.opacity = (all||keys.includes(b.dataset.key))?1:0.16; });
+    legEls.forEach(l=>{ const k=l.className.split('lg-')[1]; l.style.opacity=(all||keys.includes(k))?1:.32; });
+    edgeEls.forEach(e=>{ const k=(e.getAttribute('class').match(/edge-(\w+)/)||[])[1]; e.style.opacity=(n===5)?(keys.includes(k)?1:0):(keys.includes(k)?1:0); });
+  }
+  function renderKey(n){const k=FOCUS[n]; figkey.innerHTML=`<span class="k-big" style="color:${k.col}">${k.big}</span><span class="k-sub">${k.sub}</span>`;}
+  let curStep=-1;
+  function setStep(n){ n=+n; if(curStep===n) return; curStep=n; figure.dataset.step=n;
+    figkey.style.opacity=0; figkey.style.transform='translateY(8px)';
+    setTimeout(()=>{renderKey(n); figkey.style.opacity=1; figkey.style.transform='none'; applyFocus(n);},190);
+  }
+  figure.dataset.step=0; renderKey(0); applyFocus(0);
+
+  /* hover tooltip: per-year family breadth */
+  const viz=document.getElementById('viz'), tip=document.getElementById('tip');
+  function tipHTML(i){
+    let rows='';
+    FAM.forEach(f=>{ if(f.v[i]>0) rows+=`<div class="t-row"><span style="background:${f.col}"></span>${f.label}<b>${f.v[i]}</b></div>`; });
+    return `<div class="t-yr">${YEARS[i]}</div>${rows}<div class="t-row t-tot">Offerings<b>${totals[i]}</b></div>`;
+  }
+  viz.addEventListener('pointermove',ev=>{
+    const t=ev.target;
+    if(t.classList&&t.classList.contains('hot')){
+      const i=+t.dataset.i, g=document.getElementById('guide');
+      g.setAttribute('x1',xs(i)); g.setAttribute('x2',xs(i)); g.setAttribute('opacity','1');
+      tip.innerHTML=tipHTML(i); tip.style.opacity='1';
+      const r=figure.getBoundingClientRect();
+      let lx=ev.clientX-r.left+16; const ly=ev.clientY-r.top+14;
+      if(lx>r.width-168) lx=ev.clientX-r.left-156;
+      tip.style.left=lx+'px'; tip.style.top=ly+'px';
+    }
+  });
+  viz.addEventListener('pointerleave',()=>{ tip.style.opacity='0'; const g=document.getElementById('guide'); if(g) g.setAttribute('opacity','0'); });
+
+  const stepObs=new IntersectionObserver((ents)=>{
+    ents.forEach(e=>{ if(e.isIntersecting) setStep(e.target.dataset.step); });
+  },{rootMargin:'-48% 0px -48% 0px',threshold:0});
+  document.querySelectorAll('.scrolly .step').forEach(s=>stepObs.observe(s));
+
+  /* ---------------- November mountain ---------------- */
+  (function(){
+    const M=[['Jan',1],['Feb',2],['Mar',5],['Apr',2],['May',.5],['Jun',.5],['Jul',.5],['Aug',1],['Sep',5],['Oct',9],['Nov',58],['Dec',15]];
+    const w=680,h=230,pl=20,pr=14,pt=22,pb=34, mx=Math.max.apply(null,M.map(d=>d[1]));
+    const bw=(w-pl-pr)/M.length;
+    let bars='',labs='';
+    M.forEach((d,i)=>{
+      const bh=(d[1]/mx)*(h-pt-pb), x=pl+i*bw+bw*0.16, bwid=bw*0.68, y=h-pb-bh;
+      const isNov=d[0]==='Nov';
+      const col=isNov?'#EBC24B':(d[0]==='Dec'||d[0]==='Oct'?'#A07C3C':'#3E5A45');
+      bars+=`<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${bwid.toFixed(1)}" height="${bh.toFixed(1)}" rx="3" fill="${col}" opacity="${isNov?1:.85}"/>`;
+      if(isNov){bars+=`<text x="${(x+bwid/2).toFixed(1)}" y="${(y-8).toFixed(1)}" text-anchor="middle" fill="#F3DD96" font-family="Cinzel,serif" font-weight="600" font-size="20">58%</text>`;}
+      labs+=`<text x="${(x+bwid/2).toFixed(1)}" y="${h-pb+18}" text-anchor="middle" fill="${isNov?'#EBC24B':'#7E9580'}" font-family="DM Mono,monospace" font-size="11">${d[0]}</text>`;
+    });
+    document.getElementById('mountain').innerHTML=bars+labs;
+  })();
+
+  /* ---------------- channel timeline ---------------- */
+  (function(){
+    const w=760,h=224,pl=24,pr=24,pt=30,pb=40;
+    const steps=[
+      {y:2017,t:'Etsy',n:'1 shop'},
+      {y:2018,t:'Boutiques & craft fairs',n:''},
+      {y:2020,t:'Own online store',n:''},
+      {y:2022,t:"Grocery aisles, BYU Bookstore, Amazon, Jane",n:'the shelf'},
+      {y:2024,t:'Shopify · convention booths',n:'30+ venues'}
+    ];
+    const y0=2017,y1=2025, X=yy=>pl+(yy-y0)/(y1-y0)*(w-pl-pr);
+    const baseY=h-pb;
+    let g=`<line x1="${pl}" y1="${baseY}" x2="${w-pr}" y2="${baseY}" stroke="rgba(236,226,200,.32)" stroke-width="1.5"/>`;
+    // year ticks
+    for(let yy=2017; yy<=2025; yy++){ g+=`<text x="${X(yy).toFixed(1)}" y="${baseY+22}" text-anchor="middle" fill="#9DB39A" font-family="DM Mono,monospace" font-size="11.5">${String(yy).slice(2)}</text>
+      <line x1="${X(yy).toFixed(1)}" y1="${baseY-4}" x2="${X(yy).toFixed(1)}" y2="${baseY+4}" stroke="rgba(236,226,200,.32)" stroke-width="1"/>`; }
+    const cols=['#3E8F5C','#D29BB6','#E0C879','#EE9E3A','#F2CD58'];
+    steps.forEach((s,i)=>{
+      const x=X(s.y), yy=baseY-30-(i%2===0?0:38)-(i*4);
+      g+=`<line x1="${x.toFixed(1)}" y1="${baseY}" x2="${x.toFixed(1)}" y2="${(yy+8).toFixed(1)}" stroke="${cols[i]}" stroke-width="1.2" opacity=".62"/>`;
+      g+=`<circle cx="${x.toFixed(1)}" cy="${baseY}" r="5.2" fill="${cols[i]}"/>`;
+      g+=`<text x="${(x+10).toFixed(1)}" y="${yy.toFixed(1)}" fill="#F2EAD4" font-family="Fraunces,serif" font-size="15.5">${s.t}</text>`;
+      if(s.n) g+=`<text x="${(x+10).toFixed(1)}" y="${(yy+16).toFixed(1)}" fill="${cols[i]}" font-family="DM Mono,monospace" font-size="11" letter-spacing="1.2">${s.n.toUpperCase()}</text>`;
+    });
+    document.getElementById('timeline').innerHTML=g;
+  })();
+
+  /* advent doors in hero */
+  (function(){
+    const d=document.getElementById('doors'); let html='';
+    for(let i=1;i<=24;i++){ html+=`<span class="door" data-d="${i}" style="animation-delay:${(i*0.42).toFixed(2)}s; height:${(55+ (i%5)*9)}%"></span>`; }
+    d.innerHTML=html;
+  })();
+
+  /* reveal-on-enter */
+  const revObs=new IntersectionObserver((ents)=>{
+    ents.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); revObs.unobserve(e.target);} });
+  },{threshold:.22});
+  document.querySelectorAll('.reveal').forEach(el=>revObs.observe(el));
+
+  /* ---------------- scroll journey: brighten night -> morning ---------------- */
+  const BG_TOP=[{t:0,c:'#0E1B14'},{t:.30,c:'#16291C'},{t:.52,c:'#3A4A2C'},{t:.70,c:'#9A7A3E'},{t:.86,c:'#E6C682'},{t:1,c:'#F6ECD6'}];
+  const BG_BOT=[{t:0,c:'#070F0A'},{t:.30,c:'#0F1B12'},{t:.52,c:'#2A3620'},{t:.70,c:'#7C5E2E'},{t:.86,c:'#D8B978'},{t:1,c:'#ECD9B0'}];
+  const INK   =[{t:0,c:'#ECE2C8'},{t:.62,c:'#EFE6CE'},{t:.78,c:'#3A2E1E'},{t:1,c:'#2A2018'}];
+  const MUTED =[{t:0,c:'#8AA08C'},{t:.62,c:'#9AAE96'},{t:.78,c:'#6E5E44'},{t:1,c:'#7A6A52'}];
+  const LINE  =[{t:0,c:'#ECE2C8'},{t:.7,c:'#ECE2C8'},{t:.78,c:'#2A2018'},{t:1,c:'#2A2018'}];
+  // bold-emphasis colour: cream while the page is dark, deep amber once it brightens (so <b> never disappears on gold)
+  const EMPH  =[{t:0,c:'#F4E4BE'},{t:.62,c:'#F4E4BE'},{t:.78,c:'#8A4A12'},{t:1,c:'#7A3F10'}];
+  function hx(h){h=h.replace('#','');return [parseInt(h.substr(0,2),16),parseInt(h.substr(2,2),16),parseInt(h.substr(4,2),16)];}
+  function toHex(a){return '#'+a.map(v=>Math.max(0,Math.min(255,Math.round(v))).toString(16).padStart(2,'0')).join('');}
+  function ms(st,t){t=Math.max(0,Math.min(1,t));for(let i=0;i<st.length-1;i++){if(t>=st[i].t&&t<=st[i+1].t){const lt=(t-st[i].t)/(st[i+1].t-st[i].t||1);const a=hx(st[i].c),b=hx(st[i+1].c);return toHex([a[0]+(b[0]-a[0])*lt,a[1]+(b[1]-a[1])*lt,a[2]+(b[2]-a[2])*lt]);}}return st[st.length-1].c;}
+  const root=document.documentElement, glow=document.getElementById('glow'), bar=document.getElementById('bar');
+
+  /* embers rising */
+  const cv=document.getElementById('embers'), cx=cv.getContext('2d');
+  let parts=[],wpx=0,hpx=0;
+  function sizeCanvas(){ wpx=cv.width=innerWidth; hpx=cv.height=innerHeight; }
+  function seed(){ parts=[]; const n=Math.round(innerWidth/26);
+    for(let i=0;i<n;i++) parts.push({x:Math.random()*wpx, y:Math.random()*hpx, r:Math.random()*1.7+0.5, s:Math.random()*0.5+0.18, d:Math.random()*Math.PI*2}); }
+  sizeCanvas(); seed();
+  let prog=0;
+  function drawEmbers(){
+    cx.clearRect(0,0,wpx,hpx);
+    const alpha=0.5*(1-prog*0.4);
+    for(const p of parts){
+      p.y-=p.s; p.x+=Math.sin(p.d+p.y*0.01)*0.25; p.d+=0.005;
+      if(p.y<-6){p.y=hpx+6; p.x=Math.random()*wpx;}
+      const warm = prog<0.55;
+      cx.beginPath(); cx.arc(p.x,p.y,p.r,0,6.283);
+      cx.fillStyle = warm? `rgba(240,206,130,${alpha})` : `rgba(255,238,200,${alpha*0.7})`;
+      cx.fill();
+    }
+    requestAnimationFrame(drawEmbers);
+  }
+  drawEmbers();
+
+  let ticking=false;
+  function paint(){
+    const max=root.scrollHeight-innerHeight; const p=max>0?Math.min(1,Math.max(0,scrollY/max)):0; prog=p;
+    root.style.setProperty('--bg-top',ms(BG_TOP,p));
+    root.style.setProperty('--bg-bot',ms(BG_BOT,p));
+    root.style.setProperty('--ink',ms(INK,p));
+    root.style.setProperty('--muted',ms(MUTED,p));
+    root.style.setProperty('--emph',ms(EMPH,p));
+    root.style.setProperty('--line',`rgba(${hx(ms(LINE,p)).join(',')},.18)`);
+    bar.style.width=(p*100).toFixed(2)+'%';
+    // the light rises and swells toward Christmas morning, then settles
+    glow.style.bottom=(-34+Math.pow(p,1.2)*64)+'vh';
+    glow.style.transform='translateX(-50%) scale('+(0.7+p*1.0).toFixed(3)+')';
+    glow.style.opacity=(0.5+p*0.5).toFixed(3);
+    ticking=false;
+  }
+  addEventListener('scroll',()=>{ if(!ticking){ticking=true; requestAnimationFrame(paint);} },{passive:true});
+  addEventListener('resize',()=>{ sizeCanvas(); seed(); paint(); });
+  paint();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,515 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Book of Begats · Adam to David, drawn as one river</title>
+<meta name="description" content="Every 'and he begat' in the Hebrew Bible, traced as a single Sankey river — from Adam through the Flood, the Table of Nations, the patriarchs and the twelve tribes, down to David.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..600&family=Fragment+Mono:ital@0;1&display=swap" rel="stylesheet">
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="article">
+<meta property="og:title" content="The Book of Begats: Adam to David, drawn as one river">
+<meta property="og:description" content="The Bible's genealogies, skimmed by everyone, laid end to end as a single river: it floods, narrows to one survivor, and breaks at last into twelve tribes and a king.">
+<style>
+:root{
+  --paper:#F2EAD8; --paper2:#E7D9BE; --ink:#2B2118; --muted:#8A7A66;
+  --covenant:#1F5C92; --flood:#B23B2E; --nations:#6F7A39; --gold:#C18B2C; --rose:#B5566B;
+  --line:rgba(43,33,24,.16); --line2:rgba(43,33,24,.32);
+  --maxw:1320px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; color:var(--ink);
+  font-family:"Newsreader",Georgia,serif; font-optical-sizing:auto;
+  background:
+    repeating-linear-gradient(90deg, rgba(43,33,24,.020) 0 2px, transparent 2px 16px),
+    repeating-linear-gradient(0deg, rgba(193,139,44,.030) 0 2px, transparent 2px 18px),
+    linear-gradient(168deg, var(--paper) 0%, var(--paper2) 100%);
+  background-attachment:fixed;
+  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+  overflow-x:hidden;
+}
+.grain{position:fixed; inset:0; z-index:60; pointer-events:none; opacity:.05; mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+::selection{background:var(--covenant); color:var(--paper)}
+
+.vyd-home{position:fixed; z-index:90; top:1.15rem; left:1.3rem; text-decoration:none;
+  font-family:"Fragment Mono",monospace; font-size:.7rem; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--muted); padding:.5em .85em; border:1px solid var(--line2); border-radius:100px;
+  background:rgba(242,234,216,.7); backdrop-filter:blur(5px);
+  transition:color .25s, border-color .25s, transform .25s;}
+.vyd-home:hover{color:var(--covenant); border-color:var(--covenant); transform:translateX(-2px)}
+@media (max-width:680px){.vyd-home{top:.7rem; left:.7rem; font-size:.62rem; padding:.45em .7em}}
+
+.progress{position:fixed; top:0; left:0; right:0; height:3px; z-index:80}
+.progress span{display:block; height:100%; width:0;
+  background:linear-gradient(90deg,var(--covenant),var(--gold),var(--flood))}
+
+.wrap{max-width:var(--maxw); margin:0 auto; padding:0 7vw}
+.kicker{font-family:"Fragment Mono",monospace; font-size:.7rem; letter-spacing:.34em; text-transform:uppercase;
+  color:var(--muted); display:flex; align-items:center; gap:.9em; margin:0 0 1.2rem}
+.kicker::before{content:""; width:2.4em; height:1px; background:var(--line2)}
+h1,h2{font-family:"Bricolage Grotesque",sans-serif; font-weight:760; line-height:.98; letter-spacing:-.015em; margin:0}
+.prose{font-size:clamp(1.12rem,1.4vw,1.32rem); line-height:1.62; max-width:62ch}
+.prose em{font-style:italic}
+.prose b{font-weight:600}
+.cov{color:var(--covenant)} .gold{color:var(--gold)} .flood{color:var(--flood)} .nat{color:var(--nations)} .rose{color:var(--rose)}
+.num{font-family:"Fragment Mono",monospace; font-size:.92em}
+
+/* manuscript rule divider: gold lozenge chain */
+.scribe{height:34px; margin:0; border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='34'%3E%3Cg fill='none' stroke='%23C18B2C' stroke-opacity='.55'%3E%3Cpath d='M32 9 L40 17 L32 25 L24 17 Z'/%3E%3Ccircle cx='32' cy='17' r='1.7' fill='%23C18B2C' fill-opacity='.7' stroke='none'/%3E%3C/g%3E%3C/svg%3E") center/64px 34px repeat-x,
+    repeating-linear-gradient(90deg, rgba(193,139,44,.07) 0 32px, rgba(43,33,24,.02) 32px 64px);}
+
+/* hero */
+.hero{min-height:100svh; display:flex; flex-direction:column; justify-content:center; padding:14vh 0 8vh; position:relative}
+.hero h1{font-size:clamp(3.2rem,9vw,8.8rem); text-transform:uppercase}
+.hero h1 .l2{display:block; color:var(--covenant)}
+.hero .dek{font-size:clamp(1.2rem,1.7vw,1.5rem); line-height:1.55; max-width:50ch; margin:2.2rem 0 0; font-weight:400}
+.hero .dek i{font-style:italic}
+.menu{margin:3.6rem 0 0; max-width:580px; border:1.5px solid var(--line2); background:rgba(242,234,216,.55);
+  padding:2rem 2.2rem 1.6rem; position:relative}
+.menu::before,.menu::after{content:""; position:absolute; left:10px; right:10px; height:5px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='5'%3E%3Cpath d='M0 5 7 0 14 5Z' fill='%232B2118' fill-opacity='.32'/%3E%3C/svg%3E");
+  background-size:14px 5px; background-repeat:repeat-x;}
+.menu::before{top:7px} .menu::after{bottom:7px; transform:scaleY(-1)}
+.menu h3{font-family:"Fragment Mono",monospace; font-weight:400; font-size:.72rem; letter-spacing:.4em; text-transform:uppercase;
+  text-align:center; margin:.2rem 0 1.4rem; color:var(--muted)}
+.menu a{display:flex; align-items:baseline; gap:.9em; text-decoration:none; color:var(--ink);
+  padding:.66em .2em; border-top:1px dotted var(--line2); transition:color .2s, transform .2s}
+.menu a:hover{color:var(--covenant); transform:translateX(4px)}
+.menu a .no{font-family:"Fragment Mono",monospace; font-size:.72rem; color:var(--gold); letter-spacing:.1em; min-width:2.6em}
+.menu a .ti{font-family:"Bricolage Grotesque",sans-serif; font-weight:650; font-size:1.14rem}
+.menu a .dots{flex:1; border-bottom:1px dotted var(--line2); transform:translateY(-4px)}
+.menu a .what{font-style:italic; font-size:.92rem; color:var(--muted)}
+.scrollcue{margin-top:6vh; font-family:"Fragment Mono",monospace; font-size:.7rem; letter-spacing:.3em; text-transform:uppercase; color:var(--muted);
+  display:flex; align-items:center; gap:1em}
+.scrollcue::after{content:"↓"; animation:bob 1.8s ease-in-out infinite; font-size:1rem}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
+
+/* chapter heads */
+.chap{padding:16vh 0 6vh}
+.chap h2{font-size:clamp(2.5rem,5.6vw,4.6rem); text-transform:uppercase; margin:.4rem 0 1.6rem}
+.chap .course{font-family:"Fragment Mono",monospace; font-size:.72rem; letter-spacing:.4em; text-transform:uppercase; color:var(--gold)}
+
+/* scrolly */
+.scrolly{display:grid; grid-template-columns:minmax(0,1fr) clamp(330px,26vw,440px); gap:0; align-items:start; position:relative}
+.scrolly .fig{grid-column:1; position:sticky; top:0; height:100svh; display:flex; flex-direction:column; justify-content:center; padding:1rem .5vw 1rem 2.2vw}
+.scrolly .steps{grid-column:2; padding:14vh 3.5vw 40vh 1.2vw}
+.step{min-height:86vh; display:flex; flex-direction:column; justify-content:center}
+.step .lede{font-size:clamp(1.14rem,1.5vw,1.42rem); line-height:1.58; max-width:42ch}
+.step .lede .big{font-family:"Bricolage Grotesque",sans-serif; font-weight:740; font-size:1.5em; line-height:1.14; display:block; margin-bottom:.35em}
+.step .micro{font-family:"Fragment Mono",monospace; font-size:.72rem; letter-spacing:.05em; color:var(--muted); margin-top:1.2rem; line-height:1.8;
+  border-left:2px solid var(--line2); padding-left:1em}
+.fig svg{width:100%; height:auto; max-height:94svh; overflow:visible; display:block}
+.fig .figtitle{font-family:"Fragment Mono",monospace; font-size:.7rem; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); margin:0 0 .6rem}
+
+/* the river builds left→right: each zone z0..z6 fades in cumulatively with the stage */
+svg .zone{opacity:0; transition:opacity .85s ease}
+svg[data-stage="0"] .z0{opacity:1}
+svg[data-stage="1"] .z0,svg[data-stage="1"] .z1{opacity:1}
+svg[data-stage="2"] .z0,svg[data-stage="2"] .z1,svg[data-stage="2"] .z2{opacity:1}
+svg[data-stage="3"] .z0,svg[data-stage="3"] .z1,svg[data-stage="3"] .z2,svg[data-stage="3"] .z3{opacity:1}
+svg[data-stage="4"] .z0,svg[data-stage="4"] .z1,svg[data-stage="4"] .z2,svg[data-stage="4"] .z3,svg[data-stage="4"] .z4{opacity:1}
+svg[data-stage="5"] .z0,svg[data-stage="5"] .z1,svg[data-stage="5"] .z2,svg[data-stage="5"] .z3,svg[data-stage="5"] .z4,svg[data-stage="5"] .z5{opacity:1}
+svg[data-stage="6"] .z0,svg[data-stage="6"] .z1,svg[data-stage="6"] .z2,svg[data-stage="6"] .z3,svg[data-stage="6"] .z4,svg[data-stage="6"] .z5,svg[data-stage="6"] .z6{opacity:1}
+/* the pre-Flood world is washed out once the Flood arrives */
+svg[data-stage="1"] .drowned,svg[data-stage="2"] .drowned,svg[data-stage="3"] .drowned,svg[data-stage="4"] .drowned,svg[data-stage="5"] .drowned,svg[data-stage="6"] .drowned{opacity:.14}
+/* at the royal stage the other tribes recede so the gold thread reads */
+svg[data-stage="6"] .tribe-dim{opacity:.26}
+
+/* tooltip */
+.tip{position:fixed; z-index:95; pointer-events:none; opacity:0; transition:opacity .15s;
+  font-family:"Fragment Mono",monospace; font-size:.72rem; line-height:1.55; color:var(--paper);
+  background:var(--ink); padding:.55em .8em; border-radius:3px; max-width:250px}
+.tip b{color:#F4D78B}
+
+/* reveal */
+.reveal{opacity:0; transform:translateY(22px); transition:opacity .8s ease, transform .8s ease}
+.reveal.in{opacity:1; transform:none}
+
+/* closing */
+.statement{margin:10vh auto; max-width:780px; border:1.5px solid var(--line2); padding:3rem 3.2rem; background:rgba(242,234,216,.6)}
+.statement p{font-size:clamp(1.1rem,1.4vw,1.3rem); line-height:1.65; margin:.9em 0}
+.statement .kicker{margin-bottom:1.6rem}
+footer{padding:6vh 0 12vh; border-top:1px solid var(--line)}
+footer .cols{display:grid; grid-template-columns:1.2fr 1fr; gap:4vw; margin-top:2rem}
+footer h4{font-family:"Fragment Mono",monospace; font-size:.7rem; letter-spacing:.3em; text-transform:uppercase; color:var(--muted); font-weight:400; margin:0 0 1em}
+footer p, footer li{font-size:.95rem; line-height:1.7; color:var(--ink)}
+footer ul{margin:0; padding-left:1.1em}
+footer a{color:var(--covenant)}
+footer .fin{margin-top:4rem; font-family:"Fragment Mono",monospace; font-size:.7rem; letter-spacing:.25em; text-transform:uppercase; color:var(--muted); text-align:center}
+
+@media (max-width:980px){
+  .scrolly{display:block}
+  .scrolly .fig{position:sticky; top:0; height:auto; padding:2.9rem 4vw 2vh; z-index:0;
+    background:linear-gradient(180deg, var(--paper) 80%, transparent)}
+  .fig svg{max-height:52svh}
+  .scrolly .steps{padding:6vh 7vw 26vh}
+  .step{min-height:84vh; justify-content:flex-end; padding-bottom:8vh; position:relative; z-index:1}
+  .step .lede{max-width:92vw}
+  footer .cols{grid-template-columns:1fr}
+  .statement{padding:2rem 1.6rem}
+  .menu{padding:1.5rem 1.2rem 1.2rem}
+  .menu a .what{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important; transition:none!important}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+<a class="vyd-home" href="/">← Eric Summers</a>
+<div class="grain" aria-hidden="true"></div>
+<div class="progress" aria-hidden="true"><span id="pbar"></span></div>
+<div class="tip" id="tip" role="status"></div>
+
+<!-- ================= HERO ================= -->
+<header class="hero wrap">
+  <p class="kicker">Genesis to the Kings · One bloodline, Adam to David</p>
+  <h1>The Book of<span class="l2">Begats</span></h1>
+  <p class="dek">The Hebrew Bible keeps a thread it never lets go of — a single family line, traced name by name from the first man to the shepherd-king. Drawn as one river it floods, narrows to a lone survivor, and breaks at last into twelve. From <b>Adam</b> to <b>David</b>, <i>the whole genealogy in one figure.</i></p>
+  <nav class="menu" aria-label="The movements of the figure">
+    <h3>The Generations</h3>
+    <a href="#s0"><span class="no">I.</span><span class="ti">The Line of Seth</span><span class="dots"></span><span class="what">ten generations</span></a>
+    <a href="#s1"><span class="no">II.</span><span class="ti">The Flood</span><span class="dots"></span><span class="what">one survivor</span></a>
+    <a href="#s2"><span class="no">III.</span><span class="ti">The Nations</span><span class="dots"></span><span class="what">seventy peoples</span></a>
+    <a href="#s3"><span class="no">IV.</span><span class="ti">The Promise</span><span class="dots"></span><span class="what">to Abraham</span></a>
+    <a href="#s4"><span class="no">V.</span><span class="ti">Israel</span><span class="dots"></span><span class="what">Isaac &amp; Jacob</span></a>
+    <a href="#s5"><span class="no">VI.</span><span class="ti">The Twelve</span><span class="dots"></span><span class="what">sons into tribes</span></a>
+    <a href="#s6"><span class="no">VII.</span><span class="ti">The Crown</span><span class="dots"></span><span class="what">down to David</span></a>
+  </nav>
+  <p class="scrollcue">Scroll to begin the generations</p>
+</header>
+
+<div class="scribe" aria-hidden="true"></div>
+
+<!-- ================= THE FIGURE ================= -->
+<section class="chap wrap" id="river">
+  <p class="course">One figure · seven generations of generations</p>
+  <h2>From one man,<br>a whole people</h2>
+  <p class="prose reveal">Scripture's genealogies are the chapters everyone skims — the <i>begats</i>, page on page of names. But laid end to end they make a single, stubborn claim: that one unbroken line runs from creation all the way to the throne. Scroll, and watch the river fill.</p>
+</section>
+
+<section class="scrolly">
+  <div class="fig">
+    <p class="figtitle" id="rivertitle">Adam → David · the bloodline of scripture, as one river · band = lines followed, not population</p>
+    <svg id="riverviz" viewBox="0 0 1200 820" role="img" aria-label="A Sankey diagram of biblical genealogy flowing left to right: from Adam down the line of Seth to Noah, narrowing to a single survivor at the Flood, fanning into the nations, narrowing again through Shem to Abraham, Isaac and Jacob, then exploding into the twelve tribes of Israel, with a gold thread running on through Judah to David."></svg>
+  </div>
+  <div class="steps">
+    <div class="step" id="s0" data-viz="river" data-stage="0">
+      <p class="lede"><span class="big">Ten generations, one line.</span> From <b>Adam</b>, the text follows a single chosen son each generation — Seth, Enosh, Kenan, on down to <b>Noah</b> — while <span class="muted">the rest of mankind</span> spreads, unnumbered, beneath.</p>
+      <p class="micro">GENESIS 5 · AGES AS THE TEXT RECORDS THEM<br>ENOCH “WAS NOT, FOR GOD TOOK HIM” · METHUSELAH LIVED 969 YEARS</p>
+    </div>
+    <div class="step" id="s1" data-viz="river" data-stage="1">
+      <p class="lede"><span class="big flood">Then the Flood narrows everything to one house.</span> Every other line ends at the water. Humanity passes through Noah alone — the river's great pinch, a whole world funnelled through a single man.</p>
+      <p class="micro">GENESIS 7 · ONLY NOAH AND HIS SONS COME THROUGH</p>
+    </div>
+    <div class="step" id="s2" data-viz="river" data-stage="2">
+      <p class="lede"><span class="big">Three sons become the nations.</span> <span class="nat">Japheth</span> and <span class="nat">Ham</span> fan out into the seventy peoples of the earth — the Table of Nations — while <span class="cov">Shem</span> quietly carries the thread on.</p>
+      <p class="micro">GENESIS 10 · 70 NATIONS · NAMES SHOWN AS BUNDLES</p>
+    </div>
+    <div class="step" id="s3" data-viz="river" data-stage="3">
+      <p class="lede"><span class="big">Out of them all, one promise.</span> Nine more generations down Shem's line to <b>Abraham</b>. Ishmael and the sons of Keturah branch away into their own peoples; <b>Isaac</b>, the child of promise, keeps the line.</p>
+      <p class="micro">GENESIS 11 · SHEM → ABRAHAM<br>EBER, ROOT OF THE WORD “HEBREW”, SHEDS JOKTAN TO ARABIA</p>
+    </div>
+    <div class="step" id="s4" data-viz="river" data-stage="4">
+      <p class="lede"><span class="big">Israel.</span> Isaac fathers twins. <span class="flood">Esau's</span> line becomes Edom and turns away; <b>Jacob</b> is wrestled to a new name — <span class="cov">Israel</span> — and the thread becomes a people.</p>
+      <p class="micro">GENESIS 25–36 · “THY NAME SHALL BE CALLED NO MORE JACOB, BUT ISRAEL”</p>
+    </div>
+    <div class="step" id="s5" data-viz="river" data-stage="5">
+      <p class="lede"><span class="big">Twelve sons. Twelve tribes.</span> The single thread finally breaks wide open — Jacob's twelve sons, born of <span class="cov">four mothers</span>, fan into the tribes of Israel.</p>
+      <p class="micro">COLOURED BY MOTHER · LEAH · RACHEL · BILHAH · ZILPAH<br>LEVI TAKES NO LAND; JOSEPH BECOMES TWO — EPHRAIM &amp; MANASSEH</p>
+    </div>
+    <div class="step" id="s6" data-viz="river" data-stage="6">
+      <p class="lede"><span class="big gold">And the line runs on to a king.</span> Through <span class="cov">Judah</span> — by Tamar, by Ruth — the <span class="gold">gold thread</span> runs ten more names to <b>David</b>. From the first man to the throne: one line, never once broken.</p>
+      <p class="micro">RUTH 4:18–22 · 1 CHRONICLES 2 · JUDAH → DAVID</p>
+    </div>
+  </div>
+</section>
+
+<div class="scribe" aria-hidden="true"></div>
+
+<!-- ================= CLOSING ================= -->
+<section class="chap wrap">
+  <div class="statement reveal">
+    <p class="kicker">Why this story</p>
+    <p>The genealogies are the parts everyone skips. But they are doing something audacious: insisting that history has a single spine — that you can lay a finger on <b>Adam</b> and trace, name by name, all the way to a king.</p>
+    <p>As a shape, it is a river that should have died a dozen times: drowned in the Flood, stalled in barren wives, handed to younger sons with no claim, married into by outsiders — a Moabite, a woman at a well. It never does. Drawn once, the <em>begats</em> stop being a list and become an argument.</p>
+  </div>
+</section>
+
+<footer class="wrap">
+  <div class="cols">
+    <div>
+      <h4>Data &amp; text</h4>
+      <ul>
+        <li>The line of Seth and the recorded ages: <a href="https://www.biblegateway.com/passage/?search=Genesis+5&version=KJV" target="_blank" rel="noopener">Genesis 5</a> (Adam → Noah).</li>
+        <li>The Flood and the survivors: <a href="https://www.biblegateway.com/passage/?search=Genesis+7-9&version=KJV" target="_blank" rel="noopener">Genesis 7–9</a>.</li>
+        <li>The Table of Nations: <a href="https://www.biblegateway.com/passage/?search=Genesis+10&version=KJV" target="_blank" rel="noopener">Genesis 10</a> — Japheth, Ham and Shem's seventy peoples.</li>
+        <li>Shem to Abraham: <a href="https://www.biblegateway.com/passage/?search=Genesis+11&version=KJV" target="_blank" rel="noopener">Genesis 11</a>.</li>
+        <li>The sons of Abraham, Isaac and Esau / Edom: <a href="https://www.biblegateway.com/passage/?search=Genesis+25;Genesis+36&version=KJV" target="_blank" rel="noopener">Genesis 25 &amp; 36</a>.</li>
+        <li>The twelve sons of Jacob: <a href="https://www.biblegateway.com/passage/?search=Genesis+29-30;Genesis+35&version=KJV" target="_blank" rel="noopener">Genesis 29–30 &amp; 35</a>.</li>
+        <li>Judah to David: <a href="https://www.biblegateway.com/passage/?search=Ruth+4:18-22&version=KJV" target="_blank" rel="noopener">Ruth 4:18–22</a> and <a href="https://www.biblegateway.com/passage/?search=1+Chronicles+2&version=KJV" target="_blank" rel="noopener">1 Chronicles 2</a>. Text: King James / Masoretic.</li>
+      </ul>
+    </div>
+    <div>
+      <h4>Method &amp; honesty</h4>
+      <ul>
+        <li>Band thickness is <b>schematic</b>: it shows how many distinct lines the chart is following at a point — not population, not number of descendants. The chosen line is drawn as a single thread; a branch is capped where the text stops naming it.</li>
+        <li>The seventy nations of Genesis 10, Ishmael's twelve princes and Esau's dukes are shown as <b>bundles</b>, not every name. The twelve tribes are ordered for legibility, with Judah set on the spine — not in birth order. "The rest of mankind" before the Flood is illustrative.</li>
+        <li>Ages are <b>as the text records them</b> (Masoretic numbers; the Septuagint and Samaritan texts differ). This charts a written genealogy, not a verified historical pedigree.</li>
+      </ul>
+    </div>
+  </div>
+  <p class="fin">· The Book of Begats · Eric Summers · 2026 ·</p>
+</footer>
+
+<script src="data.js"></script>
+<script>
+(function(){
+'use strict';
+const $=id=>document.getElementById(id);
+const f=v=>(+v).toFixed(1);
+const MONO='"Fragment Mono",monospace', DISP='"Bricolage Grotesque",sans-serif';
+const C={ink:'#2B2118',muted:'#8A7A66',cov:'#1F5C92',flood:'#B23B2E',nations:'#6F7A39',gold:'#C18B2C',rose:'#B5566B',
+  paper:'#F2EAD8',russet:'#A6552B',line:'rgba(43,33,24,.16)',line2:'rgba(43,33,24,.32)'};
+const D=window.BEGAT;
+
+/* ---- tooltip ---- */
+const tip=$('tip');
+function showTip(ev,html){tip.innerHTML=html;tip.style.opacity='1';
+  tip.style.left=Math.min(ev.clientX+14,innerWidth-262)+'px'; tip.style.top=(ev.clientY+16)+'px';}
+function hideTip(){tip.style.opacity='0'}
+
+/* ---- a Sankey ribbon between two centrelines (thickness t0→t1) ---- */
+function rib(x0,y0,x1,y1,t0,t1,fill,op){
+  const a0=y0-t0/2,b0=y0+t0/2,a1=y1-t1/2,b1=y1+t1/2;
+  const cx0=x0+(x1-x0)*0.5, cx1=x1-(x1-x0)*0.5;
+  return `<path d="M${f(x0)} ${f(a0)} C${f(cx0)} ${f(a0)} ${f(cx1)} ${f(a1)} ${f(x1)} ${f(a1)} `
+       + `L${f(x1)} ${f(b1)} C${f(cx1)} ${f(b1)} ${f(cx0)} ${f(b0)} ${f(x0)} ${f(b0)} Z" fill="${fill}" opacity="${op}"/>`;
+}
+/* a fraying cap: short diverging strokes that suggest a branch splitting into many */
+function fray(x,y,n,spread,len,col){
+  let s=`<g stroke="${col}" stroke-width="2" fill="none" opacity=".9" stroke-linecap="round">`;
+  for(let i=0;i<n;i++){const ty=y-spread/2+spread*(i/(n-1));
+    s+=`<path d="M${f(x)} ${f(y)} C${f(x+len*0.5)} ${f(y)} ${f(x+len*0.5)} ${f(ty)} ${f(x+len)} ${f(ty)}"/>`;}
+  return s+'</g>';
+}
+function dot(x,y,r,fill,sw){return `<circle cx="${f(x)}" cy="${f(y)}" r="${r}" fill="${fill}" stroke="${C.paper}" stroke-width="${sw||2}"/>`}
+function txt(x,y,s,o){o=o||{};return `<text x="${f(x)}" y="${f(y)}" text-anchor="${o.a||'start'}" fill="${o.c||C.ink}" `
+  +`font-family=${o.disp?DISP:MONO} font-size="${o.s||12}" ${o.w?`font-weight="${o.w}"`:''} `
+  +`${o.rot?`transform="rotate(${o.rot} ${f(x)} ${f(y)})"`:''} letter-spacing="${o.ls||0}">${s}</text>`;}
+
+const TH=9;                          // the chosen thread
+const hots=[];                       // hover targets
+function hot(x,y,r,html){hots.push({x,y,r,html});}
+
+function buildRiver(){
+  /* anchor geometry */
+  const ax=72, ay=368, floodX=320, nx=350, ny=368;
+  const shemX=442, shemY=404, abeX=690, abeY=420, isaX=786, isaY=440, jacX=872, jacY=400;
+  const tribeX=978, tTop=80, tBot=772, tStep=(tBot-tTop)/11;
+  const judahIdx=D.tribes.findIndex(t=>t.chosen), judahY=tTop+judahIdx*tStep;
+  const davidX=1170;
+
+  /* ============ Z0 · ADAM & THE LINE OF SETH ============ */
+  let z0='';
+  /* the rest of mankind: a wide faint wedge, cut at the Flood */
+  z0+=`<path class="zone z0 drowned" d="M${ax+10} ${ay+6} C 170 ${ay+18}, 250 440, ${floodX} 486 `
+     +`L ${floodX} 766 C 220 690, 150 540, ${ax+10} ${ay+22} Z" fill="${C.muted}" opacity=".30"/>`;
+  z0+=`<g class="zone z0 drowned">`
+     +txt(150,640,'and the rest of mankind',{c:C.muted,s:13,disp:true,w:600})
+     +txt(150,660,'— the unnumbered families of the earth',{c:C.muted,s:11})
+     +`</g>`;
+  /* the chosen band Adam → Noah */
+  z0+=`<g class="zone z0">`+rib(ax,ay,nx,ny,TH,TH,C.cov,1);
+  /* generation ticks Seth..Lamech */
+  D.primeval.forEach((p,i)=>{
+    if(i===0||i===9) return;                 // Adam (z0 node below), Noah (z1)
+    const x=ax+i*(nx-ax)/9, y=ay;
+    const big=(p.n==='Enoch'||p.n==='Methuselah');
+    z0+=`<line x1="${f(x)}" y1="${f(y-TH/2-3)}" x2="${f(x)}" y2="${f(y-TH/2-9)}" stroke="${C.cov}" stroke-width="1.4"/>`;
+    z0+=txt(x,y-18,p.n,{a:'start',c:big?C.flood:C.ink,s:big?12.5:11,w:big?700:400,rot:-52});
+    if(big) z0+=txt(x+1,y+TH/2+15,p.age+' yrs',{a:'start',c:C.flood,s:10,rot:-52});
+    hot(x,y,12,`<b>${p.n}</b> · ${p.age} years<br>${p.v}${p.meaning?'<br>'+p.meaning:''}`);
+  });
+  z0+=dot(ax,ay,9,C.cov)+txt(ax-4,ay-20,'ADAM',{a:'middle',c:C.ink,s:15,disp:true,w:760})
+     +txt(ax-4,ay+30,'the first man',{a:'middle',c:C.muted,s:10.5});
+  z0+=`</g>`;
+  hot(ax,ay,16,`<b>Adam</b> · 930 years<br>Genesis 5:5 — the first man`);
+
+  /* ============ Z1 · THE FLOOD ============ */
+  let z1=`<g class="zone z1">`;
+  z1+=`<line x1="${floodX}" y1="58" x2="${floodX}" y2="780" stroke="${C.flood}" stroke-width="2" stroke-dasharray="3 7" opacity=".8"/>`;
+  z1+=txt(floodX,48,'THE FLOOD',{a:'middle',c:C.flood,s:13,w:700,ls:'.12em'})
+     +txt(floodX,792,'Genesis 7 · every other line ends here',{a:'middle',c:C.flood,s:10.5});
+  z1+=`<circle cx="${nx}" cy="${ny}" r="20" fill="none" stroke="${C.flood}" stroke-width="1.5" opacity=".5"/>`;
+  z1+=dot(nx,ny,10,C.gold)+txt(nx,ny-22,'NOAH',{a:'middle',c:C.ink,s:15,disp:true,w:760})
+     +txt(nx,ny+30,'the one survivor',{a:'middle',c:C.muted,s:10.5});
+  z1+=`</g>`;
+  hot(nx,ny,16,`<b>Noah</b> · 950 years<br>Genesis 9:29 — “rest”; the whole world passes through him`);
+
+  /* ============ Z2 · THE THREE SONS → THE NATIONS ============ */
+  let z2=`<g class="zone z2">`;
+  const japN={x:476,y:120,t:46}, hamN={x:476,y:250,t:30}, capX=620;
+  /* Japheth & Ham fan upward into the nations */
+  z2+=rib(nx,ny,japN.x,japN.y,TH,japN.t,C.nations,.85)+fray(japN.x,japN.y,7,150,144,C.nations);
+  z2+=rib(nx,ny,hamN.x,hamN.y,TH,hamN.t,C.nations,.8)+fray(hamN.x,hamN.y,4,108,144,C.nations);
+  z2+=dot(japN.x,japN.y,6,C.nations)+txt(japN.x-12,japN.y+4,'Japheth',{a:'end',c:C.nations,s:12.5,w:700});
+  z2+=dot(hamN.x,hamN.y,6,C.nations)+txt(hamN.x-12,hamN.y+4,'Ham',{a:'end',c:C.nations,s:12.5,w:700});
+  z2+=txt(capX+8,92,'THE NATIONS',{c:C.nations,s:12.5,w:700,ls:'.08em'})
+     +txt(capX+8,109,'seventy peoples · Genesis 10',{c:C.muted,s:10.5})
+     +txt(capX+8,148,'Gomer · Javan · Magog · Madai …',{c:C.muted,s:10})
+     +txt(capX+8,272,'Cush · Mizraim (Egypt) · Put · Canaan',{c:C.muted,s:10});
+  /* Shem keeps the thread */
+  z2+=rib(nx,ny,shemX,shemY,TH,TH,C.cov,1)+dot(shemX,shemY,8,C.cov)
+     +txt(shemX,shemY+26,'SHEM',{a:'middle',c:C.ink,s:13,disp:true,w:760});
+  z2+=`</g>`;
+  hot(japN.x,japN.y,16,`<b>Japheth</b><br>Genesis 10:2 — the maritime &amp; northern nations`);
+  hot(hamN.x,hamN.y,16,`<b>Ham</b><br>Genesis 10:6 — Egypt, Cush, Put &amp; Canaan`);
+  hot(shemX,shemY,15,`<b>Shem</b> · 600 years<br>eldest son of Noah; the line of promise`);
+
+  /* ============ Z3 · SHEM → ABRAHAM (+ Joktan, Ishmael, Keturah) ============ */
+  let z3=`<g class="zone z3">`;
+  z3+=rib(shemX,shemY,abeX,abeY,TH,TH,C.cov,1);
+  let eberX=shemX, eberY=shemY;
+  D.shemLine.forEach((p,i)=>{
+    if(i===0) return;                         // Shem node already drawn
+    const x=shemX+i*(abeX-shemX)/9, y=shemY+(abeY-shemY)*(i/9);
+    if(p.n==='Eber'){ eberX=x; eberY=y; }
+    z3+=`<line x1="${f(x)}" y1="${f(y-TH/2-3)}" x2="${f(x)}" y2="${f(y-TH/2-9)}" stroke="${C.cov}" stroke-width="1.3"/>`;
+    z3+=txt(x,y-18,p.n,{a:'start',c:C.ink,s:10.5,rot:-52});
+    hot(x,y,11,`<b>${p.n}</b> · ${p.age} years<br>${p.v}${p.meaning?'<br>'+p.meaning:''}`);
+  });
+  /* Joktan branches off Eber, up toward the nations */
+  const jokN={x:612,y:330};
+  z3+=rib(eberX,eberY,jokN.x,jokN.y,TH-2,22,C.nations,.7)+fray(jokN.x,jokN.y,5,70,70,C.nations);
+  z3+=txt(jokN.x+76,jokN.y-6,'Joktan · Arabia',{c:C.muted,s:10.5,w:600})
+     +txt(jokN.x+76,jokN.y+9,'thirteen desert tribes',{c:C.muted,s:9.5});
+  /* Ishmael & Keturah branch off Abraham, upward */
+  const ishN={x:838,y:208}, ketN={x:828,y:312};
+  z3+=rib(abeX,abeY,ishN.x,ishN.y,TH-1,28,C.nations,.78)+fray(ishN.x,ishN.y,7,96,86,C.nations);
+  z3+=rib(abeX,abeY,ketN.x,ketN.y,TH-2,16,C.nations,.7)+fray(ketN.x,ketN.y,4,52,66,C.nations);
+  z3+=txt(ishN.x+92,ishN.y-4,'Ishmael',{c:C.nations,s:12,w:700})
+     +txt(ishN.x+92,ishN.y+12,'twelve princes',{c:C.muted,s:10});
+  z3+=txt(ketN.x+62,ketN.y+22,'Keturah’s sons · Midian & the east',{c:C.muted,s:10});
+  /* Abraham */
+  z3+=dot(abeX,abeY,11,C.cov)+txt(abeX,abeY-22,'ABRAHAM',{a:'middle',c:C.ink,s:16,disp:true,w:760})
+     +txt(abeX,abeY+30,'the promise',{a:'middle',c:C.gold,s:11,w:600});
+  z3+=`</g>`;
+  hot(abeX,abeY,18,`<b>Abraham</b><br>Genesis 12 — “in thee shall all families of the earth be blessed”`);
+  hot(ishN.x,ishN.y,16,`<b>Ishmael</b><br>Genesis 25:12–16 — twelve princes`);
+  hot(ketN.x,ketN.y,15,`<b>Keturah’s sons</b><br>Genesis 25:1–4 — Midian &amp; the eastern peoples`);
+
+  /* ============ Z4 · ISAAC → JACOB (+ Esau / Edom) ============ */
+  let z4=`<g class="zone z4">`;
+  z4+=rib(abeX,abeY,isaX,isaY,TH,TH,C.cov,1)+dot(isaX,isaY,10,C.cov)
+     +txt(isaX,isaY+28,'ISAAC',{a:'middle',c:C.ink,s:14,disp:true,w:760});
+  /* Esau → Edom, peeling down into the clear gap left of the tribe fan */
+  const esaN={x:858,y:560};
+  z4+=rib(isaX,isaY,esaN.x,esaN.y,TH-1,24,C.russet,.8)+fray(esaN.x,esaN.y,8,70,48,C.russet);
+  z4+=txt(esaN.x-14,esaN.y-1,'ESAU → EDOM',{a:'end',c:C.russet,s:12,w:700})
+     +txt(esaN.x-14,esaN.y+14,'the dukes of Edom',{a:'end',c:C.muted,s:10});
+  /* Jacob / Israel */
+  z4+=rib(isaX,isaY,jacX,jacY,TH,TH,C.cov,1)+dot(jacX,jacY,12,C.cov)
+     +txt(jacX,jacY-22,'JACOB',{a:'middle',c:C.ink,s:16,disp:true,w:760})
+     +txt(jacX,jacY+30,'renamed ISRAEL',{a:'middle',c:C.cov,s:11,w:600});
+  z4+=`</g>`;
+  hot(isaX,isaY,16,`<b>Isaac</b><br>Genesis 21 — the child of promise`);
+  hot(esaN.x,esaN.y,16,`<b>Esau</b> · Edom<br>Genesis 36 — the dukes of Edom`);
+  hot(jacX,jacY,18,`<b>Jacob / Israel</b><br>Genesis 32:28 — wrestled to a new name`);
+
+  /* ============ Z5 · THE TWELVE TRIBES ============ */
+  let z5=`<g class="zone z5">`;
+  let z5dim='';
+  D.tribes.forEach((t,i)=>{
+    const y=tTop+i*tStep, col=D.moms[t.mom].col, isJ=!!t.chosen;
+    let seg=rib(jacX,jacY,tribeX,y,isJ?TH:TH-2,isJ?TH+2:TH-2,col,isJ?1:.92)
+      + dot(tribeX,y,isJ?8:6.5,col,isJ?2.5:2);
+    if(isJ){          /* Judah sits on the spine; its label goes ABOVE so the gold thread runs clear to the right */
+      seg+=`<circle cx="${f(tribeX)}" cy="${f(y)}" r="12.5" fill="none" stroke="${C.gold}" stroke-width="2.4"/>`
+         + txt(tribeX,y-19,'JUDAH',{a:'middle',c:C.ink,s:13.5,disp:true,w:760});
+      z5+=seg;
+    } else {
+      seg+= txt(tribeX+18,y-1,t.n.toUpperCase(),{c:C.ink,s:12,disp:true,w:650})
+          + (t.note?txt(tribeX+18,y+13,t.note,{c:C.muted,s:9.5}):'');
+      z5dim+=`<g class="tribe-dim">`+seg+`</g>`;
+    }
+    hot(tribeX,y,16,`<b>${t.n}</b> · son of ${D.moms[t.mom].note}<br>${t.v}${t.note?'<br>'+t.note:''}`);
+  });
+  /* mother legend */
+  const lg=[['Leah','Leah'],['Rachel','Rachel'],['Bilhah','Bilhah'],['Zilpah','Zilpah']];
+  z5+=`<g class="tribe-dim">`+txt(96,712,'MOTHERS',{c:C.muted,s:10,ls:'.14em'});
+  lg.forEach((m,i)=>{const yy=730+i*18; z5+=dot(104,yy-4,5,D.moms[m[0]].col,1.5)+txt(116,yy,D.moms[m[0]].note,{c:C.ink,s:10.5});});
+  z5+=`</g>`;
+  z5+=z5dim+`</g>`;
+
+  /* ============ Z6 · JUDAH → DAVID ============ */
+  let z6=`<g class="zone z6">`;
+  z6+=rib(tribeX,judahY,davidX,judahY,TH+1,TH+1,C.gold,1);
+  D.royal.forEach((p,i)=>{
+    if(i===0||i===D.royal.length-1) return;   // Judah node / David node
+    const x=tribeX+i*(davidX-tribeX)/(D.royal.length-1), y=judahY;
+    z6+=`<line x1="${f(x)}" y1="${f(y-TH/2-4)}" x2="${f(x)}" y2="${f(y-TH/2-10)}" stroke="${C.gold}" stroke-width="1.4"/>`;
+    const showNote=(p.n==='Perez'||p.n==='Boaz');  /* the two famous mothers — Tamar & Ruth */
+    if(showNote) z6+=txt(x,y-15,p.n,{c:C.ink,s:10.5,w:600,rot:-50})+txt(x+12,y+TH/2+15,p.note,{c:C.gold,s:9,rot:-50});
+    else z6+=dot(x,y,3.4,C.gold,1);
+    hot(x,y,10,`<b>${p.n}</b>${p.note?' · '+p.note:''}`);
+  });
+  /* David, the crown */
+  z6+=`<g transform="translate(${davidX},${judahY-26})">`
+     +`<path d="M-13 6 L-13 -6 L-6 1 L0 -9 L6 1 L13 -6 L13 6 Z" fill="${C.gold}" stroke="${C.ink}" stroke-width="1.2"/>`
+     +`<circle cx="-9" cy="-9" r="1.7" fill="${C.gold}"/><circle cx="0" cy="-12" r="1.9" fill="${C.gold}"/><circle cx="9" cy="-9" r="1.7" fill="${C.gold}"/>`
+     +`</g>`;
+  z6+=dot(davidX,judahY,11,C.gold,2.5)
+     +txt(davidX,judahY+31,'DAVID',{a:'middle',c:C.ink,s:17,disp:true,w:760})
+     +txt(davidX,judahY+48,'king of Israel',{a:'middle',c:C.gold,s:10.5,w:600});
+  z6+=`</g>`;
+  hot(davidX,judahY,20,`<b>David</b><br>1 Chronicles 2 — shepherd, king; thirty-five generations from Adam`);
+
+  $('riverviz').innerHTML=z0+z1+z2+z3+z4+z5+z6;
+
+  /* hover */
+  const viz=$('riverviz');
+  viz.onpointermove=ev=>{
+    const r=viz.getBoundingClientRect(), sx=1200/r.width, sy=820/r.height;
+    const mx=(ev.clientX-r.left)*sx, my=(ev.clientY-r.top)*sy;
+    let best=null,bd=1e9;
+    for(const h of hots){const dd=(h.x-mx)**2+(h.y-my)**2; if(dd<bd&&dd<h.r*h.r){bd=dd;best=h;}}
+    if(!best){hideTip();return}
+    showTip(ev,best.html);
+  };
+  viz.onpointerleave=hideTip;
+}
+
+/* ---------- build, then wire the scroll driver ---------- */
+buildRiver();
+$('riverviz').setAttribute('data-stage','0');
+
+const stepObs=new IntersectionObserver(ents=>{
+  ents.forEach(e=>{ if(!e.isIntersecting) return;
+    $('riverviz').setAttribute('data-stage', e.target.dataset.stage);
+  });
+},{rootMargin:'-45% 0px -45% 0px'});
+document.querySelectorAll('.step').forEach(s=>stepObs.observe(s));
+
+const revObs=new IntersectionObserver(ents=>{
+  ents.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');revObs.unobserve(e.target)}});
+},{threshold:.2});
+document.querySelectorAll('.reveal').forEach(el=>revObs.observe(el));
+
+let ticking=false;
+function paint(){ ticking=false; const h=document.documentElement;
+  $('pbar').style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%'; }
+addEventListener('scroll',()=>{if(!ticking){ticking=true;requestAnimationFrame(paint)}},{passive:true});
+paint();
+})();
+</script>
+</body>
+</html>

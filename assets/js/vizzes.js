@@ -10,6 +10,16 @@
                      → set tableauUrl to the /views/ URL; the shared
                        /embed/ viewer frames it. (href is auto.)
 
+   Ordering: the gallery auto-sorts newest-first by `date` (ISO
+   YYYY-MM-DD). Add an entry in any position — the date decides where
+   it lands. Same-day ties keep catalog order. `feature:true` still
+   renders a card as the wide hero, wherever it sorts to.
+
+   Card title overlay:
+     The `title` is drawn big and white across the artwork. Add an
+     optional `standout` to print a small kicker above it naming the
+     recognizable subject (e.g. "SpaceX", "World Cup", "Coachella").
+
    Artwork for the card (pick one, optional):
      art:{type:"stream", ...}  a generated mini streamgraph (see Coachella)
      art:{type:"img", src:"assets/img/thing.png"}
@@ -19,19 +29,54 @@
 
 window.VIZZES = [
   {
+    slug: "the-long-advent",
+    kind: "story",
+    type: "Data story",
+    title: "The Long Advent",
+    standout: "Advent",
+    sub: "One Christ-centered Advent calendar on Etsy, blooming into a year-round catalog: Easter calendars, scripture cards, prints, a twelve-piece fine-art line. How one December product became a ministry in print.",
+    href: "/the-long-advent/",
+    tags: ["Scrollytelling", "Small Business"],
+    date: "2026-06-24",
+    accent: "#D99A2B",
+    feature: true,
+    art: {
+      type: "svg",
+      svg: '<svg viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice" role="img" aria-hidden="true"><defs><linearGradient id="la-bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0C1A13"/><stop offset="1" stop-color="#1B2E1E"/></linearGradient><radialGradient id="la-glow" cx="50%" cy="100%" r="78%"><stop offset="0" stop-color="#FFE3A6" stop-opacity=".40"/><stop offset="42%" stop-color="#E0922F" stop-opacity=".13"/><stop offset="100%" stop-color="#E0922F" stop-opacity="0"/></radialGradient></defs><rect width="800" height="500" fill="url(#la-bg)"/><rect width="800" height="500" fill="url(#la-glow)"/><g stroke="#ECE2C8" stroke-opacity=".05"><line x1="200" y1="40" x2="200" y2="460"/><line x1="350" y1="40" x2="350" y2="460"/><line x1="500" y1="40" x2="500" y2="460"/><line x1="650" y1="40" x2="650" y2="460"/></g><g style="filter:drop-shadow(0 0 10px rgba(0,0,0,.32))"><path d="M72,250 C320,250 470,104 724,104 L724,130 C470,130 320,250 72,250 Z" fill="#F3DD96" fill-opacity=".9"/><path d="M72,250 C320,250 470,130 724,130 L724,162 C470,162 320,250 72,250 Z" fill="#F2CD58" fill-opacity=".88"/><path d="M72,250 C320,250 470,162 724,162 L724,202 C470,202 320,250 72,250 Z" fill="#EE9E3A" fill-opacity=".88"/><path d="M72,250 C320,250 470,202 724,202 L724,250 C470,250 320,250 72,250 Z" fill="#E0C879" fill-opacity=".85"/><path d="M72,250 C320,250 470,250 724,250 L724,298 C470,298 320,250 72,250 Z" fill="#D29BB6" fill-opacity=".85"/><path d="M72,250 C320,250 470,298 724,298 L724,344 C470,344 320,250 72,250 Z" fill="#3E8E8E" fill-opacity=".82"/><path d="M72,250 C320,250 470,344 724,344 L724,398 C470,398 320,250 72,250 Z" fill="#3E8F5C" fill-opacity=".85"/></g><circle cx="72" cy="250" r="9" fill="url(#la-glow)"/><circle cx="72" cy="250" r="5.5" fill="#F3DD96" stroke="#0C1A13" stroke-width="2"/><text x="60" y="250" text-anchor="end" dominant-baseline="middle" font-family="DM Mono, monospace" font-size="13" letter-spacing="2" fill="#9DB39A">2017</text><text x="752" y="96" text-anchor="end" font-family="Fraunces, Georgia, serif" font-size="62" font-weight="600" fill="#F2CD58" style="filter:drop-shadow(0 2px 6px rgba(0,0,0,.5))">30+</text><text x="752" y="122" text-anchor="end" font-family="DM Mono, monospace" font-size="12" letter-spacing="2" fill="#9DB39A">VENUES BY 2025</text><text x="48" y="466" font-family="DM Mono, monospace" font-size="13" letter-spacing="3" fill="#E0A93B">ONE SHOP &#8594; A CATALOG</text></svg>'
+    }
+  },
+  {
+    slug: "the-book-of-begats",
+    kind: "story",
+    type: "Data story",
+    title: "The Book of Begats",
+    standout: "Genesis",
+    sub: "Every 'and he begat' in the Hebrew Bible, drawn as one river — from Adam through the Flood and the twelve tribes down to David. Ten generations narrow to a single thread; one man becomes a nation.",
+    href: "/the-book-of-begats/",
+    tags: ["Sankey", "Scripture"],
+    date: "2026-06-15",
+    accent: "#1F5C92",
+    feature: true,
+    art: {
+      type: "svg",
+      svg: '<svg viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice" role="img" aria-hidden="true"><defs><linearGradient id="bg-bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0B1320"/><stop offset="1" stop-color="#141A28"/></linearGradient><radialGradient id="bg-glow" cx="86%" cy="50%" r="60%"><stop offset="0" stop-color="#C18B2C" stop-opacity=".22"/><stop offset="1" stop-color="#C18B2C" stop-opacity="0"/></radialGradient><radialGradient id="bg-pinch" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#E9C77A" stop-opacity=".9"/><stop offset="1" stop-color="#E9C77A" stop-opacity="0"/></radialGradient></defs><rect width="800" height="500" fill="url(#bg-bg)"/><rect width="800" height="500" fill="url(#bg-glow)"/><g stroke="#CBB68A" stroke-opacity=".06"><line x1="120" y1="40" x2="120" y2="460"/><line x1="250" y1="40" x2="250" y2="460"/><line x1="430" y1="40" x2="430" y2="460"/><line x1="600" y1="40" x2="600" y2="460"/></g><path d="M250 40 L250 460" stroke="#B23B2E" stroke-opacity=".5" stroke-width="1.5" stroke-dasharray="3 7"/><path d="M40 244 C 150 244, 180 250, 250 250 L250 256 C 180 256, 150 256, 40 256 Z" fill="#2E6FA6" opacity=".5"/><path d="M40 250 C 150 320, 200 430, 250 446" fill="none" stroke="#5A6168" stroke-opacity=".22" stroke-width="26" stroke-linecap="round"/><g fill="none" stroke-linecap="round" style="filter:drop-shadow(0 0 6px rgba(43,108,166,.55))"><path d="M250 250 C 360 250, 430 70, 628 70" stroke="#2E6FA6" stroke-width="4"/><path d="M250 250 C 360 250, 430 120, 628 120" stroke="#3C82BE" stroke-width="4"/><path d="M250 250 C 360 250, 430 165, 628 165" stroke="#2E6FA6" stroke-width="4"/><path d="M250 250 C 360 250, 430 205, 628 205" stroke="#7A7A3C" stroke-width="4"/><path d="M250 250 C 380 250, 440 318, 628 318" stroke="#B5566B" stroke-width="4"/><path d="M250 250 C 380 250, 440 360, 628 360" stroke="#7A7A3C" stroke-width="4"/><path d="M250 250 C 380 250, 440 405, 628 405" stroke="#3C82BE" stroke-width="4"/><path d="M250 250 C 360 250, 430 445, 628 445" stroke="#2E6FA6" stroke-width="4"/></g><path d="M250 250 L740 250" fill="none" stroke="#C18B2C" stroke-width="5.5" stroke-linecap="round" style="filter:drop-shadow(0 0 8px rgba(193,139,44,.9))"/><circle cx="250" cy="250" r="22" fill="url(#bg-pinch)"/><circle cx="250" cy="250" r="8" fill="#E9C77A" stroke="#0B1320" stroke-width="2"/><g><circle cx="740" cy="250" r="11" fill="#E9C77A" stroke="#0B1320" stroke-width="2.5"/><path d="M727 232 L727 220 L734 227 L740 217 L746 227 L753 220 L753 232 Z" fill="#C18B2C" stroke="#0B1320" stroke-width="1"/></g><text x="48" y="214" font-family="Fragment Mono, monospace" font-size="14" letter-spacing="3" fill="#7FA3C8">ADAM</text><text x="694" y="290" text-anchor="middle" font-family="Fragment Mono, monospace" font-size="14" letter-spacing="3" fill="#E9C77A">DAVID</text><text x="262" y="44" font-family="Fragment Mono, monospace" font-size="12" letter-spacing="2" fill="#D08B7E">THE FLOOD</text></svg>'
+    }
+  },
+  {
     slug: "the-first-48",
     kind: "story",
     type: "Data story",
     title: "The First 48",
+    standout: "World Cup",
     sub: "For ninety-six years the World Cup grew one cautious step at a time. In 2026 it leaps to 48 teams across three nations — the biggest tournament football has ever staged. The shape of that leap.",
     href: "/the-first-48/",
     tags: ["Scrollytelling", "World Cup 2026"],
-    date: "Jun 2026",
+    date: "2026-06-13",
     accent: "#2E7D46",
     feature: true,
     art: {
       type: "svg",
-      svg: '<svg viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice" role="img" aria-hidden="true"><defs><linearGradient id="f48-bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0E2A1E"/><stop offset="1" stop-color="#12352A"/></linearGradient><radialGradient id="f48-glow" cx="89%" cy="6%" r="70%"><stop offset="0" stop-color="#FF6A3D" stop-opacity=".22"/><stop offset="1" stop-color="#FF6A3D" stop-opacity="0"/></radialGradient></defs><rect width="800" height="500" fill="url(#f48-bg)"/><g fill="#3FA15C" fill-opacity=".05"><rect x="0" width="100" height="500"/><rect x="200" width="100" height="500"/><rect x="400" width="100" height="500"/><rect x="600" width="100" height="500"/></g><rect width="800" height="300" fill="url(#f48-glow)"/><g stroke="#E9F0EA" stroke-opacity=".06"><line x1="40" y1="320" x2="760" y2="320"/><line x1="40" y1="210" x2="760" y2="210"/></g><line x1="40" y1="430" x2="760" y2="430" stroke="#E9F0EA" stroke-opacity=".12"/><g><rect x="70" y="340.6" width="44" height="89.4" rx="2" fill="#3FA15C"/><rect x="134" y="320" width="44" height="110" rx="2" fill="#3FA15C"/><rect x="198" y="320" width="44" height="110" rx="2" fill="#3FA15C"/><rect x="262" y="320" width="44" height="110" rx="2" fill="#3FA15C"/><rect x="326" y="265" width="44" height="165" rx="2" fill="#E0A93B"/><rect x="390" y="265" width="44" height="165" rx="2" fill="#E0A93B"/><rect x="454" y="210" width="44" height="220" rx="2" fill="#4E8FD8"/><rect x="518" y="210" width="44" height="220" rx="2" fill="#4E8FD8"/><rect x="582" y="210" width="44" height="220" rx="2" fill="#4E8FD8"/><rect x="646" y="210" width="44" height="220" rx="2" fill="#4E8FD8"/><rect x="710" y="100" width="44" height="330" rx="2" fill="#FF6A3D" style="filter:drop-shadow(0 0 9px rgba(255,106,61,.75))"/></g><text x="754" y="80" text-anchor="end" font-family="Anton, Bricolage Grotesque, sans-serif" font-size="58" font-weight="800" fill="#FF6A3D" style="filter:drop-shadow(0 2px 6px rgba(0,0,0,.5))">48</text><text x="70" y="464" font-family="monospace" font-size="13" letter-spacing="1.5" fill="#7FA890">1930 — 2026 · TEAMS</text></svg>'
+      svg: '<svg viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice" role="img" aria-hidden="true"><defs><linearGradient id="f48-bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0E2A1E"/><stop offset="1" stop-color="#12352A"/></linearGradient><radialGradient id="f48-glow" cx="89%" cy="6%" r="70%"><stop offset="0" stop-color="#FF6A3D" stop-opacity=".22"/><stop offset="1" stop-color="#FF6A3D" stop-opacity="0"/></radialGradient></defs><rect width="800" height="500" fill="url(#f48-bg)"/><g fill="#3FA15C" fill-opacity=".05"><rect x="0" width="100" height="500"/><rect x="200" width="100" height="500"/><rect x="400" width="100" height="500"/><rect x="600" width="100" height="500"/></g><rect width="800" height="300" fill="url(#f48-glow)"/><g stroke="#E9F0EA" stroke-opacity=".06"><line x1="40" y1="320" x2="760" y2="320"/><line x1="40" y1="210" x2="760" y2="210"/></g><line x1="40" y1="430" x2="760" y2="430" stroke="#E9F0EA" stroke-opacity=".12"/><g><rect x="70" y="340.6" width="44" height="89.4" rx="2" fill="#C9A86B"/><rect x="134" y="320" width="44" height="110" rx="2" fill="#C9A86B"/><rect x="198" y="320" width="44" height="110" rx="2" fill="#C9A86B"/><rect x="262" y="320" width="44" height="110" rx="2" fill="#C9A86B"/><rect x="326" y="265" width="44" height="165" rx="2" fill="#E0A93B"/><rect x="390" y="265" width="44" height="165" rx="2" fill="#E0A93B"/><rect x="454" y="210" width="44" height="220" rx="2" fill="#E0772E"/><rect x="518" y="210" width="44" height="220" rx="2" fill="#E0772E"/><rect x="582" y="210" width="44" height="220" rx="2" fill="#E0772E"/><rect x="646" y="210" width="44" height="220" rx="2" fill="#E0772E"/><rect x="710" y="100" width="44" height="330" rx="2" fill="#FF6A3D" style="filter:drop-shadow(0 0 9px rgba(255,106,61,.75))"/></g><text x="754" y="80" text-anchor="end" font-family="Anton, Bricolage Grotesque, sans-serif" font-size="58" font-weight="800" fill="#FF6A3D" style="filter:drop-shadow(0 2px 6px rgba(0,0,0,.5))">48</text><text x="70" y="464" font-family="monospace" font-size="13" letter-spacing="1.5" fill="#7FA890">1930 — 2026 · TEAMS</text></svg>'
     }
   },
   {
@@ -39,10 +84,11 @@ window.VIZZES = [
     kind: "story",
     type: "Data story",
     title: "Escape Velocity",
+    standout: "SpaceX",
     sub: "On 12 June 2026 SpaceX went public at $1.75 trillion — and 4,400 of its own employees, from welders to cafeteria cooks, woke up millionaires. A scrollytelling anatomy of the launch.",
     href: "/escape-velocity/",
     tags: ["Scrollytelling", "Markets"],
-    date: "Jun 2026",
+    date: "2026-06-13",
     accent: "#FF5A1F",
     art: {
       type: "svg",
@@ -54,10 +100,11 @@ window.VIZZES = [
     kind: "story",
     type: "Data story",
     title: "The Diesel Premium",
+    standout: "Diesel vs Petrol",
     sub: "Britain’s two pumps moved as one for twenty years. Then, in spring 2026, the gap hit a record 34p a litre. The story of the gap.",
     href: "/the-diesel-premium/",
     tags: ["Scrollytelling", "MakeoverMonday ’26"],
-    date: "Jun 2026",
+    date: "2026-06-10",
     accent: "#FFB52E",
     art: {
       type: "svg",
@@ -69,10 +116,11 @@ window.VIZZES = [
     kind: "story",
     type: "Data story",
     title: "Three Days in the Desert",
+    standout: "Coachella",
     sub: "How Coachella’s lineup quietly shrank 22% after the pandemic, and why it wasn’t for lack of space.",
     href: "/three-days-in-the-desert/",
     tags: ["Scrollytelling", "MakeoverMonday ’26"],
-    date: "Jun 2026",
+    date: "2026-06-10",
     accent: "#EE6A2E",
     feature: true,
     art: {
@@ -95,10 +143,11 @@ window.VIZZES = [
     kind: "story",
     type: "Data story",
     title: "The Egg Hunt",
-    sub: "Every cameo and Easter egg in Ready Player One, mapped two ways: who shares a scene, and how far each thing travelled to reach the screen.",
+    standout: "Ready Player One",
+    sub: "Every cameo and Easter egg across the Ready Player One novel and film — on the story beats they share, with a toggle to watch the adaptation swap one set of references for another.",
     href: "/ready-player-one/",
-    tags: ["Network", "Explorable"],
-    date: "Jun 2026",
+    tags: ["Network", "Book vs Film"],
+    date: "2026-06-13",
     accent: "#7B5BFF",
     art: {
       type: "svg",
@@ -117,7 +166,7 @@ window.VIZZES = [
     sub: "A single-sheet look at profit by region and category.",
     tableauUrl: "https://public.tableau.com/views/YourWorkbook/YourSheet",
     tags: ["Tableau", "Retail"],
-    date: "Jul 2026",
+    date: "2026-07-01",
     accent: "#1F77B4"
     // art omitted → branded placeholder tile is drawn automatically
   }

@@ -99,6 +99,18 @@ h1,h2,h3{font-family:"Bricolage Grotesque",sans-serif; font-weight:740; line-hei
 .search::before{content:"⌕"; position:absolute; left:.8em; top:50%; transform:translateY(-50%); color:var(--muted2); font-size:.9rem}
 @media (max-width:680px){.search{margin-left:0; width:100%} .search input{width:100%} .search input:focus{width:100%}}
 
+/* version toggle (Film · Novel · Both) */
+.vtoggle{display:inline-flex; border:1px solid var(--line2); border-radius:100px; overflow:hidden; background:var(--panel)}
+.vtoggle button{appearance:none; -webkit-appearance:none; border:none; background:none; cursor:pointer; color:var(--muted);
+  font-family:"Fragment Mono",monospace; font-size:.66rem; letter-spacing:.08em; text-transform:uppercase; padding:.52em .9em; line-height:1; transition:color .2s, background .2s}
+.vtoggle button + button{border-left:1px solid var(--line)}
+.vtoggle button:hover{color:var(--ink)}
+.vtoggle button.on{background:var(--acc); color:#0a0a12}
+.vtoggle button .c{margin-left:.5em; opacity:.55; font-size:.92em}
+.vtoggle button.on .c{opacity:.85}
+.lg.note{cursor:default; border-style:dashed}
+.lg.note .ring{display:inline-block; width:9px; height:9px; border-radius:50%; border:1.5px solid #fff; opacity:.85}
+
 /* legend / medium filter */
 .legend{display:flex; flex-wrap:wrap; gap:.4rem; width:100%; padding:.2rem 1.2rem 1rem; border-bottom:1px solid var(--line); background:rgba(7,7,14,.3)}
 .lg{display:inline-flex; align-items:center; gap:.45em; cursor:pointer; user-select:none;
@@ -113,7 +125,7 @@ h1,h2,h3{font-family:"Bricolage Grotesque",sans-serif; font-weight:740; line-hei
 .stage{display:grid; grid-template-columns:1fr 312px; min-height:560px}
 @media (max-width:880px){.stage{grid-template-columns:1fr}}
 .netbox{position:relative; min-height:560px; border-right:1px solid var(--line)}
-@media (max-width:880px){.netbox{border-right:none; border-bottom:1px solid var(--line); height:62vh}}
+@media (max-width:880px){.netbox{border-right:none; border-bottom:1px solid var(--line); height:62vh} .detail{height:auto; overflow:visible}}
 #net{width:100%; height:100%; display:block; cursor:grab}
 #net:active{cursor:grabbing}
 .net-hint{position:absolute; left:1rem; bottom:.9rem; font-family:"Fragment Mono",monospace; font-size:.62rem;
@@ -124,7 +136,7 @@ h1,h2,h3{font-family:"Bricolage Grotesque",sans-serif; font-weight:740; line-hei
 .runaxis span:nth-child(2){color:var(--muted)}
 
 /* detail panel */
-.detail{padding:1.3rem 1.3rem 1.6rem; min-height:560px; display:flex; flex-direction:column; gap:1rem; background:rgba(7,7,14,.25)}
+.detail{padding:1.3rem 1.3rem 1.6rem; height:560px; overflow-y:auto; scrollbar-width:thin; display:flex; flex-direction:column; gap:1rem; background:rgba(7,7,14,.25)}
 .detail .empty{margin:auto 0; color:var(--muted)}
 .detail .empty h3{font-size:1.15rem; color:var(--ink); margin-bottom:.5rem}
 .detail .empty p{font-size:.92rem; line-height:1.55; color:var(--muted)}
@@ -161,15 +173,42 @@ h1,h2,h3{font-family:"Bricolage Grotesque",sans-serif; font-weight:740; line-hei
 .scene-hub circle{fill:#20243a; stroke:var(--line2); stroke-width:1.4}
 .scene-hub text{font-family:"Fragment Mono",monospace; fill:var(--muted); letter-spacing:.04em; pointer-events:none}
 .scene-hub.sel circle, .scene-hub.hov circle{stroke:var(--acc2); stroke-width:2; fill:#2a2f4d}
+.ref-node.both circle{stroke:#fff; stroke-opacity:.72; stroke-width:1.4}
 .ref-node.sel circle{stroke:var(--acc2); stroke-width:2.6}
 .ref-node.hov circle{stroke:var(--acc2); stroke-width:2}
 .dim{opacity:.12 !important}
 .tl-dot{transition:opacity .25s, r .2s}
+.tl-dot.both{stroke:#fff; stroke-opacity:.6; stroke-width:1}
 .tl-axis{stroke:var(--line2)}
 .tl-grid{stroke:var(--line); stroke-dasharray:2 4}
 .tl-lbl{font-family:"Fragment Mono",monospace; fill:var(--muted2); letter-spacing:.06em}
 .tl-cap{font-family:"Fragment Mono",monospace; fill:var(--muted); letter-spacing:.14em; text-transform:uppercase}
+.tl-rowlbl{font-family:"Fragment Mono",monospace; fill:#fff; letter-spacing:.16em; text-transform:uppercase}
+.tl-scene{font-family:"Fragment Mono",monospace; fill:#fff; font-size:11px; letter-spacing:.14em; text-transform:uppercase}
 .thread{fill:none; stroke:var(--acc2); stroke-opacity:.55; stroke-width:1.4}
+
+/* ---------- co-occurrence ring (hierarchical edge bundling) ---------- */
+.ring-filter{margin-left:auto; display:flex; align-items:center; gap:.55rem}
+.ring-filter label{font-family:"Fragment Mono",monospace; font-size:.62rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted2)}
+.ring-filter select{background:var(--panel); border:1px solid var(--line2); color:var(--ink); border-radius:100px;
+  font-family:"Fragment Mono",monospace; font-size:.72rem; letter-spacing:.03em; padding:.45em .9em; outline:none; cursor:pointer}
+.ringbox{position:relative; padding:1.4rem 1.4rem 1.9rem; display:flex; justify-content:center}
+#ring{width:100%; max-width:1040px; height:auto; display:block; overflow:visible}
+.ring-leaf circle{transition:opacity .2s}
+.ring-leaf.both circle{stroke:#fff; stroke-opacity:.7; stroke-width:1.3}
+.ring-link{fill:none; stroke:var(--ink); stroke-opacity:.08; stroke-width:1; transition:stroke-opacity .2s, stroke .2s}
+.ring-glabel{font-family:"Bricolage Grotesque",sans-serif; font-weight:680; letter-spacing:-.01em}
+.dimr{opacity:.1 !important}
+.ring-readout{position:absolute; top:1rem; right:1.1rem; left:auto; transform:none; width:auto;
+  max-width:min(62%,330px); text-align:right; pointer-events:none; z-index:5;
+  padding:.85rem 1.05rem .95rem; border:1px solid var(--line2); border-radius:13px;
+  background:rgba(9,9,18,.74); backdrop-filter:blur(8px);
+  box-shadow:0 20px 54px -26px rgba(0,0,0,.92); transition:border-color .2s, box-shadow .2s}
+.ring-readout .nm{font-family:"Bricolage Grotesque",sans-serif; font-weight:760; font-size:clamp(1.3rem,2vw,1.9rem);
+  color:#fff; line-height:1.06; letter-spacing:-.012em; display:flex; align-items:center; justify-content:flex-end; gap:.5em}
+.ring-readout .nm .sw{width:11px; height:11px; border-radius:50%; flex:0 0 auto; box-shadow:0 0 9px currentColor}
+.ring-readout .mt{font-family:"Fragment Mono",monospace; font-size:.68rem; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin-top:.5rem; line-height:1.5}
+@media (max-width:560px){.ring-readout{max-width:72%; top:.6rem; right:.6rem; padding:.7rem .85rem .8rem}}
 
 /* findings cards */
 .facts{display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:1px; background:var(--line); border:1px solid var(--line); border-radius:14px; overflow:hidden; margin-top:2.4rem}
@@ -198,7 +237,7 @@ footer .meta a:hover{text-decoration:underline}
   <div class="wrap">
     <p class="kicker"><span class="no">001</span> Ready Player One · 2018</p>
     <h1>The Egg<span class="l2">Hunt</span></h1>
-    <p class="dek">Spielberg's OASIS isn't a world so much as a <em>warehouse</em> — three decades of borrowed pop culture stacked floor to ceiling. This is every cameo, every car, every Easter egg in the film, mapped two ways: who shares a scene, and how far each thing travelled to get on screen.</p>
+    <p class="dek">Ready Player One isn't one story so much as a <em>warehouse</em> — three decades of borrowed pop culture stacked floor to ceiling. Every cameo, car and Easter egg across Cline's novel and Spielberg's film, hung on the story beats the two versions share — so you can watch the adaptation swap one set of references for another.</p>
     <div class="meta">
       <span><b id="m-refs">—</b>references mapped</span>
       <span><b id="m-scenes">—</b>scenes / sequences</span>
@@ -213,9 +252,9 @@ footer .meta a:hover{text-decoration:underline}
 <section class="band">
   <div class="wrap">
     <p class="kicker"><span class="no">002</span> the premise</p>
-    <h2>A movie that is mostly footnotes.</h2>
-    <p class="prose">Ready Player One is a treasure hunt about a treasure hunt. To win control of the OASIS, players have to know the dead creator's taste down to the frame — which is Spielberg's licence to cram the screen with <b>everything</b>. A DeLorean with a Knight Rider grille. The Iron Giant fighting Mechagodzilla. The entire Overlook Hotel rebuilt as a level.</p>
-    <p class="prose">That makes the film a strange kind of dataset: a single text that <em>points</em> at the whole history of games, movies, music and toys. So I catalogued the pointers. Every reference below was placed against frame-by-frame breakdowns, then tagged with the year the thing was actually made. Two numbers per reference — <span class="tick">when</span> and <span class="tick">where</span> — turn out to be enough to draw the whole machine.</p>
+    <h2>A story that is mostly footnotes.</h2>
+    <p class="prose">Ready Player One is a treasure hunt about a treasure hunt. To win control of the OASIS, players have to know the dead creator's taste down to the frame — licence to cram in <b>everything</b>. A DeLorean with a Knight Rider grille. The Iron Giant fighting Mechagodzilla. An entire Stephen King hotel rebuilt as a level.</p>
+    <p class="prose">And it happens <em>twice</em>. Cline's 2011 novel and Spielberg's 2018 film tell the same story but point at different references — the film swapped most of the three Gates and the final-battle robots wholesale. So I catalogued both versions, hung every reference on the <b>story beats they share</b>, and tagged when each thing was made. Use the <span class="tick">Film · Novel · Both</span> toggle to slide between them and watch the swaps.</p>
   </div>
 </section>
 
@@ -224,20 +263,21 @@ footer .meta a:hover{text-decoration:underline}
   <div class="wrap">
     <p class="kicker"><span class="no">003</span> the map</p>
     <h2>Pull a thread.</h2>
-    <p class="prose">Each <b>dot</b> is a reference, coloured by what kind of thing it is. The bigger <b>rings</b> are the film's scenes; a reference orbits every scene it shows up in, so things that recur — the DeLorean, the <em>Take On Me</em> video — bridge the clusters. The map runs left to right in the order the movie plays. Click anything to trace it.</p>
+    <p class="prose">Each <b>dot</b> is a reference, coloured by what kind of thing it is. The bigger <b>rings</b> are the story's <b>beats</b>; a reference orbits every beat it appears in, so things that recur — the DeLorean, Adventure — bridge the clusters. The map runs left to right in story order, and a <b>white ring</b> marks anything that survived into <em>both</em> versions. Toggle Film · Novel · Both, then click anything to trace it.</p>
   </div>
 
   <div class="console">
     <div class="console-frame">
       <div class="console-head">
         <span class="title"><b>OASIS</b> <span class="dot">·</span> reference console</span>
+        <div class="vtoggle" id="vtoggle"></div>
         <div class="search"><input id="search" type="text" placeholder="search a reference…" autocomplete="off" spellcheck="false"></div>
       </div>
       <div class="legend" id="legend"></div>
 
       <div class="stage">
         <div class="netbox">
-          <div class="runaxis"><span>◄ opening</span><span>the film runs left → right</span><span>finale ►</span></div>
+          <div class="runaxis"><span>◄ opening</span><span>the story runs left → right</span><span>finale ►</span></div>
           <svg id="net" aria-label="Force-directed network of references and scenes"></svg>
           <div class="net-hint">drag to rearrange · click a node to trace it</div>
         </div>
@@ -260,13 +300,39 @@ footer .meta a:hover{text-decoration:underline}
   </div>
 </section>
 
+<!-- ============ THE RING ============ -->
+<section class="band">
+  <div class="wrap">
+    <p class="kicker"><span class="no">004</span> another lens</p>
+    <h2>The same story, drawn as a circle.</h2>
+    <p class="prose">Every reference, bent into a ring and grouped by <b>medium</b> — each wedge running oldest to newest. Here an arc joins any two references that <em>share a beat</em>, so the strands crossing the middle are the co-stars: the games, films and toys that fill the same moment. The <span class="tick">Film · Novel · Both</span> toggle and the <span class="tick">focus</span> beat-picker thin the web; hover any node to pull its thread loose (white-ringed dots live in both versions).</p>
+  </div>
+
+  <div class="console">
+    <div class="console-frame">
+      <div class="console-head">
+        <span class="title"><b>OASIS</b> <span class="dot">·</span> co-occurrence ring</span>
+        <div class="vtoggle" id="vtoggle2"></div>
+        <div class="ring-filter">
+          <label for="ringScene">focus</label>
+          <select id="ringScene"></select>
+        </div>
+      </div>
+      <div class="ringbox">
+        <svg id="ring" aria-label="Radial hierarchical edge bundling of references that share a scene, grouped by medium"></svg>
+        <div class="ring-readout" id="ringReadout"><div class="nm">Hover a node</div><div class="mt">to pull its thread of co-stars</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ============ FINDINGS ============ -->
 <section class="band">
   <div class="wrap">
-    <p class="kicker"><span class="no">004</span> what the map shows</p>
+    <p class="kicker"><span class="no">005</span> what the map shows</p>
     <h2>The nostalgia has a centre of gravity.</h2>
-    <p class="prose">Plot every reference by birth year and the film tips hard toward one decade. The median referenced thing was made in <span class="num" id="f-median">—</span>; the <span class="num" id="f-eightiespct">—</span> of everything Spielberg points at was made in the <b>1980s</b> alone — Halliday's, and the source novel author's, formative years rendered as set dressing.</p>
-    <p class="prose">Density tells the other half of the story. The single busiest frame in the movie is the <b id="f-densescene">—</b>, where <span class="num" id="f-densecount">—</span> distinct references pile into one battle. It is the film arguing its own thesis: that the future is just everyone's childhood, fighting at once.</p>
+    <p class="prose">Plot every reference by birth year and the saga tips hard toward one decade. The median referenced thing was made in <span class="num" id="f-median">—</span>; <span class="num" id="f-eightiespct">—</span> of everything the two versions point at was made in the <b>1980s</b> alone — Halliday's, and Cline's, formative years rendered as set dressing.</p>
+    <p class="prose">Density tells the other half. The busiest beat is the <b id="f-densescene">—</b>, where <span class="num" id="f-densecount">—</span> references pile into one moment. And the adaptation is brutal: only <span class="num" id="f-shared">—</span> survived into <b>both</b> versions, against <span class="num" id="f-onlybook">—</span> the film cut from the book and <span class="num" id="f-onlymovie">—</span> it invented of its own.</p>
 
     <div class="facts" id="facts"><!-- injected --></div>
   </div>
@@ -289,7 +355,7 @@ footer .meta a:hover{text-decoration:underline}
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
-<script src="./data.js"></script>
+<script src="./data.js?v=3"></script>
 <script>
 /* ============================================================
    The Egg Hunt — app
@@ -302,7 +368,15 @@ footer .meta a:hover{text-decoration:underline}
 (function () {
   "use strict";
   var D = window.RPO;
-  if (!window.d3 || !D) { return; }
+  if (!window.d3 || !D || !D.versions) {
+    var why = !window.d3 ? "d3 failed to load (check your connection)."
+            : !D ? "data.js didn’t load."
+            : "a stale data.js is cached — hard-refresh with Ctrl+Shift+R.";
+    var box = document.querySelector(".console-frame");
+    if (box) box.insertAdjacentHTML("afterbegin",
+      '<div style="padding:1.4rem 1.6rem;color:#FF6A5A;font-family:monospace;font-size:.8rem;line-height:1.5">Couldn’t initialise the viz — ' + why + '</div>');
+    return;
+  }
 
   var medColor = {}, medLabel = {};
   D.mediums.forEach(function (m) { medColor[m.id] = m.color; medLabel[m.id] = m.label; });
@@ -330,6 +404,9 @@ footer .meta a:hover{text-decoration:underline}
   setText("f-eightiespct", eightiesPct + "%");
   setText("f-densescene", dense.s.name);
   setText("f-densecount", dense.n);
+  setText("f-shared", D.versionCounts.shared);
+  setText("f-onlybook", D.versionCounts.onlyBook);
+  setText("f-onlymovie", D.versionCounts.onlyMovie);
 
   /* facts grid */
   var gamesN = D.refs.filter(function (r) { return r.m === "game"; }).length;
@@ -337,12 +414,12 @@ footer .meta a:hover{text-decoration:underline}
   var oldest = D.refs.slice().sort(function (a, b) { return a.y - b.y; })[0];
   var newest = D.refs.slice().sort(function (a, b) { return b.y - a.y; })[0];
   var facts = [
-    { v: D.counts.refs, u: "", k: "distinct references catalogued across the film" },
-    { v: eightiesPct, u: "%", k: "of them were made in the <b>1980s</b> alone" },
-    { v: dense.n, u: "", k: "cram into the <b>" + dense.s.name + "</b>, the densest frame" },
+    { v: D.counts.refs, u: "", k: "distinct references catalogued across <b>both versions</b>" },
+    { v: D.versionCounts.shared, u: "", k: "survived into <b>both</b> the novel and the film" },
+    { v: dense.n, u: "", k: "cram into the <b>" + dense.s.name + "</b>, the densest beat" },
     { v: (newest.y - oldest.y), u: " yrs", k: "from <b>" + oldest.name + "</b> (" + oldest.y + ") to <b>" + newest.name + "</b> (" + newest.y + ")" },
     { v: gamesN, u: "", k: "are <b>video games</b>, the largest single medium" },
-    { v: bridges, u: "", k: "recur across more than one scene, stitching the map together" }
+    { v: bridges, u: "", k: "recur across more than one beat, stitching the map together" }
   ];
   document.getElementById("facts").innerHTML = facts.map(function (f) {
     return '<div class="fact"><div class="v">' + f.v + (f.u ? '<span class="u">' + f.u + '</span>' : '') +
@@ -354,6 +431,8 @@ footer .meta a:hover{text-decoration:underline}
   var hov = null;
   var activeMedia = {}; D.mediums.forEach(function (m) { activeMedia[m.id] = true; });
   var query = "";
+  var version = "both";              // movie · book · both — the global toggle
+  var ringRefresh = function () {};  // the ring registers its re-filter here
 
   function focusOf(state) {
     // returns {ids:Set, threads:[[refId,sceneId],...]} for a given selection/hover
@@ -369,7 +448,9 @@ footer .meta a:hover{text-decoration:underline}
     }
     return { ids: ids, threads: threads };
   }
-  function refVisible(r) { return activeMedia[r.m] && (!query || r.name.toLowerCase().indexOf(query) >= 0); }
+  function srcVisible(r) { return version === "both" || r.src === version || r.src === "both"; }
+  function beatHasVisible(beatId) { return D.byScene[beatId].some(function (rid) { return srcVisible(refById[rid]); }); }
+  function refVisible(r) { return activeMedia[r.m] && srcVisible(r) && (!query || r.name.toLowerCase().indexOf(query) >= 0); }
 
   /* ============================================================
      LEGEND  ·  medium filter
@@ -389,6 +470,41 @@ footer .meta a:hover{text-decoration:underline}
     legend.appendChild(el);
   });
 
+  // legend footnote: the white-ring encoding
+  var lgNote = document.createElement("span");
+  lgNote.className = "lg note";
+  lgNote.innerHTML = '<span class="ring"></span> ringed = in both versions';
+  legend.appendChild(lgNote);
+
+  /* ============================================================
+     VERSION TOGGLE  ·  Film · Novel · Both (drives every chart)
+     ============================================================ */
+  function buildToggle(id) {
+    var c = document.getElementById(id);
+    if (!c) return null;
+    c.innerHTML = D.versions.map(function (v) {
+      return '<button data-v="' + v.id + '"' + (v.id === version ? ' class="on"' : '') + '>' +
+        v.label + '<span class="c">' + D.versionCounts[v.id] + '</span></button>';
+    }).join("");
+    Array.prototype.forEach.call(c.querySelectorAll("button"), function (b) {
+      b.addEventListener("click", function () { setVersion(b.dataset.v); });
+    });
+    return c;
+  }
+  var vtoggles = [buildToggle("vtoggle"), buildToggle("vtoggle2")];
+  function setVersion(v) {
+    if (version === v) return;
+    version = v;
+    vtoggles.forEach(function (c) {
+      if (!c) return;
+      Array.prototype.forEach.call(c.querySelectorAll("button"), function (b) {
+        b.classList.toggle("on", b.dataset.v === v);
+      });
+    });
+    render();
+    ringRefresh();
+  }
+
   /* ============================================================
      NETWORK
      ============================================================ */
@@ -402,7 +518,7 @@ footer .meta a:hover{text-decoration:underline}
     return { id: s.id, hub: true, order: s.order, name: s.name, r: 10 + D.byScene[s.id].length * 0.5 };
   });
   var refNodes = D.refs.map(function (r) {
-    return { id: r.id, hub: false, m: r.m, y: r.y, name: r.name, prom: r.p, r: 3.4 + r.p * 1.7 };
+    return { id: r.id, hub: false, m: r.m, y: r.y, name: r.name, prom: r.p, src: r.src, r: 3.4 + r.p * 1.7 };
   });
   var nodes = sceneNodes.concat(refNodes);
   var links = [];
@@ -417,7 +533,7 @@ footer .meta a:hover{text-decoration:underline}
   var linkSel = gLink.selectAll("line").data(links).enter().append("line").attr("class", "link");
 
   var nodeSel = gNode.selectAll("g").data(nodes).enter().append("g")
-    .attr("class", function (d) { return d.hub ? "node scene-hub" : "node ref-node"; });
+    .attr("class", function (d) { return d.hub ? "node scene-hub" : ("node ref-node" + (d.src === "both" ? " both" : "")); });
 
   nodeSel.append("circle")
     .attr("r", function (d) { return d.r; })
@@ -473,7 +589,7 @@ footer .meta a:hover{text-decoration:underline}
      TIMELINE  ·  made (top) → seen (bottom)
      ============================================================ */
   var tlSvg = d3.select("#timeline");
-  var TW = 0, TH = 300, padL = 46, padR = 24, topY = 70, botY = TH - 64;
+  var TW = 0, TH = 320, padL = 46, padR = 24, topY = 70, botY = TH - 72;
   var decadeLo = Math.floor(D.yearMin / 10) * 10, decadeHi = Math.ceil(D.yearMax / 10) * 10;
   var madeX = d3.scaleLinear().domain([decadeLo, decadeHi]);
   var seenX = d3.scalePoint().domain(D.scenes.map(function (s) { return s.id; })).padding(0.5);
@@ -483,17 +599,18 @@ footer .meta a:hover{text-decoration:underline}
   var gMade = tlSvg.append("g");
   var gSeen = tlSvg.append("g");
   var gCap = tlSvg.append("g");
+  var gSceneName = tlSvg.append("text").attr("class", "tl-scene").attr("text-anchor", "middle");
 
   // stack made-dots that share a year so they don't overlap
   var madeStack = {};
   var madeData = D.refs.slice().sort(function (a, b) { return a.y - b.y || a.name.localeCompare(b.name); })
     .map(function (r) {
       var k = r.y; madeStack[k] = (madeStack[k] || 0) + 1;
-      return { id: r.id, y: r.y, m: r.m, level: madeStack[k] - 1, name: r.name };
+      return { id: r.id, y: r.y, m: r.m, level: madeStack[k] - 1, name: r.name, src: r.src };
     });
 
   var madeDots = gMade.selectAll("circle").data(madeData).enter().append("circle")
-    .attr("class", "tl-dot")
+    .attr("class", function (d) { return "tl-dot" + (d.src === "both" ? " both" : ""); })
     .attr("r", 3.3).attr("fill", function (d) { return medColor[d.m]; })
     .style("cursor", "pointer")
     .on("mouseenter", function (e, d) { hov = { type: "ref", id: d.id }; render(); })
@@ -533,7 +650,8 @@ footer .meta a:hover{text-decoration:underline}
     // axis captions
     gCap.selectAll("text").remove();
     gCap.append("text").attr("class", "tl-cap").attr("x", padL).attr("y", topY - 30).attr("font-size", "8.5px").text("made");
-    gCap.append("text").attr("class", "tl-cap").attr("x", padL).attr("y", botY + 34).attr("font-size", "8.5px").text("seen on screen  ◄ runtime ►");
+    gCap.append("text").attr("class", "tl-rowlbl").attr("x", padL).attr("y", botY + 34).attr("font-size", "8.5px").text("beat  ◄ story ►");
+    gSceneName.attr("x", TW / 2).attr("y", TH - 8);
 
     madeDots.attr("cx", function (d) { return madeX(d.y); }).attr("cy", function (d) { return topY + d.level * 7.2; });
     seenDots.attr("transform", function (d) { return "translate(" + seenX(d.id) + "," + botY + ")"; });
@@ -573,6 +691,7 @@ footer .meta a:hover{text-decoration:underline}
     nodeSel.classed("dim", function (d) {
       if (!d.hub && !refVisible(refById[d.id])) return true;
       if (focusIds) return !focusIds[d.id];
+      if (d.hub && !beatHasVisible(d.id)) return true;
       return false;
     });
     nodeSel.classed("sel", function (d) { return sel && sel.id === d.id; })
@@ -593,20 +712,31 @@ footer .meta a:hover{text-decoration:underline}
       if (focusIds) return !focusIds[d.id];
       return false;
     }).attr("r", function (d) { return (focusIds && focusIds[d.id]) ? 5.2 : 3.3; });
-    seenDots.select("circle").classed("dim", function (d) { return focusIds ? !focusIds[d.id] : false; });
+    seenDots.select("circle").classed("dim", function (d) {
+      if (focusIds) return !focusIds[d.id];
+      return !beatHasVisible(d.id);
+    });
     drawThreads();
 
     tlHint.textContent = f
       ? (sel ? "tracing " + (sel.type === "ref" ? refById[sel.id].name : sceneById[sel.id].name) : "previewing…")
       : "select a reference or scene to draw its threads across time";
 
-    // ---- detail panel ----
-    renderDetail(sel);
+    // ---- white scene readout along the very bottom ----
+    var st = hov || sel, lbl = "";
+    if (st) {
+      if (st.type === "scene") lbl = sceneById[st.id].name;
+      else lbl = refById[st.id].s.map(function (sid) { return sceneById[sid].name; }).join("   ·   ");
+    }
+    gSceneName.text(lbl);
+
+    // ---- detail panel (hover previews, click pins) ----
+    renderDetail(hov || sel, !!sel);
   }
 
-  function renderDetail(state) {
+  function renderDetail(state, pinned) {
     if (!state) {
-      detail.innerHTML = '<div class="empty"><h3>Nothing selected.</h3><p>Hover the map to skim. Click a reference to see when it was made and every scene it lands in — or click a scene ring to see which eras it borrows from.</p></div>';
+      detail.innerHTML = '<div class="empty"><h3>Nothing selected.</h3><p>Hover the map to skim. Click a reference to see when it was made and every beat it lands in — or click a beat to see which eras it pulls from, and how the novel and film fill it.</p></div>';
       return;
     }
     var html = "";
@@ -616,7 +746,8 @@ footer .meta a:hover{text-decoration:underline}
       html += '<div class="d-name">' + esc(r.name) + '</div>';
       html += '<div class="d-stats">' +
                 stat("made", r.y) +
-                stat("scenes", r.s.length) +
+                stat("version", srcLabel(r.src)) +
+                stat("beats", r.s.length) +
                 stat("prominence", ["—", "cameo", "featured", "central"][r.p]) +
               '</div>';
       html += '<div class="d-note">' + esc(r.note) + '</div>';
@@ -629,11 +760,14 @@ footer .meta a:hover{text-decoration:underline}
       var sc2 = sceneById[state.id];
       var refsIn = D.byScene[state.id].map(function (id) { return refById[id]; }).sort(function (a, b) { return a.y - b.y; });
       var span = refsIn.length ? (refsIn[0].y + "–" + refsIn[refsIn.length - 1].y) : "—";
-      html += '<div class="d-kind" style="color:var(--acc2)">scene ' + pad2(sc2.order) + ' / ' + D.scenes.length + ' · act ' + sc2.act + '</div>';
+      var fN = refsIn.filter(function (r) { return r.src === "movie" || r.src === "both"; }).length;
+      var bN = refsIn.filter(function (r) { return r.src === "book" || r.src === "both"; }).length;
+      html += '<div class="d-kind" style="color:var(--acc2)">beat ' + pad2(sc2.order) + ' / ' + D.scenes.length + ' · act ' + sc2.act + '</div>';
       html += '<div class="d-name">' + esc(sc2.name) + '</div>';
       html += '<div class="d-stats">' +
                 stat("references", refsIn.length) +
-                stat("eras spanned", span) +
+                stat("film · novel", fN + " · " + bN) +
+                stat("eras", span) +
               '</div>';
       html += '<div class="d-note">' + esc(sc2.blurb) + '</div>';
       html += '<div class="d-list-h">borrows from</div><div class="d-chips">' +
@@ -641,7 +775,7 @@ footer .meta a:hover{text-decoration:underline}
                 return '<button class="d-chip" data-ref="' + r2.id + '"><span class="o">' + r2.y + '</span>' + esc(r2.name) + '</button>';
               }).join("") + '</div>';
     }
-    html += '<button class="d-clear" id="d-clear">✕ clear selection</button>';
+    if (pinned) html += '<button class="d-clear" id="d-clear">✕ clear selection</button>';
     detail.innerHTML = html;
 
     Array.prototype.forEach.call(detail.querySelectorAll("[data-scene]"), function (b) {
@@ -657,6 +791,7 @@ footer .meta a:hover{text-decoration:underline}
   function stat(k, v) { return '<div class="d-stat"><span class="k">' + k + '</span><span class="v">' + v + '</span></div>'; }
   function pad2(n) { return String(n).padStart(2, "0"); }
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+  function srcLabel(s) { return s === "movie" ? "Film ’18" : s === "book" ? "Novel ’11" : "Both"; }
 
   /* ---------- search ---------- */
   var searchEl = document.getElementById("search");
@@ -683,6 +818,157 @@ footer .meta a:hover{text-decoration:underline}
       layoutTimeline();
     }, 180);
   });
+
+  /* ============================================================
+     CO-OCCURRENCE RING  ·  hierarchical edge bundling
+     refs grouped by medium around a circle; an arc joins any two
+     refs that share a scene. Hover pulls one thread; the scene
+     <select> isolates a single scene's web.
+     ============================================================ */
+  (function buildRing() {
+    var ringSvg = d3.select("#ring");
+    var ringBox = document.querySelector(".ringbox");
+    var readoutEl = document.getElementById("ringReadout");
+    var sceneSel = document.getElementById("ringScene");
+    if (ringSvg.empty() || !ringBox || !sceneSel) return;
+
+    // hierarchy: root → medium groups → reference leaves (chronological)
+    var groups = D.mediums.map(function (m) {
+      return {
+        name: m.id,
+        children: D.refs.filter(function (r) { return r.m === m.id; })
+          .slice().sort(function (a, b) { return a.y - b.y || a.name.localeCompare(b.name); })
+      };
+    }).filter(function (g) { return g.children.length; });
+
+    var root = d3.hierarchy({ name: "root", children: groups });
+    var leaves = root.leaves();
+    var leafByRef = {};
+    leaves.forEach(function (l) { leafByRef[l.data.id] = l; });
+
+    // co-occurrence links: a pair sharing ≥1 scene → one link carrying all shared scenes
+    var pairMap = {};
+    D.scenes.forEach(function (sc) {
+      var ids = D.byScene[sc.id];
+      for (var i = 0; i < ids.length; i++) {
+        for (var j = i + 1; j < ids.length; j++) {
+          var a = ids[i], b = ids[j], k = a < b ? a + "|" + b : b + "|" + a;
+          if (!pairMap[k]) pairMap[k] = { a: a, b: b, scenes: [] };
+          pairMap[k].scenes.push(sc.id);
+        }
+      }
+    });
+    var links = Object.keys(pairMap).map(function (k) {
+      var p = pairMap[k];
+      return { sa: p.a, sb: p.b, scenes: p.scenes, source: leafByRef[p.a], target: leafByRef[p.b] };
+    }).filter(function (l) { return l.source && l.target; });
+
+    var degree = {};
+    links.forEach(function (l) { degree[l.sa] = (degree[l.sa] || 0) + 1; degree[l.sb] = (degree[l.sb] || 0) + 1; });
+
+    // scene focus filter
+    var focusScene = "all";
+    sceneSel.innerHTML = '<option value="all">All beats</option>' +
+      D.scenes.map(function (s) { return '<option value="' + s.id + '">' + pad2(s.order) + " · " + esc(s.name) + "</option>"; }).join("");
+    function inScene(l) { return focusScene === "all" || l.scenes.indexOf(focusScene) >= 0; }
+    function leafInScene(d) { return focusScene === "all" || D.byScene[focusScene].indexOf(d.data.id) >= 0; }
+
+    var gLink = ringSvg.append("g");
+    var gLeaf = ringSvg.append("g");
+    var gLabel = ringSvg.append("g");
+    var linkSel, leafSel, labelSel, R, line;
+
+    function layoutRing() {
+      var size = Math.min(ringBox.clientWidth || 680, 1040);
+      R = size / 2 - 104;
+      ringSvg.attr("viewBox", [-size / 2, -size / 2, size, size].join(" "));
+
+      d3.cluster().size([2 * Math.PI, R])
+        .separation(function (a, b) { return a.parent === b.parent ? 1 : 3; })(root);
+      line = d3.lineRadial().curve(d3.curveBundle.beta(0.78))
+        .radius(function (d) { return d.y; }).angle(function (d) { return d.x; });
+
+      linkSel = gLink.selectAll("path").data(links);
+      linkSel = linkSel.enter().append("path").attr("class", "ring-link").merge(linkSel);
+      linkSel.attr("d", function (l) { return line(l.source.path(l.target)); });
+
+      leafSel = gLeaf.selectAll("g").data(leaves);
+      var le = leafSel.enter().append("g").attr("class", function (d) { return "ring-leaf" + (d.data.src === "both" ? " both" : ""); }).style("cursor", "pointer");
+      le.append("circle");
+      leafSel = le.merge(leafSel);
+      leafSel.attr("transform", function (d) { return "rotate(" + (d.x * 180 / Math.PI - 90) + ") translate(" + d.y + ",0)"; });
+      leafSel.select("circle")
+        .attr("r", function (d) { return 2.6 + Math.min(6, (degree[d.data.id] || 0) * 0.16) + d.data.p * 0.5; })
+        .attr("fill", function (d) { return medColor[d.data.m]; })
+        .attr("stroke", "rgba(0,0,0,.4)").attr("stroke-width", 0.8)
+        .style("filter", function (d) { return "drop-shadow(0 0 3px " + medColor[d.data.m] + "66)"; });
+      leafSel.on("mouseenter", function (e, d) { focusLeaf(d.data.id); })
+             .on("mouseleave", function () { focusLeaf(null); });
+
+      // medium group labels around the rim, coloured like the data
+      var glabels = root.children.map(function (g) {
+        var xs = g.leaves().map(function (L) { return L.x; });
+        return { id: g.data.name, mid: xs.reduce(function (s, v) { return s + v; }, 0) / xs.length };
+      });
+      labelSel = gLabel.selectAll("text").data(glabels, function (d) { return d.id; });
+      labelSel = labelSel.enter().append("text").attr("class", "ring-glabel").merge(labelSel);
+      labelSel.attr("transform", function (d) {
+          var deg = d.mid * 180 / Math.PI - 90, flip = d.mid > Math.PI / 2 && d.mid < 3 * Math.PI / 2;
+          return "rotate(" + deg + ") translate(" + (R + 18) + ",0)" + (flip ? " rotate(180)" : "");
+        })
+        .attr("text-anchor", function (d) { return (d.mid > Math.PI / 2 && d.mid < 3 * Math.PI / 2) ? "end" : "start"; })
+        .attr("dy", "0.32em").attr("font-size", "12px")
+        .attr("fill", function (d) { return medColor[d.id]; })
+        .text(function (d) { return medLabel[d.id]; });
+
+      applyFilter();
+    }
+
+    function linkOn(l) { return inScene(l) && srcVisible(refById[l.sa]) && srcVisible(refById[l.sb]); }
+
+    function applyFilter() {
+      if (!linkSel) return;
+      linkSel.style("display", function (l) { return linkOn(l) ? null : "none"; })
+             .style("stroke", null).style("stroke-opacity", null).classed("dimr", false);
+      leafSel.classed("dimr", function (d) { return !leafInScene(d) || !srcVisible(d.data); });
+    }
+
+    function focusLeaf(refId) {
+      if (refId && !srcVisible(refById[refId])) refId = null;   // ignore hidden leaves
+      if (!refId) { applyFilter(); setReadout(null); return; }
+      var connected = {}; connected[refId] = 1;
+      links.forEach(function (l) {
+        if ((l.sa === refId || l.sb === refId) && linkOn(l)) { connected[l.sa] = 1; connected[l.sb] = 1; }
+      });
+      var col = medColor[refById[refId].m];
+      linkSel.style("display", function (l) { return linkOn(l) ? null : "none"; })
+        .style("stroke", function (l) { return (l.sa === refId || l.sb === refId) ? col : null; })
+        .style("stroke-opacity", function (l) { return (l.sa === refId || l.sb === refId) && linkOn(l) ? 0.85 : 0.04; });
+      leafSel.classed("dimr", function (d) { return !connected[d.data.id] || !srcVisible(d.data); });
+      setReadout(refId, Object.keys(connected).length - 1);
+    }
+
+    function setReadout(refId, n) {
+      if (!refId) {
+        readoutEl.style.borderColor = "";
+        readoutEl.style.boxShadow = "";
+        readoutEl.innerHTML = '<div class="nm">Hover a node</div><div class="mt">pull a thread of co-stars</div>';
+        return;
+      }
+      var r = refById[refId], col = medColor[r.m];
+      readoutEl.style.borderColor = col;
+      readoutEl.style.boxShadow = "0 20px 54px -26px rgba(0,0,0,.92), 0 0 0 1px " + col + "44, 0 0 28px -6px " + col + "66";
+      readoutEl.innerHTML = '<div class="nm"><span class="sw" style="background:' + col + ';color:' + col + '"></span>' + esc(r.name) + "</div>" +
+        '<div class="mt">' + esc(medLabel[r.m]) + " · " + r.y + " · " + n + " co-star" + (n === 1 ? "" : "s") + "</div>";
+    }
+
+    sceneSel.addEventListener("change", function () { focusScene = sceneSel.value; applyFilter(); setReadout(null); });
+    ringRefresh = function () { applyFilter(); setReadout(null); };  // the global toggle calls this
+
+    var rrt;
+    window.addEventListener("resize", function () { clearTimeout(rrt); rrt = setTimeout(layoutRing, 200); });
+    layoutRing();
+  })();
 
   layoutTimeline();
   render();

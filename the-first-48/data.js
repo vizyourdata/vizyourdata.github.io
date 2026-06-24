@@ -75,7 +75,32 @@ window.WC = {
   hostName:{USA:'United States', MEX:'Mexico', CAN:'Canada'},
   hostCount:{USA:11, MEX:3, CAN:2},
 
-  /* ---- CH V · bigger, longer, more ----
+  /* ---- CH IV · the draw ----
+     the 12 groups of the 5 Dec 2025 final draw (Washington DC).
+     [name, confederation] · confed drives ring colour & arc. */
+  groups: {
+    A: [['Mexico','CONCACAF'],['South Africa','CAF'],['Korea Republic','AFC'],['Czechia','UEFA']],
+    B: [['Canada','CONCACAF'],['Switzerland','UEFA'],['Qatar','AFC'],['Bosnia & Herz.','UEFA']],
+    C: [['Brazil','CONMEBOL'],['Morocco','CAF'],['Haiti','CONCACAF'],['Scotland','UEFA']],
+    D: [['United States','CONCACAF'],['Paraguay','CONMEBOL'],['Australia','AFC'],['Türkiye','UEFA']],
+    E: [['Germany','UEFA'],['Curaçao','CONCACAF'],["Côte d'Ivoire",'CAF'],['Ecuador','CONMEBOL']],
+    F: [['Netherlands','UEFA'],['Japan','AFC'],['Tunisia','CAF'],['Sweden','UEFA']],
+    G: [['Belgium','UEFA'],['Egypt','CAF'],['Iran','AFC'],['New Zealand','OFC']],
+    H: [['Spain','UEFA'],['Cabo Verde','CAF'],['Saudi Arabia','AFC'],['Uruguay','CONMEBOL']],
+    I: [['France','UEFA'],['Senegal','CAF'],['Norway','UEFA'],['Iraq','AFC']],
+    J: [['Argentina','CONMEBOL'],['Algeria','CAF'],['Austria','UEFA'],['Jordan','AFC']],
+    K: [['Portugal','UEFA'],['Uzbekistan','AFC'],['Colombia','CONMEBOL'],['Congo DR','CAF']],
+    L: [['England','UEFA'],['Croatia','UEFA'],['Ghana','CAF'],['Panama','CONCACAF']]
+  },
+  /* the road: each debutant's group-stage heavyweight */
+  debutDraw: [
+    {team:'Curaçao',    giant:'Germany',   note:'4× champions'},
+    {team:'Cabo Verde', giant:'Spain',     note:'2010 champions'},
+    {team:'Jordan',     giant:'Argentina', note:'holders'},
+    {team:'Uzbekistan', giant:'Portugal',  note:'Euro winners'}
+  ],
+
+  /* ---- CH VI · bigger, longer, more ----
      headline counts, 2022 → 2026. */
   growth: [
     {label:'Teams',        a:32, b:48},

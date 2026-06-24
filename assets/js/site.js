@@ -16,6 +16,23 @@
     return v.href || "/" + v.slug + "/";
   }
 
+  /* ---------- dates: store ISO (YYYY-MM-DD), show "13 Jun 2026" ---------- */
+  var MON = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  var MON_IX = { jan: "01", feb: "02", mar: "03", apr: "04", may: "05", jun: "06", jul: "07", aug: "08", sep: "09", oct: "10", nov: "11", dec: "12" };
+  function fmtDate(d) {
+    var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(d || ""));
+    if (!m) return d || "";                       // pass legacy "Jun 2026" through
+    return String(+m[3]) + " " + MON[+m[2] - 1] + " " + m[1];
+  }
+  /* a lexicographically-sortable key; ISO sorts as-is, "Mon YYYY" → "YYYY-MM-01" */
+  function dateKey(v) {
+    var s = String(v.date || "");
+    if (/^\d{4}-\d{2}-\d{2}$/.test(s)) return s;
+    var mo = MON_IX[s.slice(0, 3).toLowerCase()] || "01";
+    var yr = (s.match(/\d{4}/) || ["0000"])[0];
+    return yr + "-" + mo + "-01";
+  }
+
   /* ---------- artwork: mini streamgraph (matches a viz's chart) ---------- */
   function smooth(pts) {
     if (pts.length < 2) return "";
@@ -114,15 +131,19 @@
             '<span class="badge"><i></i>' + esc(badgeText) + "</span>" +
             '<span class="idx">' + num + "</span>" +
             artFor(v) +
+            '<span class="scrim"></span>' +
+            '<div class="overlay">' +
+              (v.standout ? '<span class="kicker">' + esc(v.standout) + "</span>" : "") +
+              '<span class="over-title">' + esc(v.title) + "</span>" +
+            "</div>" +
             '<span class="wash"></span>' +
           "</div>" +
         "</div>" +
         '<div class="body">' +
           '<span class="accent-rule"></span>' +
-          "<h3>" + esc(v.title) + "</h3>" +
           '<p class="sub">' + esc(v.sub || "") + "</p>" +
           '<div class="foot">' + tags +
-            (v.date ? '<span class="sep">/</span><span class="tag">' + esc(v.date) + "</span>" : "") +
+            (v.date ? '<span class="sep">/</span><span class="tag">' + esc(fmtDate(v.date)) + "</span>" : "") +
             '<span class="cta">View <span class="arrow">→</span></span>' +
           "</div>" +
         "</div>" +
@@ -132,7 +153,12 @@
   /* ---------- render ---------- */
   var grid = document.getElementById("grid");
   if (grid) {
-    grid.innerHTML = VIZZES.map(card).join("");
+    /* newest-first; stable sort keeps catalog order for same-day ties */
+    var ordered = VIZZES.slice().sort(function (a, b) {
+      var ka = dateKey(a), kb = dateKey(b);
+      return ka < kb ? 1 : ka > kb ? -1 : 0;
+    });
+    grid.innerHTML = ordered.map(card).join("");
     var countEl = document.getElementById("count");
     if (countEl) countEl.textContent = String(VIZZES.length).padStart(2, "0") + (VIZZES.length === 1 ? " piece" : " pieces");
 

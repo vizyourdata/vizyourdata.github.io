@@ -170,6 +170,35 @@ em{ font-style:italic }
 .plate .art > svg, .plate .art > img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block }
 .plate .art .wash{ position:absolute; inset:0; background:linear-gradient(180deg, transparent 55%, rgba(33,28,22,.18)); opacity:0; transition:opacity .5s var(--ease) }
 
+/* ---- standout title overlaid on the artwork ---- */
+.plate .art .scrim{
+  position:absolute; inset:0; z-index:2; pointer-events:none;
+  background:linear-gradient(0deg, rgba(8,10,14,.80) 0%, rgba(8,10,14,.42) 26%, rgba(8,10,14,0) 58%);
+}
+.plate .art .overlay{
+  position:absolute; left:1.15rem; right:1.15rem; bottom:1rem; z-index:3; pointer-events:none;
+  display:flex; flex-direction:column; gap:.45rem;
+  transition:transform .5s var(--ease);
+}
+.plate .art .kicker{
+  font-family:"DM Mono",monospace; font-size:.64rem; letter-spacing:.22em; text-transform:uppercase;
+  color:#fff; text-shadow:0 1px 10px rgba(0,0,0,.7);
+}
+.plate .art .kicker::before{
+  content:""; display:inline-block; width:1.5rem; height:2px; margin-right:.6em; vertical-align:.25em;
+  background:var(--c); border-radius:2px;
+}
+.plate .art .over-title{
+  font-family:"Anton",sans-serif; color:#fff; text-transform:uppercase;
+  font-size:clamp(1.6rem, 4.4vw, 2.45rem); line-height:.92; letter-spacing:.012em;
+  text-shadow:0 2px 24px rgba(0,0,0,.5), 0 1px 3px rgba(0,0,0,.55);
+}
+.plate.feature .art .scrim{ background:linear-gradient(0deg, rgba(8,10,14,.76) 0%, rgba(8,10,14,.34) 30%, rgba(8,10,14,0) 64%) }
+.plate.feature .art .overlay{ left:1.7rem; bottom:1.5rem; gap:.6rem }
+.plate.feature .art .kicker{ font-size:.78rem; letter-spacing:.3em }
+.plate.feature .art .kicker::before{ width:2rem }
+.plate.feature .art .over-title{ font-size:clamp(2.6rem, 6.2vw, 5.4rem) }
+
 /* corner badge: type of viz */
 .plate .badge{
   position:absolute; top:.9rem; left:.9rem; z-index:3;
@@ -190,8 +219,6 @@ em{ font-style:italic }
 .plate .body{ padding:1.15rem .2rem .2rem; display:flex; flex-direction:column; gap:.55rem }
 .plate.feature .body{ padding:1.4rem .2rem .2rem; max-width:60ch }
 .plate .accent-rule{ height:2px; width:2.4rem; background:var(--c); border-radius:2px; transition:width .5s var(--ease) }
-.plate h3{ font-family:"Fraunces",serif; font-size:1.42rem; line-height:1.1; letter-spacing:-.018em }
-.plate.feature h3{ font-size:clamp(1.8rem, 3vw, 2.6rem) }
 .plate .sub{ color:var(--ink-soft); font-size:1rem; line-height:1.5; max-width:46ch }
 .plate.feature .sub{ font-size:1.12rem }
 .plate .foot{
@@ -210,11 +237,10 @@ em{ font-style:italic }
 @media (hover:hover){
   .plate:hover .frame{ transform:translateY(-6px); box-shadow:0 1px 0 rgba(255,255,255,.6) inset, 0 34px 60px -30px rgba(33,28,22,.55); border-color:rgba(33,28,22,.2) }
   .plate:hover .art .wash{ opacity:1 }
+  .plate:hover .art .overlay{ transform:translateY(-3px) }
   .plate:hover .accent-rule{ width:4.2rem }
   .plate:hover .cta .arrow{ transform:translateX(4px) }
-  .plate:hover h3{ color:var(--c) }
 }
-.plate h3{ transition:color .35s var(--ease) }
 .plate:focus-visible{ outline:none }
 .plate:focus-visible .frame{ border-color:var(--c); box-shadow:0 0 0 2px var(--c) }
 

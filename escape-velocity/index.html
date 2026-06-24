@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="preboot">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -49,6 +49,14 @@ body{
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
 ::selection{background:var(--flame); color:#0a0a0a}
 
+/* scroll-UP launch: the story stacks bottom→top — you load on the pad and climb */
+main{display:flex; flex-direction:column-reverse}
+html.preboot body{opacity:0}
+body{transition:opacity .45s ease}
+.launchcue{margin-top:2.6rem; font-family:"Fragment Mono",monospace; font-size:1.5rem; line-height:1; color:var(--flame);
+  text-shadow:0 0 12px var(--glow); animation:bobup 1.8s ease-in-out infinite}
+@keyframes bobup{0%,100%{transform:translateY(5px); opacity:.5} 50%{transform:translateY(-6px); opacity:1}}
+
 .vyd-home{position:fixed; z-index:120; top:1.15rem; right:1.3rem; text-decoration:none;
   font-family:"Fragment Mono",monospace; font-size:.68rem; letter-spacing:.14em; text-transform:uppercase;
   color:var(--muted); padding:.5em .85em; border:1px solid var(--line2); border-radius:100px;
@@ -84,7 +92,7 @@ body{
   background:var(--muted); box-shadow:0 0 0 3px rgba(126,138,163,.16)} /* the pad */
 .exhaust{position:absolute; left:50%; transform:translateX(-50%); bottom:0; width:3px; height:0; border-radius:3px;
   background:linear-gradient(0deg, var(--flame) 0%, var(--flame2) 45%, rgba(255,210,122,.5) 78%, transparent 100%);
-  box-shadow:0 0 9px var(--glow); transition:height .6s cubic-bezier(.4,0,.2,1)}
+  box-shadow:0 0 9px var(--glow)}
 .node{position:absolute; left:50%; transform:translate(-50%,-50%); width:12px; height:12px; padding:0;
   border-radius:50%; border:1.5px solid var(--line2); background:var(--bg2); cursor:pointer; z-index:2;
   transition:border-color .3s, background .3s, box-shadow .3s, transform .25s}
@@ -93,19 +101,25 @@ body{
 .node:hover{border-color:var(--flame); transform:translate(-50%,-50%) scale(1.18)}
 .node:hover::after{opacity:1}
 .node.on{border-color:var(--flame); background:var(--flame); box-shadow:0 0 0 4px rgba(255,90,31,.16), 0 0 16px var(--glow)}
-.node.on::after{opacity:1; color:var(--ink)}
+/* (active node no longer prints its own label — the label rides with the rocket instead) */
 
 /* the rocket traveller */
 .rocket{position:absolute; left:50%; top:50%; width:26px; height:26px; transform:translate(-50%,-50%); z-index:6;
-  transition:top .6s cubic-bezier(.4,0,.2,1); pointer-events:none}
+  pointer-events:none; will-change:top}
 .rocket svg{display:block; width:26px; height:26px; filter:drop-shadow(0 0 6px rgba(255,90,31,.6))}
-.rocket .flame{position:absolute; left:50%; top:100%; transform:translate(-50%,-3px); width:7px; height:12px; border-radius:0 0 50% 50%/0 0 60% 60%;
+.rocket .rtag{position:absolute; left:22px; top:50%; transform:translateY(-50%);
+  font-family:"Fragment Mono",monospace; font-size:.6rem; letter-spacing:.13em; text-transform:uppercase;
+  color:var(--flame2); white-space:nowrap; opacity:.94; text-shadow:0 0 10px rgba(5,6,10,.95), 0 0 4px rgba(5,6,10,.95)}
+.rail.burning .rocket .rtag{color:#fff}
+.rocket .flame{position:absolute; left:50%; top:100%; transform:translate(-50%,-3px); width:8px; height:14px; border-radius:0 0 50% 50%/0 0 60% 60%;
   background:radial-gradient(50% 60% at 50% 0%, #fff, var(--spark) 35%, var(--flame) 75%, transparent);
-  opacity:.85; transform-origin:50% 0; animation:flick .12s steps(2) infinite}
-@keyframes flick{0%{transform:translate(-50%,-3px) scaleY(.82) scaleX(1)} 100%{transform:translate(-50%,-3px) scaleY(1.05) scaleX(.82)}}
-.rail.boost .rocket{transition:top .9s cubic-bezier(.3,.7,.2,1)}
-.rail.boost .rocket .flame{height:26px; opacity:1; width:9px}
-.rail.boost .rocket svg{filter:drop-shadow(0 0 12px rgba(255,90,31,.95))}
+  opacity:.9; transform-origin:50% 0; animation:flick .1s steps(2) infinite}
+@keyframes flick{0%{transform:translate(-50%,-3px) scaleY(.8) scaleX(1)} 100%{transform:translate(-50%,-3px) scaleY(1.08) scaleX(.8)}}
+/* BURNING — flame and exhaust roar while the rocket is climbing */
+.rail.burning .rocket .flame{height:30px; width:11px; opacity:1}
+.rail.burning .rocket svg{filter:drop-shadow(0 0 12px rgba(255,90,31,.95))}
+.rail.burning .exhaust{animation:plume .12s steps(2) infinite}
+@keyframes plume{0%{filter:brightness(1) saturate(1); width:3px} 100%{filter:brightness(1.4) saturate(1.25); width:4px}}
 
 /* ============ LAYOUT ============ */
 .wrap{max-width:760px; margin:0 auto; padding:0 7vw}
@@ -233,6 +247,8 @@ footer .src a:hover{color:var(--flame2)}
   html{scroll-behavior:auto}
   .reveal{transition:none}
   .rocket .flame{animation:none}
+  .launchcue{animation:none}
+  body{transition:none}
 }
 </style>
 </head>
@@ -272,6 +288,7 @@ footer .src a:hover{color:var(--flame2)}
   <div class="rocket">
     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1.4c3.1 2.2 4.7 5.6 4.7 9.4 0 2-.4 3.8-1 5.2H8.3c-.6-1.4-1-3.2-1-5.2 0-3.8 1.6-7.2 4.7-9.4Z" fill="#EAEFFA"/><path d="M12 1.4c3.1 2.2 4.7 5.6 4.7 9.4 0 .5 0 1-.1 1.5H7.4c0-.5-.1-1-.1-1.5 0-3.8 1.6-7.2 4.7-9.4Z" fill="#FF5A1F"/><circle cx="12" cy="8.6" r="1.7" fill="#0A0D16"/><path d="M7.6 14.2 4.8 18l3-.7Zm8.8 0L19.2 18l-3-.7Z" fill="#FFA53C"/></svg>
     <span class="flame"></span>
+    <div class="rtag" aria-hidden="true">T-0 · Ignition</div>
   </div>
 </div>
 
@@ -281,7 +298,8 @@ footer .src a:hover{color:var(--flame2)}
     <div class="wrap">
       <h1>Escape<span class="l2">Velocity</span></h1>
       <p class="dek">On <b>12 June 2026</b>, a company that spent its first six years blowing up rockets sold itself to the public for <i>$1.75 trillion</i>. By the closing bell, <b>4,400 of its own employees</b> — welders, machinists, cafeteria cooks — were millionaires. The anatomy of a launch.</p>
-      <p class="hint">Scroll to climb. The rocket rides the tower up — <b>pick a phase</b> to fly there.</p>
+      <p class="hint"><b>Scroll up to launch.</b> You're on the pad — climb the tower to orbit, or pick a phase up top to fly straight there.</p>
+      <div class="launchcue" aria-hidden="true">▲</div>
     </div>
   </section>
 
@@ -375,10 +393,14 @@ footer .src a:hover{color:var(--flame2)}
   const rail    = document.querySelector('.rail');
   const exhaust = document.querySelector('.exhaust');
   const rocket  = document.querySelector('.rocket');
+  const rtag    = rocket.querySelector('.rtag');
+  const hero    = document.querySelector('.hero');
   const nodes = [...document.querySelectorAll('.node')];
   const chips = [...document.querySelectorAll('.chip')];
   const links = [...document.querySelectorAll('.link')];
-  const chaps = [...document.querySelectorAll('.chapter')];
+  // visual order is reversed (column-reverse) — key everything off data-i, not DOM order
+  const sections = [...document.querySelectorAll('.chapter')];
+  const chaps = []; sections.forEach(s => chaps[+s.dataset.i] = s);
   const n = chaps.length;
   let active = 0, flyTimer = null;
 
@@ -388,14 +410,40 @@ footer .src a:hover{color:var(--flame2)}
   const nodeY = i => { const h = rail.clientHeight, top = h*0.08, bot = h*0.92;
     return bot - (bot-top) * (i/(n-1)); };
 
-  function place(i){
-    const y = nodeY(i);
+  function placeY(y){
     rocket.style.top = y + 'px';
     exhaust.style.height = Math.max(0, rail.clientHeight - y) + 'px';
   }
+
+  // map live scroll → a continuous position up the tower.
+  // 0 = on the pad (hero parked at page bottom); 1 = orbit (scrolled fully up).
+  // Proportional to scroll distance, so the rocket lifts off the instant you scroll.
+  const clamp = (v,a,b) => v<a ? a : v>b ? b : v;
+  function progress(){
+    const padY = hero.getBoundingClientRect().top + window.scrollY;   // scroll pos of the launchpad
+    return clamp((padY - window.scrollY) / (padY || 1), 0, 1);
+  }
+  const targetY = () => nodeY(0) + (nodeY(n-1) - nodeY(0)) * progress();
+
+  // ONE continuous loop: every frame the rocket eases toward its live scroll target and
+  // BURNS while moving. It reads scroll each frame, so it can never get "stuck".
+  let curY = null, lastScrollT = -1e9, started = false;
+  function tick(ts){
+    if(railVisible()){
+      const ty = targetY();
+      if(curY === null) curY = ty;
+      curY += (ty - curY) * (reduce ? 1 : 0.16);
+      if(reduce || Math.abs(ty - curY) < 0.3) curY = ty;
+      placeY(curY);
+      if(!reduce) rail.classList.toggle('burning', Math.abs(ty - curY) > 0.5 || (ts - lastScrollT) < 220);
+    }
+    requestAnimationFrame(tick);
+  }
+  const startLoop = () => { if(!started){ started = true; requestAnimationFrame(tick); } };
+
   function layout(){
     nodes.forEach((nd,i)=> nd.style.top = nodeY(i) + 'px');
-    place(active);
+    curY = null;            // re-snap after a resize
   }
   function paint(i){
     active = i;
@@ -403,18 +451,15 @@ footer .src a:hover{color:var(--flame2)}
     nodes.forEach((nd,k)=> nd.classList.toggle('on', k===i));
     links.forEach((l,k)=> l.classList.toggle('lit', k < i));
     chaps[i].classList.add('seen');
+    rtag.textContent = nodes[i].getAttribute('data-n');   // the phase label rides with the rocket
   }
   const ignite = i => { const el = chaps[i]; el.classList.remove('ignite'); void el.offsetWidth; el.classList.add('ignite'); };
 
   function flyTo(i){
-    const endScroll = Math.max(0, chaps[i].offsetTop - headerH());
+    const r = chaps[i].getBoundingClientRect();
+    const endScroll = Math.max(0, r.top + window.scrollY - headerH());
     paint(i);
-    if(railVisible() && !reduce){
-      rail.classList.add('boost');
-      clearTimeout(flyTimer);
-      flyTimer = setTimeout(()=> rail.classList.remove('boost'), 950);
-    }
-    if(railVisible()) place(i);
+    lastScrollT = performance.now();
     window.scrollTo({ top: endScroll, behavior: reduce ? 'auto' : 'smooth' });
     ignite(i);
   }
@@ -422,20 +467,27 @@ footer .src a:hover{color:var(--flame2)}
   chips.forEach(c => c.addEventListener('click', ()=> flyTo(+c.dataset.i)));
   nodes.forEach(nd => nd.addEventListener('click', ()=> flyTo(+nd.dataset.i)));
 
-  // scroll-spy: rocket follows reading
+  // scroll-spy: light up the active phase (the rocket's position is driven continuously, above)
   const io = new IntersectionObserver(entries => {
     entries.forEach(en => {
       if(!en.isIntersecting) return;
-      const i = chaps.indexOf(en.target);
-      chaps[i].classList.add('seen');
+      const i = +en.target.dataset.i;
+      en.target.classList.add('seen');
       paint(i);
-      if(railVisible()) place(i);
     });
   }, { rootMargin: '-45% 0px -45% 0px', threshold: 0 });
-  chaps.forEach(c => io.observe(c));
+  sections.forEach(c => io.observe(c));
 
+  addEventListener('scroll', ()=>{ lastScrollT = performance.now(); }, {passive:true});
   let rt; addEventListener('resize', ()=>{ clearTimeout(rt); rt = setTimeout(layout, 120); });
   layout();
+
+  // ---- boot on the launchpad: jump to the hero (page bottom), then climb upward ----
+  if('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  const toPad = () => { if(hero) window.scrollTo(0, hero.getBoundingClientRect().top + window.scrollY); };
+  toPad();
+  requestAnimationFrame(()=>{ toPad(); curY = null; paint(0); startLoop(); document.documentElement.classList.remove('preboot'); });
+  addEventListener('load', ()=> requestAnimationFrame(()=>{ toPad(); curY = null; }));
 })();
 </script>
 
