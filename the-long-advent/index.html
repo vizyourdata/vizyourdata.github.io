@@ -151,10 +151,12 @@ strong{font-weight:600}
 .timeline{margin-top:2.4rem; max-width:760px}
 .timeline svg{width:100%; height:auto; overflow:visible}
 
-/* shop-to-shelf featured panel — a dark inset so the timeline + jewel-tone
-   palette stay legible against the bright "morning" background at this depth */
-.shelf-panel{
-  color:var(--ink); --ink:#ECE2C8; --muted:#93AA90; --line:rgba(236,226,200,.16);
+/* reading panel — a dark inset for the editorial sections. The page brightens
+   night->morning by global scroll, so a section read mid-transition lands in a
+   muddy light-on-light zone (worst contrast, made worse by the central glow).
+   Locking the text onto a dark card makes legibility independent of scroll. */
+.read-panel{
+  color:var(--ink); --ink:#ECE2C8; --muted:#93AA90; --emph:#F4E4BE; --line:rgba(236,226,200,.16);
   position:relative; overflow:hidden; margin-top:1.2rem;
   padding:clamp(1.8rem,4.4vw,3.6rem) clamp(1.6rem,4vw,3.4rem);
   border-radius:24px; border:1px solid rgba(236,226,200,.13);
@@ -163,8 +165,9 @@ strong{font-weight:600}
     linear-gradient(168deg,#11231A 0%, #0B1611 100%);
   box-shadow:0 34px 90px -34px rgba(0,0,0,.62), inset 0 1px 0 rgba(236,226,200,.05);
 }
-.shelf-panel .body{max-width:52ch}
-.shelf-panel .stats{margin-top:2.4rem}
+.read-panel .body{max-width:52ch}
+.read-panel .stats{margin-top:2.4rem}
+.read-panel .chips{margin-top:1.8rem}
 
 /* ---- conclusion ---- */
 .kicker-center{justify-content:center}
@@ -264,6 +267,7 @@ footer .sign{font-family:"DM Mono",monospace; font-size:.72rem; letter-spacing:.
 <!-- ============ WHY 1: it was never the calendar ============ -->
 <section class="band-sec wrap">
   <div class="reveal">
+    <div class="read-panel">
     <p class="kicker">The through-line</p>
     <h2 class="serif-xl">It was never about the<br>calendar.</h2>
     <p class="body">Strip away the twine, the cards, the magnets, the frames, and the same thing sits behind every product, every year: <b>an image of Christ</b>. The Advent calendar was simply the first vessel. One bestseller anchored the whole run: <b>Traditional Red &amp; Green, the twine kit</b>, the workhorse in 2017 and still the workhorse in 2025.</p>
@@ -272,23 +276,26 @@ footer .sign{font-family:"DM Mono",monospace; font-size:.72rem; letter-spacing:.
       <span class="chip">every season, <b>2017 → 2025</b></span>
       <span class="chip">25 doors · <b>25 images</b></span>
     </div>
+    </div>
   </div>
 </section>
 
 <!-- ============ WHY 2: November carries the year ============ -->
 <section class="band-sec wrap">
   <div class="reveal">
+    <div class="read-panel">
     <p class="kicker">The shape of the year</p>
     <h2 class="serif-xl">One month carries the<br>other eleven.</h2>
-    <p class="body">This is a business that lives in <b>November</b>. The calendar is a countdown to Christmas, so the orders are too — a single towering month, a shoulder in October, an echo in December, and a faint spring rise for Easter. Christmas is what funds the experiments in everything else.</p>
-    <div class="mountain"><svg id="mountain" viewBox="0 0 680 230" role="img" aria-label="Monthly share of sales — November towers over the year."></svg></div>
+    <p class="body">This is a business that lives in <b>November</b>. The calendar is a countdown to Christmas, so the orders are too: a single towering month, a shoulder in October, an echo in December, and a faint spring rise for Easter. Christmas is what funds the experiments in everything else.</p>
+    <div class="mountain"><svg id="mountain" viewBox="0 0 680 230" role="img" aria-label="Monthly share of sales, November towers over the year."></svg></div>
+    </div>
   </div>
 </section>
 
 <!-- ============ WHY 3: from one shop to the shelf ============ -->
 <section class="band-sec wrap">
   <div class="reveal">
-    <div class="shelf-panel">
+    <div class="read-panel">
     <p class="kicker">From one shop to the shelf</p>
     <h2 class="serif-xl">The handmade table found<br>its way onto the aisle.</h2>
     <p class="body">For three years it was just Etsy. Then a church bazaar table, then a website, and then, in <b>2022</b>, the shelf: grocery aisles at <b>seven Macey's stores</b>, the <b>BYU Bookstore</b>, Amazon, Jane.com. Wholesale meant half the price but ten times the volume. A single ward fundraiser moved <b>110 twine kits</b> in one go; Kris Kringl took <b>96 units</b> in one order.</p>
@@ -489,10 +496,10 @@ footer .sign{font-family:"DM Mono",monospace; font-size:.72rem; letter-spacing:.
     M.forEach((d,i)=>{
       const bh=(d[1]/mx)*(h-pt-pb), x=pl+i*bw+bw*0.16, bwid=bw*0.68, y=h-pb-bh;
       const isNov=d[0]==='Nov';
-      const col=isNov?'#EBC24B':(d[0]==='Dec'||d[0]==='Oct'?'#A07C3C':'#3E5A45');
+      const col=isNov?'#EBC24B':(d[0]==='Dec'||d[0]==='Oct'?'#C49A4E':'#5F8A6B');
       bars+=`<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${bwid.toFixed(1)}" height="${bh.toFixed(1)}" rx="3" fill="${col}" opacity="${isNov?1:.85}"/>`;
       if(isNov){bars+=`<text x="${(x+bwid/2).toFixed(1)}" y="${(y-8).toFixed(1)}" text-anchor="middle" fill="#F3DD96" font-family="Cinzel,serif" font-weight="600" font-size="20">58%</text>`;}
-      labs+=`<text x="${(x+bwid/2).toFixed(1)}" y="${h-pb+18}" text-anchor="middle" fill="${isNov?'#EBC24B':'#7E9580'}" font-family="DM Mono,monospace" font-size="11">${d[0]}</text>`;
+      labs+=`<text x="${(x+bwid/2).toFixed(1)}" y="${h-pb+18}" text-anchor="middle" fill="${isNov?'#EBC24B':'#9DB39A'}" font-family="DM Mono,monospace" font-size="11">${d[0]}</text>`;
     });
     document.getElementById('mountain').innerHTML=bars+labs;
   })();
