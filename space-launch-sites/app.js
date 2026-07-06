@@ -304,27 +304,27 @@ function renderBars(parent, items, opts) {
   });
 }
 
-/* ---------- calendar: year x week heatmap band (years left->right) ---------- */
+/* ---------- calendar: year x week heatmap (years top->down, weeks across) ---------- */
 function renderCalendar(parent, D) {
   const { s, w, h } = svg(parent);
   const nYears = D.yEnd - D.yStart + 1, nWeeks = D.cols;
-  const padL = 28, padR = 6, padT = 15, padB = 3;
-  const cw = Math.max(2, (w - padL - padR) / nYears);
-  const ch = Math.max(1.5, (h - padT - padB) / nWeeks);
+  const padL = 28, padR = 5, padT = 14, padB = 3;
+  const cw = Math.max(2, (w - padL - padR) / nWeeks); // week columns (across)
+  const ch = Math.max(1.5, (h - padT - padB) / nYears); // year rows (top->down)
   const offX = padL, offY = padT;
-  const gx = cw > 4 ? 0.6 : 0, gy = ch > 3 ? 0.5 : 0;
+  const gx = cw > 3 ? 0.5 : 0, gy = ch > 3 ? 0.5 : 0;
   const rw = Math.max(1, cw - gx), rh = Math.max(1, ch - gy);
   const maxN = D.maxN, cellByKey = new Map();
-  // year labels along the top (every decade)
+  // year labels down the left (every decade)
   for (let y = D.yStart; y <= D.yEnd; y++) if (y % 10 === 0)
-    s.appendChild(el("text", { x: (offX + (y - D.yStart) * cw + cw / 2).toFixed(1), y: (offY - 4).toFixed(1), "text-anchor": "middle", class: "axis" }, y));
-  // month ticks down the left
+    s.appendChild(el("text", { x: (offX - 4).toFixed(1), y: (offY + (y - D.yStart) * ch + ch).toFixed(1), "text-anchor": "end", class: "axis" }, y));
+  // month ticks across the top
   for (const [wk, lb] of [[0, "Jan"], [13, "Apr"], [26, "Jul"], [39, "Oct"]])
-    s.appendChild(el("text", { x: (offX - 5).toFixed(1), y: (offY + wk * ch + ch + 2).toFixed(1), "text-anchor": "end", class: "axis" }, lb));
-  // data cells: x = year, y = week; color = dominant group, brightness = count
+    s.appendChild(el("text", { x: (offX + wk * cw + cw / 2).toFixed(1), y: (offY - 4).toFixed(1), "text-anchor": "middle", class: "axis" }, lb));
+  // data cells: x = week, y = year; color = dominant group, brightness = count
   const cellsG = el("g", { class: "calcells" });
   for (const [y, wk, n, gi] of D.cells) {
-    const x = offX + (y - D.yStart) * cw, yy = offY + wk * ch;
+    const x = offX + wk * cw, yy = offY + (y - D.yStart) * ch;
     const rect = el("rect", { x: x.toFixed(1), y: yy.toFixed(1), width: rw.toFixed(1), height: rh.toFixed(1), fill: groupColor(D.groups[gi]), "fill-opacity": (0.22 + 0.78 * Math.sqrt(n / maxN)).toFixed(2) });
     rect.style.cursor = "pointer";
     rect.addEventListener("mousemove", (ev) => calTip(ev, D, y, wk, n, gi));
