@@ -62,7 +62,7 @@ body{
 .kpi--slate::before{background:var(--nato)}
 
 /* charts grid */
-.grid{flex:1 1 auto;display:grid;grid-template-columns:1.4fr 0.52fr 1.02fr;grid-template-rows:1fr 1fr;
+.grid{flex:1 1 auto;display:grid;grid-template-columns:1.75fr 0.4fr 0.98fr;grid-template-rows:1fr 1fr;
   gap:11px;min-height:0}
 .card{background:linear-gradient(180deg,var(--panel),var(--panel2));border:1px solid var(--line);
   border-radius:12px;padding:11px 13px;display:flex;flex-direction:column;min-height:0;min-width:0}

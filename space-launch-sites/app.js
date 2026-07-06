@@ -11,6 +11,7 @@ const SVGNS = "http://www.w3.org/2000/svg";
 let WORLD = null;
 let CAL = null; // calendar (year x week) data, loaded from ./calendar-data.json
 let heroHover = null; // set by renderHero: (siteName|null) => spotlight that site on the map
+let calFilter = null; // set by renderCalendar: (siteName|null) => filter the calendar to one site
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
 const GROUP_COLORS = {
@@ -232,6 +233,7 @@ function renderHero(byMonth, sites, siteYears) {
     if (tsChart) tsChart.querySelectorAll("g[data-name]").forEach((g) => {
       g.setAttribute("opacity", on ? 1 : g.getAttribute("data-name") === hoverName ? 1 : 0.22);
     });
+    if (calFilter) calFilter(hoverName);
   }
   marks.forEach((m, i) => {
     const hit = el("circle", { cx: m.x, cy: m.y, r: Math.max(m.r * 1.5, 9), fill: "transparent", "pointer-events": "all", cursor: "pointer" });
@@ -318,16 +320,30 @@ function renderCalendar(parent, D) {
   // background texture
   for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++)
     s.appendChild(el("rect", { x: (offX + c * cell).toFixed(1), y: (offY + r * cell).toFixed(1), width: sq.toFixed(1), height: sq.toFixed(1), fill: "#0f1d2a" }));
-  // data squares
-  const maxN = D.maxN;
+  // data squares (keep refs so the map can filter the calendar to one site)
+  const maxN = D.maxN, GRAY = "#33465a", cellByKey = new Map();
   for (const [y, wk, n, gi] of D.cells) {
     const r = y - D.yStart;
-    const rect = el("rect", { x: (offX + wk * cell).toFixed(1), y: (offY + r * cell).toFixed(1), width: sq.toFixed(1), height: sq.toFixed(1), fill: groupColor(D.groups[gi]), "fill-opacity": (0.2 + 0.8 * Math.sqrt(n / maxN)).toFixed(2) });
+    const col = groupColor(D.groups[gi]), op = (0.2 + 0.8 * Math.sqrt(n / maxN)).toFixed(2);
+    const rect = el("rect", { x: (offX + wk * cell).toFixed(1), y: (offY + r * cell).toFixed(1), width: sq.toFixed(1), height: sq.toFixed(1), fill: col, "fill-opacity": op });
     rect.style.cursor = "pointer";
     rect.addEventListener("mousemove", (ev) => calTip(ev, D, y, wk, n, gi));
     rect.addEventListener("mouseleave", () => { const t = $("tip"); if (t) t.hidden = true; });
     s.appendChild(rect);
+    cellByKey.set(y + "|" + wk, { rect, col, op });
   }
+
+  // filter: highlight one site's weeks, gray the rest (null restores)
+  calFilter = (name) => {
+    const sw = D.siteWeeks && name ? D.siteWeeks[name] : null;
+    if (!sw) { for (const c of cellByKey.values()) { c.rect.setAttribute("fill", c.col); c.rect.setAttribute("fill-opacity", c.op); } return; }
+    for (const c of cellByKey.values()) { c.rect.setAttribute("fill", GRAY); c.rect.setAttribute("fill-opacity", "0.06"); }
+    const col = groupColor(D.groups[sw[0]]);
+    for (const [y, wk, n] of sw[1]) {
+      const c = cellByKey.get(y + "|" + wk);
+      if (c) { c.rect.setAttribute("fill", col); c.rect.setAttribute("fill-opacity", (0.4 + 0.6 * Math.sqrt(n / maxN)).toFixed(2)); }
+    }
+  };
 }
 function calTip(ev, D, y, wk, n, gi) {
   const t = $("tip"); if (!t) return;
