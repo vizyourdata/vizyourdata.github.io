@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Launch Calendar — Space Launch Sites</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <div id="cal" class="cal">
+    <!-- Header -->
+    <header class="cmd__head">
+      <div class="cmd__brand">
+        <span class="cmd__logo">&#128197;</span>
+        <div>
+          <h1 class="cmd__title">LAUNCH&nbsp;CALENDAR</h1>
+          <p class="cmd__sub">Every orbital launch by week &middot; a square per week, brighter = more launches</p>
+        </div>
+      </div>
+      <div class="cmd__status">
+        <span id="range" class="cmd__range">&mdash;</span>
+        <span id="status" class="dot dot--wait" title="loading"></span>
+      </div>
+    </header>
+
+    <!-- Legend -->
+    <div id="legend" class="callegend"></div>
+
+    <!-- Grid -->
+    <div id="grid" class="calgrid"></div>
+
+    <!-- Footer -->
+    <footer class="cmd__foot">
+      <span class="cmd__foot-l">Makeover Monday 2026 W26 &middot; <a class="cmd__credit" href="./">Command dashboard &rarr;</a></span>
+      <span class="cmd__foot-r">Eric Summers &middot; <a class="cmd__credit" href="https://tableauops.com" target="_blank" rel="noopener">tableauops.com</a> &middot; <a class="cmd__credit" href="https://twitter.com/TableauOps" target="_blank" rel="noopener">@TableauOps</a></span>
+    </footer>
+  </div>
+
+  <div id="tip" class="caltip" hidden></div>
+
+  <!-- Empty / error state -->
+  <div id="empty" class="empty" hidden>
+    <div class="empty__box">
+      <span class="empty__logo">&#128197;</span>
+      <h2 id="emptyTitle">Loading launch calendar&hellip;</h2>
+      <p id="emptyMsg">Reading <b>calendar-data.json</b>.</p>
+    </div>
+  </div>
+
+  <script src="./calendar.js"></script>
+</body>
+</html>
