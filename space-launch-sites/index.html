@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Launch Command — Space Launch Sites</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <div id="app" class="cmd">
+    <!-- Header -->
+    <header class="cmd__head">
+      <div class="cmd__brand">
+        <span class="cmd__logo">&#128640;</span>
+        <div>
+          <h1 class="cmd__title">LAUNCH&nbsp;COMMAND</h1>
+          <p class="cmd__sub">Space Launch Sites &middot; Makeover Monday 2026 W26 &middot; wisp concept after <a class="cmd__credit" href="https://public.tableau.com/views/UFOSightingsintheContiguousUSMOMWK252026/UFOSightings" target="_blank" rel="noopener">UFO Sightings (MOM W25 2026)</a></p>
+        </div>
+      </div>
+      <div class="cmd__status">
+        <span id="range" class="cmd__range">&mdash;</span>
+        <span id="status" class="dot dot--wait" title="loading"></span>
+      </div>
+    </header>
+
+    <!-- KPI strip -->
+    <section id="kpis" class="kpis"></section>
+
+    <!-- Charts -->
+    <section class="grid">
+      <div class="card card--map">
+        <p class="card__label">LAUNCH CADENCE &amp; SITE NETWORK &middot; 1957&ndash;2026</p>
+        <div id="map" class="chart"></div>
+      </div>
+      <div class="card card--r1">
+        <p class="card__label">BY COUNTRY GROUP</p>
+        <div id="byCountry" class="chart"></div>
+      </div>
+      <div class="card card--r2">
+        <p class="card__label">TOP LAUNCH SITES</p>
+        <div id="topSites" class="chart"></div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Empty / error state -->
+  <div id="empty" class="empty" hidden>
+    <div class="empty__box">
+      <span class="empty__logo">&#128640;</span>
+      <h2 id="emptyTitle">Loading launch data&hellip;</h2>
+      <p id="emptyMsg">Reading <b>data.json</b>.</p>
+    </div>
+  </div>
+
+  <script src="./app.js"></script>
+</body>
+</html>
