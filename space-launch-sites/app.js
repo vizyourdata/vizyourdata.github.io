@@ -304,28 +304,28 @@ function renderBars(parent, items, opts) {
   });
 }
 
-/* ---------- calendar: compact year x week heatmap (divider column) ---------- */
+/* ---------- calendar: year x week heatmap band (years left->right) ---------- */
 function renderCalendar(parent, D) {
   const { s, w, h } = svg(parent);
-  const rows = D.yEnd - D.yStart + 1, cols = D.cols;
-  const padL = w > 150 ? 20 : 8, padR = 4, padT = 4, padB = 4;
-  const cell = Math.max(2, Math.min((w - padL - padR) / cols, (h - padT - padB) / rows));
-  const offX = padL + Math.max(0, ((w - padL - padR) - cell * cols) / 2);
-  const offY = padT + Math.max(0, ((h - padT - padB) - cell * rows) / 2);
-  const gap = cell > 5 ? 0.5 : 0, sq = Math.max(1, cell - gap);
-  // sparse year ticks (every 20 years)
-  for (let y = D.yStart; y <= D.yEnd; y++) {
-    if (y % 20 === 0) s.appendChild(el("text", { x: (offX - 4).toFixed(1), y: (offY + (y - D.yStart + 0.9) * cell).toFixed(1), "text-anchor": "end", class: "axis" }, "'" + String(y).slice(2)));
-  }
-  // background texture
-  for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++)
-    s.appendChild(el("rect", { x: (offX + c * cell).toFixed(1), y: (offY + r * cell).toFixed(1), width: sq.toFixed(1), height: sq.toFixed(1), fill: "#0f1d2a" }));
-  // data squares (keep refs so the map can filter the calendar to one site)
+  const nYears = D.yEnd - D.yStart + 1, nWeeks = D.cols;
+  const padL = 28, padR = 6, padT = 15, padB = 3;
+  const cw = Math.max(2, (w - padL - padR) / nYears);
+  const ch = Math.max(1.5, (h - padT - padB) / nWeeks);
+  const offX = padL, offY = padT;
+  const gx = cw > 4 ? 0.6 : 0, gy = ch > 3 ? 0.5 : 0;
+  const rw = Math.max(1, cw - gx), rh = Math.max(1, ch - gy);
   const maxN = D.maxN, GRAY = "#33465a", cellByKey = new Map();
+  // year labels along the top (every decade)
+  for (let y = D.yStart; y <= D.yEnd; y++) if (y % 10 === 0)
+    s.appendChild(el("text", { x: (offX + (y - D.yStart) * cw + cw / 2).toFixed(1), y: (offY - 4).toFixed(1), "text-anchor": "middle", class: "axis" }, y));
+  // month ticks down the left
+  for (const [wk, lb] of [[0, "Jan"], [13, "Apr"], [26, "Jul"], [39, "Oct"]])
+    s.appendChild(el("text", { x: (offX - 5).toFixed(1), y: (offY + wk * ch + ch + 2).toFixed(1), "text-anchor": "end", class: "axis" }, lb));
+  // data cells: x = year, y = week; color = dominant group, brightness = count
   for (const [y, wk, n, gi] of D.cells) {
-    const r = y - D.yStart;
-    const col = groupColor(D.groups[gi]), op = (0.2 + 0.8 * Math.sqrt(n / maxN)).toFixed(2);
-    const rect = el("rect", { x: (offX + wk * cell).toFixed(1), y: (offY + r * cell).toFixed(1), width: sq.toFixed(1), height: sq.toFixed(1), fill: col, "fill-opacity": op });
+    const x = offX + (y - D.yStart) * cw, yy = offY + wk * ch;
+    const col = groupColor(D.groups[gi]), op = (0.22 + 0.78 * Math.sqrt(n / maxN)).toFixed(2);
+    const rect = el("rect", { x: x.toFixed(1), y: yy.toFixed(1), width: rw.toFixed(1), height: rh.toFixed(1), fill: col, "fill-opacity": op });
     rect.style.cursor = "pointer";
     rect.addEventListener("mousemove", (ev) => calTip(ev, D, y, wk, n, gi));
     rect.addEventListener("mouseleave", () => { const t = $("tip"); if (t) t.hidden = true; });
