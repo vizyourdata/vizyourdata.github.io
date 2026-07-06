@@ -11,7 +11,6 @@
     <!-- Header -->
     <header class="cmd__head">
       <div class="cmd__brand">
-        <span class="cmd__logo">&#128640;</span>
         <div>
           <h1 class="cmd__title">LAUNCH&nbsp;COMMAND</h1>
           <p class="cmd__sub">Space Launch Sites &middot; Makeover Monday 2026 &middot; Week 26</p>
@@ -32,6 +31,10 @@
         <p class="card__label">LAUNCH CADENCE &amp; SITE NETWORK &middot; 1957&ndash;2026</p>
         <div id="map" class="chart"></div>
       </div>
+      <div class="card card--cal">
+        <p class="card__label">BY WEEK</p>
+        <div id="cal" class="chart"></div>
+      </div>
       <div class="card card--r1">
         <p class="card__label">BY COUNTRY GROUP</p>
         <div id="byCountry" class="chart"></div>
@@ -48,6 +51,8 @@
       <span class="cmd__foot-r">Eric Summers &middot; <a class="cmd__credit" href="https://tableauops.com" target="_blank" rel="noopener">tableauops.com</a> &middot; <a class="cmd__credit" href="https://twitter.com/TableauOps" target="_blank" rel="noopener">@TableauOps</a></span>
     </footer>
   </div>
+
+  <div id="tip" class="caltip" hidden></div>
 
   <!-- Empty / error state -->
   <div id="empty" class="empty" hidden>

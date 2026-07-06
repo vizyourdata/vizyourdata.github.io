@@ -9,7 +9,9 @@
 const $ = (id) => document.getElementById(id);
 const SVGNS = "http://www.w3.org/2000/svg";
 let WORLD = null;
+let CAL = null; // calendar (year x week) data, loaded from ./calendar-data.json
 let heroHover = null; // set by renderHero: (siteName|null) => spotlight that site on the map
+const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
 const GROUP_COLORS = {
   "United States": "#e8694a", "Russia/Soviet Union": "#2f9e97", "China": "#e0a33e",
@@ -22,11 +24,13 @@ const fmt = (n) => Math.round(n).toLocaleString("en-US");
 /* ---------- boot ---------- */
 (async function boot() {
   try {
-    const [world, data] = await Promise.all([
+    const [world, data, cal] = await Promise.all([
       fetch("./world-land.json").then((r) => r.json()).catch(() => null),
       fetch("./data.json").then((r) => { if (!r.ok) throw new Error("data.json " + r.status); return r.json(); }),
+      fetch("./calendar-data.json").then((r) => (r.ok ? r.json() : null)).catch(() => null),
     ]);
     WORLD = world;
+    CAL = cal;
     window.__PAYLOAD = data;
     setStatus("ok");
     renderAll(data);
@@ -46,6 +50,7 @@ function renderAll(p) {
     stage = "hero"; renderHero(byMonth, p.sites, p.siteYears);
     stage = "byCountry"; renderBars($("byCountry"), [...byGroup.entries()].map(([g, n]) => ({ label: g, n, color: groupColor(g) })).sort((a, b) => b.n - a.n), { max: 6 });
     stage = "topSites"; renderRockets($("topSites"), p.sites.slice(0, 7).map((s) => ({ label: s.name, n: s.n, color: groupColor(s.group) })));
+    stage = "calendar"; if (CAL) renderCalendar($("cal"), CAL);
     const ks = p.byMonth.map((e) => e[0]);
     $("range").textContent = ks.length ? `${Math.floor(Math.min(...ks))} – ${Math.ceil(Math.max(...ks))}` : "";
   } catch (e) {
@@ -295,6 +300,47 @@ function renderBars(parent, items, opts) {
     g.appendChild(el("text", { x: x0 + bw + 6, y: cy + 3.5, "text-anchor": "start", class: "blab" }, fmt(d.n)));
     s.appendChild(g);
   });
+}
+
+/* ---------- calendar: compact year x week heatmap (divider column) ---------- */
+function renderCalendar(parent, D) {
+  const { s, w, h } = svg(parent);
+  const rows = D.yEnd - D.yStart + 1, cols = D.cols;
+  const padL = w > 150 ? 20 : 8, padR = 4, padT = 4, padB = 4;
+  const cell = Math.max(2, Math.min((w - padL - padR) / cols, (h - padT - padB) / rows));
+  const offX = padL + Math.max(0, ((w - padL - padR) - cell * cols) / 2);
+  const offY = padT + Math.max(0, ((h - padT - padB) - cell * rows) / 2);
+  const gap = cell > 5 ? 0.5 : 0, sq = Math.max(1, cell - gap);
+  // sparse year ticks (every 20 years)
+  for (let y = D.yStart; y <= D.yEnd; y++) {
+    if (y % 20 === 0) s.appendChild(el("text", { x: (offX - 4).toFixed(1), y: (offY + (y - D.yStart + 0.9) * cell).toFixed(1), "text-anchor": "end", class: "axis" }, "'" + String(y).slice(2)));
+  }
+  // background texture
+  for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++)
+    s.appendChild(el("rect", { x: (offX + c * cell).toFixed(1), y: (offY + r * cell).toFixed(1), width: sq.toFixed(1), height: sq.toFixed(1), fill: "#0f1d2a" }));
+  // data squares
+  const maxN = D.maxN;
+  for (const [y, wk, n, gi] of D.cells) {
+    const r = y - D.yStart;
+    const rect = el("rect", { x: (offX + wk * cell).toFixed(1), y: (offY + r * cell).toFixed(1), width: sq.toFixed(1), height: sq.toFixed(1), fill: groupColor(D.groups[gi]), "fill-opacity": (0.2 + 0.8 * Math.sqrt(n / maxN)).toFixed(2) });
+    rect.style.cursor = "pointer";
+    rect.addEventListener("mousemove", (ev) => calTip(ev, D, y, wk, n, gi));
+    rect.addEventListener("mouseleave", () => { const t = $("tip"); if (t) t.hidden = true; });
+    s.appendChild(rect);
+  }
+}
+function calTip(ev, D, y, wk, n, gi) {
+  const t = $("tip"); if (!t) return;
+  const start = new Date(Date.UTC(y, 0, 1 + wk * 7));
+  const wl = start.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+  t.innerHTML = `<b>${y}</b> &middot; week ${wk + 1} <span class="tipsub">(~${wl})</span><br>` +
+    `${n} launch${n > 1 ? "es" : ""} &middot; <span style="color:${groupColor(D.groups[gi])}">${D.groups[gi]}</span>`;
+  t.hidden = false;
+  const pad = 14, r = t.getBoundingClientRect();
+  let x = ev.clientX + pad, yy = ev.clientY + pad;
+  if (x + r.width > window.innerWidth) x = ev.clientX - r.width - pad;
+  if (yy + r.height > window.innerHeight) yy = ev.clientY - r.height - pad;
+  t.style.left = x + "px"; t.style.top = yy + "px";
 }
 
 /* ---------- state ---------- */
