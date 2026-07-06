@@ -1,0 +1,574 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Launch Command – Seventy Years of Reaching Orbit</title>
+<meta name="description" content="A scrollytelling data story of every orbital and deep-space launch from 1957 to 2026: the Cold War metronome, the post-Soviet collapse, and the near-vertical New Space surge, plus who launches now and the handful of doorways they leave from.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* portfolio: back-to-gallery home link */
+.vyd-home{position:fixed; z-index:90; top:1.15rem; left:1.3rem; text-decoration:none;
+  font-family:"IBM Plex Mono",monospace; font-size:.7rem; letter-spacing:.16em; text-transform:uppercase;
+  color:var(--muted); padding:.5em .9em; border:1px solid var(--line); border-radius:100px;
+  background:rgba(10,16,28,.6); backdrop-filter:blur(6px);
+  transition:color .25s, border-color .25s, transform .25s;}
+.vyd-home:hover{color:var(--fire); border-color:var(--fire); transform:translateX(-2px)}
+@media (max-width:680px){.vyd-home{top:.7rem; left:.7rem; font-size:.62rem}}
+:root{
+  --bg-0:#060912; --bg-1:#04060D; --panel:#0C1424; --panel-2:#0A101E;
+  --ink:#DDE7F4; --muted:#8092AE; --faint:#4C5B76;
+  --ru:#33B9AF; --us:#EE6A44; --cn:#E9B84A; --other:#6E86B8; --nato:#6E86B8;
+  --fire:#FF7A2F; --star:#EAF1FC;
+  --grid:rgba(120,150,195,.10); --line:rgba(150,175,210,.14);
+  --maxw:1320px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; color:var(--ink);
+  font-family:"Archivo",system-ui,sans-serif; font-weight:400;
+  background:radial-gradient(120% 80% at 70% -10%, #0B1426 0%, var(--bg-0) 40%, var(--bg-1) 100%);
+  background-attachment:fixed;
+  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; overflow-x:hidden;
+}
+/* ---------- atmosphere ---------- */
+#stars{position:fixed; inset:0; z-index:0; pointer-events:none}
+.scan{position:fixed; inset:0; z-index:1; pointer-events:none; opacity:.5;
+  background:repeating-linear-gradient(0deg, rgba(120,150,195,.020) 0 2px, transparent 2px 4px);}
+.vign{position:fixed; inset:0; z-index:1; pointer-events:none;
+  background:radial-gradient(130% 120% at 50% 40%, transparent 55%, rgba(3,5,10,.55) 100%);}
+.progress{position:fixed; top:0; left:0; right:0; height:2px; z-index:80; background:rgba(120,150,195,.10)}
+.progress span{display:block; height:100%; width:0; background:linear-gradient(90deg,var(--ru),var(--cn),var(--us),var(--fire));
+  box-shadow:0 0 12px rgba(255,122,47,.5)}
+::selection{background:var(--fire); color:#0a0a0a}
+
+/* ---------- shared type ---------- */
+.wrap{max-width:var(--maxw); margin:0 auto; padding:0 6vw; position:relative; z-index:2}
+.kicker{font-family:"IBM Plex Mono",monospace; font-size:.7rem; letter-spacing:.32em; text-transform:uppercase;
+  color:var(--muted); display:flex; align-items:center; gap:.85em; margin:0 0 1.2rem}
+.kicker::before{content:""; width:2.2em; height:1px; background:currentColor; opacity:.7}
+.kicker.k-fire{color:var(--fire)} .kicker.k-ru{color:var(--ru)} .kicker.k-us{color:var(--us)}
+h1,h2,h3{font-weight:700; margin:0; font-family:"Chakra Petch",sans-serif; letter-spacing:.01em}
+.disp{font-family:"Chakra Petch",sans-serif; font-weight:700; line-height:1.02; letter-spacing:.005em; text-transform:uppercase}
+b{font-weight:600}
+em{font-style:normal; color:var(--fire)}
+.mono{font-family:"IBM Plex Mono",monospace}
+
+/* ---------- hero ---------- */
+.hero{position:relative; min-height:100svh; display:flex; flex-direction:column; justify-content:center; overflow:hidden; padding:6vh 0}
+.hero .eyebrow{font-family:"IBM Plex Mono",monospace; font-size:.76rem; letter-spacing:.38em; text-transform:uppercase; color:var(--muted);
+  opacity:0; animation:rise .8s .1s both; display:flex; gap:1.2em; align-items:center; flex-wrap:wrap}
+.hero .eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--fire);box-shadow:0 0 10px var(--fire);animation:blink 2.4s infinite}
+.hero h1{font-size:clamp(3.2rem,13vw,12rem); line-height:.9; margin:.18em 0 .1em; letter-spacing:-.01em;
+  text-transform:uppercase}
+.hero h1 .w{display:inline-block; opacity:0; animation:rise .95s both}
+.hero h1 .w:nth-child(1){animation-delay:.18s} .hero h1 .w:nth-child(2){animation-delay:.32s; color:var(--fire)}
+.hero .stand{font-size:clamp(1.05rem,1.9vw,1.5rem); line-height:1.55; max-width:44ch; color:var(--muted);
+  opacity:0; animation:rise 1s .5s both; margin-top:.4rem}
+.hero .stand b{color:var(--ink); font-weight:600}
+/* KPI readout row */
+.readout{display:grid; grid-template-columns:repeat(4,1fr); gap:1px; margin-top:3.2rem; max-width:1040px;
+  background:var(--line); border:1px solid var(--line); border-radius:12px; overflow:hidden;
+  opacity:0; animation:rise 1s .8s both}
+.readout .cell{background:linear-gradient(180deg,var(--panel),var(--panel-2)); padding:1.3rem 1.5rem}
+.readout .lab{font-family:"IBM Plex Mono",monospace; font-size:.64rem; letter-spacing:.2em; text-transform:uppercase; color:var(--muted)}
+.readout .val{font-family:"Chakra Petch",sans-serif; font-weight:700; font-size:clamp(1.7rem,3.2vw,2.7rem); line-height:1; margin-top:.5rem}
+.readout .val small{font-size:.5em; color:var(--muted); font-weight:500}
+.readout .cell:nth-child(1) .val{color:var(--fire)} .readout .cell:nth-child(2) .val{color:var(--ru)}
+.readout .cell:nth-child(3) .val{color:var(--cn)} .readout .cell:nth-child(4) .val{color:var(--us)}
+.readout .sub{font-family:"IBM Plex Mono",monospace; font-size:.68rem; color:var(--faint); margin-top:.5rem}
+.scrollcue{position:absolute; left:50%; bottom:1.4rem; transform:translateX(-50%); z-index:3;
+  font-family:"IBM Plex Mono",monospace; font-size:.62rem; letter-spacing:.3em; text-transform:uppercase; color:var(--muted);
+  display:flex; flex-direction:column; align-items:center; gap:.6rem; opacity:0; animation:rise 1s 1.2s both}
+.scrollcue .l{width:1px; height:38px; background:linear-gradient(var(--muted),transparent); animation:pulse 1.9s ease-in-out infinite}
+@keyframes rise{from{opacity:0; transform:translateY(24px)} to{opacity:1; transform:translateY(0)}}
+@keyframes pulse{0%,100%{transform:scaleY(.4); opacity:.3} 50%{transform:scaleY(1); opacity:1}}
+@keyframes blink{0%,100%{opacity:1} 50%{opacity:.25}}
+
+/* ---------- section intro ---------- */
+.act-intro{padding:22vh 0 4vh}
+.act-intro .no{font-family:"IBM Plex Mono",monospace; font-size:.8rem; letter-spacing:.3em; color:var(--faint)}
+.act-intro h2{font-size:clamp(2.2rem,5.6vw,4.6rem); line-height:1.0; margin:.5rem 0 0; max-width:16ch}
+.act-intro .lead{font-size:clamp(1.08rem,1.7vw,1.4rem); line-height:1.6; color:var(--muted); max-width:52ch; margin-top:1.6rem}
+.act-intro .lead b{color:var(--ink); font-weight:600}
+
+/* ---------- scrolly ---------- */
+.scrolly{position:relative; max-width:1560px; margin:0 auto; padding:0 4vw;
+  display:grid; grid-template-columns:62% 38%; align-items:start}
+.scrolly .figure{grid-column:1; position:sticky; top:0; height:100svh;
+  display:flex; flex-direction:column; align-items:center; justify-content:center}
+.scrolly .steps{grid-column:2; padding:22vh 0 40vh 3.5vw}
+.step{min-height:88vh; display:flex; flex-direction:column; justify-content:center; align-items:flex-start}
+.step .num{font-family:"IBM Plex Mono",monospace; font-size:.72rem; letter-spacing:.24em; color:var(--faint); margin-bottom:1rem}
+.step h3{font-size:clamp(1.5rem,2.4vw,2.15rem); line-height:1.08; text-transform:none; letter-spacing:.005em}
+.step .lede{font-size:clamp(1.02rem,1.35vw,1.24rem); line-height:1.6; max-width:38ch; color:var(--muted); margin-top:1rem}
+.step .lede b{color:var(--ink); font-weight:600}
+.step .lede em{color:var(--fire); font-weight:600}
+.step .micro{font-family:"IBM Plex Mono",monospace; font-size:.72rem; letter-spacing:.03em; color:var(--muted); margin-top:1.2rem;
+  border-left:2px solid var(--line); padding-left:.9rem; line-height:1.7}
+.figure svg{width:100%; height:auto; max-height:82vh; overflow:visible}
+.figwrap{width:100%; position:relative}
+.figkey{min-height:2.9em; display:flex; flex-direction:column; align-items:flex-start; justify-content:flex-end;
+  margin-bottom:.5rem; transition:opacity .35s, transform .35s; padding-left:8px}
+.figkey .k-big{font-family:"Chakra Petch",sans-serif; font-weight:700; line-height:.95; font-size:clamp(1.8rem,3.2vw,2.7rem)}
+.figkey .k-sub{font-family:"IBM Plex Mono",monospace; font-size:.7rem; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); margin-top:.5rem}
+
+/* ---------- editorial reveal blocks ---------- */
+.block{padding:14vh 0}
+.reveal{opacity:0; transform:translateY(30px); transition:opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1; transform:none}
+.panel{background:linear-gradient(180deg,var(--panel),var(--panel-2)); border:1px solid var(--line); border-radius:18px;
+  padding:clamp(1.6rem,3.6vw,3rem); position:relative; overflow:hidden;
+  box-shadow:0 30px 80px -40px rgba(0,0,0,.7), inset 0 1px 0 rgba(150,175,210,.05)}
+.panel .corner{position:absolute; top:14px; right:16px; font-family:"IBM Plex Mono",monospace; font-size:.62rem;
+  letter-spacing:.2em; color:var(--faint)}
+.chart-cap{font-family:"IBM Plex Mono",monospace; font-size:.72rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin:0 0 1.2rem}
+.chart svg{width:100%; height:auto; overflow:visible}
+.body{font-size:clamp(1.06rem,1.55vw,1.3rem); line-height:1.62; max-width:48ch; color:var(--muted)}
+.body b{color:var(--ink); font-weight:600} .body em{color:var(--fire); font-weight:600}
+h2.hd{font-size:clamp(2rem,4.4vw,3.4rem); line-height:1.03; max-width:18ch; margin:.4rem 0 0}
+
+/* legend + stats */
+.legend{display:flex; flex-wrap:wrap; gap:.5rem 1.3rem; font-family:"IBM Plex Mono",monospace; font-size:.72rem;
+  letter-spacing:.04em; text-transform:uppercase; color:var(--muted); margin-top:1.2rem}
+.legend .lg{display:inline-flex; align-items:center; gap:.5em}
+.legend .lg i{width:11px; height:11px; border-radius:3px; display:inline-block}
+.statgrid{display:grid; grid-template-columns:repeat(3,1fr); gap:clamp(.8rem,2vw,2rem); margin-top:2.4rem}
+.stat .n{font-family:"Chakra Petch",sans-serif; font-weight:700; font-size:clamp(1.9rem,4vw,3.2rem); line-height:.95}
+.stat .t{font-family:"IBM Plex Mono",monospace; font-size:.68rem; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); margin-top:.7rem; line-height:1.5}
+
+/* two-column layouts */
+.split{display:grid; grid-template-columns:1fr 1fr; gap:clamp(1.6rem,4vw,4rem); align-items:center}
+.split.map{grid-template-columns:1.35fr 1fr}
+@media(max-width:900px){.split,.split.map{grid-template-columns:1fr; gap:2rem} .readout{grid-template-columns:repeat(2,1fr)}}
+
+/* finale + footer */
+.finale{min-height:80svh; display:flex; align-items:center; text-align:center}
+.finale h2{font-size:clamp(2.2rem,6vw,5rem); line-height:1.02; max-width:20ch; margin:1rem auto}
+.finale .sub{font-family:"Archivo"; font-weight:400; font-size:clamp(1.05rem,1.7vw,1.4rem); line-height:1.55; max-width:52ch; margin:0 auto; color:var(--muted)}
+.finale .sub b{color:var(--ink); font-weight:600}
+footer{padding:8vh 0 7vh; border-top:1px solid var(--line); margin-top:6vh}
+footer .ft{font-family:"Chakra Petch",sans-serif; font-weight:700; font-size:clamp(1.3rem,3vw,2rem); text-transform:uppercase; letter-spacing:.02em}
+footer .note{font-family:"IBM Plex Mono",monospace; font-size:.72rem; color:var(--muted); margin-top:1.1rem; line-height:1.8; max-width:70ch}
+footer .sign{font-family:"IBM Plex Mono",monospace; font-size:.7rem; letter-spacing:.16em; text-transform:uppercase; color:var(--faint); margin-top:2rem}
+
+/* tooltip */
+.tip{position:absolute; z-index:25; pointer-events:none; opacity:0; transition:opacity .12s; min-width:120px;
+  background:rgba(10,16,28,.94); border:1px solid var(--line); border-radius:8px; padding:.6rem .75rem;
+  font-family:"IBM Plex Mono",monospace; font-size:.72rem; color:var(--ink); backdrop-filter:blur(4px);
+  box-shadow:0 10px 30px rgba(0,0,0,.5)}
+.tip .ty{font-weight:600; margin-bottom:.35rem; letter-spacing:.1em}
+.tip .tr{display:flex; justify-content:space-between; gap:1.2em; color:var(--muted)}
+.tip .tr b{color:var(--ink)}
+
+@media(max-width:900px){
+  .scrolly{grid-template-columns:1fr}
+  .scrolly .figure{grid-column:1; height:56svh; position:sticky; z-index:3;
+    background:linear-gradient(180deg,var(--bg-0) 0%, var(--bg-0) 80%, transparent 100%)}
+  .scrolly .steps{grid-column:1; padding-top:0}
+  .step{min-height:82vh; align-items:center; text-align:center}
+  .step .micro{border-left:none; padding-left:0}
+  .reveal{opacity:1; transform:none}
+}
+</style>
+</head>
+<body>
+<a class="vyd-home" href="/" aria-label="vizyourdata, back to the gallery">← vizyourdata</a>
+<canvas id="stars" aria-hidden="true"></canvas>
+<div class="scan" aria-hidden="true"></div>
+<div class="vign" aria-hidden="true"></div>
+<div class="progress" aria-hidden="true"><span id="bar"></span></div>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow"><span class="dot"></span> Space Launch Sites &nbsp;·&nbsp; 1957 – 2026 &nbsp;·&nbsp; MakeoverMonday 2026 W26</p>
+    <h1 class="disp"><span class="w">Launch</span> <span class="w">Command</span></h1>
+    <p class="stand">Every orbital and deep-space launch humanity has ever attempted, <b>7,335 of them</b>, from Sputnik to last week. Who reaches for orbit, how often, and from where, has quietly changed more than once.</p>
+    <div class="readout">
+      <div class="cell"><div class="lab">Total launches</div><div class="val">7,335</div><div class="sub">orbital + deep space</div></div>
+      <div class="cell"><div class="lab">Reached orbit</div><div class="val">92.8<small>%</small></div><div class="sub">6,810 successes</div></div>
+      <div class="cell"><div class="lab">Active sites</div><div class="val">45</div><div class="sub">spaceports worldwide</div></div>
+      <div class="cell"><div class="lab">Payload to orbit</div><div class="val">22,439<small> t</small></div><div class="sub">metric tons lifted</div></div>
+    </div>
+  </div>
+  <div class="scrollcue">Scroll<span class="l"></span></div>
+</header>
+
+<!-- ============ ACT 1 INTRO ============ -->
+<section class="act-intro wrap">
+  <div class="reveal">
+    <p class="no">ACT I</p>
+    <h2 class="disp">The cadence</h2>
+    <p class="lead">Count every launch, year by year, and you get a heartbeat. For a long time it was steady. Then it flatlined. Then, in the last ten years, it went <em>vertical</em>.</p>
+  </div>
+</section>
+
+<!-- ============ ACT 1 SCROLLY ============ -->
+<div class="scrolly">
+  <div class="figure" id="figure1">
+    <div class="figwrap">
+      <div class="figkey" id="figkey1"></div>
+      <svg id="cadence" viewBox="0 0 1000 560" role="img" aria-label="Launches per year, 1957 to 2026, showing the Cold War plateau, the post-Soviet decline, and the recent surge."></svg>
+    </div>
+  </div>
+  <div class="steps" id="steps1">
+    <div class="step" data-step="0">
+      <div class="num">1957 — 1990</div>
+      <h3>A Cold War metronome.</h3>
+      <p class="lede">Through the space race and the decades after, the world settled into a rhythm of roughly <b>100 to 130 launches a year</b>. Two superpowers, launching relentlessly, kept the beat steady for a generation.</p>
+      <div class="micro">1965–1985 · ~120 launches / yr<br>peak of the bipolar era</div>
+    </div>
+    <div class="step" data-step="1">
+      <div class="num">1991 — 1999</div>
+      <h3>Then the beat broke.</h3>
+      <p class="lede">When the Soviet Union dissolved, half the world's launch program lost its funding overnight. The cadence <b>fell by a third</b> and kept sliding through the decade.</p>
+      <div class="micro">1985: 126 → 1999: 78<br>the post-Soviet drawdown</div>
+    </div>
+    <div class="step" data-step="2">
+      <div class="num">2000 — 2012</div>
+      <h3>The quiet decade.</h3>
+      <p class="lede">For twelve years the world launched at its slowest sustained pace since the early 1960s, averaging just <b>~66 a year</b>. Spaceflight had become routine, expensive, and rare.</p>
+      <div class="micro">2000s average · ~66 launches / yr<br>the lowest sustained cadence</div>
+    </div>
+    <div class="step" data-step="3">
+      <div class="num">2013 — 2026</div>
+      <h3>Then it went vertical.</h3>
+      <p class="lede">Reusable rockets and mega-constellations rewrote the economics. In 2025 the world launched <em>330 times</em>, nearly <b>triple the Cold War peak</b>, and the curve is still climbing.</p>
+      <div class="micro">2021: 146 → 2025: 330<br>the New Space surge</div>
+    </div>
+    <div class="step" data-step="4">
+      <div class="num">2019 — 2026</div>
+      <h3>One company, one constellation.</h3>
+      <p class="lede">A single satellite network explains much of the spike. Starlink alone went from 2 launches in 2019 to <em>122 in 2025</em>, more than a <b>third of every launch on Earth</b> that year.</p>
+      <div class="micro">Starlink dedicated launches, 2025<br>122 of 330 total worldwide</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ ACT 2 ============ -->
+<section class="act-intro wrap">
+  <div class="reveal">
+    <p class="no">ACT II</p>
+    <h2 class="disp">The changing<br>of the guard</h2>
+    <p class="lead">The all-time leaderboard was written during the Cold War. It hasn't described the present tense for years.</p>
+  </div>
+</section>
+
+<section class="block wrap">
+  <div class="reveal panel">
+    <div class="corner">FLOW · LAUNCHES / YR BY BLOC</div>
+    <p class="chart-cap">Launches per year by country group · 1957–2026</p>
+    <div class="chart"><svg id="stream" viewBox="0 0 1000 460" role="img" aria-label="Stacked launches per year by country group, showing Soviet dominance early and a US and China surge recently."></svg></div>
+    <div class="legend">
+      <span class="lg"><i style="background:var(--ru)"></i>Russia / Soviet Union</span>
+      <span class="lg"><i style="background:var(--us)"></i>United States</span>
+      <span class="lg"><i style="background:var(--cn)"></i>China</span>
+      <span class="lg"><i style="background:var(--other)"></i>Everyone else</span>
+    </div>
+  </div>
+</section>
+
+<section class="block wrap">
+  <div class="reveal split">
+    <div>
+      <p class="kicker k-ru">The lead was built long ago</p>
+      <h2 class="hd disp">Russia holds the record. It barely flies anymore.</h2>
+      <p class="body" style="margin-top:1.5rem">The Soviet Union and Russia account for <b>3,384 launches</b>, the most of any program in history. But look at the last five years and the picture inverts: the United States and China now own the sky, while Russia has fallen behind even the mid-tier powers.</p>
+      <p class="body" style="margin-top:1.1rem">The share of the world's launches tells the story bluntly. What was a <b>two-thirds Soviet monopoly</b> in the Cold War is now a <b>US and China contest</b>, with Russia down to a rounding error.</p>
+    </div>
+    <div class="panel">
+      <div class="corner">SHARE OF WORLD LAUNCHES</div>
+      <p class="chart-cap">Then (1957–1990) &nbsp;vs&nbsp; Now (2022–2026)</p>
+      <div class="chart"><svg id="shares" viewBox="0 0 520 360" role="img" aria-label="Share of world launches then versus now, by country group."></svg></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ACT 3 ============ -->
+<section class="act-intro wrap">
+  <div class="reveal">
+    <p class="no">ACT III</p>
+    <h2 class="disp">The doorways</h2>
+    <p class="lead">Forty-five spaceports are scattered across the planet. Almost everything leaves through four of them.</p>
+  </div>
+</section>
+
+<section class="block wrap">
+  <div class="reveal split map">
+    <div class="panel">
+      <div class="corner">GROUND TRACK · N=7,335</div>
+      <p class="chart-cap">Every launch site, sized by lifetime launches</p>
+      <div class="chart" style="position:relative"><svg id="map" viewBox="0 0 1000 520" role="img" aria-label="World map of launch sites sized by number of launches."></svg></div>
+      <div class="legend">
+        <span class="lg"><i style="background:var(--ru)"></i>Russia / USSR</span>
+        <span class="lg"><i style="background:var(--us)"></i>United States</span>
+        <span class="lg"><i style="background:var(--cn)"></i>China</span>
+        <span class="lg"><i style="background:var(--other)"></i>Other</span>
+      </div>
+    </div>
+    <div>
+      <p class="kicker k-fire">A handful of gates</p>
+      <h2 class="hd disp">Four sites. Three-quarters of everything.</h2>
+      <p class="body" style="margin-top:1.5rem">Plesetsk and Baykonur, both Soviet-built, are still the two busiest launch sites on Earth, together with Cape Canaveral and Vandenberg in the United States. These <b>four spaceports account for 75.5%</b> of all 7,335 launches ever flown.</p>
+      <div class="statgrid">
+        <div class="stat"><div class="n" style="color:var(--ru)">1,686</div><div class="t">Plesetsk<br>#1 all-time</div></div>
+        <div class="stat"><div class="n" style="color:var(--ru)">1,558</div><div class="t">Baykonur<br>#2 all-time</div></div>
+        <div class="stat"><div class="n" style="color:var(--fire)">75.5<small style="font-size:.5em">%</small></div><div class="t">from the<br>top 4 sites</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FINALE ============ -->
+<section class="finale wrap">
+  <div class="reveal" style="margin:0 auto">
+    <p class="kicker k-fire" style="justify-content:center">The takeaway</p>
+    <h2 class="disp">The monuments are Soviet.<br>The momentum is <em>new</em>.</h2>
+    <p class="sub">The Cold War built the record books and the two busiest launch pads on the planet. But the present belongs to a reusable-rocket surge out of America and a fast-rising China, lifting more mass, more often, than any era before it.</p>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="wrap">
+  <div class="ft">Launch Command</div>
+  <p class="note">Built from a launch-level record of 7,335 orbital and deep-space launches, 1957 through June 2026 (2026 is a partial year). Each launch carries its date, site with coordinates, country group, outcome, and payload mass. Counts, success rate, payload total, per-year cadence, per-bloc trends, and site rankings are computed directly from the records. "Everyone else" groups NATO allies, major non-NATO allies, and all other nations. Data: MakeoverMonday 2026, Week 26. A data story by vizyourdata.</p>
+  <div class="sign">Data viz · scrollytelling · seventy years of fire</div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ================= DATA (computed from the 7,335-row launch table) ================= */
+  const D={
+    years:[1957,1958,1959,1960,1961,1962,1963,1964,1965,1966,1967,1968,1969,1970,1971,1972,1973,1974,1975,1976,1977,1978,1979,1980,1981,1982,1983,1984,1985,1986,1987,1988,1989,1990,1991,1992,1993,1994,1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,2026],
+    per_year:[3,28,25,38,50,81,70,100,125,131,139,129,125,124,133,113,117,113,132,131,130,128,110,109,126,129,129,130,126,110,114,121,102,121,91,97,85,94,80,77,89,82,78,85,59,65,64,55,56,66,68,69,78,74,84,78,81,92,87,86,90,114,103,114,146,186,223,263,330,154],
+    US:[1,23,21,29,41,59,46,64,71,77,60,48,41,29,33,32,25,23,30,26,26,33,16,15,19,18,22,23,19,9,9,11,18,27,19,29,27,28,30,33,37,36,31,28,22,17,23,16,12,18,19,15,24,15,18,13,19,23,20,23,29,31,21,37,45,78,108,145,181,86],
+    RU:[2,5,4,9,9,22,24,36,53,51,74,80,82,87,91,79,90,85,93,100,102,91,89,90,100,108,100,97,100,94,97,94,75,79,61,55,48,49,33,27,29,25,28,36,23,25,21,23,26,25,26,27,32,31,32,24,32,32,26,17,19,17,22,15,24,21,19,17,17,8],
+    CN:[0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,1,2,3,3,0,1,1,0,1,1,1,3,1,2,2,4,0,5,1,4,1,5,3,4,6,6,4,5,1,5,7,8,6,6,10,11,6,15,19,19,15,16,19,22,18,39,34,39,56,64,67,68,93,44],
+    Other:[0,0,0,0,0,0,0,0,1,3,5,1,2,7,8,2,1,3,6,2,2,3,4,4,6,2,6,7,6,5,6,12,9,10,10,9,9,12,14,13,17,15,15,16,13,18,13,8,12,17,13,16,16,13,15,22,15,21,22,24,24,27,26,23,21,23,29,33,39,16],
+    starlink:[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,14,19,34,63,90,122,58],
+    coldwar:{RU:2392,US:1044,CN:33,Other:123},
+    recent:{RU:82,US:598,CN:336,Other:140},
+    sites:[{name:"Plesetsk",n:1686,lat:63.0,lon:41.1,g:"ru"},{name:"Baykonur",n:1558,lat:46.0,lon:63.0,g:"ru"},{name:"Cape Canaveral",n:1383,lat:28.46,lon:-80.54,g:"us"},{name:"Vandenberg",n:911,lat:34.75,lon:-120.62,g:"us"},{name:"Kourou",n:334,lat:5.23,lon:-52.75,g:"other"},{name:"Jiuquan",n:290,lat:41.31,lon:100.31,g:"cn"},{name:"Xichang",n:241,lat:28.25,lon:102.03,g:"cn"},{name:"Taiyuan",n:157,lat:37.5,lon:112.6,g:"cn"},{name:"Satish Dhawan",n:101,lat:13.62,lon:80.30,g:"other"},{name:"Kapustin Yar",n:101,lat:48.5,lon:45.8,g:"ru"},{name:"Tanegashima",n:98,lat:30.4,lon:130.97,g:"other"},{name:"Wenchang",n:60,lat:19.61,lon:110.95,g:"cn"},{name:"Mahia",n:78,lat:-39.26,lon:177.87,g:"other"}]
+  };
+  const COL={us:'#EE6A44',ru:'#33B9AF',cn:'#E9B84A',other:'#6E86B8'};
+  const N=D.years.length, LAST=N-1;
+
+  /* ================= helpers ================= */
+  function smooth(pts){
+    if(pts.length<2) return pts.length?`M${pts[0].x},${pts[0].y}`:'';
+    let d=`M${pts[0].x.toFixed(1)},${pts[0].y.toFixed(1)}`;
+    for(let i=0;i<pts.length-1;i++){
+      const p0=pts[i-1]||pts[i],p1=pts[i],p2=pts[i+1],p3=pts[i+2]||p2;
+      const c1x=p1.x+(p2.x-p0.x)/6,c1y=p1.y+(p2.y-p0.y)/6;
+      const c2x=p2.x-(p3.x-p1.x)/6,c2y=p2.y-(p3.y-p1.y)/6;
+      d+=` C${c1x.toFixed(1)},${c1y.toFixed(1)} ${c2x.toFixed(1)},${c2y.toFixed(1)} ${p2.x.toFixed(1)},${p2.y.toFixed(1)}`;
+    }
+    return d;
+  }
+  function areaPath(top,bot){ return smooth(top)+' L'+bot[bot.length-1].x.toFixed(1)+','+bot[bot.length-1].y.toFixed(1)+' '+smooth(bot.slice().reverse()).replace(/^M/,'L')+' Z'; }
+  const yearIdx=y=>D.years.indexOf(y);
+
+  /* ================= ACT 1 · cadence chart ================= */
+  (function(){
+    const W=1000,H=560,pl=64,pr=64,pt=64,pb=52;
+    const maxY=340;
+    const x=i=>pl+i/(N-1)*(W-pl-pr);
+    const y=v=>H-pb-(v/maxY)*(H-pt-pb);
+    let g='';
+    // grid + decade axis
+    for(let v=0;v<=300;v+=100){ g+=`<line x1="${pl}" y1="${y(v)}" x2="${W-pr}" y2="${y(v)}" stroke="var(--grid)" stroke-width="1"/>`+
+      `<text x="${pl-10}" y="${(y(v)+4).toFixed(1)}" text-anchor="end" fill="#4C5B76" font-family="IBM Plex Mono,monospace" font-size="11">${v}</text>`; }
+    for(let yr=1960;yr<=2020;yr+=10){ const i=yearIdx(yr); g+=`<text x="${x(i).toFixed(1)}" y="${H-pb+24}" text-anchor="middle" fill="#4C5B76" font-family="IBM Plex Mono,monospace" font-size="11">${yr}</text>`; }
+    // area + line
+    const top=D.per_year.map((v,i)=>({x:x(i),y:y(v)}));
+    const bot=D.per_year.map((v,i)=>({x:x(i),y:y(0)}));
+    g+=`<defs><linearGradient id="cad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FF7A2F" stop-opacity=".55"/><stop offset="1" stop-color="#FF7A2F" stop-opacity="0"/></linearGradient>
+      <linearGradient id="sl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#EAF1FC" stop-opacity=".9"/><stop offset="1" stop-color="#7FB6FF" stop-opacity=".15"/></linearGradient></defs>`;
+    g+=`<path d="${areaPath(top,bot)}" fill="url(#cad)"/>`;
+    g+=`<path d="${smooth(top)}" fill="none" stroke="#FF7A2F" stroke-width="2.4" stroke-linejoin="round" style="filter:drop-shadow(0 0 6px rgba(255,122,47,.6))"/>`;
+    // starlink sub-area (hidden until step 4)
+    const slTop=D.starlink.map((v,i)=>({x:x(i),y:y(v)}));
+    g+=`<path id="slArea" d="${areaPath(slTop,bot)}" fill="url(#sl)" opacity="0" style="transition:opacity .5s"/>`;
+    // spotlight masks (dim non-focused range)
+    g+=`<rect id="mL" x="0" y="0" width="0" height="${H}" fill="#060912" opacity="0" style="transition:all .5s"/>`;
+    g+=`<rect id="mR" x="0" y="0" width="0" height="${H}" fill="#060912" opacity="0" style="transition:all .5s"/>`;
+    // era bracket + peak marker
+    g+=`<g id="brk" opacity="0" style="transition:opacity .4s"><line id="brkL" y1="${pt-8}" y2="${H-pb}" stroke="rgba(234,241,252,.35)" stroke-dasharray="2 4"/><line id="brkR" y1="${pt-8}" y2="${H-pb}" stroke="rgba(234,241,252,.35)" stroke-dasharray="2 4"/></g>`;
+    // peak dot at 2025
+    const pk=yearIdx(2025);
+    g+=`<circle id="pkDot" cx="${x(pk).toFixed(1)}" cy="${y(330).toFixed(1)}" r="4.5" fill="#FF7A2F" opacity="0" style="transition:opacity .4s"/>`;
+    document.getElementById('cadence').innerHTML=g;
+
+    const mL=document.getElementById('mL'),mR=document.getElementById('mR'),slA=document.getElementById('slArea'),
+      brk=document.getElementById('brk'),brkL=document.getElementById('brkL'),brkR=document.getElementById('brkR'),pkDot=document.getElementById('pkDot'),
+      fk=document.getElementById('figkey1');
+    // era definitions: [startYear,endYear], big, sub, color
+    const ERAS=[
+      {a:1957,b:1990,big:'~120 / yr',sub:'the cold war metronome',c:'#EAF1FC'},
+      {a:1989,b:2000,big:'−38%',sub:'after the soviet fall',c:'#33B9AF'},
+      {a:2000,b:2012,big:'~66 / yr',sub:'the quiet decade',c:'#8092AE'},
+      {a:2013,b:2026,big:'330',sub:'launches in 2025',c:'#FF7A2F'},
+      {a:2019,b:2026,big:'122',sub:'starlink launches, 2025',c:'#EAF1FC'}
+    ];
+    function spot(a,b){
+      const xa=x(yearIdx(a)), xb=x(yearIdx(b));
+      mL.setAttribute('x',0); mL.setAttribute('width',Math.max(0,xa-6).toFixed(1)); mL.setAttribute('opacity','.66');
+      mR.setAttribute('x',(xb+6).toFixed(1)); mR.setAttribute('width',Math.max(0,W-xb-6).toFixed(1)); mR.setAttribute('opacity','.66');
+      brk.setAttribute('opacity','1'); brkL.setAttribute('x1',xa.toFixed(1)); brkL.setAttribute('x2',xa.toFixed(1));
+      brkR.setAttribute('x1',xb.toFixed(1)); brkR.setAttribute('x2',xb.toFixed(1));
+    }
+    let cur=-1;
+    function set(n){
+      n=+n; if(n===cur) return; cur=n; const e=ERAS[n];
+      fk.style.opacity=0; fk.style.transform='translateY(8px)';
+      setTimeout(()=>{
+        fk.innerHTML=`<span class="k-big" style="color:${e.c}">${e.big}</span><span class="k-sub">${e.sub}</span>`;
+        fk.style.opacity=1; fk.style.transform='none';
+      },170);
+      spot(e.a,e.b);
+      slA.setAttribute('opacity', n===4?'1':'0');
+      pkDot.setAttribute('opacity', (n===3||n===4)?'1':'0');
+    }
+    // init
+    set(0);
+    const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting) set(e.target.dataset.step);}),{rootMargin:'-45% 0px -45% 0px',threshold:0});
+    document.querySelectorAll('#steps1 .step').forEach(s=>obs.observe(s));
+  })();
+
+  /* ================= ACT 2 · stacked stream ================= */
+  (function(){
+    const W=1000,H=460,pl=48,pr=120,pt=30,pb=40;
+    const x=i=>pl+i/(N-1)*(W-pl-pr);
+    const maxY=340, k=(H-pt-pb)/maxY, base=H-pb;
+    // stack order bottom->top: Other, CN, US, RU  (RU on top so its early bulk reads, US/CN visible recent)
+    const order=[['Other',COL.other],['CN',COL.cn],['US',COL.us],['RU',COL.ru]];
+    let run=D.years.map(()=>base);
+    let g='';
+    // axis
+    for(let yr=1960;yr<=2020;yr+=10){const i=yearIdx(yr); g+=`<text x="${x(i).toFixed(1)}" y="${base+24}" text-anchor="middle" fill="#4C5B76" font-family="IBM Plex Mono,monospace" font-size="11">${yr}</text>`;}
+    order.forEach(([key,col])=>{
+      const top=[],bot=[];
+      D.years.forEach((_,i)=>{ const v=D[key][i]*k; const b=run[i], t=b-v; bot.push({x:x(i),y:b}); top.push({x:x(i),y:t}); run[i]=t; });
+      g+=`<path d="${areaPath(top,bot)}" fill="${col}" fill-opacity=".82" stroke="#060912" stroke-width=".5"/>`;
+    });
+    // right-edge labels (recent stack, at 2026)
+    const labels=[['RU','Russia',COL.ru],['US','United States',COL.us],['CN','China',COL.cn],['Other','Everyone else',COL.other]];
+    let ry=base; // recompute recent-year stack for label placement at last idx
+    const li=LAST; let acc=base;
+    [['Other',COL.other],['CN',COL.cn],['US',COL.us],['RU',COL.ru]].forEach(([key,col])=>{
+      const v=D[key][li]*k, mid=acc-v/2; acc-=v;
+      if(D[key][li]>=8){ const nm=({RU:'Russia',US:'United States',CN:'China',Other:'Others'})[key];
+        g+=`<text x="${(W-pr+10)}" y="${(mid+4).toFixed(1)}" fill="${col}" font-family="IBM Plex Mono,monospace" font-size="12" font-weight="500">${nm}</text>`; }
+    });
+    // annotations
+    const iu=yearIdx(1980);
+    g+=`<text x="${x(yearIdx(1975)).toFixed(1)}" y="${(base-260*k*0+ 150).toFixed(1)}" fill="rgba(234,241,252,.55)" font-family="IBM Plex Mono,monospace" font-size="11">◄ Soviet program dominates</text>`;
+    document.getElementById('stream').innerHTML=g;
+  })();
+
+  /* ================= ACT 2 · shares then vs now ================= */
+  (function(){
+    const W=520,H=360,pad=16, rowH=64, labW=132, x0=labW+24, x1=W-70;
+    const cw=coldTot(), rw=recTot();
+    function coldTot(){return D.coldwar.RU+D.coldwar.US+D.coldwar.CN+D.coldwar.Other;}
+    function recTot(){return D.recent.RU+D.recent.US+D.recent.CN+D.recent.Other;}
+    const rows=[['Russia / USSR','RU',COL.ru],['United States','US',COL.us],['China','CN',COL.cn]];
+    const scale=v=>(x1-x0)*v; // v in 0..1
+    let g=`<text x="${x0}" y="20" fill="#8092AE" font-family="IBM Plex Mono,monospace" font-size="10.5" letter-spacing="1">THEN ·1957–90</text>
+      <text x="${x1}" y="20" text-anchor="end" fill="#FF7A2F" font-family="IBM Plex Mono,monospace" font-size="10.5" letter-spacing="1">NOW ·2022–26</text>`;
+    rows.forEach((r,i)=>{
+      const [name,key,col]=r; const yv=48+i*rowH;
+      const thenPct=D.coldwar[key]/cw, nowPct=D.recent[key]/rw;
+      g+=`<text x="${labW}" y="${yv+6}" text-anchor="end" fill="#DDE7F4" font-family="IBM Plex Mono,monospace" font-size="12">${name}</text>`;
+      // then bar (muted)
+      g+=`<rect x="${x0}" y="${yv-14}" width="${scale(thenPct).toFixed(1)}" height="12" rx="2" fill="${col}" fill-opacity=".32"/>`;
+      g+=`<text x="${(x0+scale(thenPct)+6).toFixed(1)}" y="${yv-4}" fill="${col}" fill-opacity=".8" font-family="IBM Plex Mono,monospace" font-size="10.5">${Math.round(thenPct*100)}%</text>`;
+      // now bar (bright)
+      g+=`<rect x="${x0}" y="${yv+2}" width="${scale(nowPct).toFixed(1)}" height="12" rx="2" fill="${col}"/>`;
+      g+=`<text x="${(x0+scale(nowPct)+6).toFixed(1)}" y="${yv+12}" fill="${col}" font-family="IBM Plex Mono,monospace" font-size="11" font-weight="600">${Math.round(nowPct*100)}%</text>`;
+    });
+    document.getElementById('shares').innerHTML=g;
+  })();
+
+  /* ================= ACT 3 · map ================= */
+  (function(){
+    const W=1000,H=520;
+    const px=lon=>(lon+180)/360*W;
+    const py=lat=>(90-lat)/180*H;
+    let g='';
+    // graticule
+    for(let lon=-150;lon<=150;lon+=30){ g+=`<line x1="${px(lon).toFixed(1)}" y1="0" x2="${px(lon).toFixed(1)}" y2="${H}" stroke="var(--grid)" stroke-width="1"/>`; }
+    for(let lat=-60;lat<=60;lat+=30){ g+=`<line x1="0" y1="${py(lat).toFixed(1)}" x2="${W}" y2="${py(lat).toFixed(1)}" stroke="var(--grid)" stroke-width="1"/>`; }
+    g+=`<line x1="0" y1="${py(0).toFixed(1)}" x2="${W}" y2="${py(0).toFixed(1)}" stroke="rgba(150,175,210,.22)" stroke-dasharray="4 6"/>`;
+    // faint region labels to orient
+    const regions=[['N. AMERICA',-100,48],['S. AMERICA',-60,-18],['EUROPE',18,54],['AFRICA',22,4],['ASIA',95,50],['OCEANIA',140,-25]];
+    regions.forEach(([t,lo,la])=>{ g+=`<text x="${px(lo).toFixed(1)}" y="${py(la).toFixed(1)}" text-anchor="middle" fill="rgba(120,150,195,.18)" font-family="Chakra Petch,sans-serif" font-weight="700" font-size="15" letter-spacing="2">${t}</text>`; });
+    // arcs rising from top sites (decorative trajectories)
+    const big=D.sites.filter(s=>s.n>=290);
+    big.forEach(s=>{ const sx=px(s.lon),sy=py(s.lat); const ex=sx+ (s.lon<0?70:-70), ey=sy-90;
+      g+=`<path d="M${sx.toFixed(1)},${sy.toFixed(1)} Q${((sx+ex)/2).toFixed(1)},${(sy-120).toFixed(1)} ${ex.toFixed(1)},${ey.toFixed(1)}" fill="none" stroke="${COL[s.g]}" stroke-opacity=".28" stroke-width="1"/>`; });
+    // site nodes
+    const rr=n=>3.5+Math.sqrt(n)*0.62;
+    // sort ascending so big ones draw on top
+    D.sites.slice().sort((a,b)=>a.n-b.n).forEach(s=>{
+      const cx=px(s.lon),cy=py(s.lat),r=rr(s.n),c=COL[s.g];
+      g+=`<circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="${(r+6).toFixed(1)}" fill="${c}" opacity=".12"/>`;
+      g+=`<circle class="node" data-nm="${s.name}" data-n="${s.n}" cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="${r.toFixed(1)}" fill="${c}" fill-opacity=".85" stroke="#060912" stroke-width="1" style="filter:drop-shadow(0 0 5px ${c}88)"/>`;
+    });
+    // labels for the top 4
+    D.sites.filter(s=>s.n>=900).forEach(s=>{ const cx=px(s.lon),cy=py(s.lat),r=rr(s.n);
+      const anc = s.lon>60?'end':'start'; const dx=(anc==='end'?-(r+8):(r+8));
+      g+=`<text x="${(cx+dx).toFixed(1)}" y="${(cy+4).toFixed(1)}" text-anchor="${anc}" fill="#DDE7F4" font-family="IBM Plex Mono,monospace" font-size="12" font-weight="500">${s.name} <tspan fill="${COL[s.g]}">${s.n.toLocaleString()}</tspan></text>`; });
+    document.getElementById('map').innerHTML=g;
+
+    // hover tooltip
+    const host=document.getElementById('map').parentNode;
+    const tip=document.createElement('div'); tip.className='tip'; host.appendChild(tip);
+    const svg=document.getElementById('map');
+    svg.addEventListener('pointermove',ev=>{
+      const t=ev.target;
+      if(t.classList&&t.classList.contains('node')){
+        tip.innerHTML=`<div class="ty">${t.dataset.nm}</div><div class="tr">Launches <b>${(+t.dataset.n).toLocaleString()}</b></div>`;
+        tip.style.opacity='1'; const r=host.getBoundingClientRect();
+        let lx=ev.clientX-r.left+14; if(lx>r.width-150) lx=ev.clientX-r.left-140;
+        tip.style.left=lx+'px'; tip.style.top=(ev.clientY-r.top+12)+'px';
+      } else tip.style.opacity='0';
+    });
+    svg.addEventListener('pointerleave',()=>tip.style.opacity='0');
+  })();
+
+  /* ================= atmosphere: starfield + progress ================= */
+  (function(){
+    const cv=document.getElementById('stars'), cx=cv.getContext('2d');
+    let w,h,stars=[];
+    function size(){ w=cv.width=innerWidth; h=cv.height=innerHeight; seed(); }
+    function seed(){ stars=[]; const n=Math.round(w*h/9000);
+      for(let i=0;i<n;i++) stars.push({x:Math.random()*w,y:Math.random()*h,r:Math.random()*1.3+.2,t:Math.random()*Math.PI*2,s:Math.random()*.6+.2}); }
+    function draw(){ cx.clearRect(0,0,w,h);
+      for(const s of stars){ s.t+=0.02*s.s; const a=.35+.45*Math.sin(s.t);
+        cx.beginPath(); cx.arc(s.x,s.y,s.r,0,6.283); cx.fillStyle=`rgba(220,232,248,${a.toFixed(3)})`; cx.fill(); }
+      requestAnimationFrame(draw); }
+    size(); draw(); addEventListener('resize',size);
+    const bar=document.getElementById('bar');
+    let ticking=false;
+    function onScroll(){ if(ticking) return; ticking=true; requestAnimationFrame(()=>{
+      const max=document.documentElement.scrollHeight-innerHeight;
+      bar.style.width=(max>0?Math.min(1,scrollY/max)*100:0).toFixed(2)+'%'; ticking=false; }); }
+    addEventListener('scroll',onScroll,{passive:true}); onScroll();
+  })();
+
+  /* ================= reveal on scroll ================= */
+  (function(){
+    const obs=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); obs.unobserve(e.target);} }),{threshold:.15});
+    document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+  })();
+})();
+</script>
+</body>
+</html>
