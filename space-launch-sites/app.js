@@ -314,7 +314,7 @@ function renderCalendar(parent, D) {
   const offX = padL, offY = padT;
   const gx = cw > 4 ? 0.6 : 0, gy = ch > 3 ? 0.5 : 0;
   const rw = Math.max(1, cw - gx), rh = Math.max(1, ch - gy);
-  const maxN = D.maxN, GRAY = "#33465a", cellByKey = new Map();
+  const maxN = D.maxN, cellByKey = new Map();
   // year labels along the top (every decade)
   for (let y = D.yStart; y <= D.yEnd; y++) if (y % 10 === 0)
     s.appendChild(el("text", { x: (offX + (y - D.yStart) * cw + cw / 2).toFixed(1), y: (offY - 4).toFixed(1), "text-anchor": "middle", class: "axis" }, y));
@@ -322,26 +322,29 @@ function renderCalendar(parent, D) {
   for (const [wk, lb] of [[0, "Jan"], [13, "Apr"], [26, "Jul"], [39, "Oct"]])
     s.appendChild(el("text", { x: (offX - 5).toFixed(1), y: (offY + wk * ch + ch + 2).toFixed(1), "text-anchor": "end", class: "axis" }, lb));
   // data cells: x = year, y = week; color = dominant group, brightness = count
+  const cellsG = el("g", { class: "calcells" });
   for (const [y, wk, n, gi] of D.cells) {
     const x = offX + (y - D.yStart) * cw, yy = offY + wk * ch;
-    const col = groupColor(D.groups[gi]), op = (0.22 + 0.78 * Math.sqrt(n / maxN)).toFixed(2);
-    const rect = el("rect", { x: x.toFixed(1), y: yy.toFixed(1), width: rw.toFixed(1), height: rh.toFixed(1), fill: col, "fill-opacity": op });
+    const rect = el("rect", { x: x.toFixed(1), y: yy.toFixed(1), width: rw.toFixed(1), height: rh.toFixed(1), fill: groupColor(D.groups[gi]), "fill-opacity": (0.22 + 0.78 * Math.sqrt(n / maxN)).toFixed(2) });
     rect.style.cursor = "pointer";
     rect.addEventListener("mousemove", (ev) => calTip(ev, D, y, wk, n, gi));
     rect.addEventListener("mouseleave", () => { const t = $("tip"); if (t) t.hidden = true; });
-    s.appendChild(rect);
-    cellByKey.set(y + "|" + wk, { rect, col, op });
+    cellsG.appendChild(rect);
+    cellByKey.set(y + "|" + wk, rect);
   }
+  s.appendChild(cellsG);
 
-  // filter: highlight one site's weeks, gray the rest (null restores)
+  // filter (fast): dim the whole grid with one CSS class, brighten only the hovered site's weeks
+  let lastHi = [];
   calFilter = (name) => {
+    for (const r of lastHi) r.style.opacity = "";
+    lastHi = [];
     const sw = D.siteWeeks && name ? D.siteWeeks[name] : null;
-    if (!sw) { for (const c of cellByKey.values()) { c.rect.setAttribute("fill", c.col); c.rect.setAttribute("fill-opacity", c.op); } return; }
-    for (const c of cellByKey.values()) { c.rect.setAttribute("fill", GRAY); c.rect.setAttribute("fill-opacity", "0.06"); }
-    const col = groupColor(D.groups[sw[0]]);
-    for (const [y, wk, n] of sw[1]) {
-      const c = cellByKey.get(y + "|" + wk);
-      if (c) { c.rect.setAttribute("fill", col); c.rect.setAttribute("fill-opacity", (0.4 + 0.6 * Math.sqrt(n / maxN)).toFixed(2)); }
+    if (!sw) { cellsG.classList.remove("dim"); return; }
+    cellsG.classList.add("dim");
+    for (const [y, wk] of sw[1]) {
+      const r = cellByKey.get(y + "|" + wk);
+      if (r) { r.style.opacity = "1"; lastHi.push(r); }
     }
   };
 }

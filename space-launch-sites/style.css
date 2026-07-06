@@ -37,6 +37,7 @@ body{
 .calgrid{flex:1 1 auto;min-height:0;min-width:0;position:relative}
 .calgrid svg{width:100%;height:100%;display:block}
 .calax{fill:var(--faint);font-size:10px;font-family:var(--font)}
+.calcells.dim rect{opacity:.08}
 .caltip{position:fixed;z-index:10;pointer-events:none;background:rgba(11,22,34,.95);
   border:1px solid var(--line);border-radius:8px;padding:7px 10px;font-size:11.5px;color:var(--ink);
   box-shadow:0 6px 20px rgba(0,0,0,.5);max-width:250px;line-height:1.5}
@@ -62,15 +63,15 @@ body{
 .kpi--slate::before{background:var(--nato)}
 
 /* charts grid */
-.grid{flex:1 1 auto;display:grid;grid-template-columns:1.62fr 1fr;grid-template-rows:1fr 1fr 0.82fr;
+.grid{flex:1 1 auto;display:grid;grid-template-columns:1.7fr 0.65fr 0.65fr;grid-template-rows:1fr 1fr;
   gap:11px;min-height:0}
 .card{background:linear-gradient(180deg,var(--panel),var(--panel2));border:1px solid var(--line);
   border-radius:12px;padding:11px 13px;display:flex;flex-direction:column;min-height:0;min-width:0}
 .card--map{grid-column:1;grid-row:1 / span 2;background:
   radial-gradient(130% 80% at 50% 100%,#0f2537 0%,var(--panel2) 72%)}
 .card--r1{grid-column:2;grid-row:1}
-.card--r2{grid-column:2;grid-row:2}
-.card--cal{grid-column:1 / span 2;grid-row:3}
+.card--cal{grid-column:3;grid-row:1}
+.card--r2{grid-column:2 / span 2;grid-row:2}
 .maplab{fill:var(--ink);font-size:10px;font-weight:600;font-family:var(--font);
   paint-order:stroke;stroke:#0b1622;stroke-width:2px;stroke-linejoin:round}
 .card__label{font-size:10px;font-weight:700;letter-spacing:1px;color:var(--muted);
