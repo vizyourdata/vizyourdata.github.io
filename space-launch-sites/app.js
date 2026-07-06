@@ -337,14 +337,15 @@ function renderCalendar(parent, D) {
   // filter (fast): dim the whole grid with one CSS class, brighten only the hovered site's weeks
   let lastHi = [];
   calFilter = (name) => {
-    for (const r of lastHi) r.style.opacity = "";
+    for (const r of lastHi) { r.style.opacity = ""; r.style.fill = ""; r.style.fillOpacity = ""; }
     lastHi = [];
     const sw = D.siteWeeks && name ? D.siteWeeks[name] : null;
     if (!sw) { cellsG.classList.remove("dim"); return; }
     cellsG.classList.add("dim");
-    for (const [y, wk] of sw[1]) {
+    const col = groupColor(D.groups[sw[0]]); // recolor to the hovered site's country
+    for (const [y, wk, n] of sw[1]) {
       const r = cellByKey.get(y + "|" + wk);
-      if (r) { r.style.opacity = "1"; lastHi.push(r); }
+      if (r) { r.style.opacity = "1"; r.style.fill = col; r.style.fillOpacity = (0.4 + 0.6 * Math.sqrt(n / maxN)).toFixed(2); lastHi.push(r); }
     }
   };
 }
