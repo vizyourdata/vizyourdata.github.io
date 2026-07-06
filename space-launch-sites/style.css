@@ -21,6 +21,9 @@ body{
 .cmd__sub{font-size:11px;color:var(--muted);letter-spacing:.4px;margin-top:3px}
 .cmd__credit{color:var(--teal);text-decoration:none}
 .cmd__credit:hover{text-decoration:underline}
+.cmd__foot{flex:0 0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px;
+  font-size:10.5px;color:var(--faint);letter-spacing:.3px;padding-top:7px;border-top:1px solid var(--line)}
+.cmd__foot-r{white-space:nowrap}
 .cmd__status{display:flex;align-items:center;gap:10px}
 .cmd__range{font-size:12px;color:var(--faint);font-variant-numeric:tabular-nums;letter-spacing:.5px}
 .dot{width:9px;height:9px;border-radius:50%;box-shadow:0 0 8px currentColor}
